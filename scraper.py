@@ -1,14 +1,13 @@
 """
 Scraper para el buscador de sentencias de la Corte Constitucional del Ecuador.
-URL base: https://buscador.corteconstitucional.gob.ec/buscador-externo/
+Intercepta las llamadas a la API interna que hace la SPA Angular.
 """
 
 import json
 import time
 import logging
 from dataclasses import dataclass, asdict
-from typing import Optional
-from playwright.sync_api import sync_playwright, TimeoutError as PWTimeout
+from playwright.sync_api import sync_playwright
 
 logger = logging.getLogger(__name__)
 
@@ -28,101 +27,143 @@ class Sentencia:
     ficha_url: str
 
 
-def _build_search_payload(texto: str = "", numero: str = "", causa: str = "") -> str:
-    payload = {
-        "textoSentencia": texto,
-        "numSentencia": numero,
-        "numeroCausa": causa,
-        "flag": False,
-    }
-    return json.dumps(payload)
+def _parse_sentencia_from_api(item: dict) -> Sentencia:
+    """Convierte un item de la respuesta JSON de la API en una Sentencia."""
+    numero = (
+        item.get("numSentencia") or
+        item.get("numero") or
+        item.get("numberSentence") or
+        item.get("num_sentencia") or ""
+    )
+    tipo = (
+        item.get("tipoSentencia") or
+        item.get("tipo") or
+        item.get("typeSentence") or
+        item.get("tipo_sentencia") or ""
+    )
+    fecha = (
+        item.get("fechaSentencia") or
+        item.get("fecha") or
+        item.get("dateSentence") or
+        item.get("fecha_sentencia") or ""
+    )
+    ponente = (
+        item.get("magistradoPonente") or
+        item.get("ponente") or
+        item.get("juezPonente") or
+        item.get("juez_ponente") or ""
+    )
+    resumen = (
+        item.get("extracto") or
+        item.get("resumen") or
+        item.get("summary") or
+        item.get("descripcion") or ""
+    )[:500]
+
+    # Construir URL de la ficha
+    ficha_url = ""
+    if numero:
+        import urllib.parse
+        ficha_url = f"{BASE_URL}/buscador-externo/principal/fichaSentencia?numero={urllib.parse.quote(numero)}"
+
+    # URL del PDF
+    pdf_url = (
+        item.get("urlPdf") or
+        item.get("pdf_url") or
+        item.get("urlDocumento") or
+        item.get("linkPdf") or ""
+    )
+
+    return Sentencia(
+        numero=str(numero).strip(),
+        tipo=str(tipo).strip(),
+        fecha=str(fecha).strip(),
+        ponente=str(ponente).strip(),
+        resumen=str(resumen).strip(),
+        pdf_url=str(pdf_url).strip(),
+        ficha_url=ficha_url,
+    )
 
 
-def _extract_sentencias_from_page(page) -> list[Sentencia]:
-    """Extrae sentencias del DOM renderizado por la SPA Angular."""
+def _extract_from_dom(page) -> list:
+    """Extrae sentencias del DOM como fallback si no se interceptó la API."""
     sentencias = []
-
     try:
-        # Esperar a que carguen las tarjetas de sentencias
-        page.wait_for_selector(".sentencia-card, .result-item, mat-card, .card", timeout=15000)
-    except PWTimeout:
-        logger.warning("No se encontraron tarjetas de sentencias en la página")
-        return sentencias
-
-    # Intentar múltiples selectores por si cambia el diseño
-    cards = page.query_selector_all(".sentencia-card, .result-item, mat-card")
-
-    for card in cards:
-        try:
-            numero = _safe_text(card, ".numero-sentencia, .title, h3, mat-card-title")
-            tipo = _safe_text(card, ".tipo-sentencia, .subtitle, .tipo")
-            fecha = _safe_text(card, ".fecha, .date, time")
-            ponente = _safe_text(card, ".ponente, .judge, .magistrado")
-            resumen = _safe_text(card, ".resumen, .summary, p, mat-card-content")
-
-            # URL de la ficha
-            link = card.query_selector("a")
-            ficha_url = ""
-            if link:
-                href = link.get_attribute("href") or ""
-                ficha_url = href if href.startswith("http") else f"{BASE_URL}{href}"
-
-            # Número desde el URL si no se encontró en el texto
-            if not numero and "numero=" in ficha_url:
-                numero = ficha_url.split("numero=")[-1]
-
-            if numero:
-                sentencias.append(
-                    Sentencia(
-                        numero=numero.strip(),
-                        tipo=tipo.strip(),
-                        fecha=fecha.strip(),
-                        ponente=ponente.strip(),
-                        resumen=resumen.strip()[:500],
-                        pdf_url="",  # se obtiene en get_pdf_url()
-                        ficha_url=ficha_url,
-                    )
-                )
-        except Exception as e:
-            logger.debug(f"Error extrayendo tarjeta: {e}")
-            continue
-
+        # Obtener todo el texto visible y buscar números de sentencia
+        content = page.content()
+        # Buscar cualquier elemento con texto que parezca número de sentencia
+        elements = page.query_selector_all("*")
+        seen = set()
+        for el in elements[:500]:
+            try:
+                text = el.inner_text().strip()
+                # Patrón típico: "28-19-IN/22" o "273-19-JP/22"
+                import re
+                matches = re.findall(r'\d+-\d+-[A-Z]+/\d+', text)
+                for match in matches:
+                    if match not in seen:
+                        seen.add(match)
+                        href = ""
+                        link = el.query_selector("a") or el
+                        try:
+                            href = link.get_attribute("href") or ""
+                        except Exception:
+                            pass
+                        if href and not href.startswith("http"):
+                            href = f"{BASE_URL}{href}"
+                        import urllib.parse
+                        sentencias.append(Sentencia(
+                            numero=match,
+                            tipo="",
+                            fecha="",
+                            ponente="",
+                            resumen="",
+                            pdf_url="",
+                            ficha_url=href or f"{BASE_URL}/buscador-externo/principal/fichaSentencia?numero={urllib.parse.quote(match)}",
+                        ))
+            except Exception:
+                continue
+    except Exception as e:
+        logger.debug(f"Error en extracción DOM: {e}")
     return sentencias
 
 
-def _safe_text(element, selector: str) -> str:
-    try:
-        el = element.query_selector(selector)
-        return el.inner_text() if el else ""
-    except Exception:
-        return ""
-
-
-def get_pdf_url(page, ficha_url: str) -> str:
+def get_pdf_url_from_ficha(page, ficha_url: str) -> str:
     """Visita la ficha de una sentencia y extrae la URL del PDF."""
+    if not ficha_url:
+        return ""
     try:
+        # Interceptar respuestas de red para capturar URL del PDF
+        pdf_found = []
+
+        def handle_response(response):
+            if ".pdf" in response.url.lower() or "storage/api" in response.url:
+                pdf_found.append(response.url)
+
+        page.on("response", handle_response)
         page.goto(ficha_url, wait_until="networkidle", timeout=20000)
-        # Buscar enlace al PDF
-        pdf_link = page.query_selector("a[href*='.pdf'], a[href*='storage/api']")
-        if pdf_link:
-            href = pdf_link.get_attribute("href") or ""
-            return href if href.startswith("http") else f"{BASE_URL}{href}"
+        time.sleep(1)
+        page.remove_listener("response", handle_response)
+
+        if pdf_found:
+            return pdf_found[0]
+
+        # Buscar enlace en el DOM
+        for selector in ["a[href*='.pdf']", "a[href*='storage/api']", "a[href*='esacc']", "a[download]"]:
+            pdf_link = page.query_selector(selector)
+            if pdf_link:
+                href = pdf_link.get_attribute("href") or ""
+                return href if href.startswith("http") else f"{BASE_URL}{href}"
     except Exception as e:
         logger.debug(f"No se pudo obtener PDF de {ficha_url}: {e}")
     return ""
 
 
-def buscar_sentencias(
-    texto: str = "",
-    numero: str = "",
-    causa: str = "",
-    max_results: int = 50,
-) -> list[Sentencia]:
+def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_results: int = 50) -> list:
     """
-    Abre el buscador de la Corte Constitucional y retorna las sentencias encontradas.
-    Usa Playwright para renderizar la SPA Angular.
+    Busca sentencias interceptando las llamadas a la API interna de la SPA Angular.
     """
-    sentencias: list[Sentencia] = []
+    sentencias = []
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -135,54 +176,103 @@ def buscar_sentencias(
         )
         page = context.new_page()
 
-        try:
-            # Construir URL de búsqueda
-            payload = _build_search_payload(texto, numero, causa)
-            import urllib.parse
-            search_url = f"{RESULT_URL}?search={urllib.parse.quote(payload)}"
+        # Interceptar todas las respuestas de red para capturar la API interna
+        api_responses = []
 
+        def handle_response(response):
+            url = response.url
+            content_type = response.headers.get("content-type", "")
+            # Capturar cualquier respuesta JSON que venga del backend de la Corte
+            if ("corteconstitucional" in url or "esacc" in url) and "json" in content_type:
+                try:
+                    data = response.json()
+                    api_responses.append({"url": url, "data": data})
+                    logger.info(f"API interceptada: {url}")
+                except Exception:
+                    pass
+
+        page.on("response", handle_response)
+
+        try:
+            import urllib.parse
+            payload = json.dumps({
+                "textoSentencia": texto,
+                "numSentencia": numero,
+                "numeroCausa": causa,
+                "flag": False,
+            })
+            search_url = f"{RESULT_URL}?search={urllib.parse.quote(payload)}"
             logger.info(f"Cargando: {search_url}")
             page.goto(search_url, wait_until="networkidle", timeout=30000)
-            time.sleep(2)
+            time.sleep(3)
 
-            found = _extract_sentencias_from_page(page)
-
-            # Si no encontró nada con selectores específicos, intentar con la página principal
-            if not found:
-                logger.info("Intentando búsqueda desde página principal...")
+            # Si no interceptó nada, intentar desde la página principal
+            if not api_responses:
+                logger.info("Intentando desde página principal...")
                 page.goto(SEARCH_URL, wait_until="networkidle", timeout=30000)
-                time.sleep(2)
+                time.sleep(3)
 
-                # Escribir en el campo de búsqueda si hay texto
-                if texto:
+                if texto or numero or causa:
                     try:
-                        search_input = page.query_selector("input[type='text'], input[type='search'], mat-form-field input")
-                        if search_input:
-                            search_input.fill(texto)
+                        inp = page.query_selector("input[type='text'], input[type='search'], input[placeholder*='buscar' i], input[placeholder*='sentencia' i]")
+                        if inp:
+                            inp.fill(texto or numero or causa)
                             page.keyboard.press("Enter")
                             time.sleep(3)
                             page.wait_for_load_state("networkidle")
                     except Exception as e:
-                        logger.debug(f"No se pudo usar el campo de búsqueda: {e}")
+                        logger.debug(f"Error en campo de búsqueda: {e}")
 
-                found = _extract_sentencias_from_page(page)
+            # Procesar respuestas de la API interceptada
+            found_from_api = []
+            for resp in api_responses:
+                data = resp["data"]
+                logger.info(f"Respuesta API ({resp['url']}): tipo={type(data).__name__}")
 
-            # Obtener URL de PDF para cada sentencia (hasta max_results)
-            for s in found[:max_results]:
+                items = []
+                if isinstance(data, list):
+                    items = data
+                elif isinstance(data, dict):
+                    # Buscar listas dentro del dict
+                    for key in ["content", "data", "sentencias", "results", "items", "list", "registros"]:
+                        if key in data and isinstance(data[key], list):
+                            items = data[key]
+                            break
+                    if not items:
+                        # Tomar el primer valor que sea lista
+                        for v in data.values():
+                            if isinstance(v, list) and len(v) > 0:
+                                items = v
+                                break
+
+                for item in items:
+                    if isinstance(item, dict):
+                        s = _parse_sentencia_from_api(item)
+                        if s.numero:
+                            found_from_api.append(s)
+
+            if found_from_api:
+                logger.info(f"Sentencias obtenidas de API: {len(found_from_api)}")
+                sentencias = found_from_api[:max_results]
+            else:
+                logger.warning("No se interceptó data de API. Intentando extracción del DOM...")
+                sentencias = _extract_from_dom(page)[:max_results]
+                logger.info(f"Sentencias del DOM: {len(sentencias)}")
+
+            # Obtener URLs de PDF para las sentencias encontradas
+            for s in sentencias:
                 if s.ficha_url and not s.pdf_url:
-                    s.pdf_url = get_pdf_url(page, s.ficha_url)
+                    s.pdf_url = get_pdf_url_from_ficha(page, s.ficha_url)
                     time.sleep(0.5)
 
-            sentencias = found[:max_results]
-            logger.info(f"Sentencias encontradas: {len(sentencias)}")
-
         except Exception as e:
-            logger.error(f"Error en el scraper: {e}")
+            logger.error(f"Error en el scraper: {e}", exc_info=True)
         finally:
             browser.close()
 
+    logger.info(f"Total sentencias encontradas: {len(sentencias)}")
     return sentencias
 
 
-def sentencias_to_dicts(sentencias: list[Sentencia]) -> list[dict]:
+def sentencias_to_dicts(sentencias: list) -> list:
     return [asdict(s) for s in sentencias]
