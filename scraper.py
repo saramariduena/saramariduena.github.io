@@ -1,6 +1,6 @@
 """
 Scraper para sentencias de la Corte Constitucional del Ecuador.
-El endpoint 100_BUSCR_SNTNCIA requiere rango de fechas obligatorio.
+Interactúa con el formulario Angular para capturar el request exacto.
 """
 
 import json
@@ -68,27 +68,33 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
 
     sentencias = []
 
-    # Rango de fechas: últimos 90 días hasta hoy
     hoy = datetime.now()
     hace_90 = hoy - timedelta(days=90)
     fecha_hasta = hoy.strftime("%d/%m/%Y")
     fecha_desde = hace_90.strftime("%d/%m/%Y")
 
-    # Formatos alternativos
-    fecha_hasta_iso = hoy.strftime("%Y-%m-%d")
-    fecha_desde_iso = hace_90.strftime("%Y-%m-%d")
-
-    logger.info(f"Rango de búsqueda: {fecha_desde} → {fecha_hasta}")
-
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         context = browser.new_context(
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-            viewport={"width": 1280, "height": 800},
+            viewport={"width": 1280, "height": 900},
         )
         page = context.new_page()
 
+        # Capturar requests Y responses para ver el body exacto
         all_responses = []
+        request_bodies = {}
+
+        def on_request(request):
+            url = request.url
+            if "corteconstitucional" in url and "google" not in url and "Analytics" not in url:
+                try:
+                    body = request.post_data_json or request.post_data or ""
+                    request_bodies[url] = body
+                    if body:
+                        logger.info(f"REQUEST BODY [{url.split('/')[-1][:30]}]: {str(body)[:500]}")
+                except Exception:
+                    pass
 
         def on_response(response):
             url = response.url
@@ -97,106 +103,123 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
                 try:
                     data = response.json()
                     all_responses.append({"url": url, "data": data})
-                    data_str = json.dumps(data, ensure_ascii=False)
-                    logger.info(f"JSON [{url.split('/')[-1][:30]}]: {data_str[:2000]}")
+                    logger.info(f"RESPONSE [{url.split('/')[-1][:30]}]: {json.dumps(data, ensure_ascii=False)[:1000]}")
                 except Exception:
                     pass
 
+        page.on("request", on_request)
         page.on("response", on_response)
 
         try:
-            # Estrategia 1: usar Playwright para interactuar con el formulario de búsqueda
-            logger.info("Cargando formulario de búsqueda...")
+            # ESTRATEGIA 1: Interactuar con el formulario Angular directamente
+            logger.info("=== Estrategia 1: Interaccion con formulario ===")
             page.goto(f"{BASE_URL}/buscador-externo/principal", wait_until="networkidle", timeout=30000)
             time.sleep(3)
 
-            # Intentar llenar el campo de fecha en el formulario (Búsqueda Avanzada)
+            # Escanear todos los inputs del formulario
+            inputs = page.query_selector_all("input, mat-select, select")
+            logger.info(f"Total inputs en página: {len(inputs)}")
+            for inp in inputs:
+                try:
+                    attrs = {
+                        "type": inp.get_attribute("type") or "",
+                        "placeholder": inp.get_attribute("placeholder") or "",
+                        "name": inp.get_attribute("name") or "",
+                        "id": inp.get_attribute("id") or "",
+                        "formcontrolname": inp.get_attribute("formcontrolname") or "",
+                        "ng-reflect-name": inp.get_attribute("ng-reflect-name") or "",
+                    }
+                    if any(attrs.values()):
+                        logger.info(f"INPUT: {attrs}")
+                except Exception:
+                    pass
+
+            # Intentar hacer clic en "Búsqueda Avanzada"
             try:
-                # Hacer clic en "Búsqueda Avanzada"
-                adv = page.query_selector("text=Búsqueda Avanzada, a:has-text('Avanzada'), button:has-text('Avanzada')")
-                if adv:
-                    adv.click()
-                    time.sleep(2)
-                    logger.info("Clic en Búsqueda Avanzada")
-
-                # Buscar campos de fecha
-                date_inputs = page.query_selector_all("input[type='date'], input[placeholder*='fecha' i], input[placeholder*='desde' i], input[placeholder*='hasta' i], mat-datepicker-input")
-                logger.info(f"Campos de fecha encontrados: {len(date_inputs)}")
-
-                for i, inp in enumerate(date_inputs):
-                    placeholder = inp.get_attribute("placeholder") or ""
-                    name = inp.get_attribute("name") or ""
-                    logger.info(f"Campo fecha {i}: placeholder='{placeholder}' name='{name}'")
+                adv_btns = page.query_selector_all("button, a, span, mat-tab-header")
+                for btn in adv_btns:
+                    txt = btn.inner_text().strip().lower()
+                    if "avanzada" in txt or "advanced" in txt:
+                        logger.info(f"Clic en: '{btn.inner_text().strip()}'")
+                        btn.click()
+                        time.sleep(2)
+                        break
             except Exception as e:
-                logger.debug(f"Error con formulario avanzado: {e}")
+                logger.debug(f"Error buscando botón avanzado: {e}")
 
-            # Estrategia 2: cargar directamente el URL de resultados con fechas en el payload
-            payloads_to_try = [
-                # Payload con fechas en formato DD/MM/YYYY
-                {
-                    "textoSentencia": texto, "numSentencia": numero,
-                    "numeroCausa": causa, "flag": True,
-                    "fechaDesde": fecha_desde, "fechaHasta": fecha_hasta,
-                },
-                {
-                    "textoSentencia": texto, "numSentencia": numero,
-                    "numeroCausa": causa, "flag": True,
-                    "fechaInicio": fecha_desde, "fechaFin": fecha_hasta,
-                },
-                {
-                    "textoSentencia": texto, "numSentencia": numero,
-                    "numeroCausa": causa, "flag": True,
-                    "desde": fecha_desde, "hasta": fecha_hasta,
-                },
-                # Formato ISO
-                {
-                    "textoSentencia": texto, "numSentencia": numero,
-                    "numeroCausa": causa, "flag": True,
-                    "fechaDesde": fecha_desde_iso, "fechaHasta": fecha_hasta_iso,
-                },
-                # Sin texto, solo fechas
-                {
-                    "flag": True,
-                    "fechaDesde": fecha_desde, "fechaHasta": fecha_hasta,
-                },
-            ]
+            # ESTRATEGIA 2: Usar la URL de búsqueda avanzada
+            logger.info("=== Estrategia 2: URL busqueda avanzada ===")
+            all_responses.clear()
+            request_bodies.clear()
+            page.goto(f"{BASE_URL}/buscador-externo/principal/busquedaAvanzada", wait_until="networkidle", timeout=30000)
+            time.sleep(3)
 
-            for payload in payloads_to_try:
-                all_responses.clear()
-                search_url = f"{BASE_URL}/buscador-externo/principal/resultadoSentencia?search={urllib.parse.quote(json.dumps(payload))}"
-                logger.info(f"Probando payload: {json.dumps(payload)}")
-                page.goto(search_url, wait_until="networkidle", timeout=30000)
-                time.sleep(4)
+            dom_adv = page.inner_text("body")
+            logger.info(f"DOM busqueda avanzada: {dom_adv[:800]}")
 
-                # Revisar si hay resultados
-                for resp in all_responses:
-                    data = resp["data"]
-                    if isinstance(data, dict):
-                        dato = data.get("dato")
-                        total = data.get("totalFilas", 0)
-                        mensaje = data.get("mensaje", "")
-                        logger.info(f"totalFilas={total}, mensaje='{mensaje}', dato_type={type(dato).__name__}")
+            # Escanear inputs de la búsqueda avanzada
+            inputs_adv = page.query_selector_all("input, mat-select, select, mat-datepicker-input")
+            logger.info(f"Inputs en busqueda avanzada: {len(inputs_adv)}")
+            for inp in inputs_adv:
+                try:
+                    attrs = {
+                        "type": inp.get_attribute("type") or "",
+                        "placeholder": inp.get_attribute("placeholder") or "",
+                        "name": inp.get_attribute("name") or "",
+                        "formcontrolname": inp.get_attribute("formcontrolname") or "",
+                        "ng-reflect-name": inp.get_attribute("ng-reflect-name") or "",
+                        "class": (inp.get_attribute("class") or "")[:50],
+                    }
+                    logger.info(f"INPUT ADV: {attrs}")
+                except Exception:
+                    pass
 
-                        if isinstance(dato, list) and dato:
-                            first = dato[0] if dato else {}
-                            if isinstance(first, dict) and "evento" not in first:
-                                logger.info(f"EXITO! {len(dato)} sentencias. Primer item: {json.dumps(first, ensure_ascii=False)[:500]}")
-                                for item in dato[:max_results]:
-                                    if isinstance(item, dict):
-                                        s = _parse_item(item)
-                                        if s.numero:
-                                            sentencias.append(s)
-                                if sentencias:
-                                    break
+            # Intentar llenar campos de fecha en búsqueda avanzada
+            try:
+                all_inputs = page.query_selector_all("input")
+                date_filled = 0
+                for inp in all_inputs:
+                    placeholder = (inp.get_attribute("placeholder") or "").lower()
+                    fc_name = (inp.get_attribute("formcontrolname") or "").lower()
+                    inp_type = (inp.get_attribute("type") or "").lower()
 
-                if sentencias:
-                    break
+                    if any(k in placeholder + fc_name for k in ["desde", "hasta", "inicio", "fin", "fecha", "date", "start", "end"]):
+                        value = fecha_desde if date_filled == 0 else fecha_hasta
+                        inp.fill(value)
+                        inp.press("Tab")
+                        time.sleep(0.5)
+                        logger.info(f"Llenado campo '{placeholder or fc_name}' con '{value}'")
+                        date_filled += 1
 
-            # Si aún no hay resultados, log del DOM para diagnóstico
-            if not sentencias:
-                dom_text = page.inner_text("body")
-                logger.info(f"DOM actual: {dom_text[:500]}")
-                logger.warning("No se encontraron sentencias con ninguno de los payloads probados.")
+                # Buscar y hacer clic en el botón de búsqueda
+                search_btns = page.query_selector_all("button[type='submit'], button:has-text('Buscar'), button:has-text('Search')")
+                if search_btns:
+                    search_btns[0].click()
+                    logger.info("Clic en botón Buscar")
+                    time.sleep(5)
+                    page.wait_for_load_state("networkidle")
+            except Exception as e:
+                logger.info(f"Error llenando formulario: {e}")
+
+            # Revisar resultados de ambas estrategias
+            for resp in all_responses:
+                data = resp["data"]
+                if isinstance(data, dict):
+                    dato = data.get("dato")
+                    total = data.get("totalFilas", 0)
+                    mensaje = data.get("mensaje", "")
+                    logger.info(f"Resultado: totalFilas={total}, mensaje='{mensaje}'")
+
+                    if isinstance(dato, list) and dato:
+                        first = dato[0] if dato else {}
+                        if isinstance(first, dict) and "evento" not in first:
+                            logger.info(f"SENTENCIAS ENCONTRADAS: {len(dato)}")
+                            logger.info(f"Primer item completo: {json.dumps(first, ensure_ascii=False)}")
+                            for item in dato[:max_results]:
+                                if isinstance(item, dict):
+                                    s = _parse_item(item)
+                                    if s.numero:
+                                        sentencias.append(s)
 
         except Exception as e:
             logger.error(f"Error: {e}", exc_info=True)
