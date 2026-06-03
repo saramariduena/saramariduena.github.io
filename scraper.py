@@ -162,26 +162,28 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
         logger.debug(f"Error inicializando catálogo: {e}")
 
     # ---- INTENTOS CON FORMATO dato ----
-    # El servidor espera "metadata" como STRING (no objeto).
-    # Error confirmado: "Expected a string but was BEGIN_OBJECT at path $.metadata"
+    # Descubrimientos:
+    # - "metadata" debe ser string (no objeto)
+    # - "subBusqueda" debe estar presente y no ser nulo
     payloads_dato = [
-        # metadata como string vacío
-        {"metadata": "", "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
-         "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        # metadata con valor descriptivo
-        {"metadata": "sentencia", "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
-         "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        # metadata con nombre del endpoint
-        {"metadata": "100_BUSCR_SNTNCIA", "textoSentencia": texto, "numSentencia": numero,
+        # subBusqueda como lista vacía
+        {"metadata": "", "subBusqueda": [], "textoSentencia": texto, "numSentencia": numero,
          "numeroCausa": causa, "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        # metadata null
-        {"metadata": None, "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
+        # subBusqueda como objeto vacío
+        {"metadata": "", "subBusqueda": {}, "textoSentencia": texto, "numSentencia": numero,
+         "numeroCausa": causa, "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
+        # subBusqueda como string vacío
+        {"metadata": "", "subBusqueda": "", "textoSentencia": texto, "numSentencia": numero,
+         "numeroCausa": causa, "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
+        # subBusqueda con campos típicos del formulario
+        {"metadata": "", "subBusqueda": {"tipoAcciones": None, "jueces": None, "decisiones": None,
+                                          "materias": None, "merito": None, "novedad": None},
+         "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
          "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        # Sin metadata, solo campos base
-        {"textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
+        # metadata "sentencia" + subBusqueda lista vacía
+        {"metadata": "sentencia", "subBusqueda": [],
+         "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
          "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        # Solo fechas
-        {"desde": fecha_desde, "hasta": fecha_hasta},
     ]
 
     for i, payload in enumerate(payloads_dato):
@@ -198,33 +200,11 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
     if sentencias:
         return sentencias[:max_results]
 
-    # ---- INTENTOS CON JSON RAW (sin encoding dato) ----
-    payloads_raw = [
-        {"textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
-         "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        {"metadata": {"textoSentencia": texto, "desde": fecha_desde, "hasta": fecha_hasta}},
-        {"desde": fecha_desde, "hasta": fecha_hasta},
-    ]
-
-    for i, payload in enumerate(payloads_raw):
-        logger.info(f"\n--- Intento raw {i+1} ---")
-        data = _call_api_raw(session, API_SEARCH, payload)
-        if data:
-            found = _extract_sentencias(data, max_results)
-            if found:
-                sentencias.extend(found)
-                logger.info(f"✓ {len(found)} sentencias con intento raw {i+1}")
-                break
-        time.sleep(1)
-
-    if sentencias:
-        return sentencias[:max_results]
-
     # ---- FALLBACK: endpoint de estadísticas ----
     logger.info("\n--- Fallback: 100_OBT_RSM_ESTDTCO ---")
     for payload in [
+        {"metadata": "", "subBusqueda": [], "desde": fecha_desde, "hasta": fecha_hasta, "flag": False},
         {"desde": fecha_desde, "hasta": fecha_hasta, "flag": False},
-        {"metadata": {"desde": fecha_desde, "hasta": fecha_hasta}},
     ]:
         data = _call_api_dato(session, API_STATS, payload)
         if data:
