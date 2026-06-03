@@ -162,17 +162,22 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
         logger.debug(f"Error inicializando catálogo: {e}")
 
     # ---- INTENTOS CON FORMATO dato ----
-    # El error "no contiene metadata" sugiere que el payload requiere un campo "metadata"
+    # El servidor espera "metadata" como STRING (no objeto).
+    # Error confirmado: "Expected a string but was BEGIN_OBJECT at path $.metadata"
     payloads_dato = [
-        # Intento con wrapper "metadata"
-        {"metadata": {"textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
-                      "desde": fecha_desde, "hasta": fecha_hasta, "flag": True}},
-        # Intento con campo metadata vacío + campos al nivel raíz
-        {"metadata": {}, "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
+        # metadata como string vacío
+        {"metadata": "", "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
          "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        # Solo con metadata y fechas
-        {"metadata": {"desde": fecha_desde, "hasta": fecha_hasta}},
-        # Con campos originales (sin metadata)
+        # metadata con valor descriptivo
+        {"metadata": "sentencia", "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
+         "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
+        # metadata con nombre del endpoint
+        {"metadata": "100_BUSCR_SNTNCIA", "textoSentencia": texto, "numSentencia": numero,
+         "numeroCausa": causa, "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
+        # metadata null
+        {"metadata": None, "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
+         "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
+        # Sin metadata, solo campos base
         {"textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
          "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
         # Solo fechas
