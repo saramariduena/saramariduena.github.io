@@ -162,26 +162,25 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
         logger.debug(f"Error inicializando catálogo: {e}")
 
     # ---- INTENTOS CON FORMATO dato ----
-    # Descubrimientos:
-    # - "metadata" debe ser string (no objeto)
-    # - "subBusqueda" debe estar presente y no ser nulo
+    # Campos requeridos descubiertos iterativamente:
+    # - metadata: string
+    # - subBusqueda: string
+    # - motivo: string (nuevo)
     payloads_dato = [
-        # subBusqueda como lista vacía
-        {"metadata": "", "subBusqueda": [], "textoSentencia": texto, "numSentencia": numero,
-         "numeroCausa": causa, "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        # subBusqueda como objeto vacío
-        {"metadata": "", "subBusqueda": {}, "textoSentencia": texto, "numSentencia": numero,
-         "numeroCausa": causa, "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        # subBusqueda como string vacío
-        {"metadata": "", "subBusqueda": "", "textoSentencia": texto, "numSentencia": numero,
-         "numeroCausa": causa, "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        # subBusqueda con campos típicos del formulario
-        {"metadata": "", "subBusqueda": {"tipoAcciones": None, "jueces": None, "decisiones": None,
-                                          "materias": None, "merito": None, "novedad": None},
+        # motivo vacío
+        {"metadata": "", "subBusqueda": "", "motivo": "",
          "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
          "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        # metadata "sentencia" + subBusqueda lista vacía
-        {"metadata": "sentencia", "subBusqueda": [],
+        # motivo "sentencia"
+        {"metadata": "", "subBusqueda": "", "motivo": "sentencia",
+         "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
+         "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
+        # todos los campos como string vacío
+        {"metadata": "", "subBusqueda": "", "motivo": "", "tipoAccion": "",
+         "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
+         "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
+        # con campo accion
+        {"metadata": "", "subBusqueda": "", "motivo": "", "accion": "",
          "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
          "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
     ]
@@ -203,7 +202,7 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
     # ---- FALLBACK: endpoint de estadísticas ----
     logger.info("\n--- Fallback: 100_OBT_RSM_ESTDTCO ---")
     for payload in [
-        {"metadata": "", "subBusqueda": [], "desde": fecha_desde, "hasta": fecha_hasta, "flag": False},
+        {"metadata": "", "subBusqueda": "", "motivo": "", "desde": fecha_desde, "hasta": fecha_hasta, "flag": False},
         {"desde": fecha_desde, "hasta": fecha_hasta, "flag": False},
     ]:
         data = _call_api_dato(session, API_STATS, payload)
