@@ -1,21 +1,59 @@
 """
 Scraper para sentencias de la Corte Constitucional del Ecuador.
-Usa el formulario de Búsqueda Avanzada con los campos correctos:
-- formcontrolname="desde" / "hasta" para el rango de fechas
-- Captura la respuesta de búsqueda DESPUÉS de hacer clic en Buscar
+La API recibe el payload como: {"dato": base64(urlencode(json))}
+Endpoint de búsqueda: 100_BUSCR_SNTNCIA
 """
 
+import base64
 import json
-import time
 import logging
+import time
 import urllib.parse
+import requests
 from dataclasses import dataclass, asdict
 from datetime import datetime, timedelta
 
 logger = logging.getLogger(__name__)
 
 BASE_URL = "https://buscador.corteconstitucional.gob.ec"
-ADV_URL = f"{BASE_URL}/buscador-externo/principal/busquedaAvanzada"
+API_SEARCH = f"{BASE_URL}/buscador-externo/rest/api/sentencia/100_BUSCR_SNTNCIA"
+API_STATS  = f"{BASE_URL}/buscador-externo/rest/api/sentencia/100_OBT_RSM_ESTDTCO"
+
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Language": "es-ES,es;q=0.9",
+    "Content-Type": "application/json",
+    "Origin": BASE_URL,
+    "Referer": f"{BASE_URL}/buscador-externo/principal/busquedaAvanzada",
+}
+
+
+def _encode_payload(data: dict) -> str:
+    """Codifica el payload como base64(urlencode(json)) — formato que usa la API."""
+    json_str = json.dumps(data, separators=(",", ":"), ensure_ascii=False)
+    url_encoded = urllib.parse.quote(json_str)
+    b64 = base64.b64encode(url_encoded.encode()).decode()
+    return b64
+
+
+def _call_api(session: requests.Session, url: str, payload: dict) -> dict:
+    """Llama a la API con el formato correcto."""
+    encoded = _encode_payload(payload)
+    body = {"dato": encoded}
+    logger.info(f"POST {url.split('/')[-1]} | payload: {json.dumps(payload)}")
+    resp = session.post(url, json=body, headers=HEADERS, timeout=30)
+    logger.info(f"Status: {resp.status_code}")
+    if resp.status_code == 200:
+        try:
+            data = resp.json()
+            logger.info(f"Respuesta: {json.dumps(data, ensure_ascii=False)[:2000]}")
+            return data
+        except Exception as e:
+            logger.error(f"Error parseando JSON: {e} | texto: {resp.text[:200]}")
+    else:
+        logger.warning(f"HTTP {resp.status_code}: {resp.text[:200]}")
+    return {}
 
 
 @dataclass
@@ -29,42 +67,30 @@ class Sentencia:
     ficha_url: str
 
 
-def _is_sentencia_item(item: dict) -> bool:
-    """Detecta si un dict es una sentencia real (no un item de catálogo)."""
-    sentence_keys = {"numSentencia", "num_sentencia", "numero", "numberSentence",
-                     "tipoSentencia", "fechaSentencia", "magistradoPonente"}
-    catalog_keys = {"nemonico", "nemonicoGrupo", "materias", "accion"}
-    has_sentence = bool(sentence_keys & set(item.keys()))
-    has_catalog = bool(catalog_keys & set(item.keys()))
-    return has_sentence and not has_catalog
-
-
 def _parse_item(item: dict) -> "Sentencia":
     numero = next((str(item[k]) for k in [
         "numSentencia", "numero", "numberSentence", "num_sentencia",
-        "numExpediente", "expediente", "identificador", "codigo", "id"
+        "numExpediente", "expediente", "identificador", "codigo"
     ] if item.get(k)), "")
 
     tipo = next((str(item[k]) for k in [
-        "tipoSentencia", "tipo", "typeSentence", "tipoAccion", "accion"
+        "tipoSentencia", "tipo", "typeSentence", "tipoAccion"
     ] if item.get(k)), "")
 
     fecha = next((str(item[k]) for k in [
-        "fechaSentencia", "fecha", "dateSentence", "fechaPublicacion",
-        "fechaEmision", "anio", "year"
+        "fechaSentencia", "fecha", "dateSentence", "fechaPublicacion", "anio"
     ] if item.get(k)), "")
 
     ponente = next((str(item[k]) for k in [
-        "magistradoPonente", "ponente", "juezPonente", "magistrado",
-        "jueza", "juez", "nombreJuez"
+        "magistradoPonente", "ponente", "juezPonente", "magistrado", "jueza"
     ] if item.get(k)), "")
 
     resumen = next((str(item[k])[:500] for k in [
-        "extracto", "resumen", "summary", "descripcion", "tema", "materia"
+        "extracto", "resumen", "summary", "descripcion", "tema"
     ] if item.get(k)), "")
 
     pdf_url = next((str(item[k]) for k in [
-        "urlPdf", "pdf_url", "urlDocumento", "linkPdf", "rutaPdf"
+        "urlPdf", "pdf_url", "urlDocumento", "linkPdf"
     ] if item.get(k)), "")
 
     ficha_url = ""
@@ -79,133 +105,81 @@ def _parse_item(item: dict) -> "Sentencia":
 
 
 def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_results: int = 50) -> list:
-    from playwright.sync_api import sync_playwright
-
     sentencias = []
 
-    # Últimos 30 días (para monitoreo de novedades)
     hoy = datetime.now()
     hace_30 = hoy - timedelta(days=30)
     fecha_hasta = hoy.strftime("%d/%m/%Y")
     fecha_desde = hace_30.strftime("%d/%m/%Y")
     logger.info(f"Rango: {fecha_desde} → {fecha_hasta}")
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context(
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-            viewport={"width": 1280, "height": 900},
-        )
-        page = context.new_page()
+    session = requests.Session()
 
-        # Solo capturar respuestas DESPUÉS del clic en Buscar
-        search_clicked = False
-        post_search_responses = []
+    # Obtener cookies visitando la página principal
+    try:
+        session.get(f"{BASE_URL}/buscador-externo/principal", headers=HEADERS, timeout=15)
+        logger.info("Cookies obtenidas de la página principal")
+    except Exception as e:
+        logger.debug(f"Error obteniendo cookies: {e}")
 
-        def on_response(response):
-            if not search_clicked:
-                return  # ignorar respuestas del catálogo inicial
-            url = response.url
-            ct = response.headers.get("content-type", "")
-            if "json" in ct and "corteconstitucional" in url and "google" not in url and "Analytics" not in url:
-                try:
-                    data = response.json()
-                    post_search_responses.append({"url": url, "data": data})
-                    logger.info(f"POST-SEARCH [{url.split('/')[-1][:35]}]: {json.dumps(data, ensure_ascii=False)[:2000]}")
-                except Exception:
-                    pass
+    # Payloads a intentar con los campos reales del formulario
+    payloads_search = [
+        # Con todos los campos del formulario
+        {"textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
+         "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
+        # Sin flag
+        {"textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
+         "desde": fecha_desde, "hasta": fecha_hasta},
+        # Solo fechas
+        {"desde": fecha_desde, "hasta": fecha_hasta},
+        # Con nombres alternativos
+        {"textoSentencia": texto, "desde": fecha_desde, "hasta": fecha_hasta,
+         "tipoAcciones": None, "jueces": None, "decisiones": None,
+         "materias": None, "merito": None, "novedad": None, "flag": True},
+    ]
 
-        page.on("response", on_response)
+    for i, payload in enumerate(payloads_search):
+        logger.info(f"\n--- Intento {i+1} con 100_BUSCR_SNTNCIA ---")
+        data = _call_api(session, API_SEARCH, payload)
 
-        try:
-            logger.info("Cargando página de búsqueda avanzada...")
-            page.goto(ADV_URL, wait_until="networkidle", timeout=30000)
-            time.sleep(3)
+        if data:
+            dato = data.get("dato")
+            total = data.get("totalFilas", 0)
+            mensaje = data.get("mensaje", "")
+            tipo_msg = data.get("tipoMensaje", "")
+            logger.info(f"totalFilas={total}, tipoMensaje='{tipo_msg}', mensaje='{mensaje}'")
 
-            # Llenar el campo "desde" — usar type() para disparar eventos Angular
-            input_desde = page.query_selector("input[formcontrolname='desde']")
-            if input_desde:
-                input_desde.click()
-                time.sleep(0.3)
-                input_desde.type(fecha_desde, delay=50)
-                input_desde.press("Tab")
-                time.sleep(0.5)
-                logger.info(f"Campo 'desde' = {fecha_desde}")
-            else:
-                logger.warning("No se encontró el campo 'desde'")
+            if isinstance(dato, list) and dato:
+                first = dato[0] if dato else {}
+                if isinstance(first, dict):
+                    logger.info(f"Primer item: {json.dumps(first, ensure_ascii=False)}")
+                    for item in dato[:max_results]:
+                        if isinstance(item, dict):
+                            s = _parse_item(item)
+                            if s.numero:
+                                sentencias.append(s)
 
-            # Llenar el campo "hasta" — usar type() para disparar eventos Angular
-            input_hasta = page.query_selector("input[formcontrolname='hasta']")
-            if input_hasta:
-                input_hasta.click()
-                time.sleep(0.3)
-                input_hasta.type(fecha_hasta, delay=50)
-                input_hasta.press("Tab")
-                time.sleep(0.5)
-                logger.info(f"Campo 'hasta' = {fecha_hasta}")
-            else:
-                logger.warning("No se encontró el campo 'hasta'")
+        if sentencias:
+            logger.info(f"✓ Encontradas {len(sentencias)} sentencias con intento {i+1}")
+            break
 
-            # Llenar texto si se proporcionó
-            if texto:
-                input_texto = page.query_selector("input[formcontrolname='textoSentencia']")
-                if input_texto:
-                    input_texto.fill(texto)
-                    logger.info(f"Campo 'textoSentencia' = {texto}")
+        time.sleep(1)
 
-            # Llenar número de sentencia si se proporcionó
-            if numero:
-                input_num = page.query_selector("input[formcontrolname='numSentencia']")
-                if input_num:
-                    input_num.fill(numero)
-                    logger.info(f"Campo 'numSentencia' = {numero}")
-
-            # Hacer clic en "Buscar"
-            search_btn = page.query_selector("button:has-text('Buscar'), button[type='submit']")
-            if search_btn:
-                search_clicked = True
-                logger.info("Haciendo clic en Buscar...")
-                search_btn.click()
-                time.sleep(8)  # esperar respuesta de búsqueda
-                page.wait_for_load_state("networkidle", timeout=15000)
-            else:
-                logger.warning("No se encontró el botón Buscar")
-
-            # Procesar respuestas de búsqueda
-            logger.info(f"Respuestas post-búsqueda capturadas: {len(post_search_responses)}")
-            for resp in post_search_responses:
-                data = resp["data"]
-                url = resp["url"]
-                if isinstance(data, dict):
-                    dato = data.get("dato")
-                    total = data.get("totalFilas", 0)
-                    mensaje = data.get("mensaje", "")
-                    logger.info(f"  [{url.split('/')[-1][:30]}] totalFilas={total}, mensaje='{mensaje}'")
-
-                    if isinstance(dato, list) and dato:
-                        # Verificar si son sentencias reales
-                        first = dato[0]
-                        if isinstance(first, dict):
-                            logger.info(f"  Primer item: {json.dumps(first, ensure_ascii=False)[:400]}")
-                            if _is_sentencia_item(first):
-                                logger.info(f"  ✓ Sentencias reales: {len(dato)}")
-                                for item in dato[:max_results]:
-                                    if isinstance(item, dict):
-                                        s = _parse_item(item)
-                                        if s.numero:
-                                            sentencias.append(s)
-                            else:
-                                logger.info(f"  ✗ No son sentencias (catálogo)")
-
-            # Si no capturó nada, log del DOM actual
-            if not sentencias:
-                dom = page.inner_text("body")
-                logger.info(f"DOM actual tras búsqueda: {dom[:600]}")
-
-        except Exception as e:
-            logger.error(f"Error: {e}", exc_info=True)
-        finally:
-            browser.close()
+    # Si no funcionó con 100_BUSCR_SNTNCIA, intentar con 100_OBT_RSM_ESTDTCO
+    if not sentencias:
+        logger.info("\n--- Intentando con 100_OBT_RSM_ESTDTCO ---")
+        payload_stats = {"desde": fecha_desde, "hasta": fecha_hasta, "flag": False}
+        data = _call_api(session, API_STATS, payload_stats)
+        if data:
+            dato = data.get("dato")
+            if isinstance(dato, list) and dato:
+                first = dato[0] if dato else {}
+                logger.info(f"Primer item stats: {json.dumps(first, ensure_ascii=False)}")
+                for item in dato[:max_results]:
+                    if isinstance(item, dict):
+                        s = _parse_item(item)
+                        if s.numero:
+                            sentencias.append(s)
 
     logger.info(f"Total sentencias: {len(sentencias)}")
     return sentencias[:max_results]
