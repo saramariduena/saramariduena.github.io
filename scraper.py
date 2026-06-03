@@ -122,22 +122,24 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
             page.goto(ADV_URL, wait_until="networkidle", timeout=30000)
             time.sleep(3)
 
-            # Llenar el campo "desde"
+            # Llenar el campo "desde" — usar type() para disparar eventos Angular
             input_desde = page.query_selector("input[formcontrolname='desde']")
             if input_desde:
                 input_desde.click()
-                input_desde.fill(fecha_desde)
+                time.sleep(0.3)
+                input_desde.type(fecha_desde, delay=50)
                 input_desde.press("Tab")
                 time.sleep(0.5)
                 logger.info(f"Campo 'desde' = {fecha_desde}")
             else:
                 logger.warning("No se encontró el campo 'desde'")
 
-            # Llenar el campo "hasta"
+            # Llenar el campo "hasta" — usar type() para disparar eventos Angular
             input_hasta = page.query_selector("input[formcontrolname='hasta']")
             if input_hasta:
                 input_hasta.click()
-                input_hasta.fill(fecha_hasta)
+                time.sleep(0.3)
+                input_hasta.type(fecha_hasta, delay=50)
                 input_hasta.press("Tab")
                 time.sleep(0.5)
                 logger.info(f"Campo 'hasta' = {fecha_hasta}")
