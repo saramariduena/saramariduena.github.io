@@ -174,17 +174,25 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
         "opcionBusqueda": 1,
     }
 
-    # (payload_inner, extra_outer_body)
+    # Estrategia: partir del mínimo que pasó validación de fechas,
+    # agregar campos hasta que funcione
     payloads = [
-        # 1. metadata en el cuerpo EXTERNO del request (no dentro de dato)
-        (base_form, {"metadata": ""}),
-        # 2. metadata no vacío en cuerpo externo
-        (base_form, {"metadata": "sentencias"}),
-        # 3. metadata + subBusqueda + motivo en cuerpo externo
-        (base_form, {"metadata": "", "subBusqueda": "", "motivo": ""}),
-        # 4. Metadata no vacío dentro del dato codificado
-        ({"metadata": "sentencias", "subBusqueda": "", "motivo": "", **base_form}, None),
-        # 5. Solo base_form sin nada extra
+        # 1. Mínimo confirmado + numeroCausa (que era el próximo error)
+        ({"desde": iso_desde, "hasta": iso_hasta,
+          "numSentencia": numero, "numeroCausa": causa, "textoSentencia": texto}, None),
+        # 2. Agregar tipoLegitimado y opcionBusqueda
+        ({"desde": iso_desde, "hasta": iso_hasta,
+          "numSentencia": numero, "numeroCausa": causa, "textoSentencia": texto,
+          "tipoLegitimado": 100, "opcionBusqueda": 1}, None),
+        # 3. Agregar campos de selección como arrays vacíos
+        ({"desde": iso_desde, "hasta": iso_hasta,
+          "numSentencia": numero, "numeroCausa": causa, "textoSentencia": texto,
+          "tipoLegitimado": 100, "opcionBusqueda": 1,
+          "jueces": [], "decisiones": [], "materias": [], "tipoAcciones": []}, None),
+        # 4. Payload completo sin legitimados/precedentes
+        ({k: v for k, v in base_form.items()
+          if k not in ("legitimados", "precedenteAprobado", "precedentePropuesto", "analisisMerito")}, None),
+        # 5. Payload completo
         (base_form, None),
     ]
 
