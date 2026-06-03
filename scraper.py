@@ -163,26 +163,26 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
 
     # ---- INTENTOS CON FORMATO dato ----
     # Campos requeridos descubiertos iterativamente:
-    # - metadata: string
-    # - subBusqueda: string
-    # - motivo: string (nuevo)
+    # - metadata: string ✓
+    # - subBusqueda: string ✓
+    # - motivo: string ✓
+    # - fechas: ahora el servidor dice "no contiene rango de fecha" aunque enviamos desde/hasta
+    #   → probar nombres alternativos
+    base = {"metadata": "", "subBusqueda": "", "motivo": "",
+            "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa, "flag": True}
     payloads_dato = [
-        # motivo vacío
-        {"metadata": "", "subBusqueda": "", "motivo": "",
-         "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
-         "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        # motivo "sentencia"
-        {"metadata": "", "subBusqueda": "", "motivo": "sentencia",
-         "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
-         "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        # todos los campos como string vacío
-        {"metadata": "", "subBusqueda": "", "motivo": "", "tipoAccion": "",
-         "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
-         "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        # con campo accion
-        {"metadata": "", "subBusqueda": "", "motivo": "", "accion": "",
-         "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
-         "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
+        # fechaDesde / fechaHasta
+        {**base, "fechaDesde": fecha_desde, "fechaHasta": fecha_hasta},
+        # fecha_desde / fecha_hasta (snake_case)
+        {**base, "fecha_desde": fecha_desde, "fecha_hasta": fecha_hasta},
+        # rangoFechaDesde / rangoFechaHasta
+        {**base, "rangoFechaDesde": fecha_desde, "rangoFechaHasta": fecha_hasta},
+        # desde / hasta (original) — por si la validación es sensible al orden de campos
+        {**base, "desde": fecha_desde, "hasta": fecha_hasta},
+        # fecha como objeto anidado
+        {**base, "fecha": {"desde": fecha_desde, "hasta": fecha_hasta}},
+        # rango como objeto
+        {**base, "rango": {"desde": fecha_desde, "hasta": fecha_hasta}},
     ]
 
     for i, payload in enumerate(payloads_dato):
