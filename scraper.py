@@ -42,10 +42,12 @@ def _encode_payload(data: dict) -> str:
     return b64
 
 
-def _call_api(session: requests.Session, url: str, payload: dict) -> dict:
+def _call_api(session: requests.Session, url: str, payload: dict, extra_body: dict = None) -> dict:
     encoded = _encode_payload(payload)
     body = {"dato": encoded}
-    logger.info(f"POST {url.split('/')[-1]} | payload: {json.dumps(payload)[:300]}")
+    if extra_body:
+        body.update(extra_body)
+    logger.info(f"POST {url.split('/')[-1]} | payload: {json.dumps(payload)[:300]} | extra: {extra_body}")
     resp = session.post(url, json=body, headers=HEADERS, timeout=30)
     logger.info(f"Status: {resp.status_code}")
     if resp.status_code == 200:
@@ -172,21 +174,23 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
         "opcionBusqueda": 1,
     }
 
+    # (payload_inner, extra_outer_body)
     payloads = [
-        # 1. Full form: ISO dates + arrays para multivalor (sin metadata)
-        # Intento 5 anterior pasó la validación de fechas ISO → aquí agregamos todos los campos
-        base_form,
-        # 2. Sin tipoLegitimado y opcionBusqueda
-        {k: v for k, v in base_form.items() if k not in ("tipoLegitimado", "opcionBusqueda")},
-        # 3. Con metadata="" (por si es requerido en otra ruta)
-        {"metadata": "", "subBusqueda": "", "motivo": "", **base_form},
-        # 4. Con flag=true
-        {**base_form, "flag": True},
+        # 1. metadata en el cuerpo EXTERNO del request (no dentro de dato)
+        (base_form, {"metadata": ""}),
+        # 2. metadata no vacío en cuerpo externo
+        (base_form, {"metadata": "sentencias"}),
+        # 3. metadata + subBusqueda + motivo en cuerpo externo
+        (base_form, {"metadata": "", "subBusqueda": "", "motivo": ""}),
+        # 4. Metadata no vacío dentro del dato codificado
+        ({"metadata": "sentencias", "subBusqueda": "", "motivo": "", **base_form}, None),
+        # 5. Solo base_form sin nada extra
+        (base_form, None),
     ]
 
-    for i, payload in enumerate(payloads):
+    for i, (payload, extra) in enumerate(payloads):
         logger.info(f"\n--- Intento {i+1} ---")
-        data = _call_api(session, API_SEARCH, payload)
+        data = _call_api(session, API_SEARCH, payload, extra)
         if data:
             msg = data.get("mensaje", "")
             tipo_msg = data.get("tipoMensaje", "")
