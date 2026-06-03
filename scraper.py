@@ -2,6 +2,7 @@
 Scraper para sentencias de la Corte Constitucional del Ecuador.
 La API recibe el payload como: {"dato": base64(urlencode(json))}
 Endpoint de búsqueda: 100_BUSCR_SNTNCIA
+Estructura del formulario obtenida via Angular form group inspection.
 """
 
 import base64
@@ -11,13 +12,12 @@ import time
 import urllib.parse
 import requests
 from dataclasses import dataclass, asdict
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 logger = logging.getLogger(__name__)
 
 BASE_URL = "https://buscador.corteconstitucional.gob.ec"
 API_SEARCH = f"{BASE_URL}/buscador-externo/rest/api/sentencia/100_BUSCR_SNTNCIA"
-API_STATS  = f"{BASE_URL}/buscador-externo/rest/api/sentencia/100_OBT_RSM_ESTDTCO"
 API_CATALOG = f"{BASE_URL}/buscador-externo/rest/api/catalogoSentencia/100_OBT_RSMN_CTLG"
 
 HEADERS = {
@@ -30,6 +30,11 @@ HEADERS = {
 }
 
 
+def _to_iso(dt: datetime) -> str:
+    """Convierte datetime a formato ISO que usa Angular: 2026-05-04T00:00:00.000Z"""
+    return dt.strftime("%Y-%m-%dT00:00:00.000Z")
+
+
 def _encode_payload(data: dict) -> str:
     json_str = json.dumps(data, separators=(",", ":"), ensure_ascii=False)
     url_encoded = urllib.parse.quote(json_str)
@@ -37,29 +42,11 @@ def _encode_payload(data: dict) -> str:
     return b64
 
 
-def _call_api_dato(session: requests.Session, url: str, payload: dict) -> dict:
-    """Llama a la API con formato {"dato": base64(urlencode(json))}."""
+def _call_api(session: requests.Session, url: str, payload: dict) -> dict:
     encoded = _encode_payload(payload)
     body = {"dato": encoded}
-    logger.info(f"POST {url.split('/')[-1]} | payload: {json.dumps(payload)}")
+    logger.info(f"POST {url.split('/')[-1]} | payload: {json.dumps(payload)[:300]}")
     resp = session.post(url, json=body, headers=HEADERS, timeout=30)
-    logger.info(f"Status: {resp.status_code}")
-    if resp.status_code == 200:
-        try:
-            data = resp.json()
-            logger.info(f"Respuesta: {json.dumps(data, ensure_ascii=False)[:2000]}")
-            return data
-        except Exception as e:
-            logger.error(f"Error parseando JSON: {e} | texto: {resp.text[:200]}")
-    else:
-        logger.warning(f"HTTP {resp.status_code}: {resp.text[:200]}")
-    return {}
-
-
-def _call_api_raw(session: requests.Session, url: str, payload: dict) -> dict:
-    """Llama a la API enviando el JSON directamente (sin encoding dato)."""
-    logger.info(f"POST raw {url.split('/')[-1]} | payload: {json.dumps(payload)}")
-    resp = session.post(url, json=payload, headers=HEADERS, timeout=30)
     logger.info(f"Status: {resp.status_code}")
     if resp.status_code == 200:
         try:
@@ -141,76 +128,77 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
 
     hoy = datetime.now()
     hace_30 = hoy - timedelta(days=30)
-    fecha_hasta = hoy.strftime("%d/%m/%Y")
-    fecha_desde = hace_30.strftime("%d/%m/%Y")
-    logger.info(f"Rango: {fecha_desde} → {fecha_hasta}")
+    iso_hasta = _to_iso(hoy)
+    iso_desde = _to_iso(hace_30)
+    logger.info(f"Rango ISO: {iso_desde} → {iso_hasta}")
 
     session = requests.Session()
 
-    # Obtener cookies visitando la página principal
     try:
         session.get(f"{BASE_URL}/buscador-externo/principal", headers=HEADERS, timeout=15)
-        logger.info("Cookies obtenidas de la página principal")
+        logger.info("Cookies obtenidas")
     except Exception as e:
-        logger.debug(f"Error obteniendo cookies: {e}")
+        logger.debug(f"Error cookies: {e}")
 
-    # Inicializar catálogo igual que hace el navegador
+    # Inicializar catálogo igual que el navegador
     try:
-        _call_api_dato(session, API_CATALOG, {})
+        _call_api(session, API_CATALOG, {})
         logger.info("Catálogo inicializado")
     except Exception as e:
-        logger.debug(f"Error inicializando catálogo: {e}")
+        logger.debug(f"Error catálogo: {e}")
 
-    # ---- INTENTOS CON FORMATO dato ----
-    # Campos requeridos descubiertos iterativamente:
-    # - metadata: string ✓
-    # - subBusqueda: string ✓
-    # - motivo: string ✓
-    # - fechas: ahora el servidor dice "no contiene rango de fecha" aunque enviamos desde/hasta
-    #   → probar nombres alternativos
-    base = {"metadata": "", "subBusqueda": "", "motivo": "",
-            "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa, "flag": True}
-    payloads_dato = [
-        # fechaDesde / fechaHasta
-        {**base, "fechaDesde": fecha_desde, "fechaHasta": fecha_hasta},
-        # fecha_desde / fecha_hasta (snake_case)
-        {**base, "fecha_desde": fecha_desde, "fecha_hasta": fecha_hasta},
-        # rangoFechaDesde / rangoFechaHasta
-        {**base, "rangoFechaDesde": fecha_desde, "rangoFechaHasta": fecha_hasta},
-        # desde / hasta (original) — por si la validación es sensible al orden de campos
-        {**base, "desde": fecha_desde, "hasta": fecha_hasta},
-        # fecha como objeto anidado
-        {**base, "fecha": {"desde": fecha_desde, "hasta": fecha_hasta}},
-        # rango como objeto
-        {**base, "rango": {"desde": fecha_desde, "hasta": fecha_hasta}},
+    # Estructura exacta del formulario Angular (obtenida via __ngContext__ inspection)
+    # tipoLegitimado: 100 y opcionBusqueda: 1 son valores por defecto del formulario
+    base_form = {
+        "numSentencia": numero,
+        "numeroCausa": causa,
+        "textoSentencia": texto,
+        "tipoLegitimado": 100,
+        "legitimados": "",
+        "desde": iso_desde,
+        "hasta": iso_hasta,
+        "jueces": "",
+        "decisiones": "",
+        "intereses": "",
+        "materias": "",
+        "tipoAcciones": "",
+        "asuntos": "",
+        "tipoNorma": "",
+        "merito": "",
+        "novedad": "",
+        "precedenteAprobado": "",
+        "precedentePropuesto": "",
+        "analisisMerito": "",
+        "opcionBusqueda": 1,
+    }
+
+    payloads = [
+        # 1. Estructura exacta del form Angular (sin campos extra)
+        base_form,
+        # 2. Con metadata/subBusqueda/motivo como strings vacíos
+        {"metadata": "", "subBusqueda": "", "motivo": "", **base_form},
+        # 3. Sin tipoLegitimado y opcionBusqueda (por si el server los rechaza)
+        {k: v for k, v in base_form.items() if k not in ("tipoLegitimado", "opcionBusqueda")},
+        # 4. Con flag
+        {**base_form, "flag": True},
+        # 5. Solo los campos mínimos con ISO dates
+        {"desde": iso_desde, "hasta": iso_hasta, "numSentencia": "", "textoSentencia": texto},
     ]
 
-    for i, payload in enumerate(payloads_dato):
-        logger.info(f"\n--- Intento dato {i+1} ---")
-        data = _call_api_dato(session, API_SEARCH, payload)
+    for i, payload in enumerate(payloads):
+        logger.info(f"\n--- Intento {i+1} ---")
+        data = _call_api(session, API_SEARCH, payload)
         if data:
+            msg = data.get("mensaje", "")
+            tipo_msg = data.get("tipoMensaje", "")
+            total = data.get("totalFilas", 0)
+            logger.info(f"totalFilas={total}, tipoMensaje='{tipo_msg}', mensaje='{msg}'")
             found = _extract_sentencias(data, max_results)
             if found:
                 sentencias.extend(found)
-                logger.info(f"✓ {len(found)} sentencias con intento dato {i+1}")
+                logger.info(f"✓ {len(found)} sentencias con intento {i+1}")
                 break
         time.sleep(1)
-
-    if sentencias:
-        return sentencias[:max_results]
-
-    # ---- FALLBACK: endpoint de estadísticas ----
-    logger.info("\n--- Fallback: 100_OBT_RSM_ESTDTCO ---")
-    for payload in [
-        {"metadata": "", "subBusqueda": "", "motivo": "", "desde": fecha_desde, "hasta": fecha_hasta, "flag": False},
-        {"desde": fecha_desde, "hasta": fecha_hasta, "flag": False},
-    ]:
-        data = _call_api_dato(session, API_STATS, payload)
-        if data:
-            found = _extract_sentencias(data, max_results)
-            if found:
-                sentencias.extend(found)
-                break
 
     logger.info(f"Total sentencias: {len(sentencias)}")
     return sentencias[:max_results]
