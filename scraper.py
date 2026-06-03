@@ -173,16 +173,15 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
     }
 
     payloads = [
-        # 1. Estructura exacta del form Angular (sin campos extra)
+        # 1. Full form: ISO dates + arrays para multivalor (sin metadata)
+        # Intento 5 anterior pasó la validación de fechas ISO → aquí agregamos todos los campos
         base_form,
-        # 2. Con metadata/subBusqueda/motivo como strings vacíos
-        {"metadata": "", "subBusqueda": "", "motivo": "", **base_form},
-        # 3. Sin tipoLegitimado y opcionBusqueda (por si el server los rechaza)
+        # 2. Sin tipoLegitimado y opcionBusqueda
         {k: v for k, v in base_form.items() if k not in ("tipoLegitimado", "opcionBusqueda")},
-        # 4. Con flag
+        # 3. Con metadata="" (por si es requerido en otra ruta)
+        {"metadata": "", "subBusqueda": "", "motivo": "", **base_form},
+        # 4. Con flag=true
         {**base_form, "flag": True},
-        # 5. Solo los campos mínimos con ISO dates
-        {"desde": iso_desde, "hasta": iso_hasta, "numSentencia": "", "textoSentencia": texto},
     ]
 
     for i, payload in enumerate(payloads):
