@@ -1,6 +1,8 @@
 """
 Scraper para sentencias de la Corte Constitucional del Ecuador.
-Interactúa con el formulario Angular para capturar el request exacto.
+Usa el formulario de Búsqueda Avanzada con los campos correctos:
+- formcontrolname="desde" / "hasta" para el rango de fechas
+- Captura la respuesta de búsqueda DESPUÉS de hacer clic en Buscar
 """
 
 import json
@@ -13,6 +15,7 @@ from datetime import datetime, timedelta
 logger = logging.getLogger(__name__)
 
 BASE_URL = "https://buscador.corteconstitucional.gob.ec"
+ADV_URL = f"{BASE_URL}/buscador-externo/principal/busquedaAvanzada"
 
 
 @dataclass
@@ -26,30 +29,42 @@ class Sentencia:
     ficha_url: str
 
 
+def _is_sentencia_item(item: dict) -> bool:
+    """Detecta si un dict es una sentencia real (no un item de catálogo)."""
+    sentence_keys = {"numSentencia", "num_sentencia", "numero", "numberSentence",
+                     "tipoSentencia", "fechaSentencia", "magistradoPonente"}
+    catalog_keys = {"nemonico", "nemonicoGrupo", "materias", "accion"}
+    has_sentence = bool(sentence_keys & set(item.keys()))
+    has_catalog = bool(catalog_keys & set(item.keys()))
+    return has_sentence and not has_catalog
+
+
 def _parse_item(item: dict) -> "Sentencia":
     numero = next((str(item[k]) for k in [
         "numSentencia", "numero", "numberSentence", "num_sentencia",
-        "numExpediente", "expediente", "identificador", "codigo"
+        "numExpediente", "expediente", "identificador", "codigo", "id"
     ] if item.get(k)), "")
 
     tipo = next((str(item[k]) for k in [
-        "tipoSentencia", "tipo", "typeSentence", "tipoAccion"
+        "tipoSentencia", "tipo", "typeSentence", "tipoAccion", "accion"
     ] if item.get(k)), "")
 
     fecha = next((str(item[k]) for k in [
-        "fechaSentencia", "fecha", "dateSentence", "fechaPublicacion", "anio"
+        "fechaSentencia", "fecha", "dateSentence", "fechaPublicacion",
+        "fechaEmision", "anio", "year"
     ] if item.get(k)), "")
 
     ponente = next((str(item[k]) for k in [
-        "magistradoPonente", "ponente", "juezPonente", "magistrado", "jueza"
+        "magistradoPonente", "ponente", "juezPonente", "magistrado",
+        "jueza", "juez", "nombreJuez"
     ] if item.get(k)), "")
 
     resumen = next((str(item[k])[:500] for k in [
-        "extracto", "resumen", "summary", "descripcion", "tema"
+        "extracto", "resumen", "summary", "descripcion", "tema", "materia"
     ] if item.get(k)), "")
 
     pdf_url = next((str(item[k]) for k in [
-        "urlPdf", "pdf_url", "urlDocumento", "linkPdf"
+        "urlPdf", "pdf_url", "urlDocumento", "linkPdf", "rutaPdf"
     ] if item.get(k)), "")
 
     ficha_url = ""
@@ -68,10 +83,12 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
 
     sentencias = []
 
+    # Últimos 30 días (para monitoreo de novedades)
     hoy = datetime.now()
-    hace_90 = hoy - timedelta(days=90)
+    hace_30 = hoy - timedelta(days=30)
     fecha_hasta = hoy.strftime("%d/%m/%Y")
-    fecha_desde = hace_90.strftime("%d/%m/%Y")
+    fecha_desde = hace_30.strftime("%d/%m/%Y")
+    logger.info(f"Rango: {fecha_desde} → {fecha_hasta}")
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -81,145 +98,107 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
         )
         page = context.new_page()
 
-        # Capturar requests Y responses para ver el body exacto
-        all_responses = []
-        request_bodies = {}
-
-        def on_request(request):
-            url = request.url
-            if "corteconstitucional" in url and "google" not in url and "Analytics" not in url:
-                try:
-                    body = request.post_data_json or request.post_data or ""
-                    request_bodies[url] = body
-                    if body:
-                        logger.info(f"REQUEST BODY [{url.split('/')[-1][:30]}]: {str(body)[:500]}")
-                except Exception:
-                    pass
+        # Solo capturar respuestas DESPUÉS del clic en Buscar
+        search_clicked = False
+        post_search_responses = []
 
         def on_response(response):
+            if not search_clicked:
+                return  # ignorar respuestas del catálogo inicial
             url = response.url
             ct = response.headers.get("content-type", "")
             if "json" in ct and "corteconstitucional" in url and "google" not in url and "Analytics" not in url:
                 try:
                     data = response.json()
-                    all_responses.append({"url": url, "data": data})
-                    logger.info(f"RESPONSE [{url.split('/')[-1][:30]}]: {json.dumps(data, ensure_ascii=False)[:1000]}")
+                    post_search_responses.append({"url": url, "data": data})
+                    logger.info(f"POST-SEARCH [{url.split('/')[-1][:35]}]: {json.dumps(data, ensure_ascii=False)[:2000]}")
                 except Exception:
                     pass
 
-        page.on("request", on_request)
         page.on("response", on_response)
 
         try:
-            # ESTRATEGIA 1: Interactuar con el formulario Angular directamente
-            logger.info("=== Estrategia 1: Interaccion con formulario ===")
-            page.goto(f"{BASE_URL}/buscador-externo/principal", wait_until="networkidle", timeout=30000)
+            logger.info("Cargando página de búsqueda avanzada...")
+            page.goto(ADV_URL, wait_until="networkidle", timeout=30000)
             time.sleep(3)
 
-            # Escanear todos los inputs del formulario
-            inputs = page.query_selector_all("input, mat-select, select")
-            logger.info(f"Total inputs en página: {len(inputs)}")
-            for inp in inputs:
-                try:
-                    attrs = {
-                        "type": inp.get_attribute("type") or "",
-                        "placeholder": inp.get_attribute("placeholder") or "",
-                        "name": inp.get_attribute("name") or "",
-                        "id": inp.get_attribute("id") or "",
-                        "formcontrolname": inp.get_attribute("formcontrolname") or "",
-                        "ng-reflect-name": inp.get_attribute("ng-reflect-name") or "",
-                    }
-                    if any(attrs.values()):
-                        logger.info(f"INPUT: {attrs}")
-                except Exception:
-                    pass
+            # Llenar el campo "desde"
+            input_desde = page.query_selector("input[formcontrolname='desde']")
+            if input_desde:
+                input_desde.click()
+                input_desde.fill(fecha_desde)
+                input_desde.press("Tab")
+                time.sleep(0.5)
+                logger.info(f"Campo 'desde' = {fecha_desde}")
+            else:
+                logger.warning("No se encontró el campo 'desde'")
 
-            # Intentar hacer clic en "Búsqueda Avanzada"
-            try:
-                adv_btns = page.query_selector_all("button, a, span, mat-tab-header")
-                for btn in adv_btns:
-                    txt = btn.inner_text().strip().lower()
-                    if "avanzada" in txt or "advanced" in txt:
-                        logger.info(f"Clic en: '{btn.inner_text().strip()}'")
-                        btn.click()
-                        time.sleep(2)
-                        break
-            except Exception as e:
-                logger.debug(f"Error buscando botón avanzado: {e}")
+            # Llenar el campo "hasta"
+            input_hasta = page.query_selector("input[formcontrolname='hasta']")
+            if input_hasta:
+                input_hasta.click()
+                input_hasta.fill(fecha_hasta)
+                input_hasta.press("Tab")
+                time.sleep(0.5)
+                logger.info(f"Campo 'hasta' = {fecha_hasta}")
+            else:
+                logger.warning("No se encontró el campo 'hasta'")
 
-            # ESTRATEGIA 2: Usar la URL de búsqueda avanzada
-            logger.info("=== Estrategia 2: URL busqueda avanzada ===")
-            all_responses.clear()
-            request_bodies.clear()
-            page.goto(f"{BASE_URL}/buscador-externo/principal/busquedaAvanzada", wait_until="networkidle", timeout=30000)
-            time.sleep(3)
+            # Llenar texto si se proporcionó
+            if texto:
+                input_texto = page.query_selector("input[formcontrolname='textoSentencia']")
+                if input_texto:
+                    input_texto.fill(texto)
+                    logger.info(f"Campo 'textoSentencia' = {texto}")
 
-            dom_adv = page.inner_text("body")
-            logger.info(f"DOM busqueda avanzada: {dom_adv[:800]}")
+            # Llenar número de sentencia si se proporcionó
+            if numero:
+                input_num = page.query_selector("input[formcontrolname='numSentencia']")
+                if input_num:
+                    input_num.fill(numero)
+                    logger.info(f"Campo 'numSentencia' = {numero}")
 
-            # Escanear inputs de la búsqueda avanzada
-            inputs_adv = page.query_selector_all("input, mat-select, select, mat-datepicker-input")
-            logger.info(f"Inputs en busqueda avanzada: {len(inputs_adv)}")
-            for inp in inputs_adv:
-                try:
-                    attrs = {
-                        "type": inp.get_attribute("type") or "",
-                        "placeholder": inp.get_attribute("placeholder") or "",
-                        "name": inp.get_attribute("name") or "",
-                        "formcontrolname": inp.get_attribute("formcontrolname") or "",
-                        "ng-reflect-name": inp.get_attribute("ng-reflect-name") or "",
-                        "class": (inp.get_attribute("class") or "")[:50],
-                    }
-                    logger.info(f"INPUT ADV: {attrs}")
-                except Exception:
-                    pass
+            # Hacer clic en "Buscar"
+            search_btn = page.query_selector("button:has-text('Buscar'), button[type='submit']")
+            if search_btn:
+                search_clicked = True
+                logger.info("Haciendo clic en Buscar...")
+                search_btn.click()
+                time.sleep(8)  # esperar respuesta de búsqueda
+                page.wait_for_load_state("networkidle", timeout=15000)
+            else:
+                logger.warning("No se encontró el botón Buscar")
 
-            # Intentar llenar campos de fecha en búsqueda avanzada
-            try:
-                all_inputs = page.query_selector_all("input")
-                date_filled = 0
-                for inp in all_inputs:
-                    placeholder = (inp.get_attribute("placeholder") or "").lower()
-                    fc_name = (inp.get_attribute("formcontrolname") or "").lower()
-                    inp_type = (inp.get_attribute("type") or "").lower()
-
-                    if any(k in placeholder + fc_name for k in ["desde", "hasta", "inicio", "fin", "fecha", "date", "start", "end"]):
-                        value = fecha_desde if date_filled == 0 else fecha_hasta
-                        inp.fill(value)
-                        inp.press("Tab")
-                        time.sleep(0.5)
-                        logger.info(f"Llenado campo '{placeholder or fc_name}' con '{value}'")
-                        date_filled += 1
-
-                # Buscar y hacer clic en el botón de búsqueda
-                search_btns = page.query_selector_all("button[type='submit'], button:has-text('Buscar'), button:has-text('Search')")
-                if search_btns:
-                    search_btns[0].click()
-                    logger.info("Clic en botón Buscar")
-                    time.sleep(5)
-                    page.wait_for_load_state("networkidle")
-            except Exception as e:
-                logger.info(f"Error llenando formulario: {e}")
-
-            # Revisar resultados de ambas estrategias
-            for resp in all_responses:
+            # Procesar respuestas de búsqueda
+            logger.info(f"Respuestas post-búsqueda capturadas: {len(post_search_responses)}")
+            for resp in post_search_responses:
                 data = resp["data"]
+                url = resp["url"]
                 if isinstance(data, dict):
                     dato = data.get("dato")
                     total = data.get("totalFilas", 0)
                     mensaje = data.get("mensaje", "")
-                    logger.info(f"Resultado: totalFilas={total}, mensaje='{mensaje}'")
+                    logger.info(f"  [{url.split('/')[-1][:30]}] totalFilas={total}, mensaje='{mensaje}'")
 
                     if isinstance(dato, list) and dato:
-                        first = dato[0] if dato else {}
-                        if isinstance(first, dict) and "evento" not in first:
-                            logger.info(f"SENTENCIAS ENCONTRADAS: {len(dato)}")
-                            logger.info(f"Primer item completo: {json.dumps(first, ensure_ascii=False)}")
-                            for item in dato[:max_results]:
-                                if isinstance(item, dict):
-                                    s = _parse_item(item)
-                                    if s.numero:
-                                        sentencias.append(s)
+                        # Verificar si son sentencias reales
+                        first = dato[0]
+                        if isinstance(first, dict):
+                            logger.info(f"  Primer item: {json.dumps(first, ensure_ascii=False)[:400]}")
+                            if _is_sentencia_item(first):
+                                logger.info(f"  ✓ Sentencias reales: {len(dato)}")
+                                for item in dato[:max_results]:
+                                    if isinstance(item, dict):
+                                        s = _parse_item(item)
+                                        if s.numero:
+                                            sentencias.append(s)
+                            else:
+                                logger.info(f"  ✗ No son sentencias (catálogo)")
+
+            # Si no capturó nada, log del DOM actual
+            if not sentencias:
+                dom = page.inner_text("body")
+                logger.info(f"DOM actual tras búsqueda: {dom[:600]}")
 
         except Exception as e:
             logger.error(f"Error: {e}", exc_info=True)
