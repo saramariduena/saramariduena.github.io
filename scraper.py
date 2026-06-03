@@ -148,7 +148,7 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
         logger.debug(f"Error catálogo: {e}")
 
     # Estructura exacta del formulario Angular (obtenida via __ngContext__ inspection)
-    # tipoLegitimado: 100 y opcionBusqueda: 1 son valores por defecto del formulario
+    # Los campos de selección múltiple (jueces, decisiones, etc.) deben ser arrays
     base_form = {
         "numSentencia": numero,
         "numeroCausa": causa,
@@ -157,15 +157,15 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
         "legitimados": "",
         "desde": iso_desde,
         "hasta": iso_hasta,
-        "jueces": "",
-        "decisiones": "",
-        "intereses": "",
-        "materias": "",
-        "tipoAcciones": "",
-        "asuntos": "",
-        "tipoNorma": "",
-        "merito": "",
-        "novedad": "",
+        "jueces": [],
+        "decisiones": [],
+        "intereses": [],
+        "materias": [],
+        "tipoAcciones": [],
+        "asuntos": [],
+        "tipoNorma": [],
+        "merito": [],
+        "novedad": [],
         "precedenteAprobado": "",
         "precedentePropuesto": "",
         "analisisMerito": "",
