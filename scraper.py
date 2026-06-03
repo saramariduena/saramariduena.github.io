@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 BASE_URL = "https://buscador.corteconstitucional.gob.ec"
 API_SEARCH = f"{BASE_URL}/buscador-externo/rest/api/sentencia/100_BUSCR_SNTNCIA"
 API_STATS  = f"{BASE_URL}/buscador-externo/rest/api/sentencia/100_OBT_RSM_ESTDTCO"
+API_CATALOG = f"{BASE_URL}/buscador-externo/rest/api/catalogoSentencia/100_OBT_RSMN_CTLG"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
@@ -30,19 +31,35 @@ HEADERS = {
 
 
 def _encode_payload(data: dict) -> str:
-    """Codifica el payload como base64(urlencode(json)) — formato que usa la API."""
     json_str = json.dumps(data, separators=(",", ":"), ensure_ascii=False)
     url_encoded = urllib.parse.quote(json_str)
     b64 = base64.b64encode(url_encoded.encode()).decode()
     return b64
 
 
-def _call_api(session: requests.Session, url: str, payload: dict) -> dict:
-    """Llama a la API con el formato correcto."""
+def _call_api_dato(session: requests.Session, url: str, payload: dict) -> dict:
+    """Llama a la API con formato {"dato": base64(urlencode(json))}."""
     encoded = _encode_payload(payload)
     body = {"dato": encoded}
     logger.info(f"POST {url.split('/')[-1]} | payload: {json.dumps(payload)}")
     resp = session.post(url, json=body, headers=HEADERS, timeout=30)
+    logger.info(f"Status: {resp.status_code}")
+    if resp.status_code == 200:
+        try:
+            data = resp.json()
+            logger.info(f"Respuesta: {json.dumps(data, ensure_ascii=False)[:2000]}")
+            return data
+        except Exception as e:
+            logger.error(f"Error parseando JSON: {e} | texto: {resp.text[:200]}")
+    else:
+        logger.warning(f"HTTP {resp.status_code}: {resp.text[:200]}")
+    return {}
+
+
+def _call_api_raw(session: requests.Session, url: str, payload: dict) -> dict:
+    """Llama a la API enviando el JSON directamente (sin encoding dato)."""
+    logger.info(f"POST raw {url.split('/')[-1]} | payload: {json.dumps(payload)}")
+    resp = session.post(url, json=payload, headers=HEADERS, timeout=30)
     logger.info(f"Status: {resp.status_code}")
     if resp.status_code == 200:
         try:
@@ -104,6 +121,21 @@ def _parse_item(item: dict) -> "Sentencia":
     )
 
 
+def _extract_sentencias(data: dict, max_results: int) -> list:
+    sentencias = []
+    dato = data.get("dato")
+    if isinstance(dato, list) and dato:
+        first = dato[0] if dato else {}
+        if isinstance(first, dict):
+            logger.info(f"Primer item: {json.dumps(first, ensure_ascii=False)}")
+            for item in dato[:max_results]:
+                if isinstance(item, dict):
+                    s = _parse_item(item)
+                    if s.numero:
+                        sentencias.append(s)
+    return sentencias
+
+
 def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_results: int = 50) -> list:
     sentencias = []
 
@@ -122,64 +154,79 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
     except Exception as e:
         logger.debug(f"Error obteniendo cookies: {e}")
 
-    # Payloads a intentar con los campos reales del formulario
-    payloads_search = [
-        # Con todos los campos del formulario
+    # Inicializar catálogo igual que hace el navegador
+    try:
+        _call_api_dato(session, API_CATALOG, {})
+        logger.info("Catálogo inicializado")
+    except Exception as e:
+        logger.debug(f"Error inicializando catálogo: {e}")
+
+    # ---- INTENTOS CON FORMATO dato ----
+    # El error "no contiene metadata" sugiere que el payload requiere un campo "metadata"
+    payloads_dato = [
+        # Intento con wrapper "metadata"
+        {"metadata": {"textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
+                      "desde": fecha_desde, "hasta": fecha_hasta, "flag": True}},
+        # Intento con campo metadata vacío + campos al nivel raíz
+        {"metadata": {}, "textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
+         "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
+        # Solo con metadata y fechas
+        {"metadata": {"desde": fecha_desde, "hasta": fecha_hasta}},
+        # Con campos originales (sin metadata)
         {"textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
          "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
-        # Sin flag
-        {"textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
-         "desde": fecha_desde, "hasta": fecha_hasta},
         # Solo fechas
         {"desde": fecha_desde, "hasta": fecha_hasta},
-        # Con nombres alternativos
-        {"textoSentencia": texto, "desde": fecha_desde, "hasta": fecha_hasta,
-         "tipoAcciones": None, "jueces": None, "decisiones": None,
-         "materias": None, "merito": None, "novedad": None, "flag": True},
     ]
 
-    for i, payload in enumerate(payloads_search):
-        logger.info(f"\n--- Intento {i+1} con 100_BUSCR_SNTNCIA ---")
-        data = _call_api(session, API_SEARCH, payload)
-
+    for i, payload in enumerate(payloads_dato):
+        logger.info(f"\n--- Intento dato {i+1} ---")
+        data = _call_api_dato(session, API_SEARCH, payload)
         if data:
-            dato = data.get("dato")
-            total = data.get("totalFilas", 0)
-            mensaje = data.get("mensaje", "")
-            tipo_msg = data.get("tipoMensaje", "")
-            logger.info(f"totalFilas={total}, tipoMensaje='{tipo_msg}', mensaje='{mensaje}'")
-
-            if isinstance(dato, list) and dato:
-                first = dato[0] if dato else {}
-                if isinstance(first, dict):
-                    logger.info(f"Primer item: {json.dumps(first, ensure_ascii=False)}")
-                    for item in dato[:max_results]:
-                        if isinstance(item, dict):
-                            s = _parse_item(item)
-                            if s.numero:
-                                sentencias.append(s)
-
-        if sentencias:
-            logger.info(f"✓ Encontradas {len(sentencias)} sentencias con intento {i+1}")
-            break
-
+            found = _extract_sentencias(data, max_results)
+            if found:
+                sentencias.extend(found)
+                logger.info(f"✓ {len(found)} sentencias con intento dato {i+1}")
+                break
         time.sleep(1)
 
-    # Si no funcionó con 100_BUSCR_SNTNCIA, intentar con 100_OBT_RSM_ESTDTCO
-    if not sentencias:
-        logger.info("\n--- Intentando con 100_OBT_RSM_ESTDTCO ---")
-        payload_stats = {"desde": fecha_desde, "hasta": fecha_hasta, "flag": False}
-        data = _call_api(session, API_STATS, payload_stats)
+    if sentencias:
+        return sentencias[:max_results]
+
+    # ---- INTENTOS CON JSON RAW (sin encoding dato) ----
+    payloads_raw = [
+        {"textoSentencia": texto, "numSentencia": numero, "numeroCausa": causa,
+         "desde": fecha_desde, "hasta": fecha_hasta, "flag": True},
+        {"metadata": {"textoSentencia": texto, "desde": fecha_desde, "hasta": fecha_hasta}},
+        {"desde": fecha_desde, "hasta": fecha_hasta},
+    ]
+
+    for i, payload in enumerate(payloads_raw):
+        logger.info(f"\n--- Intento raw {i+1} ---")
+        data = _call_api_raw(session, API_SEARCH, payload)
         if data:
-            dato = data.get("dato")
-            if isinstance(dato, list) and dato:
-                first = dato[0] if dato else {}
-                logger.info(f"Primer item stats: {json.dumps(first, ensure_ascii=False)}")
-                for item in dato[:max_results]:
-                    if isinstance(item, dict):
-                        s = _parse_item(item)
-                        if s.numero:
-                            sentencias.append(s)
+            found = _extract_sentencias(data, max_results)
+            if found:
+                sentencias.extend(found)
+                logger.info(f"✓ {len(found)} sentencias con intento raw {i+1}")
+                break
+        time.sleep(1)
+
+    if sentencias:
+        return sentencias[:max_results]
+
+    # ---- FALLBACK: endpoint de estadísticas ----
+    logger.info("\n--- Fallback: 100_OBT_RSM_ESTDTCO ---")
+    for payload in [
+        {"desde": fecha_desde, "hasta": fecha_hasta, "flag": False},
+        {"metadata": {"desde": fecha_desde, "hasta": fecha_hasta}},
+    ]:
+        data = _call_api_dato(session, API_STATS, payload)
+        if data:
+            found = _extract_sentencias(data, max_results)
+            if found:
+                sentencias.extend(found)
+                break
 
     logger.info(f"Total sentencias: {len(sentencias)}")
     return sentencias[:max_results]
