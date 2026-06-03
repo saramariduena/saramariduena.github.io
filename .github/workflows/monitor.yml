@@ -1,8 +1,10 @@
-name: Monitor Sentencias - Corte Constitucional Ecuador
+name: Monitor Sentencias — Corte Constitucional Ecuador
 
 on:
+  # Ejecutar todos los días a las 08:00 hora Ecuador (UTC-5 = 13:00 UTC)
   schedule:
     - cron: "0 13 * * *"
+  # Permite ejecutar manualmente desde la pestaña "Actions" en GitHub
   workflow_dispatch:
     inputs:
       search_text:
@@ -10,15 +12,15 @@ on:
         required: false
         default: ""
       max_sentences:
-        description: "Numero maximo de sentencias a revisar"
+        description: "Número máximo de sentencias a revisar"
         required: false
         default: "50"
 
 jobs:
   monitor:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: write  # Para commitear state.json actualizado
 
     steps:
       - name: Checkout repositorio
@@ -38,6 +40,9 @@ jobs:
           playwright install chromium
           playwright install-deps chromium
 
+      - name: Diagnóstico — interceptar payload real del buscador
+        run: python debug_intercept.py
+
       - name: Ejecutar monitor de sentencias
         env:
           GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
@@ -49,10 +54,11 @@ jobs:
           MAX_SENTENCES: ${{ github.event.inputs.max_sentences || '50' }}
         run: python main.py
 
-      - name: Guardar estado actualizado
+      - name: Guardar estado actualizado en el repositorio
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add state.json
-          git diff --staged --quiet || git commit -m "chore: actualizar estado [skip ci]"
+          # Solo commitear si hay cambios en el estado
+          git diff --staged --quiet || git commit -m "chore: actualizar estado de sentencias [skip ci]"
           git push
