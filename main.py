@@ -70,27 +70,6 @@ def run():
             save_state(state)
             return
 
-        # 4. Subir PDFs nuevos a Drive
-        if drive_folder_id:
-            for s in nuevas:
-                if s.get("pdf_url"):
-                    numero_safe = s["numero"].replace("/", "-").replace(" ", "_")
-                    filename = f"Sentencia_{numero_safe}.pdf"
-                    logger.info(f"Subiendo {filename} a Drive...")
-                    upload_pdf_from_url(s["pdf_url"], filename, drive_folder_id)
-                else:
-                    logger.debug(f"Sin URL de PDF para {s.get('numero')}")
-
-            # Subir resumen JSON actualizado
-            summary = {
-                "ultima_actualizacion": datetime.now().isoformat(),
-                "total_sentencias": len(state.get("seen_sentences", [])) + len(nuevas),
-                "nuevas_este_ciclo": nuevas,
-            }
-            upload_json_summary(summary, "resumen_sentencias.json", drive_folder_id)
-        else:
-            logger.warning("DRIVE_FOLDER_ID no configurado. No se subirá nada a Drive.")
-
         # 5. Enviar alerta por email
         sent = send_alert(nuevas)
         if sent:
