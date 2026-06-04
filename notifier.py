@@ -62,8 +62,7 @@ def _build_html_body(sentencias: list[dict]) -> str:
           </p>
         </div>
         <div style="padding:12px;font-size:12px;color:#6b7280;border-top:1px solid #e5e7eb;">
-          Este correo fue generado automáticamente.
-          Los PDFs han sido guardados en tu Google Drive.
+          Este correo fue generado automáticamente por el monitor de sentencias.
         </div>
       </div>
     </body>
