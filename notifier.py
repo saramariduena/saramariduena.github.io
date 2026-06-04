@@ -8,7 +8,9 @@ import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+
+ECU = timezone(timedelta(hours=-5))
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +19,8 @@ def _build_html_body(sentencias: list[dict]) -> str:
     rows = ""
     for s in sentencias:
         ficha = s.get("ficha_url", "#")
+        resumen_raw = s.get('resumen', '').strip()
+        resumen = (resumen_raw[:200] + "...") if resumen_raw else "Sin resumen disponible"
         rows += f"""
         <tr>
           <td style="padding:8px;border:1px solid #ddd;font-weight:bold;">
@@ -25,20 +29,20 @@ def _build_html_body(sentencias: list[dict]) -> str:
           <td style="padding:8px;border:1px solid #ddd;">{s.get('tipo','—')}</td>
           <td style="padding:8px;border:1px solid #ddd;">{s.get('fecha','—')}</td>
           <td style="padding:8px;border:1px solid #ddd;">{s.get('ponente','—')}</td>
-          <td style="padding:8px;border:1px solid #ddd;max-width:300px;">
-            {s.get('resumen','—')[:200]}...
-          </td>
+          <td style="padding:8px;border:1px solid #ddd;max-width:300px;">{resumen}</td>
         </tr>"""
 
+    hoy = datetime.now(ECU).strftime('%d/%m/%Y')
     return f"""
     <html>
     <body style="font-family:Arial,sans-serif;color:#333;">
       <div style="max-width:900px;margin:0 auto;padding:20px;">
         <div style="background:#1a56db;color:white;padding:16px;border-radius:8px 8px 0 0;">
           <h2 style="margin:0;">⚖️ Corte Constitucional del Ecuador</h2>
-          <p style="margin:4px 0 0;">Nuevas sentencias detectadas — {datetime.now().strftime('%d/%m/%Y %H:%M')}</p>
+          <p style="margin:4px 0 0;">Reporte de sentencias — {hoy}</p>
         </div>
         <div style="background:#f9fafb;padding:16px;border:1px solid #e5e7eb;">
+          <p>¡Hola! Te envío tu reporte de sentencias del <strong>{hoy}</strong>.</p>
           <p>Se encontraron <strong>{len(sentencias)} sentencia(s) nueva(s)</strong>
              que aún no estaban en tu registro.</p>
           <table style="width:100%;border-collapse:collapse;background:white;">
@@ -98,7 +102,7 @@ def send_alert(sentencias: list[dict]) -> bool:
     # Versión texto plano
     text_lines = [
         f"Nuevas sentencias detectadas: {count}",
-        f"Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M')}",
+        f"Fecha: {datetime.now(ECU).strftime('%d/%m/%Y %H:%M')}",
         "",
     ]
     for s in sentencias:
