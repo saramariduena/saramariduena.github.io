@@ -33,7 +33,9 @@ def _build_drive_service():
 
     creds_info = json.loads(creds_json)
     creds = service_account.Credentials.from_service_account_info(creds_info, scopes=SCOPES)
-    return build("drive", "v3", credentials=creds)
+    import warnings
+    warnings.filterwarnings("ignore")
+    return build("drive", "v3", credentials=creds, cache_discovery=False)
 
 
 def _get_or_create_subfolder(service, parent_id: str, name: str) -> str:
@@ -44,7 +46,7 @@ def _get_or_create_subfolder(service, parent_id: str, name: str) -> str:
         "mimeType='application/vnd.google-apps.folder' and "
         "trashed=false"
     )
-    results = service.files().list(q=query, fields="files(id, name)").execute()
+    results = service.files().list(q=query, fields="files(id, name)", supportsAllDrives=True, includeItemsFromAllDrives=True).execute()
     files = results.get("files", [])
     if files:
         return files[0]["id"]
@@ -54,7 +56,7 @@ def _get_or_create_subfolder(service, parent_id: str, name: str) -> str:
         "mimeType": "application/vnd.google-apps.folder",
         "parents": [parent_id],
     }
-    folder = service.files().create(body=metadata, fields="id").execute()
+    folder = service.files().create(body=metadata, fields="id", supportsAllDrives=True).execute()
     logger.info(f"Carpeta creada en Drive: {name}")
     return folder["id"]
 
@@ -98,7 +100,8 @@ def upload_pdf_from_url(pdf_url: str, filename: str, folder_id: str) -> str:
         file_metadata = {"name": filename, "parents": [folder_id]}
         uploaded = (
             service.files()
-            .create(body=file_metadata, media_body=media, fields="id, webViewLink")
+            .create(body=file_metadata, media_body=media, fields="id, webViewLink",
+                    supportsAllDrives=True)
             .execute()
         )
         file_id = uploaded.get("id", "")
