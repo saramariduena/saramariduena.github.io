@@ -64,28 +64,47 @@ class Sentencia:
 def _parse_item(item: dict) -> "Sentencia":
     # Los datos vienen anidados en item["resolucion"]
     res = item.get("resolucion", item)
+    logger.debug(f"resolucion keys: {list(res.keys()) if isinstance(res, dict) else 'NOT DICT'}")
+    logger.info(f"resolucion sample: juez={res.get('juez')}, tipoAccion={res.get('tipoAccion')}, fechadecision={res.get('fechadecision')}")
 
     numero = next((str(res[k]) for k in [
         "numero", "numSentencia", "numberSentence", "numExpediente", "identificador"
     ] if res.get(k)), "")
 
-    tipo = next((str(res[k]) for k in [
+    tipo_raw = next((res[k] for k in [
         "tipoAccion", "tipoSentencia", "tipo", "typeSentence"
     ] if res.get(k)), "")
+    if isinstance(tipo_raw, dict):
+        tipo = tipo_raw.get("descripcion", tipo_raw.get("nombre", tipo_raw.get("name", str(tipo_raw))))
+    else:
+        tipo = str(tipo_raw) if tipo_raw else ""
 
-    fecha = next((str(res[k]) for k in [
+    fecha_raw = next((res[k] for k in [
         "fechadecision", "fechaDecision", "fechaSentencia", "fechaPublicacion",
         "fechanotificacion", "fecha"
     ] if res.get(k)), "")
+    fecha = ""
+    if fecha_raw:
+        fecha_str = str(fecha_raw)
+        if fecha_str.isdigit() and len(fecha_str) >= 10:
+            from datetime import timezone
+            fecha = datetime.fromtimestamp(int(fecha_str) / 1000, tz=timezone.utc).strftime("%d/%m/%Y")
+        else:
+            fecha = fecha_str
 
     ponente = ""
     juez = res.get("juez") or {}
     if isinstance(juez, dict):
-        ponente = juez.get("nombrecompleto", juez.get("nombre", ""))
+        ponente = juez.get("nombrecompleto", juez.get("nombreCompleto", juez.get("nombre", "")))
     if not ponente:
-        ponente = next((str(res[k]) for k in [
-            "magistradoPonente", "ponente", "juezPonente", "magistrado"
-        ] if res.get(k)), "")
+        for k in ["magistradoPonente", "ponente", "juezPonente", "magistrado"]:
+            val = res.get(k)
+            if val:
+                if isinstance(val, dict):
+                    ponente = val.get("nombrecompleto", val.get("nombre", str(val)))
+                else:
+                    ponente = str(val)
+                break
 
     resumen = next((str(res[k])[:500] for k in [
         "metadatasentencia", "extracto", "resumen", "contenido", "descripcion"
