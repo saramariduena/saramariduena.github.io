@@ -62,31 +62,46 @@ class Sentencia:
 
 
 def _parse_item(item: dict) -> "Sentencia":
-    numero = next((str(item[k]) for k in [
-        "numSentencia", "numero", "numberSentence", "num_sentencia",
-        "numExpediente", "expediente", "identificador", "codigo"
-    ] if item.get(k)), "")
+    # Los datos vienen anidados en item["resolucion"]
+    res = item.get("resolucion", item)
 
-    tipo = next((str(item[k]) for k in [
-        "tipoSentencia", "tipo", "typeSentence", "tipoAccion"
-    ] if item.get(k)), "")
+    numero = next((str(res[k]) for k in [
+        "numero", "numSentencia", "numberSentence", "numExpediente", "identificador"
+    ] if res.get(k)), "")
 
-    fecha = next((str(item[k]) for k in [
-        "fechaSentencia", "fecha", "dateSentence", "fechaPublicacion",
-        "fechaDecision", "anio"
-    ] if item.get(k)), "")
+    tipo = next((str(res[k]) for k in [
+        "tipoAccion", "tipoSentencia", "tipo", "typeSentence"
+    ] if res.get(k)), "")
 
-    ponente = next((str(item[k]) for k in [
-        "magistradoPonente", "ponente", "juezPonente", "magistrado", "jueza"
-    ] if item.get(k)), "")
+    fecha = next((str(res[k]) for k in [
+        "fechadecision", "fechaDecision", "fechaSentencia", "fechaPublicacion",
+        "fechanotificacion", "fecha"
+    ] if res.get(k)), "")
 
-    resumen = next((str(item[k])[:500] for k in [
-        "extracto", "resumen", "summary", "descripcion", "tema"
-    ] if item.get(k)), "")
+    ponente = ""
+    juez = res.get("juez") or {}
+    if isinstance(juez, dict):
+        ponente = juez.get("nombrecompleto", juez.get("nombre", ""))
+    if not ponente:
+        ponente = next((str(res[k]) for k in [
+            "magistradoPonente", "ponente", "juezPonente", "magistrado"
+        ] if res.get(k)), "")
 
-    pdf_url = next((str(item[k]) for k in [
-        "urlPdf", "pdf_url", "urlDocumento", "linkPdf"
-    ] if item.get(k)), "")
+    resumen = next((str(res[k])[:500] for k in [
+        "metadatasentencia", "extracto", "resumen", "contenido", "descripcion"
+    ] if res.get(k)), "")
+
+    # PDF desde documento
+    pdf_url = ""
+    doc = res.get("documento")
+    if isinstance(doc, dict):
+        pdf_url = doc.get("uuid", "")
+        if pdf_url:
+            pdf_url = f"{BASE_URL}/buscador-externo/api/documento/{pdf_url}"
+    if not pdf_url:
+        pdf_url = next((str(res[k]) for k in [
+            "urlPdf", "pdf_url", "urlDocumento", "linkPdf"
+        ] if res.get(k)), "")
 
     ficha_url = ""
     if numero:
@@ -94,7 +109,7 @@ def _parse_item(item: dict) -> "Sentencia":
 
     return Sentencia(
         numero=numero.strip(), tipo=tipo.strip(), fecha=fecha.strip(),
-        ponente=ponente.strip(), resumen=resumen.strip(),
+        ponente=ponente.strip(), resumen=resumen.strip()[:500],
         pdf_url=pdf_url.strip(), ficha_url=ficha_url,
     )
 
