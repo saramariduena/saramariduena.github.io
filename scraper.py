@@ -72,12 +72,14 @@ def _parse_item(item: dict) -> "Sentencia":
     tipo_raw = next((res[k] for k in [
         "materia", "titulo", "tipoAccion", "tipoSentencia", "tipo"
     ] if res.get(k)), "")
-    if isinstance(tipo_raw, dict):
-        tipo = tipo_raw.get("descripcion", tipo_raw.get("nombre", tipo_raw.get("name", str(tipo_raw))))
+    if isinstance(tipo_raw, list) and tipo_raw:
+        first = tipo_raw[0]
+        tipo = first.get("nombre", str(first)) if isinstance(first, dict) else str(first)
+    elif isinstance(tipo_raw, dict):
+        tipo = tipo_raw.get("nombre", tipo_raw.get("descripcion", str(tipo_raw)))
     elif tipo_raw:
         tipo = str(tipo_raw)
     else:
-        # Extraer código de tipo del número: "71-23-IN/26" → "IN"
         import re
         m = re.search(r"-([A-Z]{2,})/", numero)
         tipo = m.group(1) if m else ""
@@ -97,12 +99,16 @@ def _parse_item(item: dict) -> "Sentencia":
 
     ponente = ""
     juez = res.get("juez") or {}
+    if isinstance(juez, list) and juez:
+        juez = juez[0]
     if isinstance(juez, dict):
         ponente = juez.get("nombrecompleto", juez.get("nombreCompleto", juez.get("nombre", "")))
     if not ponente:
         for k in ["magistradoPonente", "ponente", "juezPonente", "magistrado"]:
             val = res.get(k)
             if val:
+                if isinstance(val, list) and val:
+                    val = val[0]
                 if isinstance(val, dict):
                     ponente = val.get("nombrecompleto", val.get("nombre", str(val)))
                 else:
