@@ -1,18 +1,15 @@
 """
 Scraper para sentencias de la Corte Constitucional del Ecuador.
-La API recibe el payload como: {"dato": base64(urlencode(json))}
-Endpoint de búsqueda: 100_BUSCR_SNTNCIA
-Estructura del formulario obtenida via Angular form group inspection.
+Payload exacto obtenido interceptando el request real del navegador.
 """
 
 import base64
 import json
 import logging
-import time
 import urllib.parse
 import requests
 from dataclasses import dataclass, asdict
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 
 logger = logging.getLogger(__name__)
 
@@ -30,24 +27,15 @@ HEADERS = {
 }
 
 
-def _to_iso(dt: datetime) -> str:
-    """Convierte datetime a formato ISO que usa Angular: 2026-05-04T00:00:00.000Z"""
-    return dt.strftime("%Y-%m-%dT00:00:00.000Z")
-
-
 def _encode_payload(data: dict) -> str:
     json_str = json.dumps(data, separators=(",", ":"), ensure_ascii=False)
     url_encoded = urllib.parse.quote(json_str)
-    b64 = base64.b64encode(url_encoded.encode()).decode()
-    return b64
+    return base64.b64encode(url_encoded.encode()).decode()
 
 
-def _call_api(session: requests.Session, url: str, payload: dict, extra_body: dict = None) -> dict:
-    encoded = _encode_payload(payload)
-    body = {"dato": encoded}
-    if extra_body:
-        body.update(extra_body)
-    logger.info(f"POST {url.split('/')[-1]} | payload: {json.dumps(payload)[:300]} | extra: {extra_body}")
+def _call_api(session: requests.Session, url: str, payload: dict) -> dict:
+    body = {"dato": _encode_payload(payload)}
+    logger.info(f"POST {url.split('/')[-1]} | {json.dumps(payload)[:300]}")
     resp = session.post(url, json=body, headers=HEADERS, timeout=30)
     logger.info(f"Status: {resp.status_code}")
     if resp.status_code == 200:
@@ -56,9 +44,9 @@ def _call_api(session: requests.Session, url: str, payload: dict, extra_body: di
             logger.info(f"Respuesta: {json.dumps(data, ensure_ascii=False)[:2000]}")
             return data
         except Exception as e:
-            logger.error(f"Error parseando JSON: {e} | texto: {resp.text[:200]}")
+            logger.error(f"Error JSON: {e} | {resp.text[:200]}")
     else:
-        logger.warning(f"HTTP {resp.status_code}: {resp.text[:200]}")
+        logger.warning(f"HTTP {resp.status_code}: {resp.text[:300]}")
     return {}
 
 
@@ -84,7 +72,8 @@ def _parse_item(item: dict) -> "Sentencia":
     ] if item.get(k)), "")
 
     fecha = next((str(item[k]) for k in [
-        "fechaSentencia", "fecha", "dateSentence", "fechaPublicacion", "anio"
+        "fechaSentencia", "fecha", "dateSentence", "fechaPublicacion",
+        "fechaDecision", "anio"
     ] if item.get(k)), "")
 
     ponente = next((str(item[k]) for k in [
@@ -110,109 +99,72 @@ def _parse_item(item: dict) -> "Sentencia":
     )
 
 
-def _extract_sentencias(data: dict, max_results: int) -> list:
+def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_results: int = 50) -> list:
+    hoy = datetime.now()
+    hace_30 = hoy - timedelta(days=30)
+    # Formato exacto del buscador: "YYYY-MM-DD;YYYY-MM-DD"
+    fecha_decision = f"{hace_30.strftime('%Y-%m-%d')};{hoy.strftime('%Y-%m-%d')}"
+    logger.info(f"fechaDecision: {fecha_decision}")
+
+    session = requests.Session()
+    try:
+        session.get(f"{BASE_URL}/buscador-externo/principal", headers=HEADERS, timeout=15)
+        _call_api(session, API_CATALOG, {})
+    except Exception as e:
+        logger.debug(f"Init error: {e}")
+
+    # Payload exacto capturado del navegador real
+    payload = {
+        "numSentencia": numero,
+        "numeroCausa": causa,
+        "textoSentencia": texto,
+        "motivo": "",
+        "metadata": "",
+        "subBusqueda": "",
+        "tipoLegitimado": 100,
+        "legitimados": "",
+        "tipoAcciones": [],
+        "materias": [],
+        "intereses": [],
+        "decisiones": [],
+        "jueces": [],
+        "derechoDemandado": [],
+        "derechosTratado": [],
+        "derechosVulnerado": [],
+        "temaEspecificos": [],
+        "conceptos": [],
+        "fechaNotificacion": "",
+        "fechaDecision": fecha_decision,
+        "sort": "desc",
+        "precedenteAprobado": "",
+        "precedentePropuesto": "",
+        "tipoNormas": [],
+        "asuntos": [],
+        "analisisMerito": "",
+        "novedad": "",
+        "merito": "",
+        "paginacion": {"page": 1, "pageSize": max_results, "total": 0, "contar": True},
+        "flag": True,
+    }
+
+    data = _call_api(session, API_SEARCH, payload)
     sentencias = []
-    dato = data.get("dato")
-    if isinstance(dato, list) and dato:
-        first = dato[0] if dato else {}
-        if isinstance(first, dict):
-            logger.info(f"Primer item: {json.dumps(first, ensure_ascii=False)}")
+
+    if data:
+        msg = data.get("mensaje", "")
+        total = data.get("totalFilas", 0)
+        logger.info(f"totalFilas={total}, mensaje='{msg}'")
+        dato = data.get("dato")
+        if isinstance(dato, list) and dato:
+            logger.info(f"Primer item: {json.dumps(dato[0], ensure_ascii=False)}")
             for item in dato[:max_results]:
                 if isinstance(item, dict):
                     s = _parse_item(item)
                     if s.numero:
                         sentencias.append(s)
-    return sentencias
-
-
-def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_results: int = 50) -> list:
-    sentencias = []
-
-    hoy = datetime.now()
-    hace_30 = hoy - timedelta(days=30)
-    iso_hasta = _to_iso(hoy)
-    iso_desde = _to_iso(hace_30)
-    logger.info(f"Rango ISO: {iso_desde} → {iso_hasta}")
-
-    session = requests.Session()
-
-    try:
-        session.get(f"{BASE_URL}/buscador-externo/principal", headers=HEADERS, timeout=15)
-        logger.info("Cookies obtenidas")
-    except Exception as e:
-        logger.debug(f"Error cookies: {e}")
-
-    # Inicializar catálogo igual que el navegador
-    try:
-        _call_api(session, API_CATALOG, {})
-        logger.info("Catálogo inicializado")
-    except Exception as e:
-        logger.debug(f"Error catálogo: {e}")
-
-    # Estructura exacta del formulario Angular (obtenida via __ngContext__ inspection)
-    # Los campos de selección múltiple (jueces, decisiones, etc.) deben ser arrays
-    base_form = {
-        "numSentencia": numero,
-        "numeroCausa": causa,
-        "textoSentencia": texto,
-        "tipoLegitimado": 100,
-        "legitimados": "",
-        "desde": iso_desde,
-        "hasta": iso_hasta,
-        "jueces": [],
-        "decisiones": [],
-        "intereses": [],
-        "materias": [],
-        "tipoAcciones": [],
-        "asuntos": [],
-        "tipoNorma": [],
-        "merito": "",
-        "novedad": "",
-        "precedenteAprobado": "",
-        "precedentePropuesto": "",
-        "analisisMerito": "",
-        "opcionBusqueda": 1,
-    }
-
-    # Estrategia: partir del mínimo que pasó validación de fechas,
-    # agregar campos hasta que funcione
-    payloads = [
-        # 1. Mínimo confirmado + numeroCausa (que era el próximo error)
-        ({"desde": iso_desde, "hasta": iso_hasta,
-          "numSentencia": numero, "numeroCausa": causa, "textoSentencia": texto}, None),
-        # 2. Agregar tipoLegitimado y opcionBusqueda
-        ({"desde": iso_desde, "hasta": iso_hasta,
-          "numSentencia": numero, "numeroCausa": causa, "textoSentencia": texto,
-          "tipoLegitimado": 100, "opcionBusqueda": 1}, None),
-        # 3. Agregar campos de selección como arrays vacíos
-        ({"desde": iso_desde, "hasta": iso_hasta,
-          "numSentencia": numero, "numeroCausa": causa, "textoSentencia": texto,
-          "tipoLegitimado": 100, "opcionBusqueda": 1,
-          "jueces": [], "decisiones": [], "materias": [], "tipoAcciones": []}, None),
-        # 4. Payload completo sin legitimados/precedentes
-        ({k: v for k, v in base_form.items()
-          if k not in ("legitimados", "precedenteAprobado", "precedentePropuesto", "analisisMerito")}, None),
-        # 5. Payload completo
-        (base_form, None),
-    ]
-
-    for i, (payload, extra) in enumerate(payloads):
-        logger.info(f"\n--- Intento {i+1} ---")
-        data = _call_api(session, API_SEARCH, payload, extra)
-        if data:
-            msg = data.get("mensaje", "")
-            tipo_msg = data.get("tipoMensaje", "")
-            total = data.get("totalFilas", 0)
-            logger.info(f"totalFilas={total}, tipoMensaje='{tipo_msg}', mensaje='{msg}'")
-            found = _extract_sentencias(data, max_results)
-            if found:
-                sentencias.extend(found)
-                logger.info(f"✓ {len(found)} sentencias con intento {i+1}")
-                break
-        time.sleep(1)
 
     logger.info(f"Total sentencias: {len(sentencias)}")
-    return sentencias[:max_results]
+    return sentencias
 
 
 def sentencias_to_dicts(sentencias: list) -> list:
