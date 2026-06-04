@@ -64,8 +64,7 @@ class Sentencia:
 def _parse_item(item: dict) -> "Sentencia":
     # Los datos vienen anidados en item["resolucion"]
     res = item.get("resolucion", item)
-    logger.debug(f"resolucion keys: {list(res.keys()) if isinstance(res, dict) else 'NOT DICT'}")
-    logger.info(f"resolucion sample: juez={res.get('juez')}, tipoAccion={res.get('tipoAccion')}, fechadecision={res.get('fechadecision')}")
+    logger.info(f"resolucion ALL KEYS: {sorted(res.keys()) if isinstance(res, dict) else 'NOT DICT'}")
 
     numero = next((str(res[k]) for k in [
         "numero", "numSentencia", "numberSentence", "numExpediente", "identificador"
