@@ -1,0 +1,44 @@
+============================================================
+RESUMEN DE ANÁLISIS JURIMÉTRICO
+Total de decisiones analizadas: 10
+Generado: 05/06/2026 01:47
+============================================================
+
+DISTRIBUCIÓN POR TIPO DE ACCIÓN
+----------------------------------------
+  Contencioso Administrativo                 10  (100.0%)
+
+DISTRIBUCIÓN POR ÓRGANO JURISDICCIONAL
+----------------------------------------
+  No identificado                            10  (100.0%)
+
+DISTRIBUCIÓN POR DECISIÓN
+----------------------------------------
+  no determinado                             10  (100.0%)
+
+DISTRIBUCIÓN POR MATERIA
+----------------------------------------
+  No identificada                            10  (100.0%)
+
+============================================================
+PREGUNTAS PARA LA DISCUSIÓN JURÍDICA (Fase 3)
+============================================================
+
+1. ¿Qué explica el patrón de distribución por tipo de acción?
+   ¿Refleja la realidad del sistema o sesgos de la muestra?
+
+2. ¿Qué casos quedaron fuera de esta muestra y por qué?
+   (ej: sentencias sin texto digitalizado, períodos no cubiertos)
+
+3. ¿Qué variables relevantes NO captura este modelo?
+   (ej: calidad de la argumentación, complejidad del caso,
+    recursos de las partes, representación legal)
+
+4. ¿Qué riesgos éticos plantea extrapolar estos promedios
+   a un caso individual concreto?
+
+5. Si encontraste variación de duración por órgano,
+   ¿qué explicaciones jurídicas (no solo estadísticas) puedes ofrecer?
+
+Recuerda: el valor de la jurimetría no está en predecir sentencias,
+sino en formular preguntas empíricas verificables sobre el sistema.
