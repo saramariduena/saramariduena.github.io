@@ -40,9 +40,10 @@ def _build_html_body(sentencias: list[dict]) -> str:
         <div style="background:#1a56db;color:white;padding:16px;border-radius:8px 8px 0 0;">
           <h2 style="margin:0;">⚖️ Corte Constitucional del Ecuador</h2>
           <p style="margin:4px 0 0;">Reporte de sentencias — {hoy}</p>
+          <p style="margin:4px 0 0;font-size:13px;opacity:0.85;">Programado por Sara Maridueña</p>
         </div>
         <div style="background:#f9fafb;padding:16px;border:1px solid #e5e7eb;">
-          <p>¡Hola! Te envío tu reporte de sentencias del <strong>{hoy}</strong>.</p>
+          <p>¡Hola! Sara Maridueña ha programado el envío del reporte de sentencias del <strong>{hoy}</strong>.</p>
           <p>Se encontraron <strong>{len(sentencias)} sentencia(s) nueva(s)</strong>
              que aún no estaban en tu registro.</p>
           <table style="width:100%;border-collapse:collapse;background:white;">
