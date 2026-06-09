@@ -1,9 +1,9 @@
 name: Monitor Sentencias — Corte Constitucional Ecuador
 
 on:
-  # Ejecutar todos los días a las 08:00 hora Ecuador (UTC-5 = 13:00 UTC)
+  # Ejecutar todos los lunes a las 08:00 hora Ecuador (UTC-5 = 13:00 UTC)
   schedule:
-    - cron: "0 13 * * *"
+    - cron: "0 13 * * 1"
   # Permite ejecutar manualmente desde la pestaña "Actions" en GitHub
   workflow_dispatch:
     inputs:
