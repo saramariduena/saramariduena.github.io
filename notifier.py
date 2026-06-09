@@ -126,6 +126,61 @@ def send_alert(sentencias: list[dict]) -> bool:
         return False
 
 
+def send_no_news_alert() -> bool:
+    """Envía un correo informando que no hay sentencias nuevas."""
+    gmail_user = os.environ.get("GMAIL_USER", "")
+    gmail_password = os.environ.get("GMAIL_APP_PASSWORD", "")
+    recipients_raw = os.environ.get("NOTIFICATION_EMAILS", gmail_user)
+
+    if not gmail_user or not gmail_password:
+        return False
+
+    recipients = [r.strip() for r in recipients_raw.split(",") if r.strip()]
+    hoy = datetime.now(ECU).strftime('%d/%m/%Y')
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = f"⚖️ Sin novedades — Sentencias Corte Constitucional Ecuador {hoy}"
+    msg["From"] = gmail_user
+    msg["To"] = ", ".join(recipients)
+
+    html = f"""
+    <html>
+    <body style="font-family:Arial,sans-serif;color:#333;">
+      <div style="max-width:600px;margin:0 auto;padding:20px;">
+        <div style="background:#1a56db;color:white;padding:16px;border-radius:8px 8px 0 0;">
+          <h2 style="margin:0;">⚖️ Corte Constitucional del Ecuador</h2>
+          <p style="margin:4px 0 0;">Reporte diario — {hoy}</p>
+          <p style="margin:4px 0 0;font-size:13px;opacity:0.85;">Programado por Sara Maridueña</p>
+        </div>
+        <div style="background:#f9fafb;padding:16px;border:1px solid #e5e7eb;border-radius:0 0 8px 8px;">
+          <p>¡Hola! Sara Maridueña ha programado el envío del reporte de sentencias del <strong>{hoy}</strong>.</p>
+          <p>✅ No se encontraron sentencias nuevas por el momento.</p>
+          <p style="margin-top:16px;">
+            <a href="https://buscador.corteconstitucional.gob.ec/buscador-externo/"
+               style="background:#1a56db;color:white;padding:10px 20px;
+                      border-radius:6px;text-decoration:none;">
+              Ver buscador oficial →
+            </a>
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>"""
+
+    msg.attach(MIMEText(f"Sin novedades al {hoy}.", "plain", "utf-8"))
+    msg.attach(MIMEText(html, "html", "utf-8"))
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(gmail_user, gmail_password)
+            server.sendmail(gmail_user, recipients, msg.as_string())
+        logger.info(f"Correo sin novedades enviado a: {recipients}")
+        return True
+    except Exception as e:
+        logger.error(f"Error al enviar correo sin novedades: {e}")
+        return False
+
+
 def send_error_alert(error_msg: str) -> None:
     """Envía una alerta de error si el scraper falla."""
     gmail_user = os.environ.get("GMAIL_USER", "")
