@@ -21,7 +21,7 @@ load_dotenv()
 
 from scraper import buscar_sentencias, sentencias_to_dicts
 from drive_uploader import upload_pdf_from_url, upload_json_summary
-from notifier import send_alert, send_error_alert
+from notifier import send_alert, send_error_alert, send_no_news_alert
 from state_manager import load_state, save_state, find_new_sentencias, update_state
 
 logging.basicConfig(
@@ -65,7 +65,8 @@ def run():
         logger.info(f"Sentencias NUEVAS detectadas: {len(nuevas)}")
 
         if not nuevas:
-            logger.info("Sin novedades. No se envía alerta.")
+            logger.info("Sin novedades. Enviando correo informativo.")
+            send_no_news_alert()
             state = update_state(state, [])
             save_state(state)
             return
