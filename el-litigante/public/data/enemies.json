@@ -1,0 +1,14 @@
+[
+  { "id": "demanda_mala", "name": "Demanda Mal Planteada", "color": "#c0392b", "behavior": "patrol", "speed": 60 },
+  { "id": "caducidad", "name": "Caducidad", "color": "#8e44ad", "behavior": "patrol", "speed": 80 },
+  { "id": "prescripcion", "name": "Prescripción", "color": "#2c3e50", "behavior": "jumper", "speed": 70 },
+  { "id": "incompetencia", "name": "Incompetencia", "color": "#7f8c8d", "behavior": "patrol", "speed": 55 },
+  { "id": "falta_citacion", "name": "Falta de Citación", "color": "#16a085", "behavior": "patrol", "speed": 65 },
+  { "id": "prueba_inadmisible", "name": "Prueba Inadmisible", "color": "#d35400", "behavior": "jumper", "speed": 75 },
+  { "id": "mala_fe", "name": "Mala Fe Procesal", "color": "#922b21", "behavior": "chaser", "speed": 85 },
+  { "id": "abandono", "name": "Abandono", "color": "#566573", "behavior": "patrol", "speed": 50 },
+  { "id": "dilacion", "name": "Dilación", "color": "#b7950b", "behavior": "patrol", "speed": 60 },
+  { "id": "nulidad", "name": "Nulidad", "color": "#6c3483", "behavior": "jumper", "speed": 70 },
+  { "id": "improcedencia", "name": "Improcedencia", "color": "#1f618d", "behavior": "patrol", "speed": 65 },
+  { "id": "recurso_malo", "name": "Recurso Mal Interpuesto", "color": "#117864", "behavior": "chaser", "speed": 80 }
+]

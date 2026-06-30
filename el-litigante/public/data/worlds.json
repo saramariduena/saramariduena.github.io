@@ -1,0 +1,250 @@
+[
+  {
+    "id": "w1",
+    "order": 1,
+    "title": "Principios Procesales",
+    "subtitle": "Donde nace todo litigante",
+    "cogepArea": "Principios rectores (COGEP Arts. 2-8)",
+    "lessonId": "principios",
+    "palette": { "sky": "#7ec8e3", "skyBottom": "#cdeffb", "ground": "#3c7d3c", "groundDark": "#2a5a2a", "platform": "#a9744f", "accent": "#f5d547" },
+    "boss": {
+      "id": "w1_boss",
+      "name": "El Juez Incompetente",
+      "title": "Guardián de los Principios",
+      "lessonId": "competencia",
+      "hp": 3
+    },
+    "levels": [
+      {
+        "id": "w1_l1",
+        "title": "La Oralidad",
+        "lessonId": "w1_l1",
+        "layout": [
+          "                                        ",
+          "                                        ",
+          "                                        ",
+          "              c                         ",
+          "             ===                        ",
+          "       c                      d         ",
+          "      ===          e         ===        ",
+          "                                        ",
+          "   P       c   c        ^^            F ",
+          "########   #########    ##   ###########",
+          "########   #########    ##   ###########",
+          "########   #########    ##   ###########"
+        ]
+      },
+      {
+        "id": "w1_l2",
+        "title": "Contradicción y Buena Fe",
+        "lessonId": "w1_l2",
+        "layout": [
+          "                                            ",
+          "                  c c c                     ",
+          "                 =======                    ",
+          "        d                          c        ",
+          "       ===         e        e     ===       ",
+          "                                            ",
+          "   c       ^^        c          d           ",
+          "  ===     ####      ===        ===          ",
+          "                                            ",
+          "   P                    ^^^               F ",
+          "##########    #######   ###    #############",
+          "##########    #######   ###    #############"
+        ]
+      },
+      {
+        "id": "w1_l3",
+        "title": "Dirección del Proceso",
+        "lessonId": "direccion",
+        "layout": [
+          "                                                ",
+          "                                                ",
+          "          c        e        c        e          ",
+          "         ====     ====      ====     ====        ",
+          "    d                                       d    ",
+          "   ===            ^^^^^                     ===  ",
+          "                 #######                         ",
+          "        c c                      c c             ",
+          "   P   =====        ^^^^        =====          F ",
+          "####          #############            ##########",
+          "####          #############            ##########",
+          "####          #############            ##########"
+        ]
+      },
+      {
+        "id": "w1_l4",
+        "title": "Debido Proceso",
+        "lessonId": "principios",
+        "layout": [
+          "                                                    ",
+          "                       c c c                        ",
+          "                      =========                     ",
+          "         e                              e           ",
+          "    c   ====        d        d         ====    c    ",
+          "   ===            ===       ===                ===  ",
+          "              ^^^                  ^^^               ",
+          "             #####       e        #####             ",
+          "   P      c        ^^^^^^^^^^           c         F ",
+          "#####    ===       ##########         ===     ######",
+          "#####              ##########                 ######",
+          "#####              ##########                 ######"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "w2",
+    "order": 2,
+    "title": "Competencia",
+    "subtitle": "El juez correcto para cada causa",
+    "cogepArea": "Competencia (COGEP Arts. 9 y ss.)",
+    "lessonId": "competencia",
+    "palette": { "sky": "#6fb3d6", "skyBottom": "#d6ecf5", "ground": "#8a8f98", "groundDark": "#5f636b", "platform": "#b0772f", "accent": "#ffd84d" },
+    "boss": { "id": "w2_boss", "name": "La Excepción de Incompetencia", "title": "Muro Jurisdiccional", "lessonId": "competencia", "hp": 3 },
+    "generator": { "levels": 8, "width": 46, "platformDensity": 0.32, "enemyDensity": 0.10, "coinDensity": 0.16, "hazardDensity": 0.06, "seed": 2001 }
+  },
+  {
+    "id": "w3",
+    "order": 3,
+    "title": "Sujetos Procesales",
+    "subtitle": "Quiénes litigan",
+    "cogepArea": "Capacidad y comparecencia (COGEP Título II)",
+    "lessonId": "sujetos",
+    "palette": { "sky": "#9d7bd1", "skyBottom": "#e6dbf7", "ground": "#6b4f8a", "groundDark": "#4a3661", "platform": "#c08552", "accent": "#ffd84d" },
+    "boss": { "id": "w3_boss", "name": "El Falso Representante", "title": "Sombra de la Legitimación", "lessonId": "sujetos", "hp": 3 },
+    "generator": { "levels": 8, "width": 48, "platformDensity": 0.34, "enemyDensity": 0.12, "coinDensity": 0.16, "hazardDensity": 0.07, "seed": 3001 }
+  },
+  {
+    "id": "w4",
+    "order": 4,
+    "title": "La Demanda",
+    "subtitle": "El arte de pedir bien",
+    "cogepArea": "Demanda (COGEP Arts. 142-147)",
+    "lessonId": "demanda",
+    "palette": { "sky": "#e0a96d", "skyBottom": "#fbe8cf", "ground": "#7a5a3a", "groundDark": "#553d27", "platform": "#a9744f", "accent": "#ffcf33" },
+    "boss": { "id": "w4_boss", "name": "La Demanda Oscura", "title": "Caos de Pretensiones", "lessonId": "demanda", "hp": 4 },
+    "generator": { "levels": 9, "width": 50, "platformDensity": 0.33, "enemyDensity": 0.12, "coinDensity": 0.15, "hazardDensity": 0.08, "seed": 4001 }
+  },
+  {
+    "id": "w5",
+    "order": 5,
+    "title": "Citación",
+    "subtitle": "Que el demandado se entere",
+    "cogepArea": "Citación (COGEP Arts. 53-60)",
+    "lessonId": "citacion",
+    "palette": { "sky": "#5fa8d3", "skyBottom": "#cfe9f5", "ground": "#4d6b86", "groundDark": "#34495e", "platform": "#b0772f", "accent": "#ffd84d" },
+    "boss": { "id": "w5_boss", "name": "La Falta de Citación", "title": "Espectro de la Nulidad", "lessonId": "citacion", "hp": 4 },
+    "generator": { "levels": 8, "width": 50, "platformDensity": 0.31, "enemyDensity": 0.13, "coinDensity": 0.15, "hazardDensity": 0.08, "seed": 5001 }
+  },
+  {
+    "id": "w6",
+    "order": 6,
+    "title": "Contestación",
+    "subtitle": "El contraataque del demandado",
+    "cogepArea": "Contestación, excepciones y reconvención (COGEP Arts. 151-154)",
+    "lessonId": "contestacion",
+    "palette": { "sky": "#d36f9c", "skyBottom": "#f7cfe0", "ground": "#8a4f6b", "groundDark": "#61364a", "platform": "#c08552", "accent": "#ffd84d" },
+    "boss": { "id": "w6_boss", "name": "La Reconvención Temeraria", "title": "Doble Filo", "lessonId": "contestacion", "hp": 4 },
+    "generator": { "levels": 9, "width": 52, "platformDensity": 0.33, "enemyDensity": 0.14, "coinDensity": 0.15, "hazardDensity": 0.09, "seed": 6001 }
+  },
+  {
+    "id": "w7",
+    "order": 7,
+    "title": "La Prueba",
+    "subtitle": "Acreditar los hechos",
+    "cogepArea": "Prueba (COGEP Arts. 158 y ss.)",
+    "lessonId": "prueba",
+    "palette": { "sky": "#5fb39a", "skyBottom": "#cff0e6", "ground": "#3a7a5a", "groundDark": "#275540", "platform": "#a9744f", "accent": "#ffd84d" },
+    "boss": { "id": "w7_boss", "name": "La Prueba Prohibida", "title": "Fruto del Árbol Envenenado", "lessonId": "prueba", "hp": 5 },
+    "generator": { "levels": 10, "width": 54, "platformDensity": 0.34, "enemyDensity": 0.15, "coinDensity": 0.15, "hazardDensity": 0.10, "seed": 7001 }
+  },
+  {
+    "id": "w8",
+    "order": 8,
+    "title": "Audiencias",
+    "subtitle": "El corazón oral del proceso",
+    "cogepArea": "Audiencias (COGEP Arts. 289 y ss.)",
+    "lessonId": "audiencias",
+    "palette": { "sky": "#c9a14a", "skyBottom": "#f5e6c0", "ground": "#7a6a3a", "groundDark": "#554a27", "platform": "#b0772f", "accent": "#ffe066" },
+    "boss": { "id": "w8_boss", "name": "El Caos de la Audiencia", "title": "Tribunal en Llamas", "lessonId": "audiencias", "hp": 5 },
+    "generator": { "levels": 10, "width": 56, "platformDensity": 0.33, "enemyDensity": 0.15, "coinDensity": 0.14, "hazardDensity": 0.10, "seed": 8001 }
+  },
+  {
+    "id": "w9",
+    "order": 9,
+    "title": "Procedimiento Ordinario",
+    "subtitle": "La vía general",
+    "cogepArea": "Procedimiento ordinario (COGEP Arts. 289-295)",
+    "lessonId": "ordinario",
+    "palette": { "sky": "#7e8bd1", "skyBottom": "#dbe0f7", "ground": "#4f5a8a", "groundDark": "#363f61", "platform": "#c08552", "accent": "#ffd84d" },
+    "boss": { "id": "w9_boss", "name": "La Dilación Eterna", "title": "Reloj sin Fin", "lessonId": "ordinario", "hp": 5 },
+    "generator": { "levels": 10, "width": 58, "platformDensity": 0.33, "enemyDensity": 0.16, "coinDensity": 0.14, "hazardDensity": 0.11, "seed": 9001 }
+  },
+  {
+    "id": "w10",
+    "order": 10,
+    "title": "Procedimiento Sumario",
+    "subtitle": "Velocidad procesal",
+    "cogepArea": "Procedimiento sumario (COGEP Arts. 332-335)",
+    "lessonId": "sumario",
+    "palette": { "sky": "#5fc3d3", "skyBottom": "#cff2f5", "ground": "#3a7a86", "groundDark": "#27555e", "platform": "#a9744f", "accent": "#ffd84d" },
+    "boss": { "id": "w10_boss", "name": "El Término Vencido", "title": "Arena del Tiempo", "lessonId": "sumario", "hp": 5 },
+    "generator": { "levels": 10, "width": 58, "platformDensity": 0.32, "enemyDensity": 0.17, "coinDensity": 0.14, "hazardDensity": 0.12, "seed": 10001 }
+  },
+  {
+    "id": "w11",
+    "order": 11,
+    "title": "Procedimiento Monitorio",
+    "subtitle": "Cobrar deudas con rapidez",
+    "cogepArea": "Procedimiento monitorio (COGEP Arts. 356-361)",
+    "lessonId": "monitorio",
+    "palette": { "sky": "#d3a15f", "skyBottom": "#f5e2c0", "ground": "#7a5a2a", "groundDark": "#553f1d", "platform": "#b0772f", "accent": "#ffe066" },
+    "boss": { "id": "w11_boss", "name": "El Deudor Silencioso", "title": "Eco de la Mora", "lessonId": "monitorio", "hp": 6 },
+    "generator": { "levels": 10, "width": 60, "platformDensity": 0.32, "enemyDensity": 0.17, "coinDensity": 0.13, "hazardDensity": 0.12, "seed": 11001 }
+  },
+  {
+    "id": "w12",
+    "order": 12,
+    "title": "Ejecución",
+    "subtitle": "Hacer realidad la sentencia",
+    "cogepArea": "Ejecución (COGEP Arts. 362 y ss.)",
+    "lessonId": "ejecucion",
+    "palette": { "sky": "#8a8f98", "skyBottom": "#dfe2e6", "ground": "#4a4f57", "groundDark": "#33373d", "platform": "#c08552", "accent": "#ffd84d" },
+    "boss": { "id": "w12_boss", "name": "El Bien Inembargable", "title": "Fortaleza Patrimonial", "lessonId": "ejecucion", "hp": 6 },
+    "generator": { "levels": 10, "width": 60, "platformDensity": 0.33, "enemyDensity": 0.18, "coinDensity": 0.13, "hazardDensity": 0.13, "seed": 12001 }
+  },
+  {
+    "id": "w13",
+    "order": 13,
+    "title": "Recursos",
+    "subtitle": "Impugnar para corregir",
+    "cogepArea": "Recursos (COGEP Arts. 250 y ss.; apelación 256; casación 266)",
+    "lessonId": "recursos",
+    "palette": { "sky": "#6f9dd3", "skyBottom": "#d6e6f7", "ground": "#3a5a86", "groundDark": "#27405e", "platform": "#a9744f", "accent": "#ffd84d" },
+    "boss": { "id": "w13_boss", "name": "El Recurso Improcedente", "title": "Laberinto de Instancias", "lessonId": "recursos", "hp": 6 },
+    "generator": { "levels": 11, "width": 62, "platformDensity": 0.33, "enemyDensity": 0.18, "coinDensity": 0.13, "hazardDensity": 0.13, "seed": 13001 }
+  },
+  {
+    "id": "w14",
+    "order": 14,
+    "title": "Medidas Cautelares",
+    "subtitle": "Asegurar el resultado",
+    "cogepArea": "Providencias preventivas (COGEP Arts. 124-133)",
+    "lessonId": "cautelares",
+    "palette": { "sky": "#9d5fd3", "skyBottom": "#e6d6f7", "ground": "#5a3a86", "groundDark": "#40275e", "platform": "#c08552", "accent": "#ffd84d" },
+    "boss": { "id": "w14_boss", "name": "La Contracautela Imposible", "title": "Balanza Quebrada", "lessonId": "cautelares", "hp": 7 },
+    "generator": { "levels": 11, "width": 64, "platformDensity": 0.33, "enemyDensity": 0.19, "coinDensity": 0.12, "hazardDensity": 0.14, "seed": 14001 }
+  },
+  {
+    "id": "w15",
+    "order": 15,
+    "title": "Gran Litigio Final",
+    "subtitle": "El examen del maestro",
+    "cogepArea": "Visión integral del proceso (COGEP completo)",
+    "lessonId": "final",
+    "palette": { "sky": "#1d2b53", "skyBottom": "#3a4a86", "ground": "#2a2438", "groundDark": "#1a1626", "platform": "#c0a052", "accent": "#ffd700" },
+    "boss": { "id": "w15_boss", "name": "El Gran Litigante Rival", "title": "Maestro del COGEP", "lessonId": "final", "hp": 8 },
+    "generator": { "levels": 12, "width": 70, "platformDensity": 0.34, "enemyDensity": 0.20, "coinDensity": 0.12, "hazardDensity": 0.15, "seed": 15001 }
+  }
+]

@@ -1,0 +1,9 @@
+[
+  { "id": "iuris", "name": "Doctor Iuris", "role": "Mentor", "lines": ["Bienvenido, futuro litigante. El COGEP será tu mejor arma.", "Recuerda: cada error procesal que vences te hace más fuerte.", "La oralidad premia a quien se prepara. ¡Adelante!"] },
+  { "id": "profesor", "name": "Profesora Andrade", "role": "Docente", "lines": ["Estudia los principios: son la base de todo el proceso.", "Un buen anuncio de prueba se hace desde la demanda."] },
+  { "id": "juez", "name": "Juez Ponente", "role": "Juez", "lines": ["En mi sala, la lealtad procesal no se negocia.", "Quien dilata, pierde credibilidad."] },
+  { "id": "secretario", "name": "Secretario Vélez", "role": "Secretario", "lines": ["Las actas y términos son sagrados. No los descuides."] },
+  { "id": "cliente", "name": "Doña Rosa", "role": "Clienta", "lines": ["Abogado, ¿lograremos ejecutar la sentencia?", "Confío en usted para que me hagan justicia."] },
+  { "id": "perito", "name": "Perito Castro", "role": "Perito", "lines": ["Mi informe es técnico e imparcial; así debe ser la pericia."] },
+  { "id": "mediador", "name": "Mediadora Luna", "role": "Mediadora", "lines": ["A veces el mejor litigio es un buen acuerdo. El acta de mediación es título de ejecución."] }
+]

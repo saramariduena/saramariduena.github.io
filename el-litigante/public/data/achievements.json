@@ -1,0 +1,1401 @@
+[
+  {
+    "id": "primer_litigio",
+    "name": "Primer Litigio",
+    "desc": "Completa tu primer nivel.",
+    "condition": {
+      "type": "levels",
+      "value": 1
+    }
+  },
+  {
+    "id": "aprendiz",
+    "name": "Aprendiz",
+    "desc": "Completa 5 niveles.",
+    "condition": {
+      "type": "levels",
+      "value": 5
+    }
+  },
+  {
+    "id": "litigante_serio",
+    "name": "Litigante en Serio",
+    "desc": "Completa 15 niveles.",
+    "condition": {
+      "type": "levels",
+      "value": 15
+    }
+  },
+  {
+    "id": "maraton",
+    "name": "Maratón Procesal",
+    "desc": "Completa 30 niveles.",
+    "condition": {
+      "type": "levels",
+      "value": 30
+    }
+  },
+  {
+    "id": "incansable",
+    "name": "Incansable",
+    "desc": "Completa 60 niveles.",
+    "condition": {
+      "type": "levels",
+      "value": 60
+    }
+  },
+  {
+    "id": "centurion",
+    "name": "Centurión del Foro",
+    "desc": "Completa 100 niveles.",
+    "condition": {
+      "type": "levels",
+      "value": 100
+    }
+  },
+  {
+    "id": "lex_50",
+    "name": "Coleccionista LEX 1",
+    "desc": "Acumula 50 monedas LEX.",
+    "condition": {
+      "type": "lex",
+      "value": 50
+    }
+  },
+  {
+    "id": "lex_100",
+    "name": "Coleccionista LEX 2",
+    "desc": "Acumula 100 monedas LEX.",
+    "condition": {
+      "type": "lex",
+      "value": 100
+    }
+  },
+  {
+    "id": "lex_250",
+    "name": "Coleccionista LEX 3",
+    "desc": "Acumula 250 monedas LEX.",
+    "condition": {
+      "type": "lex",
+      "value": 250
+    }
+  },
+  {
+    "id": "lex_500",
+    "name": "Coleccionista LEX 4",
+    "desc": "Acumula 500 monedas LEX.",
+    "condition": {
+      "type": "lex",
+      "value": 500
+    }
+  },
+  {
+    "id": "lex_1000",
+    "name": "Coleccionista LEX 5",
+    "desc": "Acumula 1000 monedas LEX.",
+    "condition": {
+      "type": "lex",
+      "value": 1000
+    }
+  },
+  {
+    "id": "lex_2500",
+    "name": "Coleccionista LEX 6",
+    "desc": "Acumula 2500 monedas LEX.",
+    "condition": {
+      "type": "lex",
+      "value": 2500
+    }
+  },
+  {
+    "id": "lex_5000",
+    "name": "Coleccionista LEX 7",
+    "desc": "Acumula 5000 monedas LEX.",
+    "condition": {
+      "type": "lex",
+      "value": 5000
+    }
+  },
+  {
+    "id": "lex_10000",
+    "name": "Coleccionista LEX 8",
+    "desc": "Acumula 10000 monedas LEX.",
+    "condition": {
+      "type": "lex",
+      "value": 10000
+    }
+  },
+  {
+    "id": "exp_5",
+    "name": "Archivista 1",
+    "desc": "Recoge 5 expedientes.",
+    "condition": {
+      "type": "documents",
+      "value": 5
+    }
+  },
+  {
+    "id": "exp_15",
+    "name": "Archivista 2",
+    "desc": "Recoge 15 expedientes.",
+    "condition": {
+      "type": "documents",
+      "value": 15
+    }
+  },
+  {
+    "id": "exp_30",
+    "name": "Archivista 3",
+    "desc": "Recoge 30 expedientes.",
+    "condition": {
+      "type": "documents",
+      "value": 30
+    }
+  },
+  {
+    "id": "exp_60",
+    "name": "Archivista 4",
+    "desc": "Recoge 60 expedientes.",
+    "condition": {
+      "type": "documents",
+      "value": 60
+    }
+  },
+  {
+    "id": "exp_120",
+    "name": "Archivista 5",
+    "desc": "Recoge 120 expedientes.",
+    "condition": {
+      "type": "documents",
+      "value": 120
+    }
+  },
+  {
+    "id": "err_5",
+    "name": "Cazador de Errores 1",
+    "desc": "Vence 5 errores procesales.",
+    "condition": {
+      "type": "enemies",
+      "value": 5
+    }
+  },
+  {
+    "id": "err_20",
+    "name": "Cazador de Errores 2",
+    "desc": "Vence 20 errores procesales.",
+    "condition": {
+      "type": "enemies",
+      "value": 20
+    }
+  },
+  {
+    "id": "err_50",
+    "name": "Cazador de Errores 3",
+    "desc": "Vence 50 errores procesales.",
+    "condition": {
+      "type": "enemies",
+      "value": 50
+    }
+  },
+  {
+    "id": "err_100",
+    "name": "Cazador de Errores 4",
+    "desc": "Vence 100 errores procesales.",
+    "condition": {
+      "type": "enemies",
+      "value": 100
+    }
+  },
+  {
+    "id": "err_200",
+    "name": "Cazador de Errores 5",
+    "desc": "Vence 200 errores procesales.",
+    "condition": {
+      "type": "enemies",
+      "value": 200
+    }
+  },
+  {
+    "id": "err_400",
+    "name": "Cazador de Errores 6",
+    "desc": "Vence 400 errores procesales.",
+    "condition": {
+      "type": "enemies",
+      "value": 400
+    }
+  },
+  {
+    "id": "triv_1",
+    "name": "Mente Jurídica 1",
+    "desc": "Responde correctamente 1 trivias.",
+    "condition": {
+      "type": "trivia",
+      "value": 1
+    }
+  },
+  {
+    "id": "triv_10",
+    "name": "Mente Jurídica 2",
+    "desc": "Responde correctamente 10 trivias.",
+    "condition": {
+      "type": "trivia",
+      "value": 10
+    }
+  },
+  {
+    "id": "triv_25",
+    "name": "Mente Jurídica 3",
+    "desc": "Responde correctamente 25 trivias.",
+    "condition": {
+      "type": "trivia",
+      "value": 25
+    }
+  },
+  {
+    "id": "triv_50",
+    "name": "Mente Jurídica 4",
+    "desc": "Responde correctamente 50 trivias.",
+    "condition": {
+      "type": "trivia",
+      "value": 50
+    }
+  },
+  {
+    "id": "triv_100",
+    "name": "Mente Jurídica 5",
+    "desc": "Responde correctamente 100 trivias.",
+    "condition": {
+      "type": "trivia",
+      "value": 100
+    }
+  },
+  {
+    "id": "triv_200",
+    "name": "Mente Jurídica 6",
+    "desc": "Responde correctamente 200 trivias.",
+    "condition": {
+      "type": "trivia",
+      "value": 200
+    }
+  },
+  {
+    "id": "perf_1",
+    "name": "Impecable 1",
+    "desc": "Supera 1 niveles sin recibir daño.",
+    "condition": {
+      "type": "perfectLevels",
+      "value": 1
+    }
+  },
+  {
+    "id": "perf_5",
+    "name": "Impecable 2",
+    "desc": "Supera 5 niveles sin recibir daño.",
+    "condition": {
+      "type": "perfectLevels",
+      "value": 5
+    }
+  },
+  {
+    "id": "perf_15",
+    "name": "Impecable 3",
+    "desc": "Supera 15 niveles sin recibir daño.",
+    "condition": {
+      "type": "perfectLevels",
+      "value": 15
+    }
+  },
+  {
+    "id": "perf_30",
+    "name": "Impecable 4",
+    "desc": "Supera 30 niveles sin recibir daño.",
+    "condition": {
+      "type": "perfectLevels",
+      "value": 30
+    }
+  },
+  {
+    "id": "time_10",
+    "name": "Dedicación 1",
+    "desc": "Juega 10 minutos en total.",
+    "condition": {
+      "type": "minutes",
+      "value": 10
+    }
+  },
+  {
+    "id": "time_30",
+    "name": "Dedicación 2",
+    "desc": "Juega 30 minutos en total.",
+    "condition": {
+      "type": "minutes",
+      "value": 30
+    }
+  },
+  {
+    "id": "time_60",
+    "name": "Dedicación 3",
+    "desc": "Juega 60 minutos en total.",
+    "condition": {
+      "type": "minutes",
+      "value": 60
+    }
+  },
+  {
+    "id": "time_180",
+    "name": "Dedicación 4",
+    "desc": "Juega 180 minutos en total.",
+    "condition": {
+      "type": "minutes",
+      "value": 180
+    }
+  },
+  {
+    "id": "time_600",
+    "name": "Dedicación 5",
+    "desc": "Juega 600 minutos en total.",
+    "condition": {
+      "type": "minutes",
+      "value": 600
+    }
+  },
+  {
+    "id": "lvl_2",
+    "name": "Ascenso 1",
+    "desc": "Alcanza el nivel 2 de personaje.",
+    "condition": {
+      "type": "charLevel",
+      "value": 2
+    }
+  },
+  {
+    "id": "lvl_5",
+    "name": "Ascenso 2",
+    "desc": "Alcanza el nivel 5 de personaje.",
+    "condition": {
+      "type": "charLevel",
+      "value": 5
+    }
+  },
+  {
+    "id": "lvl_10",
+    "name": "Ascenso 3",
+    "desc": "Alcanza el nivel 10 de personaje.",
+    "condition": {
+      "type": "charLevel",
+      "value": 10
+    }
+  },
+  {
+    "id": "lvl_20",
+    "name": "Ascenso 4",
+    "desc": "Alcanza el nivel 20 de personaje.",
+    "condition": {
+      "type": "charLevel",
+      "value": 20
+    }
+  },
+  {
+    "id": "lvl_30",
+    "name": "Ascenso 5",
+    "desc": "Alcanza el nivel 30 de personaje.",
+    "condition": {
+      "type": "charLevel",
+      "value": 30
+    }
+  },
+  {
+    "id": "world_w1",
+    "name": "Dominio: Principios Procesales",
+    "desc": "Completa el mundo \"Principios Procesales\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w1"
+    }
+  },
+  {
+    "id": "boss_w1",
+    "name": "Vencedor: El Juez Incompetente",
+    "desc": "Derrota a El Juez Incompetente.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w1_boss"
+    }
+  },
+  {
+    "id": "world_w2",
+    "name": "Dominio: Competencia",
+    "desc": "Completa el mundo \"Competencia\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w2"
+    }
+  },
+  {
+    "id": "boss_w2",
+    "name": "Vencedor: La Excepción de Incompetencia",
+    "desc": "Derrota a La Excepción de Incompetencia.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w2_boss"
+    }
+  },
+  {
+    "id": "world_w3",
+    "name": "Dominio: Sujetos Procesales",
+    "desc": "Completa el mundo \"Sujetos Procesales\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w3"
+    }
+  },
+  {
+    "id": "boss_w3",
+    "name": "Vencedor: El Falso Representante",
+    "desc": "Derrota a El Falso Representante.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w3_boss"
+    }
+  },
+  {
+    "id": "world_w4",
+    "name": "Dominio: La Demanda",
+    "desc": "Completa el mundo \"La Demanda\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w4"
+    }
+  },
+  {
+    "id": "boss_w4",
+    "name": "Vencedor: La Demanda Oscura",
+    "desc": "Derrota a La Demanda Oscura.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w4_boss"
+    }
+  },
+  {
+    "id": "world_w5",
+    "name": "Dominio: Citación",
+    "desc": "Completa el mundo \"Citación\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w5"
+    }
+  },
+  {
+    "id": "boss_w5",
+    "name": "Vencedor: La Falta de Citación",
+    "desc": "Derrota a La Falta de Citación.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w5_boss"
+    }
+  },
+  {
+    "id": "world_w6",
+    "name": "Dominio: Contestación",
+    "desc": "Completa el mundo \"Contestación\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w6"
+    }
+  },
+  {
+    "id": "boss_w6",
+    "name": "Vencedor: La Reconvención Temeraria",
+    "desc": "Derrota a La Reconvención Temeraria.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w6_boss"
+    }
+  },
+  {
+    "id": "world_w7",
+    "name": "Dominio: La Prueba",
+    "desc": "Completa el mundo \"La Prueba\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w7"
+    }
+  },
+  {
+    "id": "boss_w7",
+    "name": "Vencedor: La Prueba Prohibida",
+    "desc": "Derrota a La Prueba Prohibida.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w7_boss"
+    }
+  },
+  {
+    "id": "world_w8",
+    "name": "Dominio: Audiencias",
+    "desc": "Completa el mundo \"Audiencias\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w8"
+    }
+  },
+  {
+    "id": "boss_w8",
+    "name": "Vencedor: El Caos de la Audiencia",
+    "desc": "Derrota a El Caos de la Audiencia.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w8_boss"
+    }
+  },
+  {
+    "id": "world_w9",
+    "name": "Dominio: Procedimiento Ordinario",
+    "desc": "Completa el mundo \"Procedimiento Ordinario\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w9"
+    }
+  },
+  {
+    "id": "boss_w9",
+    "name": "Vencedor: La Dilación Eterna",
+    "desc": "Derrota a La Dilación Eterna.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w9_boss"
+    }
+  },
+  {
+    "id": "world_w10",
+    "name": "Dominio: Procedimiento Sumario",
+    "desc": "Completa el mundo \"Procedimiento Sumario\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w10"
+    }
+  },
+  {
+    "id": "boss_w10",
+    "name": "Vencedor: El Término Vencido",
+    "desc": "Derrota a El Término Vencido.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w10_boss"
+    }
+  },
+  {
+    "id": "world_w11",
+    "name": "Dominio: Procedimiento Monitorio",
+    "desc": "Completa el mundo \"Procedimiento Monitorio\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w11"
+    }
+  },
+  {
+    "id": "boss_w11",
+    "name": "Vencedor: El Deudor Silencioso",
+    "desc": "Derrota a El Deudor Silencioso.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w11_boss"
+    }
+  },
+  {
+    "id": "world_w12",
+    "name": "Dominio: Ejecución",
+    "desc": "Completa el mundo \"Ejecución\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w12"
+    }
+  },
+  {
+    "id": "boss_w12",
+    "name": "Vencedor: El Bien Inembargable",
+    "desc": "Derrota a El Bien Inembargable.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w12_boss"
+    }
+  },
+  {
+    "id": "world_w13",
+    "name": "Dominio: Recursos",
+    "desc": "Completa el mundo \"Recursos\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w13"
+    }
+  },
+  {
+    "id": "boss_w13",
+    "name": "Vencedor: El Recurso Improcedente",
+    "desc": "Derrota a El Recurso Improcedente.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w13_boss"
+    }
+  },
+  {
+    "id": "world_w14",
+    "name": "Dominio: Medidas Cautelares",
+    "desc": "Completa el mundo \"Medidas Cautelares\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w14"
+    }
+  },
+  {
+    "id": "boss_w14",
+    "name": "Vencedor: La Contracautela Imposible",
+    "desc": "Derrota a La Contracautela Imposible.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w14_boss"
+    }
+  },
+  {
+    "id": "world_w15",
+    "name": "Dominio: Gran Litigio Final",
+    "desc": "Completa el mundo \"Gran Litigio Final\".",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w15"
+    }
+  },
+  {
+    "id": "boss_w15",
+    "name": "Vencedor: El Gran Litigante Rival",
+    "desc": "Derrota a El Gran Litigante Rival.",
+    "condition": {
+      "type": "bossDefeat",
+      "value": "w15_boss"
+    }
+  },
+  {
+    "id": "diff_estudiante",
+    "name": "Modo Estudiante",
+    "desc": "Completa un mundo en modo estudiante.",
+    "condition": {
+      "type": "difficultyWorld",
+      "value": "estudiante"
+    }
+  },
+  {
+    "id": "diff_abogado",
+    "name": "Modo Abogado",
+    "desc": "Completa un mundo en modo abogado.",
+    "condition": {
+      "type": "difficultyWorld",
+      "value": "abogado"
+    }
+  },
+  {
+    "id": "diff_experto",
+    "name": "Modo Experto",
+    "desc": "Completa un mundo en modo experto.",
+    "condition": {
+      "type": "difficultyWorld",
+      "value": "experto"
+    }
+  },
+  {
+    "id": "diff_magistrado",
+    "name": "Modo Magistrado",
+    "desc": "Completa un mundo en modo magistrado.",
+    "condition": {
+      "type": "difficultyWorld",
+      "value": "magistrado"
+    }
+  },
+  {
+    "id": "skill_velocidad",
+    "name": "Habilidad: velocidad",
+    "desc": "Mejora la habilidad \"velocidad\" al menos una vez.",
+    "condition": {
+      "type": "skillUp",
+      "value": "velocidad"
+    }
+  },
+  {
+    "id": "skill_salto",
+    "name": "Habilidad: salto",
+    "desc": "Mejora la habilidad \"salto\" al menos una vez.",
+    "condition": {
+      "type": "skillUp",
+      "value": "salto"
+    }
+  },
+  {
+    "id": "skill_memoria",
+    "name": "Habilidad: memoria",
+    "desc": "Mejora la habilidad \"memoria\" al menos una vez.",
+    "condition": {
+      "type": "skillUp",
+      "value": "memoria"
+    }
+  },
+  {
+    "id": "skill_argumentacion",
+    "name": "Habilidad: argumentacion",
+    "desc": "Mejora la habilidad \"argumentacion\" al menos una vez.",
+    "condition": {
+      "type": "skillUp",
+      "value": "argumentacion"
+    }
+  },
+  {
+    "id": "skill_analisis",
+    "name": "Habilidad: analisis",
+    "desc": "Mejora la habilidad \"analisis\" al menos una vez.",
+    "condition": {
+      "type": "skillUp",
+      "value": "analisis"
+    }
+  },
+  {
+    "id": "skill_persuasion",
+    "name": "Habilidad: persuasion",
+    "desc": "Mejora la habilidad \"persuasion\" al menos una vez.",
+    "condition": {
+      "type": "skillUp",
+      "value": "persuasion"
+    }
+  },
+  {
+    "id": "skill_concentracion",
+    "name": "Habilidad: concentracion",
+    "desc": "Mejora la habilidad \"concentracion\" al menos una vez.",
+    "condition": {
+      "type": "skillUp",
+      "value": "concentracion"
+    }
+  },
+  {
+    "id": "arbol_completo",
+    "name": "Maestro de Habilidades",
+    "desc": "Mejora todas las habilidades al máximo.",
+    "condition": {
+      "type": "skillsMaxed",
+      "value": 1
+    }
+  },
+  {
+    "id": "especialista_prueba",
+    "name": "Especialista en Prueba",
+    "desc": "Completa el mundo de La Prueba.",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w7"
+    }
+  },
+  {
+    "id": "rey_procedimiento",
+    "name": "Rey del Procedimiento",
+    "desc": "Completa los mundos Ordinario, Sumario y Monitorio.",
+    "condition": {
+      "type": "worldsComplete",
+      "value": [
+        "w9",
+        "w10",
+        "w11"
+      ]
+    }
+  },
+  {
+    "id": "maestro_cogep",
+    "name": "Maestro del COGEP",
+    "desc": "Completa el Gran Litigio Final.",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w15"
+    }
+  },
+  {
+    "id": "nunca_perdi",
+    "name": "Nunca Perdí una Audiencia",
+    "desc": "Vence a un jefe sin recibir daño.",
+    "condition": {
+      "type": "bossPerfect",
+      "value": 1
+    }
+  },
+  {
+    "id": "experto_recursos",
+    "name": "Experto en Recursos",
+    "desc": "Completa el mundo de Recursos.",
+    "condition": {
+      "type": "worldComplete",
+      "value": "w13"
+    }
+  },
+  {
+    "id": "area_w1",
+    "name": "Conocedor: Principios Procesales",
+    "desc": "Lee la lección principal del mundo \"Principios Procesales\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "principios"
+    }
+  },
+  {
+    "id": "area_w2",
+    "name": "Conocedor: Competencia",
+    "desc": "Lee la lección principal del mundo \"Competencia\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "competencia"
+    }
+  },
+  {
+    "id": "area_w3",
+    "name": "Conocedor: Sujetos Procesales",
+    "desc": "Lee la lección principal del mundo \"Sujetos Procesales\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "sujetos"
+    }
+  },
+  {
+    "id": "area_w4",
+    "name": "Conocedor: La Demanda",
+    "desc": "Lee la lección principal del mundo \"La Demanda\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "demanda"
+    }
+  },
+  {
+    "id": "area_w5",
+    "name": "Conocedor: Citación",
+    "desc": "Lee la lección principal del mundo \"Citación\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "citacion"
+    }
+  },
+  {
+    "id": "area_w6",
+    "name": "Conocedor: Contestación",
+    "desc": "Lee la lección principal del mundo \"Contestación\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "contestacion"
+    }
+  },
+  {
+    "id": "area_w7",
+    "name": "Conocedor: La Prueba",
+    "desc": "Lee la lección principal del mundo \"La Prueba\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "prueba"
+    }
+  },
+  {
+    "id": "area_w8",
+    "name": "Conocedor: Audiencias",
+    "desc": "Lee la lección principal del mundo \"Audiencias\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "audiencias"
+    }
+  },
+  {
+    "id": "area_w9",
+    "name": "Conocedor: Procedimiento Ordinario",
+    "desc": "Lee la lección principal del mundo \"Procedimiento Ordinario\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "ordinario"
+    }
+  },
+  {
+    "id": "area_w10",
+    "name": "Conocedor: Procedimiento Sumario",
+    "desc": "Lee la lección principal del mundo \"Procedimiento Sumario\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "sumario"
+    }
+  },
+  {
+    "id": "area_w11",
+    "name": "Conocedor: Procedimiento Monitorio",
+    "desc": "Lee la lección principal del mundo \"Procedimiento Monitorio\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "monitorio"
+    }
+  },
+  {
+    "id": "area_w12",
+    "name": "Conocedor: Ejecución",
+    "desc": "Lee la lección principal del mundo \"Ejecución\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "ejecucion"
+    }
+  },
+  {
+    "id": "area_w13",
+    "name": "Conocedor: Recursos",
+    "desc": "Lee la lección principal del mundo \"Recursos\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "recursos"
+    }
+  },
+  {
+    "id": "area_w14",
+    "name": "Conocedor: Medidas Cautelares",
+    "desc": "Lee la lección principal del mundo \"Medidas Cautelares\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "cautelares"
+    }
+  },
+  {
+    "id": "area_w15",
+    "name": "Conocedor: Gran Litigio Final",
+    "desc": "Lee la lección principal del mundo \"Gran Litigio Final\".",
+    "condition": {
+      "type": "lessonRead",
+      "value": "final"
+    }
+  },
+  {
+    "id": "extra_1",
+    "name": "Constancia 1",
+    "desc": "Inicia sesión de juego 1 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 1
+    }
+  },
+  {
+    "id": "extra_2",
+    "name": "Constancia 2",
+    "desc": "Inicia sesión de juego 2 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 2
+    }
+  },
+  {
+    "id": "extra_3",
+    "name": "Constancia 3",
+    "desc": "Inicia sesión de juego 3 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 3
+    }
+  },
+  {
+    "id": "extra_4",
+    "name": "Constancia 4",
+    "desc": "Inicia sesión de juego 4 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 4
+    }
+  },
+  {
+    "id": "extra_5",
+    "name": "Constancia 5",
+    "desc": "Inicia sesión de juego 5 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 5
+    }
+  },
+  {
+    "id": "extra_6",
+    "name": "Constancia 6",
+    "desc": "Inicia sesión de juego 6 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 6
+    }
+  },
+  {
+    "id": "extra_7",
+    "name": "Constancia 7",
+    "desc": "Inicia sesión de juego 7 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 7
+    }
+  },
+  {
+    "id": "extra_8",
+    "name": "Constancia 8",
+    "desc": "Inicia sesión de juego 8 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 8
+    }
+  },
+  {
+    "id": "extra_9",
+    "name": "Constancia 9",
+    "desc": "Inicia sesión de juego 9 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 9
+    }
+  },
+  {
+    "id": "extra_10",
+    "name": "Constancia 10",
+    "desc": "Inicia sesión de juego 10 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 10
+    }
+  },
+  {
+    "id": "extra_11",
+    "name": "Constancia 11",
+    "desc": "Inicia sesión de juego 11 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 11
+    }
+  },
+  {
+    "id": "extra_12",
+    "name": "Constancia 12",
+    "desc": "Inicia sesión de juego 12 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 12
+    }
+  },
+  {
+    "id": "extra_13",
+    "name": "Constancia 13",
+    "desc": "Inicia sesión de juego 13 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 13
+    }
+  },
+  {
+    "id": "extra_14",
+    "name": "Constancia 14",
+    "desc": "Inicia sesión de juego 14 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 14
+    }
+  },
+  {
+    "id": "extra_15",
+    "name": "Constancia 15",
+    "desc": "Inicia sesión de juego 15 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 15
+    }
+  },
+  {
+    "id": "extra_16",
+    "name": "Constancia 16",
+    "desc": "Inicia sesión de juego 16 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 16
+    }
+  },
+  {
+    "id": "extra_17",
+    "name": "Constancia 17",
+    "desc": "Inicia sesión de juego 17 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 17
+    }
+  },
+  {
+    "id": "extra_18",
+    "name": "Constancia 18",
+    "desc": "Inicia sesión de juego 18 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 18
+    }
+  },
+  {
+    "id": "extra_19",
+    "name": "Constancia 19",
+    "desc": "Inicia sesión de juego 19 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 19
+    }
+  },
+  {
+    "id": "extra_20",
+    "name": "Constancia 20",
+    "desc": "Inicia sesión de juego 20 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 20
+    }
+  },
+  {
+    "id": "extra_21",
+    "name": "Constancia 21",
+    "desc": "Inicia sesión de juego 21 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 21
+    }
+  },
+  {
+    "id": "extra_22",
+    "name": "Constancia 22",
+    "desc": "Inicia sesión de juego 22 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 22
+    }
+  },
+  {
+    "id": "extra_23",
+    "name": "Constancia 23",
+    "desc": "Inicia sesión de juego 23 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 23
+    }
+  },
+  {
+    "id": "extra_24",
+    "name": "Constancia 24",
+    "desc": "Inicia sesión de juego 24 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 24
+    }
+  },
+  {
+    "id": "extra_25",
+    "name": "Constancia 25",
+    "desc": "Inicia sesión de juego 25 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 25
+    }
+  },
+  {
+    "id": "extra_26",
+    "name": "Constancia 26",
+    "desc": "Inicia sesión de juego 26 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 26
+    }
+  },
+  {
+    "id": "extra_27",
+    "name": "Constancia 27",
+    "desc": "Inicia sesión de juego 27 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 27
+    }
+  },
+  {
+    "id": "extra_28",
+    "name": "Constancia 28",
+    "desc": "Inicia sesión de juego 28 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 28
+    }
+  },
+  {
+    "id": "extra_29",
+    "name": "Constancia 29",
+    "desc": "Inicia sesión de juego 29 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 29
+    }
+  },
+  {
+    "id": "extra_30",
+    "name": "Constancia 30",
+    "desc": "Inicia sesión de juego 30 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 30
+    }
+  },
+  {
+    "id": "extra_31",
+    "name": "Constancia 31",
+    "desc": "Inicia sesión de juego 31 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 31
+    }
+  },
+  {
+    "id": "extra_32",
+    "name": "Constancia 32",
+    "desc": "Inicia sesión de juego 32 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 32
+    }
+  },
+  {
+    "id": "extra_33",
+    "name": "Constancia 33",
+    "desc": "Inicia sesión de juego 33 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 33
+    }
+  },
+  {
+    "id": "extra_34",
+    "name": "Constancia 34",
+    "desc": "Inicia sesión de juego 34 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 34
+    }
+  },
+  {
+    "id": "extra_35",
+    "name": "Constancia 35",
+    "desc": "Inicia sesión de juego 35 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 35
+    }
+  },
+  {
+    "id": "extra_36",
+    "name": "Constancia 36",
+    "desc": "Inicia sesión de juego 36 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 36
+    }
+  },
+  {
+    "id": "extra_37",
+    "name": "Constancia 37",
+    "desc": "Inicia sesión de juego 37 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 37
+    }
+  },
+  {
+    "id": "extra_38",
+    "name": "Constancia 38",
+    "desc": "Inicia sesión de juego 38 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 38
+    }
+  },
+  {
+    "id": "extra_39",
+    "name": "Constancia 39",
+    "desc": "Inicia sesión de juego 39 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 39
+    }
+  },
+  {
+    "id": "extra_40",
+    "name": "Constancia 40",
+    "desc": "Inicia sesión de juego 40 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 40
+    }
+  },
+  {
+    "id": "extra_41",
+    "name": "Constancia 41",
+    "desc": "Inicia sesión de juego 41 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 41
+    }
+  },
+  {
+    "id": "extra_42",
+    "name": "Constancia 42",
+    "desc": "Inicia sesión de juego 42 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 42
+    }
+  },
+  {
+    "id": "extra_43",
+    "name": "Constancia 43",
+    "desc": "Inicia sesión de juego 43 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 43
+    }
+  },
+  {
+    "id": "extra_44",
+    "name": "Constancia 44",
+    "desc": "Inicia sesión de juego 44 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 44
+    }
+  },
+  {
+    "id": "extra_45",
+    "name": "Constancia 45",
+    "desc": "Inicia sesión de juego 45 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 45
+    }
+  },
+  {
+    "id": "extra_46",
+    "name": "Constancia 46",
+    "desc": "Inicia sesión de juego 46 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 46
+    }
+  },
+  {
+    "id": "extra_47",
+    "name": "Constancia 47",
+    "desc": "Inicia sesión de juego 47 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 47
+    }
+  },
+  {
+    "id": "extra_48",
+    "name": "Constancia 48",
+    "desc": "Inicia sesión de juego 48 veces.",
+    "condition": {
+      "type": "sessions",
+      "value": 48
+    }
+  }
+]

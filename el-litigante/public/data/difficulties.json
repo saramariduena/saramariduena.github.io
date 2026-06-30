@@ -1,0 +1,6 @@
+[
+  { "id": "estudiante", "name": "Estudiante", "desc": "Para aprender sin presión.", "lives": 6, "enemySpeedMul": 0.8, "hazardDamage": 1, "triviaTime": 25, "xpMul": 1.0 },
+  { "id": "abogado", "name": "Abogado", "desc": "Equilibrio entre reto y aprendizaje.", "lives": 4, "enemySpeedMul": 1.0, "hazardDamage": 1, "triviaTime": 20, "xpMul": 1.25 },
+  { "id": "experto", "name": "Experto", "desc": "Para quienes dominan el COGEP.", "lives": 3, "enemySpeedMul": 1.25, "hazardDamage": 2, "triviaTime": 15, "xpMul": 1.5 },
+  { "id": "magistrado", "name": "Magistrado", "desc": "Máxima exigencia procesal.", "lives": 2, "enemySpeedMul": 1.5, "hazardDamage": 2, "triviaTime": 12, "xpMul": 2.0 }
+]

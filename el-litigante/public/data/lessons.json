@@ -1,0 +1,241 @@
+{
+  "_meta": {
+    "fuente": "Código Orgánico General de Procesos (COGEP) — Ecuador. R.O. Suplemento 506, 22-may-2015 y reformas.",
+    "disclaimer": "Contenido educativo. NO sustituye el estudio del texto oficial. Verifica cada artículo contra la versión vigente del COGEP, ya que las reformas pueden cambiar la numeración o el contenido.",
+    "version_contenido": "2024.1"
+  },
+  "principios": {
+    "titulo": "Principios rectores del proceso",
+    "explicacion": "El proceso civil ecuatoriano se rige por la oralidad y por principios que garantizan un juicio justo. La jueza o el juez dirige el proceso y vela por su impulso.",
+    "articulo": "COGEP Arts. 2 al 8 (principios; relación con la Constitución Art. 168-169 y el COFJ)",
+    "resumen": "Oralidad, inmediación, contradicción, dispositivo, dirección judicial, buena fe y lealtad procesal, debido proceso.",
+    "ejemplo": "En una audiencia, las partes exponen sus argumentos de viva voz ante el juez (oralidad e inmediación), y cada una puede rebatir a la otra (contradicción).",
+    "consejo": "Domina los principios: son la brújula para interpretar cualquier norma procesal cuando hay vacíos o dudas.",
+    "trivia": {
+      "pregunta": "¿Qué principio exige que el juez esté presente y perciba directamente la prueba?",
+      "opciones": ["Dispositivo", "Inmediación", "Preclusión", "Publicidad"],
+      "correcta": 1
+    }
+  },
+  "direccion": {
+    "titulo": "Dirección del proceso e impulso",
+    "explicacion": "La dirección del proceso corresponde a la jueza o juez, quien debe controlar las actividades de las partes y evitar dilaciones, procurando la economía procesal.",
+    "articulo": "COGEP Art. 3 (dirección del proceso)",
+    "resumen": "El juez dirige, ordena y depura el proceso; sanciona la mala fe y la temeridad.",
+    "ejemplo": "El juez rechaza un incidente meramente dilatorio para no retrasar la audiencia de juicio.",
+    "consejo": "No confundas dirección judicial con parcialidad: dirigir es ordenar el proceso, no favorecer a una parte.",
+    "trivia": {
+      "pregunta": "¿A quién corresponde la dirección del proceso?",
+      "opciones": ["A la parte actora", "Al secretario", "A la jueza o juez", "Al perito"],
+      "correcta": 2
+    }
+  },
+  "competencia": {
+    "titulo": "Competencia",
+    "explicacion": "La competencia es la medida en que se distribuye la jurisdicción entre los distintos juzgados. Se fija por materia, territorio, personas y grados.",
+    "articulo": "COGEP Arts. 9 y siguientes (competencia y su prórroga)",
+    "resumen": "Jurisdicción es la potestad de juzgar; competencia es el límite concreto dentro del cual cada juez la ejerce.",
+    "ejemplo": "Una demanda de inquilinato sobre un inmueble en Guayaquil se presenta ante el juez competente del domicilio del demandado o del lugar del inmueble.",
+    "consejo": "Verifica la competencia ANTES de demandar: una demanda ante juez incompetente puede generar excepciones y pérdida de tiempo.",
+    "trivia": {
+      "pregunta": "La competencia se fija principalmente por materia, territorio, personas y…",
+      "opciones": ["Grados", "Monedas", "Sorteo libre", "Antigüedad del abogado"],
+      "correcta": 0
+    }
+  },
+  "sujetos": {
+    "titulo": "Sujetos procesales",
+    "explicacion": "Son sujetos del proceso quienes intervienen: la parte actora, la demandada, el juez y los terceros. Se requiere capacidad para comparecer, por sí o mediante procurador judicial.",
+    "articulo": "COGEP Título II (capacidad y comparecencia; procuración judicial)",
+    "resumen": "Capacidad para ser parte y capacidad procesal; representación legal y voluntaria.",
+    "ejemplo": "Una persona menor de edad comparece a través de su representante legal; una empresa, mediante su representante o un procurador judicial.",
+    "consejo": "Confirma la legitimación en la causa: ser titular del derecho discutido es distinto de tener capacidad procesal.",
+    "trivia": {
+      "pregunta": "¿Quién puede comparecer en nombre de otro mediante poder?",
+      "opciones": ["El testigo", "El procurador judicial", "El perito", "El secretario"],
+      "correcta": 1
+    }
+  },
+  "demanda": {
+    "titulo": "La demanda",
+    "explicacion": "La demanda es el acto con el que se ejerce la acción. Debe cumplir requisitos de forma y de fondo; si está incompleta, el juez ordena completarla o aclararla.",
+    "articulo": "COGEP Art. 142 (contenido de la demanda); Art. 143 (anexos); Art. 146-147 (calificación)",
+    "resumen": "Designación del juez, datos de las partes, hechos, fundamentos de derecho, pretensión clara y anuncio de prueba.",
+    "ejemplo": "El actor narra los hechos cronológicamente, invoca las normas aplicables y pide expresamente lo que reclama, anunciando la prueba que rendirá.",
+    "consejo": "Una pretensión clara y un buen anuncio de prueba desde la demanda evitan que tu caso naufrague después.",
+    "trivia": {
+      "pregunta": "¿Qué NO puede faltar en la demanda?",
+      "opciones": ["El color del papel", "La pretensión clara", "La firma del testigo", "El sello del perito"],
+      "correcta": 1
+    }
+  },
+  "citacion": {
+    "titulo": "Citación",
+    "explicacion": "La citación es el acto por el cual se hace conocer a la parte demandada el contenido de la demanda y la providencia que la califica, garantizando su derecho de defensa.",
+    "articulo": "COGEP Arts. 53 al 60 (citación y sus formas)",
+    "resumen": "Formas: en persona, por boletas y a través de medios de comunicación cuando se desconoce el domicilio o individualidad del demandado.",
+    "ejemplo": "Si no se ubica al demandado tras buscarlo, el juez puede autorizar la citación por la prensa o medios oficiales, bajo declaración bajo juramento.",
+    "consejo": "Sin citación válida no hay proceso válido: es una de las causas más comunes de nulidad.",
+    "trivia": {
+      "pregunta": "¿Qué garantiza fundamentalmente la citación?",
+      "opciones": ["La condena", "El derecho de defensa", "El cobro de costas", "La apelación"],
+      "correcta": 1
+    }
+  },
+  "contestacion": {
+    "titulo": "Contestación a la demanda",
+    "explicacion": "Es la respuesta del demandado. Puede allanarse, contradecir los hechos, proponer excepciones previas y reconvenir (contrademandar), anunciando también su prueba.",
+    "articulo": "COGEP Arts. 151 al 154 (contestación, excepciones previas y reconvención)",
+    "resumen": "Pronunciamiento sobre los hechos, excepciones previas, reconvención y anuncio de prueba dentro del término legal.",
+    "ejemplo": "El demandado niega los hechos, alega prescripción como excepción y reconviene exigiendo el pago de daños.",
+    "consejo": "No olvides anunciar tu prueba en la contestación: lo que no anuncias, por regla general, no podrás practicarlo luego.",
+    "trivia": {
+      "pregunta": "Contrademandar dentro de la contestación se llama:",
+      "opciones": ["Allanamiento", "Reconvención", "Recusación", "Caducidad"],
+      "correcta": 1
+    }
+  },
+  "prueba": {
+    "titulo": "La prueba",
+    "explicacion": "La prueba sirve para acreditar los hechos. Debe ser anunciada oportunamente, ser pertinente, útil y conducente, y haberse obtenido lícitamente.",
+    "articulo": "COGEP Arts. 158 y siguientes (prueba; medios: documental, testimonial, pericial, inspección)",
+    "resumen": "Medios de prueba: documental, testimonial, pericial e inspección judicial. La prueba ilícita carece de eficacia.",
+    "ejemplo": "Una grabación obtenida violando la intimidad sin autorización puede ser excluida por ilícita.",
+    "consejo": "Pertinencia + licitud + oportunidad: si falla cualquiera de las tres, tu prueba puede ser inadmitida.",
+    "trivia": {
+      "pregunta": "¿Cuál NO es un medio de prueba típico del COGEP?",
+      "opciones": ["Documental", "Testimonial", "Pericial", "Adivinación"],
+      "correcta": 3
+    }
+  },
+  "audiencias": {
+    "titulo": "Las audiencias",
+    "explicacion": "El proceso es por audiencias. En el ordinario hay audiencia preliminar (saneamiento, conciliación, admisión de prueba) y audiencia de juicio (práctica de prueba y alegatos).",
+    "articulo": "COGEP Arts. 289 y siguientes (audiencias del procedimiento ordinario)",
+    "resumen": "Preliminar: depura el proceso y fija el objeto del debate. Juicio: se practica la prueba y se alega; el juez resuelve.",
+    "ejemplo": "En la preliminar el juez intenta conciliar; si no hay acuerdo, admite la prueba pertinente y convoca a juicio.",
+    "consejo": "Llega a la audiencia con tu teoría del caso clara: la oralidad premia la preparación, no la improvisación.",
+    "trivia": {
+      "pregunta": "¿En qué audiencia del ordinario se practica la prueba?",
+      "opciones": ["Preliminar", "De juicio", "De casación", "De sorteo"],
+      "correcta": 1
+    }
+  },
+  "ordinario": {
+    "titulo": "Procedimiento ordinario",
+    "explicacion": "Es el procedimiento de conocimiento general para las pretensiones que no tienen un trámite especial. Se desarrolla en dos audiencias: preliminar y de juicio.",
+    "articulo": "COGEP Arts. 289 al 295 (procedimiento ordinario)",
+    "resumen": "Demanda → calificación → citación → contestación → audiencia preliminar → audiencia de juicio → sentencia.",
+    "ejemplo": "Una pretensión declarativa de dominio sin trámite especial se sustancia en vía ordinaria.",
+    "consejo": "Si dudas del procedimiento aplicable, recuerda: el ordinario es la regla residual cuando no hay trámite especial.",
+    "trivia": {
+      "pregunta": "El procedimiento ordinario se desarrolla en:",
+      "opciones": ["Una sola audiencia", "Dos audiencias", "Cinco audiencias", "Ninguna audiencia"],
+      "correcta": 1
+    }
+  },
+  "sumario": {
+    "titulo": "Procedimiento sumario",
+    "explicacion": "Es un procedimiento más ágil, concentrado en una sola audiencia, previsto para ciertas materias señaladas por la ley.",
+    "articulo": "COGEP Arts. 332 al 335 (procedimiento sumario)",
+    "resumen": "Trámite concentrado en audiencia única para casos como inquilinato, alimentos u otros que la ley determine.",
+    "ejemplo": "Una controversia de inquilinato se tramita por la vía sumaria, con audiencia única.",
+    "consejo": "En el sumario los términos son más cortos: organiza tu prueba con antelación porque todo se concentra.",
+    "trivia": {
+      "pregunta": "El procedimiento sumario se caracteriza por:",
+      "opciones": ["Audiencia única y mayor celeridad", "No tener audiencias", "Durar más que el ordinario", "Prohibir la prueba"],
+      "correcta": 0
+    }
+  },
+  "monitorio": {
+    "titulo": "Procedimiento monitorio",
+    "explicacion": "Es la vía para cobrar deudas determinadas, líquidas, exigibles y de cuantía limitada que constan en ciertos documentos. Si el deudor no se opone, se forma título de ejecución.",
+    "articulo": "COGEP Arts. 356 al 361 (procedimiento monitorio)",
+    "resumen": "Reclamo de deuda documentada; si no hay oposición del deudor, la orden de pago adquiere fuerza ejecutiva.",
+    "ejemplo": "Un acreedor cobra una deuda respaldada en un documento; citado el deudor, si no se opone, se ejecuta.",
+    "consejo": "El silencio del deudor en el monitorio juega en su contra: por eso es una vía rápida para el acreedor diligente.",
+    "trivia": {
+      "pregunta": "¿Qué ocurre si el deudor NO se opone en el monitorio?",
+      "opciones": ["Se archiva", "Se forma título y se ejecuta", "Se repite la citación", "Se anula todo"],
+      "correcta": 1
+    }
+  },
+  "ejecucion": {
+    "titulo": "Ejecución",
+    "explicacion": "La ejecución hace efectivo lo resuelto. Procede sobre títulos de ejecución (sentencias ejecutoriadas, laudos, actas de mediación, entre otros) y obligaciones ejecutivas.",
+    "articulo": "COGEP Arts. 362 y siguientes (ejecución y títulos de ejecución)",
+    "resumen": "Se ejecuta lo que ya es exigible; el ejecutado puede oponerse solo por causas tasadas en la ley.",
+    "ejemplo": "Con una sentencia ejecutoriada de pago, el acreedor pide medidas para hacer efectivo el cobro.",
+    "consejo": "Ganar el juicio no es el final: la ejecución es donde la sentencia se vuelve realidad. Prepárala desde el inicio.",
+    "trivia": {
+      "pregunta": "¿Cuál es un título de ejecución?",
+      "opciones": ["Una conversación", "Una sentencia ejecutoriada", "Un borrador de demanda", "Un volante publicitario"],
+      "correcta": 1
+    }
+  },
+  "recursos": {
+    "titulo": "Recursos",
+    "explicacion": "Los recursos permiten impugnar las resoluciones. Existen horizontales (aclaración, ampliación, revocatoria, reforma) y verticales (apelación, casación y de hecho).",
+    "articulo": "COGEP Arts. 250 y siguientes (recursos); apelación Art. 256; casación Art. 266",
+    "resumen": "Apelación: ante el superior por errores de la sentencia. Casación: control de legalidad por causales tasadas.",
+    "ejemplo": "Inconforme con la sentencia, la parte apela; si persiste un vicio de legalidad, puede intentar casación.",
+    "consejo": "Cuida los términos para recurrir: un recurso presentado fuera de tiempo se rechaza por extemporáneo.",
+    "trivia": {
+      "pregunta": "¿Cuál es un recurso vertical?",
+      "opciones": ["Aclaración", "Revocatoria", "Apelación", "Ampliación"],
+      "correcta": 2
+    }
+  },
+  "cautelares": {
+    "titulo": "Providencias preventivas y medidas cautelares",
+    "explicacion": "Aseguran el resultado del proceso evitando que el demandado torne ilusoria la ejecución. Ejemplos: prohibición de enajenar, secuestro, retención y arraigo.",
+    "articulo": "COGEP Arts. 124 al 133 (providencias preventivas)",
+    "resumen": "Buscan garantizar bienes o personas mientras dura el proceso; suelen requerir contracautela.",
+    "ejemplo": "Para asegurar el cobro, el actor solicita la prohibición de enajenar un inmueble del demandado.",
+    "consejo": "Pide la cautelar con fundamento: sin verosimilitud del derecho y peligro en la demora, será negada.",
+    "trivia": {
+      "pregunta": "¿Cuál es una medida cautelar real?",
+      "opciones": ["La prohibición de enajenar", "La apelación", "La conciliación", "El alegato final"],
+      "correcta": 0
+    }
+  },
+  "final": {
+    "titulo": "El Gran Litigio Final",
+    "explicacion": "Integra todo el proceso: desde la competencia y la demanda hasta la prueba, las audiencias, la sentencia, los recursos y la ejecución. El buen litigante domina el conjunto.",
+    "articulo": "COGEP — visión integral del proceso por audiencias",
+    "resumen": "El éxito procesal nace de planear la estrategia desde la demanda pensando ya en la ejecución.",
+    "ejemplo": "El litigante experto anticipa excepciones, asegura la citación, blinda su prueba y planea la cautelar y la ejecución.",
+    "consejo": "Piensa el caso al revés: empieza por la ejecución que quieres lograr y construye hacia atrás.",
+    "trivia": {
+      "pregunta": "¿Qué distingue al gran litigante?",
+      "opciones": ["Improvisar", "La visión integral del proceso", "Ignorar los términos", "Evitar las audiencias"],
+      "correcta": 1
+    }
+  },
+  "w1_l1": {
+    "titulo": "Oralidad: el proceso se habla",
+    "explicacion": "El COGEP cambió el proceso escrito por uno oral. Las decisiones de fondo se toman en audiencia, escuchando a las partes.",
+    "articulo": "COGEP Art. 4 (oralidad) y Constitución Art. 168.6",
+    "resumen": "La oralidad concentra el debate en audiencias públicas y continuas.",
+    "ejemplo": "El abogado expone su alegato de viva voz; no basta con el escrito.",
+    "consejo": "Entrena tu oratoria: en el COGEP, quien comunica mejor, litiga mejor.",
+    "trivia": {
+      "pregunta": "El COGEP privilegia un proceso principalmente:",
+      "opciones": ["Escrito", "Oral", "Secreto", "Telepático"],
+      "correcta": 1
+    }
+  },
+  "w1_l2": {
+    "titulo": "Contradicción y buena fe",
+    "explicacion": "Toda parte tiene derecho a conocer y rebatir lo que alega la contraria, siempre actuando con lealtad y buena fe procesal.",
+    "articulo": "COGEP Art. 165 (contradicción de la prueba) y deberes de lealtad",
+    "resumen": "Nadie puede ser condenado sin oportunidad de defenderse; la mala fe se sanciona.",
+    "ejemplo": "Se corre traslado de un documento para que la otra parte lo conozca y lo objete.",
+    "consejo": "Litiga fuerte, pero limpio: la temeridad puede costarte sanciones y credibilidad.",
+    "trivia": {
+      "pregunta": "El derecho a rebatir lo de la contraparte es el principio de:",
+      "opciones": ["Preclusión", "Contradicción", "Gratuidad", "Oralidad"],
+      "correcta": 1
+    }
+  }
+}

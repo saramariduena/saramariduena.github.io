@@ -1,0 +1,9 @@
+[
+  { "id": "velocidad", "name": "Mayor Velocidad", "desc": "El Litigante corre más rápido entre diligencias.", "maxLevel": 3, "cost": 50, "effect": "moveSpeed", "perLevel": 30 },
+  { "id": "salto", "name": "Mayor Salto", "desc": "Salta más alto para alcanzar la jurisprudencia.", "maxLevel": 3, "cost": 50, "effect": "jumpPower", "perLevel": 40 },
+  { "id": "memoria", "name": "Memoria Jurídica", "desc": "Recuerda artículos: +tiempo en las trivias.", "maxLevel": 3, "cost": 60, "effect": "triviaTime", "perLevel": 5 },
+  { "id": "argumentacion", "name": "Argumentación", "desc": "Tus argumentos dañan más a los errores procesales.", "maxLevel": 3, "cost": 70, "effect": "stompPower", "perLevel": 1 },
+  { "id": "analisis", "name": "Análisis", "desc": "Detecta LEX extra al vencer enemigos.", "maxLevel": 3, "cost": 60, "effect": "lexBonus", "perLevel": 2 },
+  { "id": "persuasion", "name": "Persuasión", "desc": "Segundas oportunidades en las trivias.", "maxLevel": 2, "cost": 80, "effect": "triviaRetry", "perLevel": 1 },
+  { "id": "concentracion", "name": "Concentración", "desc": "Resistes un golpe extra por nivel (escudo inicial).", "maxLevel": 2, "cost": 90, "effect": "startShield", "perLevel": 1 }
+]
