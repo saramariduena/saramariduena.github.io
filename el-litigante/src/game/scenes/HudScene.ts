@@ -31,6 +31,10 @@ export class HudScene extends Phaser.Scene {
     const pause = this.add.text(w - 20, 14, '⏸', { fontSize: '30px', color: '#ffffff' }).setOrigin(1, 0).setScrollFactor(0).setInteractive({ useHandCursor: true });
     pause.on('pointerup', () => bus.emit('ui:pause'));
 
+    // Botón para salir al mapa.
+    const exit = this.add.text(w - 64, 16, '🗺 Mapa', { fontFamily: 'Segoe UI', fontSize: '18px', color: '#ffffff', fontStyle: 'bold', stroke: '#0b1d33', strokeThickness: 4 }).setOrigin(1, 0).setScrollFactor(0).setInteractive({ useHandCursor: true });
+    exit.on('pointerup', () => bus.emit('ui:exitmap'));
+
     this.buildTouchControls();
 
     bus.on('hud:update', this.onUpdate, this);

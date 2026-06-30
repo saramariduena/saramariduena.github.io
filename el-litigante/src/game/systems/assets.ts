@@ -52,29 +52,53 @@ export function generateTextures(scene: Phaser.Scene) {
     g.strokeRoundedRect(1, 1, TILE - 2, TILE / 2 - 2, 6);
   });
 
-  // El Litigante: traje formal con corbata. Cuerpo 44x60.
-  make(scene, TEX.player, 44, 62, (g) => {
-    // cabeza
-    g.fillStyle(0xf1c27d, 1);
-    g.fillCircle(22, 13, 11);
-    // pelo
-    g.fillStyle(0x3a2a1a, 1);
-    g.fillRect(11, 2, 22, 8);
+  // El Litigante: traje formal con corbata y CARA. Cuerpo 44x64.
+  make(scene, TEX.player, 44, 64, (g) => {
     // cuerpo / saco
     g.fillStyle(0x1f3a5f, 1);
-    g.fillRoundedRect(6, 24, 32, 30, 6);
+    g.fillRoundedRect(6, 26, 32, 30, 6);
     // camisa
     g.fillStyle(0xffffff, 1);
-    g.fillTriangle(22, 24, 14, 24, 22, 40);
-    g.fillTriangle(22, 24, 30, 24, 22, 40);
+    g.fillTriangle(22, 26, 14, 26, 22, 42);
+    g.fillTriangle(22, 26, 30, 26, 22, 42);
     // corbata
     g.fillStyle(0xc0392b, 1);
-    g.fillTriangle(22, 26, 19, 30, 25, 30);
-    g.fillRect(20, 30, 4, 12);
+    g.fillTriangle(22, 28, 19, 32, 25, 32);
+    g.fillRect(20, 32, 4, 12);
     // piernas
     g.fillStyle(0x14253d, 1);
-    g.fillRect(10, 54, 9, 8);
-    g.fillRect(25, 54, 9, 8);
+    g.fillRect(10, 56, 9, 8);
+    g.fillRect(25, 56, 9, 8);
+    // cabeza (piel)
+    g.fillStyle(0xf1c27d, 1);
+    g.fillCircle(22, 14, 12);
+    // orejas
+    g.fillCircle(10, 15, 2.5);
+    g.fillCircle(34, 15, 2.5);
+    // pelo
+    g.fillStyle(0x3a2a1a, 1);
+    g.fillRect(11, 1, 22, 7);
+    g.fillRect(10, 6, 4, 6);
+    g.fillRect(30, 6, 4, 6);
+    // cejas
+    g.fillStyle(0x2a1c10, 1);
+    g.fillRect(15, 11, 5, 2);
+    g.fillRect(24, 11, 5, 2);
+    // ojos (blanco + pupila)
+    g.fillStyle(0xffffff, 1);
+    g.fillCircle(17, 15, 3.2);
+    g.fillCircle(27, 15, 3.2);
+    g.fillStyle(0x1a1a2a, 1);
+    g.fillCircle(18, 15, 1.7);
+    g.fillCircle(28, 15, 1.7);
+    // nariz
+    g.fillStyle(0xe0a96d, 1);
+    g.fillCircle(22, 18, 1.8);
+    // sonrisa (arco)
+    g.lineStyle(2, 0x8a3a2a, 1);
+    g.beginPath();
+    g.arc(22, 19, 5, Phaser.Math.DegToRad(20), Phaser.Math.DegToRad(160), false);
+    g.strokePath();
   });
 
   // Enemigo (error procesal): mancha con ojos enojados (se tiñe por color).

@@ -94,12 +94,12 @@ export function generateLayout(params: GeneratorParams, levelIndex: number): str
   const width = Math.max(24, params.width);
   const grid: string[][] = Array.from({ length: ROWS }, () => Array(width).fill(' '));
 
-  // Suelo con huecos saltables.
+  // Suelo con pocos huecos y siempre saltables (1-2 columnas).
   let c = 0;
   while (c < width) {
-    const makeGap = c > 4 && c < width - 5 && rand() < 0.14;
+    const makeGap = c > 6 && c < width - 6 && rand() < 0.06;
     if (makeGap) {
-      const gap = 2 + Math.floor(rand() * 2); // 2-3 columnas
+      const gap = 1 + Math.floor(rand() * 2); // 1-2 columnas
       c += gap;
     } else {
       for (let r = groundTop; r < ROWS; r++) grid[r][c] = '#';
@@ -135,8 +135,9 @@ export function generateLayout(params: GeneratorParams, levelIndex: number): str
     const hasGround = grid[groundTop][x] === '#';
     if (!hasGround) continue;
     if (grid[entityRow][x] !== ' ') continue;
-    if (rand() < params.enemyDensity) grid[entityRow][x] = 'e';
-    else if (rand() < params.hazardDensity) grid[entityRow][x] = '^';
+    // Densidades reducidas para que sea más accesible.
+    if (rand() < params.enemyDensity * 0.6) grid[entityRow][x] = 'e';
+    else if (rand() < params.hazardDensity * 0.5) grid[entityRow][x] = '^';
     else if (rand() < params.coinDensity) grid[entityRow][x] = 'c';
   }
 

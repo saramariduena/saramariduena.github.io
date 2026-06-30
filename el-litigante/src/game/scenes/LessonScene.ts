@@ -11,6 +11,7 @@ interface LessonInit {
   palette: Palette;
   unlocked: string[];
   next: { action: string; worldId?: string; index?: number; isBoss?: boolean };
+  readOnly?: boolean;
 }
 
 export class LessonScene extends Phaser.Scene {
@@ -77,8 +78,15 @@ export class LessonScene extends Phaser.Scene {
     }
 
     // Botón continuar (aparece tras responder).
-    this.continueBtn = makeButton(this, GAME_WIDTH / 2, GAME_HEIGHT - 40, 'Continuar ▶', () => this.proceed(), { width: 320, height: 56, primary: true });
-    this.continueBtn.setAlpha(0.4);
+    const contLabel = this.initData.readOnly ? 'Volver al mapa ▶' : 'Continuar ▶';
+    this.continueBtn = makeButton(this, GAME_WIDTH / 2, GAME_HEIGHT - 40, contLabel, () => this.proceed(), { width: 320, height: 56, primary: true });
+    // En modo lectura se puede continuar sin responder la trivia.
+    if (this.initData.readOnly) {
+      this.answered = true;
+      this.enableContinue();
+    } else {
+      this.continueBtn.setAlpha(0.4);
+    }
   }
 
   private continueBtn!: Phaser.GameObjects.Container;

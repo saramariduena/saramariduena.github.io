@@ -2,11 +2,13 @@
 export const GAME_WIDTH = 1280;
 export const GAME_HEIGHT = 720;
 export const TILE = 64;
-export const GRAVITY_Y = 1500;
+export const GRAVITY_Y = 1250;
 
-export const BASE_MOVE_SPEED = 220;
-export const RUN_MULTIPLIER = 1.6;
-export const JUMP_VELOCITY = -620;
+export const BASE_MOVE_SPEED = 240;
+export const RUN_MULTIPLIER = 1.5;
+export const JUMP_VELOCITY = -660;
+// Tiempo de "coyote": permite saltar un instante después de dejar el borde.
+export const COYOTE_MS = 130;
 
 // Paletas de tema (modo claro / oscuro) para los menús.
 export const THEME = {

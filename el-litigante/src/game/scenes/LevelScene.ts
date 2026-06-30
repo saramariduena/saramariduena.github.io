@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { TILE, BASE_MOVE_SPEED, RUN_MULTIPLIER, JUMP_VELOCITY, GAME_WIDTH, GAME_HEIGHT } from '../../config/gameConfig';
+import { TILE, BASE_MOVE_SPEED, RUN_MULTIPLIER, JUMP_VELOCITY, COYOTE_MS, GAME_WIDTH, GAME_HEIGHT } from '../../config/gameConfig';
 import { store } from '../../core/store';
 import { grantXp, skillEffect } from '../../core/rpg';
 import { evaluateAchievements } from '../../core/achievements';
@@ -55,6 +55,8 @@ export class LevelScene extends Phaser.Scene {
   private bossHp = 0;
   private bossMaxHp = 0;
   private paused = false;
+  private intro = false;
+  private lastOnGround = 0;
 
   constructor() {
     super('Level');
@@ -111,16 +113,24 @@ export class LevelScene extends Phaser.Scene {
     this.input.keyboard!.addKey('ESC').on('down', () => this.togglePause());
 
     // HUD.
+    // Periodo de gracia inicial (sin daño) para orientarse.
+    this.invulnUntil = 1600;
+
     this.scene.launch('Hud');
     bus.on('ui:pause', this.togglePause, this);
     bus.on('hud:request', this.emitHud, this);
+    bus.on('ui:exitmap', this.exitToMap, this);
     this.emitHud();
 
     this.events.once('shutdown', () => {
       bus.off('ui:pause', this.togglePause, this);
       bus.off('hud:request', this.emitHud, this);
+      bus.off('ui:exitmap', this.exitToMap, this);
       this.scene.stop('Hud');
     });
+
+    // Tarjeta educativa antes de jugar: enseña aunque aún no ganes.
+    this.showIntro();
   }
 
   // ---- Construcción del mundo ----
@@ -229,7 +239,7 @@ export class LevelScene extends Phaser.Scene {
   private isStomp(target: Phaser.Physics.Arcade.Sprite): boolean {
     const pb = this.player.body as Phaser.Physics.Arcade.Body;
     const tb = target.body as Phaser.Physics.Arcade.Body;
-    return pb.velocity.y > 0 && pb.bottom <= tb.top + 16;
+    return pb.velocity.y > -40 && pb.bottom <= tb.top + 24;
   }
 
   private onEnemy(enemy: Phaser.Physics.Arcade.Sprite) {
@@ -304,8 +314,8 @@ export class LevelScene extends Phaser.Scene {
     this.lives -= amount;
     this.flashPlayer(0xff4d4d);
     this.cameras.main.shake(150, 0.01);
-    // Empujón hacia atrás.
-    this.player.setVelocity(this.player.flipX ? 200 : -200, -260);
+    // Empujón hacia atrás (suave).
+    this.player.setVelocity(this.player.flipX ? 140 : -140, -200);
     this.emitHud();
     if (this.lives <= 0) this.gameOver();
   }
@@ -395,6 +405,48 @@ export class LevelScene extends Phaser.Scene {
     overlay.add([retry, menu]);
   }
 
+  private exitToMap() {
+    if (this.finished) return;
+    this.scene.stop('Hud');
+    this.scene.start('WorldSelect');
+  }
+
+  // ---- Intro educativa ----
+  private showIntro() {
+    const lessonId = this.isBoss ? this.world.boss.lessonId : worldLevels(this.world)[this.levelIndex]?.lessonId;
+    const lesson = store.content.lessons[lessonId] || store.content.lessons['principios'];
+    this.markLessonRead(lessonId);
+    evaluateAchievements(store.active!, store.content);
+    store.persistProfiles();
+
+    this.intro = true;
+    this.physics.pause();
+    const { width, height } = this.scale;
+    const layer = this.add.container(0, 0).setScrollFactor(0).setDepth(9500).setName('introLayer');
+    layer.add(this.add.rectangle(width / 2, height / 2, width, height, 0x0b1d33, 0.92));
+    layer.add(this.add.rectangle(width / 2, height / 2, 880, 440, 0x13294b, 1).setStrokeStyle(3, 0xf5d547));
+    layer.add(this.add.text(width / 2, height / 2 - 180, this.isBoss ? `JEFE: ${this.world.boss.name}` : `${this.world.title}`, { fontFamily: 'Georgia, serif', fontSize: '30px', color: '#f5d547', fontStyle: 'bold', align: 'center' }).setOrigin(0.5));
+    layer.add(this.add.text(width / 2, height / 2 - 130, lesson.titulo, { fontFamily: 'Segoe UI', fontSize: '24px', color: '#ffffff', fontStyle: 'bold', align: 'center', wordWrap: { width: 800 } }).setOrigin(0.5));
+    layer.add(this.add.text(width / 2, height / 2 - 60, lesson.explicacion, { fontFamily: 'Segoe UI', fontSize: '18px', color: '#eaf2ff', align: 'center', wordWrap: { width: 780 }, lineSpacing: 4 }).setOrigin(0.5));
+    layer.add(this.add.text(width / 2, height / 2 + 50, '📜 ' + lesson.articulo, { fontFamily: 'Segoe UI', fontSize: '16px', color: '#f5d547', align: 'center', wordWrap: { width: 780 } }).setOrigin(0.5));
+    layer.add(this.add.text(width / 2, height / 2 + 95, '🎯 Llega a la 🚩 meta. Salta sobre los errores (👾) para vencerlos.', { fontFamily: 'Segoe UI', fontSize: '15px', color: '#9fb3d1', align: 'center', wordWrap: { width: 780 } }).setOrigin(0.5));
+
+    const btn = this.add.text(width / 2, height / 2 + 165, '▶  ¡JUGAR!', { fontFamily: 'Segoe UI', fontSize: '28px', color: '#0b1d33', fontStyle: 'bold', backgroundColor: '#f5d547', padding: { x: 32, y: 12 } }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+    layer.add(btn);
+    this.add.text(width / 2, height / 2 + 205, '(toca la pantalla o pulsa una tecla para empezar)', { fontFamily: 'Segoe UI', fontSize: '13px', color: '#9fb3d1' }).setOrigin(0.5).setDepth(9600);
+
+    const start = () => {
+      if (!this.intro) return;
+      layer.destroy();
+      this.intro = false;
+      this.physics.resume();
+    };
+    // Empezar tocando en cualquier parte, con el botón, o con una tecla.
+    this.input.once('pointerup', start);
+    this.input.keyboard!.once('keydown', start);
+    btn.on('pointerup', start);
+  }
+
   // ---- Pausa ----
   private togglePause() {
     if (this.finished) return;
@@ -452,7 +504,7 @@ export class LevelScene extends Phaser.Scene {
 
   // ---- Bucle ----
   update() {
-    if (this.finished || this.paused || !this.player.body) return;
+    if (this.finished || this.paused || this.intro || !this.player.body) return;
     const body = this.player.body as Phaser.Physics.Arcade.Body;
 
     // Entrada combinada: teclado + táctil + gamepad.
@@ -479,16 +531,22 @@ export class LevelScene extends Phaser.Scene {
     }
 
     const onGround = body.blocked.down || body.touching.down;
-    if (onGround) this.jumpsLeft = 1;
+    if (onGround) {
+      this.jumpsLeft = 1;
+      this.lastOnGround = this.time.now;
+    }
+    const canGroundJump = onGround || this.time.now - this.lastOnGround <= COYOTE_MS;
 
     const jumpPressed = jumpDown && !this.prevJump;
     this.prevJump = jumpDown;
     if (jumpPressed) {
       const jv = JUMP_VELOCITY - skillEffect(store.active!, store.content, 'jumpPower');
-      if (onGround) {
+      if (canGroundJump) {
         this.player.setVelocityY(jv);
+        this.lastOnGround = 0;
+        this.jumpsLeft = 1; // permite además un salto en el aire
       } else if (this.jumpsLeft > 0) {
-        this.player.setVelocityY(jv * 0.92);
+        this.player.setVelocityY(jv * 0.95);
         this.jumpsLeft = 0;
         this.burst(this.player.x, this.player.y + 20, 0xbfe3ff);
       }
