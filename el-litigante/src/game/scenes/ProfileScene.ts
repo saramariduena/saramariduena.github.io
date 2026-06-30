@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { GAME_WIDTH, GAME_HEIGHT } from '../../config/gameConfig';
 import { store } from '../../core/store';
 import { upgradeSkill, skillPrice, xpForLevel } from '../../core/rpg';
+import { rankIndex, rankName, nextRankNeed } from '../../core/ranks';
 import { evaluateAchievements } from '../../core/achievements';
 import { makeButton, title, label, paintBackground, theme, fs } from '../ui/widgets';
 
@@ -49,8 +50,12 @@ export class ProfileScene extends Phaser.Scene {
     const casesTotal = store.content.cases.length;
     const pct = Math.round((p.casesWon.length / casesTotal) * 100);
     const nextLvl = xpForLevel(p.charLevel + 1);
+    const tier = rankIndex(store.content.ranks, p);
+    const rk = store.content.ranks[tier];
+    const next = nextRankNeed(store.content.ranks, p);
     const lines = [
-      `Nombre: ${p.name}    ·    Dificultad: ${p.difficulty}`,
+      `Nombre: ${p.name}`,
+      `Rango: ${rk.icon} ${rankName(store.content.ranks, tier, p.gender)}` + (next ? `   ·   Faltan ${Math.max(0, next.need)} caso(s) para ${next.name}` : '   ·   ¡Rango máximo!'),
       `Nivel de personaje: ${p.charLevel}   (XP ${p.xp} / ${nextLvl})`,
       `Monedas LEX: ${p.lex}`,
       `Casos ganados: ${p.casesWon.length} / ${casesTotal}   (${pct}%)`,

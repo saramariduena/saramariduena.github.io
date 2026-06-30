@@ -1,0 +1,8 @@
+[
+  { "id": "pasante", "f": "Pasante", "m": "Pasante", "min": 0, "icon": "🎓", "perk": "Inicias tu carrera. 2 puntos de Preparación por audiencia." },
+  { "id": "junior", "f": "Abogada Junior", "m": "Abogado Junior", "min": 2, "icon": "📘", "perk": "+1 Preparación y +2 de convicción inicial. Desbloquea casos intermedios." },
+  { "id": "abogada", "f": "Abogada", "m": "Abogado", "min": 5, "icon": "⚖️", "perk": "+2 Preparación y +4 de convicción inicial. Desbloquea casos avanzados." },
+  { "id": "litigante", "f": "Litigante", "m": "Litigante", "min": 9, "icon": "🥈", "perk": "+3 Preparación y +6 de convicción inicial. Desbloquea casos expertos." },
+  { "id": "socia", "f": "Socia del Estudio", "m": "Socio del Estudio", "min": 14, "icon": "🥇", "perk": "+4 Preparación y +8 de convicción inicial." },
+  { "id": "jueza", "f": "Jueza", "m": "Juez", "min": 20, "icon": "👩‍⚖️", "perk": "Has llegado a la cima de la carrera judicial." }
+]

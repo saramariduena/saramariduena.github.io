@@ -462,6 +462,7 @@
     "rol": "Abogado que busca una solución rápida",
     "resumen": "Un conflicto puede resolverse sin pleito largo. Exploras la mediación para tu cliente.",
     "dificultad": "Básico",
+    "tipo": "mediacion",
     "meta": 58,
     "etapas": [
       { "id": "briefing", "lugar": "oficina", "titulo": "Una salida dialogada", "dialogos": [ { "quien": "cliente", "texto": "Doctor, ¿de verdad tenemos que pelear años en juicio?" } ],

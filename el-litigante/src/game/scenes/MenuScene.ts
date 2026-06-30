@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { GAME_WIDTH, GAME_HEIGHT } from '../../config/gameConfig';
 import { store } from '../../core/store';
 import { evaluateAchievements } from '../../core/achievements';
+import { rankIndex, rankName } from '../../core/ranks';
 import { SCENE_TEX } from '../systems/courtroom';
 import { makeButton, title, label, paintBackground, theme, confirmDialog, fs } from '../ui/widgets';
 
@@ -33,14 +34,18 @@ export class MenuScene extends Phaser.Scene {
 
     const t = theme();
     if (active) {
-      this.add.rectangle(cx, 196, 760, 50, t.panel, 0.92).setStrokeStyle(2, t.accent);
+      const tier = rankIndex(store.content.ranks, active);
+      const rk = store.content.ranks[tier];
+      this.add.rectangle(cx, 196, 840, 50, t.panel, 0.92).setStrokeStyle(2, t.accent);
       this.add
-        .text(cx, 196, `👤 ${active.name}   ·   Nivel ${active.charLevel}   ·   ${active.lex} LEX   ·   Casos ganados: ${active.casesWon.length}`, {
+        .text(cx - 30, 196, `👤 ${active.name}  ·  ${rk.icon} ${rankName(store.content.ranks, tier, active.gender)}  ·  ${active.lex} LEX  ·  Casos: ${active.casesWon.length}`, {
           fontFamily: 'Segoe UI, sans-serif',
-          fontSize: fs(19),
+          fontSize: fs(18),
           color: t.text,
         })
         .setOrigin(0.5);
+      const edit = this.add.text(cx + 360, 196, '✎ Editar', { fontFamily: 'Segoe UI', fontSize: fs(15), color: '#f5d547', fontStyle: 'bold' }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+      edit.on('pointerup', () => this.scene.start('ProfileSetup'));
     }
 
     label(this, cx, 242, '🧑‍⚖️ Doctor Iuris: «En la audiencia, quien domina el COGEP, gana. ¡Adelante!»', 16, true);
@@ -57,8 +62,9 @@ export class MenuScene extends Phaser.Scene {
   }
 
   private play() {
-    store.ensureProfile();
-    this.scene.start('CaseSelect');
+    // Si aún no hay perfil, primero pedimos nombre y rol (abogada/abogado).
+    if (!store.active) this.scene.start('ProfileSetup');
+    else this.scene.start('CaseSelect');
   }
 
   private exitGame() {

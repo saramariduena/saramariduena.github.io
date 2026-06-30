@@ -4,6 +4,7 @@ import { store } from './core/store';
 import { evaluateAchievements } from './core/achievements';
 import { PreloadScene } from './game/scenes/PreloadScene';
 import { MenuScene } from './game/scenes/MenuScene';
+import { ProfileSetupScene } from './game/scenes/ProfileSetupScene';
 import { CaseSelectScene } from './game/scenes/CaseSelectScene';
 import { AudienciaScene } from './game/scenes/AudienciaScene';
 import { VerdictScene } from './game/scenes/VerdictScene';
@@ -23,6 +24,8 @@ const config: Phaser.Types.Core.GameConfig = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
+  // Necesario para los campos de texto reales (entrada del nombre).
+  dom: { createContainer: true },
   physics: {
     default: 'arcade',
     arcade: { gravity: { x: 0, y: GRAVITY_Y }, debug: false },
@@ -31,6 +34,7 @@ const config: Phaser.Types.Core.GameConfig = {
   scene: [
     PreloadScene,
     MenuScene,
+    ProfileSetupScene,
     CaseSelectScene,
     AudienciaScene,
     VerdictScene,

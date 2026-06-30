@@ -154,6 +154,19 @@ export interface LegalCase {
   etapas: CaseStage[];
   veredictoGana: string;
   veredictoPierde: string;
+  /** 'judicial' (termina en sentencia) o 'mediacion' (termina en acta). */
+  tipo?: 'judicial' | 'mediacion';
+}
+
+export type Instancia = 'primera' | 'apelacion' | 'casacion';
+
+export interface Rank {
+  id: string;
+  f: string;
+  m: string;
+  min: number;
+  icon: string;
+  perk: string;
 }
 
 export interface Content {
@@ -166,6 +179,8 @@ export interface Content {
   npcs: Npc[];
   datos: { pruebas: Dato[]; peligros: Dato[] };
   cases: LegalCase[];
+  instancias: { apelacion: CaseStage[]; casacion: CaseStage[] };
+  ranks: Rank[];
 }
 
 export interface Stats {
@@ -181,6 +196,7 @@ export interface Stats {
 export interface SaveProfile {
   id: string;
   name: string;
+  gender: 'f' | 'm';
   createdAt: number;
   difficulty: string;
   lex: number;

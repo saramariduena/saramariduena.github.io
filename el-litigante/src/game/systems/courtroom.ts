@@ -9,10 +9,12 @@ export const SCENE_TEX = {
   sala: 'bg_sala',
   juez: 'char_juez',
   tu: 'char_tu',
+  tu_f: 'char_tu_f',
   contraparte: 'char_contraparte',
   cliente: 'char_cliente',
   secretario: 'char_secretario',
   testigo: 'char_testigo',
+  mediador: 'char_mediador',
 };
 
 function make(scene: Phaser.Scene, key: string, w: number, h: number, draw: (g: Phaser.GameObjects.Graphics) => void) {
@@ -142,10 +144,12 @@ export function generateCourtroom(scene: Phaser.Scene) {
   // --- Personajes ---
   make(scene, SCENE_TEX.juez, PW, PH, (g) => drawPerson(g, { skin: 0xe8b98e, hair: 0xcfcfcf, suit: 0x141414, shirt: 0xffffff, tie: 0x222222, robe: true }));
   make(scene, SCENE_TEX.tu, PW, PH, (g) => drawPerson(g, { skin: 0xf1c27d, hair: 0x3a2a1a, suit: 0x1f3a5f, shirt: 0xffffff, tie: 0xc0392b }));
+  make(scene, SCENE_TEX.tu_f, PW, PH, (g) => drawPerson(g, { skin: 0xf3c89a, hair: 0x2a1a10, suit: 0x16324f, shirt: 0xffffff, tie: 0xb83b5e, female: true }));
   make(scene, SCENE_TEX.contraparte, PW, PH, (g) => drawPerson(g, { skin: 0xd9a066, hair: 0x20140a, suit: 0x4a2d4a, shirt: 0xf0f0f0, tie: 0x2c3e50 }));
   make(scene, SCENE_TEX.cliente, PW, PH, (g) => drawPerson(g, { skin: 0xe0ac69, hair: 0x4a2f1a, suit: 0x8a6d3b, shirt: 0xfff3d6, tie: 0x6b4f2a, female: true }));
   make(scene, SCENE_TEX.secretario, PW, PH, (g) => drawPerson(g, { skin: 0xe8b98e, hair: 0x2a2a2a, suit: 0x37474f, shirt: 0xffffff, tie: 0x546e7a }));
   make(scene, SCENE_TEX.testigo, PW, PH, (g) => drawPerson(g, { skin: 0xc68642, hair: 0x1a1a1a, suit: 0x5d4037, shirt: 0xeeeeee, tie: 0x795548 }));
+  make(scene, SCENE_TEX.mediador, PW, PH, (g) => drawPerson(g, { skin: 0xe0ac69, hair: 0x4a4a4a, suit: 0x2e7d6b, shirt: 0xffffff, tie: 0x1b5e54, female: true }));
 
   // --- Fondo: oficina ---
   make(scene, SCENE_TEX.oficina, 1280, 720, (g) => {

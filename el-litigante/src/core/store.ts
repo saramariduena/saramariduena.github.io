@@ -34,10 +34,11 @@ const emptyStats = (): Stats => ({
   bossPerfect: 0,
 });
 
-export function createProfile(name: string, difficulty: string): SaveProfile {
+export function createProfile(name: string, difficulty: string, gender: 'f' | 'm' = 'm'): SaveProfile {
   return {
     id: 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
     name: name.trim() || 'Litigante',
+    gender,
     createdAt: Date.now(),
     difficulty,
     lex: 0,
@@ -74,6 +75,7 @@ class Store {
       p.skills = p.skills || {};
       p.achievements = p.achievements || [];
       p.casesWon = p.casesWon || [];
+      p.gender = p.gender || 'm';
     });
   }
 

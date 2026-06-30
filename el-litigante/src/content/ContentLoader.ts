@@ -9,6 +9,8 @@ import type {
   Npc,
   Dato,
   LegalCase,
+  CaseStage,
+  Rank,
 } from '../core/types';
 
 // Carga todo el contenido jurídico/de juego desde archivos JSON estáticos.
@@ -24,7 +26,7 @@ export async function loadContent(): Promise<Content> {
   const base = import.meta.env.BASE_URL || '/';
   const p = (f: string) => `${base}data/${f}`.replace(/\/+/g, '/');
 
-  const [worlds, lessons, enemies, skills, difficulties, achievements, npcs, datos, cases] =
+  const [worlds, lessons, enemies, skills, difficulties, achievements, npcs, datos, cases, instancias, ranks] =
     await Promise.all([
       getJson<World[]>(p('worlds.json')),
       getJson<Record<string, Lesson>>(p('lessons.json')),
@@ -35,8 +37,10 @@ export async function loadContent(): Promise<Content> {
       getJson<Npc[]>(p('npcs.json')),
       getJson<{ pruebas: Dato[]; peligros: Dato[] }>(p('datos.json')),
       getJson<LegalCase[]>(p('cases.json')),
+      getJson<{ apelacion: CaseStage[]; casacion: CaseStage[] }>(p('instancias.json')),
+      getJson<Rank[]>(p('ranks.json')),
     ]);
 
   worlds.sort((a, b) => a.order - b.order);
-  return { worlds, lessons, enemies, skills, difficulties, achievements, npcs, datos, cases };
+  return { worlds, lessons, enemies, skills, difficulties, achievements, npcs, datos, cases, instancias, ranks };
 }

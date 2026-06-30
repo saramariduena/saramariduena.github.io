@@ -1,0 +1,110 @@
+{
+  "apelacion": [
+    {
+      "id": "ape_decision",
+      "lugar": "oficina",
+      "titulo": "Decides apelar",
+      "dialogos": [
+        { "quien": "cliente", "texto": "Doctor, perdimos en primera instancia. ¿Hay algo más que hacer?" },
+        { "quien": "tu", "texto": "Sí: podemos apelar para que el tribunal superior revise la sentencia." }
+      ],
+      "decision": {
+        "pregunta": "¿Qué recurso interpones para ir a segunda instancia?",
+        "articulo": "COGEP Art. 256 (apelación)",
+        "opciones": [
+          { "texto": "Recurso de apelación ante el superior", "conviccion": 16, "feedback": "Correcto: la apelación lleva la causa al tribunal de alzada para que revise la sentencia." },
+          { "texto": "Una demanda nueva por lo mismo", "conviccion": -12, "feedback": "Improcedente: no se vuelve a demandar lo ya resuelto." },
+          { "texto": "Resignarse y no hacer nada", "conviccion": -10, "feedback": "Renunciarías a la oportunidad de revertir el fallo." }
+        ]
+      }
+    },
+    {
+      "id": "ape_termino",
+      "lugar": "oficina",
+      "titulo": "El término para recurrir",
+      "dialogos": [
+        { "quien": "tu", "texto": "Debo interponerlo en término y fundamentar bien los agravios." }
+      ],
+      "decision": {
+        "pregunta": "¿Qué es indispensable al interponer la apelación?",
+        "articulo": "Términos y fundamentación del recurso",
+        "opciones": [
+          { "texto": "Hacerlo en término y fundamentar los puntos que impugno", "conviccion": 16, "feedback": "Correcto: fuera de término o sin fundamentar, el recurso se rechaza." },
+          { "texto": "Presentarlo cuando me acuerde", "conviccion": -14, "feedback": "La extemporaneidad mata el recurso." },
+          { "texto": "Sin explicar por qué apelo", "conviccion": -10, "feedback": "Hay que precisar los agravios concretos de la sentencia." }
+        ]
+      }
+    },
+    {
+      "id": "ape_alegato",
+      "lugar": "sala",
+      "titulo": "Ante el tribunal de alzada",
+      "dialogos": [
+        { "quien": "juez", "texto": "Exponga los errores que atribuye a la sentencia apelada." }
+      ],
+      "decision": {
+        "pregunta": "¿Cómo enfocas tu alegato de apelación?",
+        "articulo": "Objeto del recurso de apelación",
+        "opciones": [
+          { "texto": "Señalo los errores concretos de hecho y de derecho de la sentencia", "conviccion": 16, "feedback": "Correcto: la alzada resuelve dentro de los agravios que planteas con claridad." },
+          { "texto": "Pido revisar cosas que no apelé", "conviccion": -10, "feedback": "El tribunal resuelve dentro de lo impugnado." },
+          { "texto": "Insulto al juez de primera instancia", "conviccion": -12, "feedback": "Contrario a la lealtad; resta credibilidad." }
+        ]
+      }
+    }
+  ],
+  "casacion": [
+    {
+      "id": "cas_decision",
+      "lugar": "oficina",
+      "titulo": "El último recurso",
+      "dialogos": [
+        { "quien": "cliente", "texto": "También perdimos la apelación. ¿Se acabó todo?" },
+        { "quien": "tu", "texto": "Aún cabe la casación, pero es un control de legalidad muy técnico y exigente." }
+      ],
+      "decision": {
+        "pregunta": "¿Qué controla el recurso de casación?",
+        "articulo": "COGEP Art. 266 y ss. (casación)",
+        "opciones": [
+          { "texto": "La legalidad de la sentencia, por causales tasadas", "conviccion": 16, "feedback": "Correcto: la casación no es tercera instancia de hechos; controla la legalidad." },
+          { "texto": "Vuelve a valorar todos los hechos y pruebas", "conviccion": -12, "feedback": "No: la casación no reabre la valoración de los hechos." },
+          { "texto": "Permite demandar de nuevo", "conviccion": -12, "feedback": "Improcedente." }
+        ]
+      }
+    },
+    {
+      "id": "cas_causal",
+      "lugar": "oficina",
+      "titulo": "Fundar la casación",
+      "dialogos": [
+        { "quien": "tu", "texto": "Debo invocar una causal precisa y fundamentarla con técnica." }
+      ],
+      "decision": {
+        "pregunta": "¿Cómo fundamentas la casación?",
+        "articulo": "Causales tasadas de casación",
+        "opciones": [
+          { "texto": "Invoco una causal específica y la fundamento técnicamente", "conviccion": 17, "feedback": "Correcto: sin causal tasada y fundamentación seria, se inadmite." },
+          { "texto": "Pido revisar otra vez los hechos", "conviccion": -12, "feedback": "La casación no es una tercera instancia de hechos." },
+          { "texto": "No señalo causal alguna", "conviccion": -14, "feedback": "Sin causal, el recurso es improcedente." }
+        ]
+      }
+    },
+    {
+      "id": "cas_admision",
+      "lugar": "sala",
+      "titulo": "Examen de admisibilidad",
+      "dialogos": [
+        { "quien": "juez", "texto": "Verificaremos la admisibilidad y, en su caso, el fondo del recurso." }
+      ],
+      "decision": {
+        "pregunta": "¿Qué cuidas para que la casación prospere?",
+        "articulo": "Requisitos, término y técnica casacional",
+        "opciones": [
+          { "texto": "Término, legitimación, sentencia recurrible y técnica impecable", "conviccion": 16, "feedback": "Correcto: la casación es formal y exigente; cada requisito cuenta." },
+          { "texto": "La presento tarde", "conviccion": -14, "feedback": "Extemporánea: se rechaza." },
+          { "texto": "Sin técnica casacional", "conviccion": -10, "feedback": "La informalidad lleva a la inadmisión." }
+        ]
+      }
+    }
+  ]
+}
