@@ -283,5 +283,404 @@
     ],
     "veredictoGana": "El juez declara CON LUGAR la demanda y condena a la empresa a reparar el daño y pagar costas. Tu cliente obtiene justicia.",
     "veredictoPierde": "El juez considera no acreditados el daño o su monto y rechaza la pretensión. Refuerza tu prueba pericial y tu alegato."
+  },
+  {
+    "id": "caso_alimentos",
+    "titulo": "Pensión de alimentos",
+    "materia": "Procedimiento sumario",
+    "rol": "Abogado de la madre que reclama alimentos",
+    "resumen": "Tu clienta necesita fijar la pensión de alimentos para su hija. Debes encauzar bien el reclamo.",
+    "dificultad": "Básico",
+    "meta": 60,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "La madre te consulta", "dialogos": [ { "quien": "cliente", "texto": "Doctor, el padre de mi hija no aporta nada. Necesito una pensión." } ],
+        "decision": { "pregunta": "¿Qué vía corresponde para fijar alimentos?", "articulo": "COGEP Art. 332 (sumario)", "opciones": [ { "texto": "Procedimiento sumario", "conviccion": 15, "feedback": "Correcto: los alimentos se tramitan por la vía sumaria, con audiencia única." }, { "texto": "Procedimiento ordinario", "conviccion": -8, "feedback": "El ordinario es la regla general; alimentos tiene trámite especial sumario." }, { "texto": "Procedimiento monitorio", "conviccion": -8, "feedback": "El monitorio es para deudas documentadas, no para fijar alimentos." } ] } },
+      { "id": "prueba", "lugar": "sala", "titulo": "Audiencia única", "dialogos": [ { "quien": "juez", "texto": "Acrediten la filiación y la capacidad económica del obligado." } ],
+        "decision": { "pregunta": "¿Qué pruebas presentas?", "articulo": "COGEP Arts. 158, 193 y ss.", "opciones": [ { "texto": "Partida de nacimiento y prueba de los ingresos del padre", "conviccion": 15, "feedback": "Correcto: acreditas filiación y capacidad económica para fijar la pensión." }, { "texto": "Solo mi palabra de que él gana mucho", "conviccion": -8, "feedback": "El monto debe acreditarse; el alegato no es prueba." }, { "texto": "Amenazas para que pague", "conviccion": -12, "feedback": "Es improcedente y contrario a la lealtad procesal." } ] } },
+      { "id": "fijacion", "lugar": "sala", "titulo": "Fijación de la pensión", "dialogos": [ { "quien": "contraparte", "texto": "Señoría, mi cliente gana muy poco." } ],
+        "decision": { "pregunta": "¿Cómo sustentas el monto?", "articulo": "Tabla de pensiones y necesidades del alimentario", "opciones": [ { "texto": "Aplico la tabla y las necesidades reales de la niña", "conviccion": 14, "feedback": "Correcto: el monto considera las necesidades y la capacidad del obligado." }, { "texto": "Pido una cifra exagerada sin sustento", "conviccion": -8, "feedback": "Sin sustento, el juez la reduce o niega." }, { "texto": "Renuncio a pedir un monto", "conviccion": -10, "feedback": "Dejarías a tu clienta sin protección." } ] } }
+    ],
+    "veredictoGana": "El juez fija una pensión de alimentos acorde a las necesidades de la niña y la capacidad del padre. ¡Bien litigado!",
+    "veredictoPierde": "El juez no cuenta con elementos suficientes y fija un monto mínimo o difiere la decisión. Refuerza tu prueba."
+  },
+  {
+    "id": "caso_divorcio",
+    "titulo": "Divorcio contencioso",
+    "materia": "Procedimiento sumario",
+    "rol": "Abogado de la parte actora",
+    "resumen": "Tu cliente quiere divorciarse y su cónyuge se opone. Hay bienes y un hijo de por medio.",
+    "dificultad": "Intermedio",
+    "meta": 62,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "El cliente decide divorciarse", "dialogos": [ { "quien": "cliente", "texto": "Doctor, quiero el divorcio pero mi cónyuge no acepta." } ],
+        "decision": { "pregunta": "¿Qué vía corresponde al divorcio controvertido?", "articulo": "COGEP Art. 332 (sumario)", "opciones": [ { "texto": "Procedimiento sumario", "conviccion": 15, "feedback": "Correcto: el divorcio contencioso se sustancia por la vía sumaria." }, { "texto": "Procedimiento ordinario", "conviccion": -8, "feedback": "El divorcio contencioso tiene trámite especial sumario." }, { "texto": "Procedimiento ejecutivo", "conviccion": -10, "feedback": "El ejecutivo exige título ejecutivo; no aplica." } ] } },
+      { "id": "audiencia", "lugar": "sala", "titulo": "Audiencia única", "dialogos": [ { "quien": "juez", "texto": "Hay un hijo menor. Debemos resolver su situación." } ],
+        "decision": { "pregunta": "¿Qué priorizas respecto al hijo?", "articulo": "Interés superior del niño", "opciones": [ { "texto": "Proponer régimen de tenencia, visitas y alimentos en su beneficio", "conviccion": 15, "feedback": "Correcto: el interés superior del niño guía estas decisiones." }, { "texto": "Ignorar al menor y solo pelear los bienes", "conviccion": -12, "feedback": "El juez no homologa acuerdos que descuiden al menor." }, { "texto": "Usar al hijo como presión", "conviccion": -14, "feedback": "Contrario al interés del niño y a la buena fe." } ] } },
+      { "id": "bienes", "lugar": "sala", "titulo": "La sociedad conyugal", "dialogos": [ { "quien": "contraparte", "texto": "Los bienes son todos de mi cliente." } ],
+        "decision": { "pregunta": "¿Cómo abordas los bienes?", "articulo": "Disolución de la sociedad conyugal", "opciones": [ { "texto": "Solicito la disolución y liquidación conforme a la ley", "conviccion": 13, "feedback": "Correcto: el divorcio disuelve la sociedad conyugal y procede su liquidación." }, { "texto": "Acepto quedarme sin nada sin analizar", "conviccion": -8, "feedback": "Perjudicarías a tu cliente sin fundamento." }, { "texto": "Oculto bienes al juez", "conviccion": -14, "feedback": "Mala fe procesal: se sanciona." } ] } }
+    ],
+    "veredictoGana": "El juez declara el divorcio, regula la situación del menor y dispone la liquidación de la sociedad conyugal.",
+    "veredictoPierde": "El juez observa falencias en tu planteamiento y difiere o limita la decisión. Cuida el interés del menor y la prueba."
+  },
+  {
+    "id": "caso_ejecutivo",
+    "titulo": "Cobro por título ejecutivo",
+    "materia": "Procedimiento ejecutivo",
+    "rol": "Abogado de la parte actora",
+    "resumen": "Tu cliente tiene una letra de cambio aceptada y vencida. Buscas el pago por la vía ejecutiva.",
+    "dificultad": "Intermedio",
+    "meta": 62,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "La letra de cambio", "dialogos": [ { "quien": "cliente", "texto": "Tengo una letra de cambio firmada y vencida que no me pagan." } ],
+        "decision": { "pregunta": "¿Qué vía usas con un título ejecutivo?", "articulo": "COGEP Arts. 347-355 (ejecutivo)", "opciones": [ { "texto": "Procedimiento ejecutivo", "conviccion": 15, "feedback": "Correcto: con título ejecutivo (letra de cambio) procede la vía ejecutiva." }, { "texto": "Procedimiento ordinario", "conviccion": -8, "feedback": "Teniendo título ejecutivo, el ejecutivo es la vía idónea." }, { "texto": "Una denuncia penal", "conviccion": -12, "feedback": "El cobro civil no se hace por la vía penal." } ] } },
+      { "id": "requisitos", "lugar": "oficina", "titulo": "Examen del título", "dialogos": [ { "quien": "tu", "texto": "El juez verificará que la obligación sea clara, pura, determinada y exigible." } ],
+        "decision": { "pregunta": "¿Qué debe reunir la obligación ejecutiva?", "articulo": "COGEP Art. 348", "opciones": [ { "texto": "Que sea clara, pura, determinada y actualmente exigible", "conviccion": 14, "feedback": "Correcto: son los requisitos de la obligación ejecutiva." }, { "texto": "Que el deudor sea simpático", "conviccion": -10, "feedback": "Irrelevante; importan los requisitos legales del título." }, { "texto": "Que existan testigos del préstamo", "conviccion": -6, "feedback": "El título se basta a sí mismo; no requiere testigos." } ] } },
+      { "id": "oposicion", "lugar": "sala", "titulo": "La oposición del deudor", "dialogos": [ { "quien": "contraparte", "texto": "Señoría, opongo excepciones." } ],
+        "decision": { "pregunta": "El ejecutado se opone. ¿Qué haces?", "articulo": "Excepciones en el ejecutivo", "opciones": [ { "texto": "Refuto las excepciones y sostengo la validez del título", "conviccion": 14, "feedback": "Correcto: rebates las excepciones para que prospere la ejecución." }, { "texto": "Acepto las excepciones sin analizarlas", "conviccion": -10, "feedback": "Cederías sin necesidad y perjudicarías a tu cliente." }, { "texto": "Me retiro de la audiencia", "conviccion": -14, "feedback": "Abandonar es desastroso para el cobro." } ] } }
+    ],
+    "veredictoGana": "El juez dispone seguir adelante con la ejecución y el pago de la obligación, intereses y costas.",
+    "veredictoPierde": "El juez acoge una excepción y rechaza la ejecución. Revisa los requisitos del título ejecutivo."
+  },
+  {
+    "id": "caso_ejecucion",
+    "titulo": "Ejecutar la sentencia",
+    "materia": "Ejecución",
+    "rol": "Abogado del vencedor",
+    "resumen": "Ganaste el juicio y la sentencia está ejecutoriada, pero el deudor no paga. Debes hacerla efectiva.",
+    "dificultad": "Intermedio",
+    "meta": 62,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "La sentencia no se cumple", "dialogos": [ { "quien": "cliente", "texto": "Doctor, ganamos pero el demandado sigue sin pagar." } ],
+        "decision": { "pregunta": "¿Qué inicias para hacer efectiva la sentencia?", "articulo": "COGEP Arts. 362 y ss. (ejecución)", "opciones": [ { "texto": "La fase de ejecución con el título de ejecución", "conviccion": 15, "feedback": "Correcto: la sentencia ejecutoriada es título de ejecución y se ejecuta." }, { "texto": "Un nuevo juicio ordinario por lo mismo", "conviccion": -12, "feedback": "Sería volver a litigar lo ya resuelto: improcedente." }, { "texto": "Esperar a que pague voluntariamente", "conviccion": -8, "feedback": "La pasividad no hace efectivo el derecho." } ] } },
+      { "id": "medidas", "lugar": "sala", "titulo": "Medidas de ejecución", "dialogos": [ { "quien": "juez", "texto": "¿Sobre qué bienes solicita la ejecución?" } ],
+        "decision": { "pregunta": "¿Qué pides para asegurar el cobro?", "articulo": "Embargo y remate", "opciones": [ { "texto": "Embargo de bienes del ejecutado y, en su caso, remate", "conviccion": 15, "feedback": "Correcto: el embargo y remate hacen efectivo el cobro." }, { "texto": "Embargar bienes de un tercero ajeno", "conviccion": -12, "feedback": "No se puede ejecutar sobre bienes de quien no es parte." }, { "texto": "Nada, solo pedir disculpas al juez", "conviccion": -10, "feedback": "No impulsarías la ejecución." } ] } },
+      { "id": "oposicion", "lugar": "sala", "titulo": "Oposición a la ejecución", "dialogos": [ { "quien": "contraparte", "texto": "Me opongo a la ejecución, señoría." } ],
+        "decision": { "pregunta": "El ejecutado se opone. ¿Qué recuerdas?", "articulo": "Oposición tasada en la ejecución", "opciones": [ { "texto": "Que la oposición solo procede por causas tasadas en la ley", "conviccion": 14, "feedback": "Correcto: en ejecución la oposición es limitada a causales específicas." }, { "texto": "Que puede oponerse por cualquier motivo", "conviccion": -10, "feedback": "No: la oposición en ejecución es restringida." }, { "texto": "Que hay que repetir todo el juicio", "conviccion": -12, "feedback": "Improcedente: lo resuelto no se vuelve a discutir." } ] } }
+    ],
+    "veredictoGana": "El juez ordena el embargo y el pago. La sentencia se vuelve realidad y tu cliente cobra.",
+    "veredictoPierde": "La ejecución se entraba por errores de planteamiento. Recuerda que la sentencia ejecutoriada ya es título."
+  },
+  {
+    "id": "caso_excepciones",
+    "titulo": "Excepción de incompetencia",
+    "materia": "Excepciones previas",
+    "rol": "Abogado de la parte demandada",
+    "resumen": "Demandaron a tu cliente ante un juez que no es competente por el territorio. Debes depurar el proceso.",
+    "dificultad": "Intermedio",
+    "meta": 62,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "Te llega la demanda", "dialogos": [ { "quien": "cliente", "texto": "Doctor, me demandaron en otra ciudad donde no vivo ni tengo nada." } ],
+        "decision": { "pregunta": "¿Qué excepción previa planteas?", "articulo": "COGEP Art. 153 (excepciones previas)", "opciones": [ { "texto": "Incompetencia del juez", "conviccion": 15, "feedback": "Correcto: la incompetencia es una excepción previa para depurar el proceso." }, { "texto": "Ninguna, contesto el fondo y ya", "conviccion": -8, "feedback": "Perderías la oportunidad de sanear la competencia." }, { "texto": "Pido la nulidad penal", "conviccion": -12, "feedback": "No corresponde; es un asunto procesal civil." } ] } },
+      { "id": "audiencia", "lugar": "sala", "titulo": "Audiencia preliminar", "dialogos": [ { "quien": "juez", "texto": "Resolveremos las excepciones previas." } ],
+        "decision": { "pregunta": "¿Cómo sustentas la incompetencia?", "articulo": "COGEP Arts. 9 y ss.", "opciones": [ { "texto": "Demuestro que por territorio y domicilio el juez no es competente", "conviccion": 15, "feedback": "Correcto: la competencia se fija por territorio, materia, personas y grado." }, { "texto": "Digo que el juez me cae mal", "conviccion": -12, "feedback": "La competencia no depende de simpatías." }, { "texto": "No fundamento nada", "conviccion": -10, "feedback": "Sin fundamento, la excepción se rechaza." } ] } },
+      { "id": "efecto", "lugar": "sala", "titulo": "Efecto de la excepción", "dialogos": [ { "quien": "contraparte", "texto": "Aunque sea incompetente, que siga el juicio." } ],
+        "decision": { "pregunta": "Si prospera la incompetencia, ¿qué procede?", "articulo": "Saneamiento del proceso", "opciones": [ { "texto": "Que el proceso se remita al juez competente o se subsane el vicio", "conviccion": 13, "feedback": "Correcto: la audiencia preliminar sirve para sanear y encauzar el proceso." }, { "texto": "Que el juez incompetente dicte sentencia igual", "conviccion": -12, "feedback": "Un juez incompetente no puede resolver válidamente el fondo." }, { "texto": "Que se archive sin más", "conviccion": -6, "feedback": "No necesariamente; se busca encauzar ante el competente." } ] } }
+    ],
+    "veredictoGana": "El juez acoge la excepción de incompetencia y encauza el proceso. Defendiste bien a tu cliente.",
+    "veredictoPierde": "La excepción no prospera por falta de fundamento. Sustenta mejor la competencia."
+  },
+  {
+    "id": "caso_nulidad",
+    "titulo": "Nulidad por falta de citación",
+    "materia": "Nulidad procesal",
+    "rol": "Abogado de la parte demandada",
+    "resumen": "A tu cliente nunca lo citaron y siguieron el juicio en su contra. Debes hacer valer su defensa.",
+    "dificultad": "Avanzado",
+    "meta": 64,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "Un juicio a sus espaldas", "dialogos": [ { "quien": "cliente", "texto": "Doctor, me enteré de un juicio en mi contra ¡y nunca me citaron!" } ],
+        "decision": { "pregunta": "¿Qué vicio invocas?", "articulo": "COGEP Arts. 53-60 y 107-109", "opciones": [ { "texto": "Nulidad por falta de citación (indefensión)", "conviccion": 15, "feedback": "Correcto: sin citación válida hay indefensión, causa de nulidad." }, { "texto": "Nada, ya es tarde", "conviccion": -10, "feedback": "La indefensión es alegable; no te resignes." }, { "texto": "Una demanda penal contra el juez", "conviccion": -12, "feedback": "No corresponde; es un asunto procesal." } ] } },
+      { "id": "prueba", "lugar": "sala", "titulo": "Demostrar la indefensión", "dialogos": [ { "quien": "juez", "texto": "Acredite que no fue citado conforme a la ley." } ],
+        "decision": { "pregunta": "¿Cómo demuestras la falta de citación?", "articulo": "COGEP Art. 107", "opciones": [ { "texto": "Pruebo que no hubo citación válida y que ello causó indefensión", "conviccion": 15, "feedback": "Correcto: la nulidad procede si el vicio causa efectiva indefensión." }, { "texto": "Solo me quejo sin pruebas", "conviccion": -10, "feedback": "Hay que acreditar el vicio." }, { "texto": "Acepto la sentencia y pago", "conviccion": -12, "feedback": "Renunciarías a una defensa válida." } ] } },
+      { "id": "efecto", "lugar": "sala", "titulo": "Alcance de la nulidad", "dialogos": [ { "quien": "contraparte", "texto": "Aunque haya vicio, no pasa nada." } ],
+        "decision": { "pregunta": "¿Qué efecto pides?", "articulo": "COGEP Art. 109", "opciones": [ { "texto": "Que se declare la nulidad desde el acto viciado", "conviccion": 13, "feedback": "Correcto: la nulidad retrotrae al momento del vicio que causó indefensión." }, { "texto": "Que se anule todo el sistema judicial", "conviccion": -12, "feedback": "Desproporcionado e improcedente." }, { "texto": "Nada en concreto", "conviccion": -8, "feedback": "Debes pedir un efecto preciso." } ] } }
+    ],
+    "veredictoGana": "El juez declara la nulidad desde la falta de citación y se garantiza el derecho de defensa de tu cliente.",
+    "veredictoPierde": "El juez no encuentra acreditada la indefensión y mantiene lo actuado. Prueba mejor el vicio."
+  },
+  {
+    "id": "caso_cautelar",
+    "titulo": "Prohibición de enajenar",
+    "materia": "Providencias preventivas",
+    "rol": "Abogado de la parte actora",
+    "resumen": "Temes que el demandado venda su inmueble para no pagar. Buscas asegurar el resultado del juicio.",
+    "dificultad": "Avanzado",
+    "meta": 64,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "Riesgo de insolvencia", "dialogos": [ { "quien": "cliente", "texto": "Doctor, el demandado quiere vender su casa para no pagarme." } ],
+        "decision": { "pregunta": "¿Qué medida solicitas?", "articulo": "COGEP Arts. 124-127 (providencias preventivas)", "opciones": [ { "texto": "Prohibición de enajenar el inmueble", "conviccion": 15, "feedback": "Correcto: la prohibición de enajenar asegura el bien durante el proceso." }, { "texto": "Encarcelar al demandado", "conviccion": -14, "feedback": "Improcedente: es un asunto civil, no penal." }, { "texto": "Nada, confiar en su buena fe", "conviccion": -8, "feedback": "Si hay peligro, debes asegurar el resultado." } ] } },
+      { "id": "requisitos", "lugar": "sala", "titulo": "Fundamento de la cautelar", "dialogos": [ { "quien": "juez", "texto": "¿Con qué fundamenta la medida?" } ],
+        "decision": { "pregunta": "¿Qué debes acreditar para la cautelar?", "articulo": "Verosimilitud del derecho y peligro en la demora", "opciones": [ { "texto": "Apariencia de buen derecho y peligro en la demora", "conviccion": 15, "feedback": "Correcto: sin estos presupuestos la medida se niega." }, { "texto": "Que el demandado es antipático", "conviccion": -12, "feedback": "Irrelevante para una cautelar." }, { "texto": "Nada, que el juez decida solo", "conviccion": -8, "feedback": "Debes fundamentar la solicitud." } ] } },
+      { "id": "contracautela", "lugar": "sala", "titulo": "La contracautela", "dialogos": [ { "quien": "contraparte", "texto": "La medida me causa un perjuicio injusto." } ],
+        "decision": { "pregunta": "¿Qué prevés sobre la contracautela?", "articulo": "Caución para responder por daños", "opciones": [ { "texto": "Ofrecer caución para responder por eventuales perjuicios", "conviccion": 13, "feedback": "Correcto: la contracautela equilibra la medida cautelar." }, { "texto": "Negarme a cualquier garantía", "conviccion": -8, "feedback": "Puede condicionar la concesión de la medida." }, { "texto": "Pedir embargar todo el país", "conviccion": -12, "feedback": "Desproporcionado e improcedente." } ] } }
+    ],
+    "veredictoGana": "El juez concede la prohibición de enajenar. El inmueble queda asegurado y proteges el resultado del juicio.",
+    "veredictoPierde": "El juez niega la medida por falta de fundamento. Recuerda los presupuestos de toda cautelar."
+  },
+  {
+    "id": "caso_apelacion",
+    "titulo": "Recurso de apelación",
+    "materia": "Recursos",
+    "rol": "Abogado de la parte vencida en primera instancia",
+    "resumen": "La sentencia perjudicó a tu cliente y crees que el juez erró. Buscas que el superior la revise.",
+    "dificultad": "Avanzado",
+    "meta": 64,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "Sentencia desfavorable", "dialogos": [ { "quien": "cliente", "texto": "Doctor, perdimos. ¿Podemos hacer algo?" } ],
+        "decision": { "pregunta": "¿Qué recurso interpones contra la sentencia?", "articulo": "COGEP Art. 256 (apelación)", "opciones": [ { "texto": "Recurso de apelación ante el superior", "conviccion": 15, "feedback": "Correcto: la apelación permite que el superior revise la sentencia." }, { "texto": "Demanda nueva por lo mismo", "conviccion": -12, "feedback": "Improcedente: no se vuelve a demandar lo resuelto." }, { "texto": "Casación directa saltando la apelación", "conviccion": -8, "feedback": "La casación procede contra ciertas sentencias de instancia, no como atajo libre." } ] } },
+      { "id": "plazo", "lugar": "oficina", "titulo": "El término para recurrir", "dialogos": [ { "quien": "tu", "texto": "Debo cuidar el término; si me paso, el recurso se rechaza." } ],
+        "decision": { "pregunta": "¿Qué es vital al interponer el recurso?", "articulo": "Términos para recurrir", "opciones": [ { "texto": "Interponerlo en término y fundamentarlo", "conviccion": 15, "feedback": "Correcto: fuera de término o sin fundamentar, se rechaza." }, { "texto": "Presentarlo cuando me acuerde", "conviccion": -12, "feedback": "La extemporaneidad mata el recurso." }, { "texto": "Sin explicar por qué apelo", "conviccion": -8, "feedback": "Debes fundamentar los puntos que impugnas." } ] } },
+      { "id": "audiencia", "lugar": "sala", "titulo": "Ante el tribunal de alzada", "dialogos": [ { "quien": "juez", "texto": "Exponga los puntos que impugna de la sentencia." } ],
+        "decision": { "pregunta": "¿Cómo enfocas tu alegato de apelación?", "articulo": "Objeto del recurso", "opciones": [ { "texto": "Señalo los errores concretos de la sentencia apelada", "conviccion": 14, "feedback": "Correcto: la apelación se centra en los agravios concretos." }, { "texto": "Pido revisar cosas no apeladas", "conviccion": -8, "feedback": "El tribunal resuelve dentro de lo impugnado." }, { "texto": "Insulto al juez de primera instancia", "conviccion": -12, "feedback": "Contrario a la lealtad; resta credibilidad." } ] } }
+    ],
+    "veredictoGana": "El tribunal acoge la apelación y revoca o reforma la sentencia en favor de tu cliente.",
+    "veredictoPierde": "El tribunal confirma la sentencia. Cuida el término, la fundamentación y los agravios."
+  },
+  {
+    "id": "caso_casacion",
+    "titulo": "Recurso de casación",
+    "materia": "Recursos",
+    "rol": "Abogado que busca control de legalidad",
+    "resumen": "La sentencia de segunda instancia tiene, a tu juicio, un vicio de legalidad. Buscas casarla.",
+    "dificultad": "Experto",
+    "meta": 66,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "Un vicio de legalidad", "dialogos": [ { "quien": "cliente", "texto": "Doctor, la sentencia aplicó mal la ley. ¿Qué hacemos?" } ],
+        "decision": { "pregunta": "¿Qué recurso procede por vicios de legalidad?", "articulo": "COGEP Art. 266 y ss. (casación)", "opciones": [ { "texto": "Recurso de casación", "conviccion": 15, "feedback": "Correcto: la casación controla la legalidad por causales tasadas." }, { "texto": "Otra apelación", "conviccion": -10, "feedback": "La apelación ya se agotó; ahora es control de legalidad." }, { "texto": "Una nueva demanda", "conviccion": -12, "feedback": "Improcedente: no se redemanda lo resuelto." } ] } },
+      { "id": "causales", "lugar": "oficina", "titulo": "Fundar la casación", "dialogos": [ { "quien": "tu", "texto": "La casación exige invocar causales precisas y fundamentarlas." } ],
+        "decision": { "pregunta": "¿Cómo fundamentas la casación?", "articulo": "Causales tasadas de casación", "opciones": [ { "texto": "Invoco una causal específica y la fundamento técnicamente", "conviccion": 16, "feedback": "Correcto: sin causal tasada y fundamentación, se inadmite." }, { "texto": "Pido revisar otra vez los hechos", "conviccion": -10, "feedback": "La casación no es una tercera instancia de hechos." }, { "texto": "No señalo causal alguna", "conviccion": -12, "feedback": "Sin causal, el recurso es improcedente." } ] } },
+      { "id": "admisibilidad", "lugar": "sala", "titulo": "Examen de admisibilidad", "dialogos": [ { "quien": "juez", "texto": "Verificaremos la admisibilidad del recurso." } ],
+        "decision": { "pregunta": "¿Qué cuidas para que sea admitido?", "articulo": "Requisitos y término", "opciones": [ { "texto": "Término, legitimación, sentencia recurrible y técnica casacional", "conviccion": 14, "feedback": "Correcto: la casación es formal y exigente; cuida cada requisito." }, { "texto": "Nada en especial", "conviccion": -10, "feedback": "La informalidad lleva a la inadmisión." }, { "texto": "Presentarlo tarde", "conviccion": -12, "feedback": "Extemporáneo: se rechaza." } ] } }
+    ],
+    "veredictoGana": "Se admite y prospera la casación: se corrige el vicio de legalidad. Excelente técnica.",
+    "veredictoPierde": "El recurso se inadmite por defectos de técnica o término. La casación es exigente y formal."
+  },
+  {
+    "id": "caso_mediacion",
+    "titulo": "Acuerdo en mediación",
+    "materia": "Métodos alternativos",
+    "rol": "Abogado que busca una solución rápida",
+    "resumen": "Un conflicto puede resolverse sin pleito largo. Exploras la mediación para tu cliente.",
+    "dificultad": "Básico",
+    "meta": 58,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "Una salida dialogada", "dialogos": [ { "quien": "cliente", "texto": "Doctor, ¿de verdad tenemos que pelear años en juicio?" } ],
+        "decision": { "pregunta": "¿Qué alternativa propones primero?", "articulo": "Mediación (Ley de Arbitraje y Mediación)", "opciones": [ { "texto": "Intentar una mediación con un acuerdo razonable", "conviccion": 14, "feedback": "Correcto: la mediación puede resolver ágilmente y su acta es título de ejecución." }, { "texto": "Demandar de inmediato sin dialogar", "conviccion": -6, "feedback": "A veces el mejor litigio es un buen acuerdo." }, { "texto": "Amenazar a la otra parte", "conviccion": -12, "feedback": "Contrario a la buena fe; frustra el acuerdo." } ] } },
+      { "id": "mesa", "lugar": "oficina", "titulo": "En la mesa de mediación", "dialogos": [ { "quien": "mediador", "texto": "Busquemos una solución en la que ambos ganen." } ],
+        "decision": { "pregunta": "¿Cómo negocias por tu cliente?", "articulo": "Autonomía de la voluntad", "opciones": [ { "texto": "Defiendo sus intereses buscando un acuerdo realista", "conviccion": 14, "feedback": "Correcto: equilibras firmeza y apertura para lograr un buen acuerdo." }, { "texto": "Rechazo todo de plano", "conviccion": -6, "feedback": "Cerrarte sin evaluar frustra la mediación." }, { "texto": "Acepto cualquier cosa sin leer", "conviccion": -8, "feedback": "Podrías perjudicar a tu cliente." } ] } },
+      { "id": "acta", "lugar": "oficina", "titulo": "El acta de mediación", "dialogos": [ { "quien": "mediador", "texto": "Si hay acuerdo, firmaremos el acta." } ],
+        "decision": { "pregunta": "¿Qué valor tiene el acta de mediación?", "articulo": "Acta con efecto de sentencia / título de ejecución", "opciones": [ { "texto": "Tiene efecto de sentencia y es título de ejecución", "conviccion": 14, "feedback": "Correcto: por eso la mediación es una vía poderosa y rápida." }, { "texto": "No vale nada, es solo un papel", "conviccion": -10, "feedback": "Incorrecto: el acta es exigible como una sentencia." }, { "texto": "Hay que volver a demandarla", "conviccion": -8, "feedback": "No: se ejecuta directamente si se incumple." } ] } }
+    ],
+    "veredictoGana": "Se firma un acta de mediación que resuelve el conflicto con efecto de sentencia. Solución rápida y eficaz.",
+    "veredictoPierde": "No hubo acuerdo por mal manejo de la negociación. La mediación requiere técnica y apertura."
+  },
+  {
+    "id": "caso_laboral",
+    "titulo": "Despido intempestivo",
+    "materia": "Procedimiento sumario (laboral)",
+    "rol": "Abogado del trabajador",
+    "resumen": "Despidieron a tu cliente sin causa y sin liquidarlo. Reclamas sus derechos laborales.",
+    "dificultad": "Intermedio",
+    "meta": 62,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "El trabajador despedido", "dialogos": [ { "quien": "cliente", "texto": "Doctor, me echaron sin motivo y no me pagaron nada." } ],
+        "decision": { "pregunta": "¿Qué vía corresponde al conflicto individual de trabajo?", "articulo": "COGEP Art. 332 (sumario)", "opciones": [ { "texto": "Procedimiento sumario", "conviccion": 15, "feedback": "Correcto: los conflictos individuales de trabajo se tramitan por la vía sumaria." }, { "texto": "Procedimiento ordinario", "conviccion": -8, "feedback": "El laboral individual tiene trámite especial sumario." }, { "texto": "Procedimiento ejecutivo", "conviccion": -10, "feedback": "No hay título ejecutivo; reclamas derechos a probar." } ] } },
+      { "id": "prueba", "lugar": "sala", "titulo": "Probar la relación y el despido", "dialogos": [ { "quien": "juez", "texto": "Acredite la relación laboral y el despido." } ],
+        "decision": { "pregunta": "¿Qué pruebas son clave?", "articulo": "Prueba de la relación laboral", "opciones": [ { "texto": "Contrato, roles de pago, avisos y testigos del despido", "conviccion": 15, "feedback": "Correcto: pruebas pertinentes para acreditar relación, remuneración y despido." }, { "texto": "Solo mi palabra de abogado", "conviccion": -8, "feedback": "El alegato no es prueba." }, { "texto": "Documentos obtenidos hackeando a la empresa", "conviccion": -12, "feedback": "Prueba ilícita: sin valor." } ] } },
+      { "id": "liquidacion", "lugar": "sala", "titulo": "Los rubros reclamados", "dialogos": [ { "quien": "contraparte", "texto": "No le debemos nada." } ],
+        "decision": { "pregunta": "¿Qué reclamas por el despido?", "articulo": "Indemnizaciones y haberes", "opciones": [ { "texto": "Indemnización por despido y haberes pendientes conforme a la ley", "conviccion": 14, "feedback": "Correcto: reclamas los rubros que la ley reconoce al trabajador." }, { "texto": "Una cifra arbitraria sin sustento", "conviccion": -8, "feedback": "El monto debe sustentarse." }, { "texto": "Nada, retiro la demanda", "conviccion": -10, "feedback": "Dejarías a tu cliente sin protección." } ] } }
+    ],
+    "veredictoGana": "El juez declara el despido y ordena el pago de indemnizaciones y haberes. Tu cliente obtiene justicia laboral.",
+    "veredictoPierde": "El juez no encuentra acreditados la relación o el despido. Refuerza la prueba laboral."
+  },
+  {
+    "id": "caso_prescripcion_adq",
+    "titulo": "Prescripción adquisitiva",
+    "materia": "Procedimiento ordinario",
+    "rol": "Abogado del poseedor",
+    "resumen": "Tu cliente posee un terreno por más de 15 años, de forma pacífica y pública. Busca que se le declare dueño.",
+    "dificultad": "Avanzado",
+    "meta": 64,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "Una posesión de años", "dialogos": [ { "quien": "cliente", "texto": "Doctor, vivo en ese terreno hace más de 15 años, sin que nadie reclame." } ],
+        "decision": { "pregunta": "¿Qué vía usas para la prescripción adquisitiva extraordinaria?", "articulo": "COGEP Arts. 289-295 (ordinario)", "opciones": [ { "texto": "Procedimiento ordinario", "conviccion": 15, "feedback": "Correcto: la prescripción adquisitiva de dominio se ventila en vía ordinaria." }, { "texto": "Procedimiento sumario", "conviccion": -8, "feedback": "No es materia sumaria; va por ordinario." }, { "texto": "Monitorio", "conviccion": -10, "feedback": "El monitorio es para deudas, no para declarar dominio." } ] } },
+      { "id": "requisitos", "lugar": "sala", "titulo": "Probar la posesión", "dialogos": [ { "quien": "juez", "texto": "Acredite la posesión y sus características." } ],
+        "decision": { "pregunta": "¿Qué características de la posesión pruebas?", "articulo": "Posesión pacífica, pública, continua y por el tiempo legal", "opciones": [ { "texto": "Que es pacífica, pública, continua y por el tiempo de ley", "conviccion": 16, "feedback": "Correcto: esos son los presupuestos de la prescripción adquisitiva." }, { "texto": "Que la tomé a la fuerza ayer", "conviccion": -14, "feedback": "La posesión violenta o reciente no sirve." }, { "texto": "Nada, basta con decirlo", "conviccion": -10, "feedback": "Hay que acreditar cada requisito." } ] } },
+      { "id": "prueba", "lugar": "sala", "titulo": "La prueba de la posesión", "dialogos": [ { "quien": "contraparte", "texto": "Él no es el dueño." } ],
+        "decision": { "pregunta": "¿Con qué pruebas sostienes el dominio adquirido?", "articulo": "Prueba documental, testimonial e inspección", "opciones": [ { "texto": "Testigos, pagos de servicios e inspección judicial del terreno", "conviccion": 14, "feedback": "Correcto: pruebas conducentes para acreditar la posesión en el tiempo." }, { "texto": "Solo una foto reciente", "conviccion": -8, "feedback": "Insuficiente para acreditar años de posesión." }, { "texto": "Documentos falsificados", "conviccion": -14, "feedback": "Mala fe y delito: descarta tu caso." } ] } }
+    ],
+    "veredictoGana": "El juez declara la prescripción adquisitiva y reconoce el dominio de tu cliente sobre el inmueble.",
+    "veredictoPierde": "No se acreditan los requisitos de la posesión. Refuerza la prueba de su carácter y duración."
+  },
+  {
+    "id": "caso_reivindicacion",
+    "titulo": "Acción reivindicatoria",
+    "materia": "Procedimiento ordinario",
+    "rol": "Abogado del propietario",
+    "resumen": "Tu cliente es dueño con escritura, pero otro ocupa su inmueble. Quiere recuperarlo.",
+    "dificultad": "Avanzado",
+    "meta": 64,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "Le ocupan su propiedad", "dialogos": [ { "quien": "cliente", "texto": "Doctor, tengo escritura del inmueble pero otra persona lo ocupa." } ],
+        "decision": { "pregunta": "¿Qué acción y vía corresponden?", "articulo": "Reivindicación por vía ordinaria", "opciones": [ { "texto": "Acción reivindicatoria por procedimiento ordinario", "conviccion": 15, "feedback": "Correcto: el dueño no poseedor reivindica por la vía ordinaria." }, { "texto": "Una denuncia penal por robo de casa", "conviccion": -10, "feedback": "La controversia de dominio es civil." }, { "texto": "Tomar la casa por la fuerza", "conviccion": -14, "feedback": "Justicia por mano propia: prohibida." } ] } },
+      { "id": "titulo", "lugar": "sala", "titulo": "Probar el dominio", "dialogos": [ { "quien": "juez", "texto": "Acredite su dominio y la identidad de la cosa." } ],
+        "decision": { "pregunta": "¿Qué pruebas son esenciales?", "articulo": "Título de dominio e identidad del bien", "opciones": [ { "texto": "Escritura inscrita y la identificación precisa del inmueble", "conviccion": 16, "feedback": "Correcto: dominio acreditado e identidad de la cosa son claves." }, { "texto": "Solo decir que es mío", "conviccion": -10, "feedback": "Hay que probar el dominio." }, { "texto": "Una escritura de otro bien distinto", "conviccion": -12, "feedback": "No identifica la cosa reclamada." } ] } },
+      { "id": "ocupante", "lugar": "sala", "titulo": "La defensa del ocupante", "dialogos": [ { "quien": "contraparte", "texto": "Yo tengo derecho a estar aquí." } ],
+        "decision": { "pregunta": "¿Cómo enfrentas su defensa?", "articulo": "Carga de la prueba", "opciones": [ { "texto": "Sostengo mi título y rebato su supuesto derecho con prueba", "conviccion": 14, "feedback": "Correcto: acreditas dominio y desvirtúas la posesión ajena." }, { "texto": "Acepto que se quede sin discutir", "conviccion": -10, "feedback": "Renunciarías al derecho de tu cliente." }, { "texto": "Lo amenazo", "conviccion": -12, "feedback": "Contrario a la buena fe." } ] } }
+    ],
+    "veredictoGana": "El juez ordena la restitución del inmueble a tu cliente. La acción reivindicatoria prospera.",
+    "veredictoPierde": "No se acredita el dominio o la identidad del bien. Refuerza el título y la prueba."
+  },
+  {
+    "id": "caso_posesoria",
+    "titulo": "Amparo posesorio",
+    "materia": "Procedimiento sumario",
+    "rol": "Abogado del poseedor despojado",
+    "resumen": "A tu cliente lo despojaron de un terreno que poseía pacíficamente. Quiere recuperar la posesión.",
+    "dificultad": "Intermedio",
+    "meta": 60,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "El despojo", "dialogos": [ { "quien": "cliente", "texto": "Doctor, me sacaron del terreno que yo venía poseyendo." } ],
+        "decision": { "pregunta": "¿Qué acción posesoria intentas?", "articulo": "Acciones posesorias por vía sumaria", "opciones": [ { "texto": "Amparo/recuperación de la posesión por vía sumaria", "conviccion": 15, "feedback": "Correcto: las acciones posesorias se tramitan por la vía sumaria." }, { "texto": "Reivindicación de dominio", "conviccion": -6, "feedback": "Aquí discutes posesión, no necesariamente dominio." }, { "texto": "Recuperarlo a la fuerza", "conviccion": -14, "feedback": "La autotutela está prohibida." } ] } },
+      { "id": "prueba", "lugar": "sala", "titulo": "Probar la posesión y el despojo", "dialogos": [ { "quien": "juez", "texto": "Acredite su posesión y el despojo sufrido." } ],
+        "decision": { "pregunta": "¿Qué demuestras?", "articulo": "Posesión y hecho del despojo", "opciones": [ { "texto": "Que poseía y que fui despojado, con testigos e inspección", "conviccion": 15, "feedback": "Correcto: en lo posesorio importa el hecho de la posesión y su perturbación." }, { "texto": "Discuto solo quién es el dueño", "conviccion": -6, "feedback": "En lo posesorio no se decide el dominio de fondo." }, { "texto": "Nada concreto", "conviccion": -10, "feedback": "Debes probar la posesión y el despojo." } ] } },
+      { "id": "rapidez", "lugar": "sala", "titulo": "Celeridad del sumario", "dialogos": [ { "quien": "contraparte", "texto": "Pidamos mil diligencias para demorar." } ],
+        "decision": { "pregunta": "¿Cómo aprovechas la naturaleza sumaria?", "articulo": "Concentración y celeridad", "opciones": [ { "texto": "Concentro mi prueba y pido evitar dilaciones", "conviccion": 13, "feedback": "Correcto: el sumario es concentrado; la celeridad te favorece." }, { "texto": "Acepto todas las dilaciones de la contraparte", "conviccion": -8, "feedback": "Las dilaciones juegan en contra de tu cliente despojado." }, { "texto": "Abandono la audiencia", "conviccion": -12, "feedback": "Perderías por inactividad." } ] } }
+    ],
+    "veredictoGana": "El juez ampara la posesión de tu cliente y ordena restituirlo en el terreno. Defensa eficaz.",
+    "veredictoPierde": "No se acredita la posesión o el despojo. En lo posesorio, prueba el hecho, no solo el título."
+  },
+  {
+    "id": "caso_particion",
+    "titulo": "Partición de bienes",
+    "materia": "Procedimiento (partición judicial)",
+    "rol": "Abogado de un coheredero",
+    "resumen": "Varios herederos no se ponen de acuerdo para dividir los bienes. Tu cliente quiere su parte.",
+    "dificultad": "Intermedio",
+    "meta": 60,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "Herederos en desacuerdo", "dialogos": [ { "quien": "cliente", "texto": "Doctor, no nos ponemos de acuerdo para repartir la herencia." } ],
+        "decision": { "pregunta": "Si no hay acuerdo, ¿qué corresponde?", "articulo": "Partición judicial", "opciones": [ { "texto": "Demandar la partición judicial de los bienes", "conviccion": 15, "feedback": "Correcto: a falta de acuerdo, procede la partición judicial." }, { "texto": "Quedarse con todo a la fuerza", "conviccion": -14, "feedback": "Autotutela prohibida; cada coheredero tiene derechos." }, { "texto": "Esperar indefinidamente", "conviccion": -8, "feedback": "La inacción no resuelve el conflicto." } ] } },
+      { "id": "inventario", "lugar": "sala", "titulo": "Inventario y avalúo", "dialogos": [ { "quien": "juez", "texto": "Necesitamos conocer y valorar la masa de bienes." } ],
+        "decision": { "pregunta": "¿Qué propones para repartir con justicia?", "articulo": "Inventario, avalúo y pericia", "opciones": [ { "texto": "Inventario y avalúo pericial de los bienes", "conviccion": 15, "feedback": "Correcto: valorar la masa permite una partición equitativa." }, { "texto": "Repartir 'a ojo' sin valorar", "conviccion": -8, "feedback": "Genera injusticias y nuevos conflictos." }, { "texto": "Ocultar bienes", "conviccion": -14, "feedback": "Mala fe: se sanciona." } ] } },
+      { "id": "hijuelas", "lugar": "sala", "titulo": "Las adjudicaciones", "dialogos": [ { "quien": "contraparte", "texto": "Yo quiero todo lo mejor." } ],
+        "decision": { "pregunta": "¿Cómo defiendes una adjudicación justa?", "articulo": "Igualdad de las cuotas", "opciones": [ { "texto": "Pido adjudicaciones proporcionales a cada cuota hereditaria", "conviccion": 13, "feedback": "Correcto: la partición debe respetar las cuotas de cada heredero." }, { "texto": "Acepto quedarme con lo peor sin discutir", "conviccion": -8, "feedback": "Perjudicarías a tu cliente." }, { "texto": "Falsifico el testamento", "conviccion": -14, "feedback": "Delito y mala fe." } ] } }
+    ],
+    "veredictoGana": "El juez aprueba la partición y adjudica a cada heredero su cuota. Tu cliente recibe lo que le corresponde.",
+    "veredictoPierde": "La partición se entraba por falta de inventario o avalúo. Sustenta la valoración de los bienes."
+  },
+  {
+    "id": "caso_paternidad",
+    "titulo": "Reconocimiento de paternidad",
+    "materia": "Procedimiento sumario (familia)",
+    "rol": "Abogado de la madre",
+    "resumen": "El padre niega a su hijo. Tu clienta busca que se declare la filiación.",
+    "dificultad": "Intermedio",
+    "meta": 60,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "Un padre que niega", "dialogos": [ { "quien": "cliente", "texto": "Doctor, el padre de mi hijo se niega a reconocerlo." } ],
+        "decision": { "pregunta": "¿Qué vía corresponde a la filiación?", "articulo": "COGEP Art. 332 (sumario)", "opciones": [ { "texto": "Procedimiento sumario", "conviccion": 15, "feedback": "Correcto: la declaración de filiación se tramita por la vía sumaria." }, { "texto": "Procedimiento ordinario", "conviccion": -8, "feedback": "La materia de familia tiene trámite especial sumario." }, { "texto": "Procedimiento ejecutivo", "conviccion": -10, "feedback": "No hay título ejecutivo aquí." } ] } },
+      { "id": "prueba", "lugar": "sala", "titulo": "La prueba clave", "dialogos": [ { "quien": "juez", "texto": "¿Con qué pretende acreditar la paternidad?" } ],
+        "decision": { "pregunta": "¿Cuál es la prueba pericial decisiva?", "articulo": "Prueba pericial (ADN)", "opciones": [ { "texto": "Solicitar el examen de ADN como prueba pericial", "conviccion": 16, "feedback": "Correcto: el examen de ADN es la pericia idónea para la filiación." }, { "texto": "Solo testigos que 'creen' que es el padre", "conviccion": -6, "feedback": "Débil frente a la prueba científica." }, { "texto": "Obligarlo con amenazas", "conviccion": -12, "feedback": "Improcedente; hay vías legales." } ] } },
+      { "id": "negativa", "lugar": "sala", "titulo": "Si se niega a la prueba", "dialogos": [ { "quien": "contraparte", "texto": "Mi cliente no se hará ninguna prueba." } ],
+        "decision": { "pregunta": "¿Qué efecto puede tener su negativa injustificada?", "articulo": "Valoración de la conducta procesal", "opciones": [ { "texto": "La negativa injustificada puede valorarse en su contra", "conviccion": 14, "feedback": "Correcto: la renuencia a la pericia puede pesar contra quien la rehúye." }, { "texto": "La negativa termina el juicio a su favor", "conviccion": -12, "feedback": "Al contrario: no premia al renuente." }, { "texto": "No pasa nada, archivar", "conviccion": -8, "feedback": "Hay consecuencias procesales por la negativa." } ] } }
+    ],
+    "veredictoGana": "El juez declara la filiación y reconoce los derechos del niño. La verdad biológica se impone.",
+    "veredictoPierde": "Faltó impulsar la prueba idónea. El ADN es decisivo en la filiación."
+  },
+  {
+    "id": "caso_competencia",
+    "titulo": "El juez correcto",
+    "materia": "Competencia",
+    "rol": "Abogado de la parte actora",
+    "resumen": "Antes de demandar, debes elegir bien el juez para no perder tiempo ni dar lugar a excepciones.",
+    "dificultad": "Básico",
+    "meta": 58,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "¿Ante quién demandar?", "dialogos": [ { "quien": "cliente", "texto": "Doctor, ¿en qué juzgado presentamos la demanda?" } ],
+        "decision": { "pregunta": "¿Cómo determinas la competencia?", "articulo": "COGEP Arts. 9 y ss.", "opciones": [ { "texto": "Por materia, territorio, personas y grado", "conviccion": 15, "feedback": "Correcto: así se fija la competencia del juez." }, { "texto": "Por el juez más cercano a mi casa", "conviccion": -8, "feedback": "La cercanía no fija la competencia." }, { "texto": "Por sorteo libre que yo elijo", "conviccion": -10, "feedback": "La competencia la fija la ley, no la elección libre." } ] } },
+      { "id": "territorio", "lugar": "oficina", "titulo": "El factor territorio", "dialogos": [ { "quien": "tu", "texto": "El domicilio del demandado o el lugar del bien suelen marcar el territorio." } ],
+        "decision": { "pregunta": "Para un inmueble, ¿qué territorio suele regir?", "articulo": "Competencia territorial", "opciones": [ { "texto": "El del lugar del inmueble o el domicilio del demandado, según el caso", "conviccion": 14, "feedback": "Correcto: el territorio se ancla en reglas legales como el lugar del bien." }, { "texto": "Cualquiera, da igual", "conviccion": -10, "feedback": "No: errar el territorio genera excepción." }, { "texto": "El de mi oficina", "conviccion": -8, "feedback": "La sede del abogado no fija competencia." } ] } },
+      { "id": "consecuencia", "lugar": "sala", "titulo": "Si erramos la competencia", "dialogos": [ { "quien": "contraparte", "texto": "El juez no es competente, señoría." } ],
+        "decision": { "pregunta": "¿Qué pasa si demandas ante juez incompetente?", "articulo": "Excepción de incompetencia", "opciones": [ { "texto": "Procede la excepción de incompetencia y se demora el caso", "conviccion": 13, "feedback": "Correcto: por eso conviene verificar la competencia antes de demandar." }, { "texto": "No pasa nada, el juez resuelve igual", "conviccion": -12, "feedback": "Un juez incompetente no resuelve válidamente el fondo." }, { "texto": "Se gana automáticamente", "conviccion": -10, "feedback": "Al contrario: te perjudica." } ] } }
+    ],
+    "veredictoGana": "Elegiste el juez competente y el proceso avanza sin tropiezos. Buen inicio estratégico.",
+    "veredictoPierde": "Un error de competencia te costó tiempo y una excepción. Verifícala siempre antes de demandar."
+  },
+  {
+    "id": "caso_prueba",
+    "titulo": "La batalla de la prueba",
+    "materia": "Prueba",
+    "rol": "Abogado de la parte actora",
+    "resumen": "Tu caso depende de probar bien los hechos. Debes anunciar y sostener prueba lícita y pertinente.",
+    "dificultad": "Intermedio",
+    "meta": 62,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "Preparando la prueba", "dialogos": [ { "quien": "tu", "texto": "Lo que no anuncie a tiempo, no podré practicarlo después." } ],
+        "decision": { "pregunta": "¿Cuándo anuncias la prueba?", "articulo": "COGEP Art. 142, 152 y 159", "opciones": [ { "texto": "Desde la demanda (o contestación), oportunamente", "conviccion": 15, "feedback": "Correcto: la prueba se anuncia en los actos de proposición." }, { "texto": "Cuando me acuerde, en cualquier momento", "conviccion": -10, "feedback": "Fuera de tiempo, se inadmite." }, { "texto": "Nunca, improviso en la audiencia", "conviccion": -12, "feedback": "Sin anuncio, no hay prueba." } ] } },
+      { "id": "licitud", "lugar": "sala", "titulo": "Una prueba dudosa", "dialogos": [ { "quien": "contraparte", "texto": "Esa grabación se obtuvo violando la intimidad, señoría." } ],
+        "decision": { "pregunta": "¿Qué prueba sostienes?", "articulo": "COGEP Art. 160 (licitud)", "opciones": [ { "texto": "Solo prueba lícita, pertinente y conducente", "conviccion": 15, "feedback": "Correcto: la prueba ilícita carece de eficacia." }, { "texto": "Insisto en la grabación ilícita", "conviccion": -12, "feedback": "Será excluida y restará credibilidad." }, { "texto": "Pruebas impertinentes para confundir", "conviccion": -8, "feedback": "Lo impertinente se inadmite." } ] } },
+      { "id": "carga", "lugar": "sala", "titulo": "La carga de la prueba", "dialogos": [ { "quien": "juez", "texto": "Recuerde a quién corresponde probar." } ],
+        "decision": { "pregunta": "¿Qué tienes presente sobre la carga de la prueba?", "articulo": "Carga de la prueba", "opciones": [ { "texto": "Quien afirma un hecho debe probarlo", "conviccion": 14, "feedback": "Correcto: la carga recae, por regla, en quien afirma." }, { "texto": "El juez debe probar por mí", "conviccion": -10, "feedback": "No: la prueba es de las partes." }, { "texto": "Nadie tiene que probar nada", "conviccion": -12, "feedback": "Sin prueba, no se acreditan los hechos." } ] } }
+    ],
+    "veredictoGana": "Tu prueba pertinente y lícita convence al juez. Los hechos quedan acreditados a favor de tu cliente.",
+    "veredictoPierde": "Tu prueba fue inadmitida o excluida. Recuerda: oportunidad, pertinencia y licitud."
+  },
+  {
+    "id": "caso_audiencias",
+    "titulo": "Dominar la audiencia",
+    "materia": "Audiencias (ordinario)",
+    "rol": "Abogado de la parte actora",
+    "resumen": "El proceso es oral. Debes manejar la audiencia preliminar y la de juicio con técnica.",
+    "dificultad": "Avanzado",
+    "meta": 64,
+    "etapas": [
+      { "id": "preliminar", "lugar": "sala", "titulo": "Audiencia preliminar", "dialogos": [ { "quien": "juez", "texto": "Sanearemos el proceso y fijaremos el objeto del debate." } ],
+        "decision": { "pregunta": "¿Qué buscas en la preliminar?", "articulo": "COGEP Art. 294", "opciones": [ { "texto": "Sanear, conciliar si cabe y lograr admisión de mi prueba", "conviccion": 15, "feedback": "Correcto: la preliminar depura el proceso y admite la prueba pertinente." }, { "texto": "Practicar toda la prueba ya mismo", "conviccion": -8, "feedback": "La prueba se practica en la audiencia de juicio." }, { "texto": "Retirarme", "conviccion": -12, "feedback": "Abandonar perjudica a tu cliente." } ] } },
+      { "id": "juicio", "lugar": "sala", "titulo": "Audiencia de juicio", "dialogos": [ { "quien": "juez", "texto": "Practique su prueba y formule sus alegatos." } ],
+        "decision": { "pregunta": "¿Cómo manejas el juicio?", "articulo": "COGEP Art. 297", "opciones": [ { "texto": "Practico la prueba admitida y alego con claridad", "conviccion": 15, "feedback": "Correcto: en juicio se practica la prueba y se alega." }, { "texto": "Introduzco prueba no anunciada", "conviccion": -10, "feedback": "La prueba sorpresa se rechaza." }, { "texto": "Solo grito que tengo razón", "conviccion": -8, "feedback": "La oralidad premia la técnica, no el volumen." } ] } },
+      { "id": "alegato", "lugar": "sala", "titulo": "Alegato final", "dialogos": [ { "quien": "juez", "texto": "Su alegato de cierre." } ],
+        "decision": { "pregunta": "¿Cómo cierras?", "articulo": "Teoría del caso", "opciones": [ { "texto": "Hilo hechos probados, prueba y derecho hacia mi pretensión", "conviccion": 14, "feedback": "Correcto: un buen cierre integra todo en una teoría coherente." }, { "texto": "Repito la demanda sin conectar nada", "conviccion": -8, "feedback": "El alegato debe persuadir, no repetir." }, { "texto": "Hablo de un caso ajeno", "conviccion": -10, "feedback": "Debe ceñirse a este caso y su prueba." } ] } }
+    ],
+    "veredictoGana": "Dominaste las dos audiencias con técnica y el juez resuelve a tu favor. ¡Litigante de raza!",
+    "veredictoPierde": "Errores en el manejo de las audiencias te costaron el caso. La oralidad exige preparación."
+  },
+  {
+    "id": "caso_contencioso_admin",
+    "titulo": "Impugnar un acto administrativo",
+    "materia": "Contencioso administrativo",
+    "rol": "Abogado del administrado",
+    "resumen": "Una entidad pública sancionó a tu cliente con un acto que consideras ilegal. Buscas anularlo ante lo contencioso administrativo.",
+    "dificultad": "Avanzado",
+    "meta": 64,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "Un acto administrativo lesivo", "dialogos": [ { "quien": "cliente", "texto": "Doctor, una institución pública me impuso una sanción que es injusta e ilegal." } ],
+        "decision": { "pregunta": "¿Ante qué jurisdicción impugnas el acto administrativo?", "articulo": "COGEP (procedimiento contencioso administrativo, Arts. 326 y ss.)", "opciones": [ { "texto": "Ante el Tribunal Distrital de lo Contencioso Administrativo", "conviccion": 15, "feedback": "Correcto: los actos de la administración pública se impugnan ante lo contencioso administrativo." }, { "texto": "Ante un juez civil cualquiera", "conviccion": -10, "feedback": "La materia administrativa tiene su jurisdicción especializada." }, { "texto": "Mediante una denuncia penal", "conviccion": -12, "feedback": "La ilegalidad del acto se discute en lo contencioso administrativo, no en lo penal." } ] } },
+      { "id": "accion", "lugar": "oficina", "titulo": "Tipo de acción", "dialogos": [ { "quien": "tu", "texto": "Debo definir si busco anular el acto o además restablecer un derecho subjetivo." } ],
+        "decision": { "pregunta": "Tu cliente busca anular el acto y que se reconozca su derecho. ¿Qué acción planteas?", "articulo": "Acción subjetiva (de plena jurisdicción) y objetiva (de anulación)", "opciones": [ { "texto": "Acción subjetiva o de plena jurisdicción", "conviccion": 15, "feedback": "Correcto: la de plena jurisdicción tutela un derecho subjetivo lesionado por el acto." }, { "texto": "No importa, todas son iguales", "conviccion": -10, "feedback": "El tipo de acción define qué puede pedir y resolver el tribunal." }, { "texto": "Una acción penal de anulación", "conviccion": -12, "feedback": "No existe; confundes jurisdicciones." } ] } },
+      { "id": "termino", "lugar": "sala", "titulo": "Oportunidad y legalidad", "dialogos": [ { "quien": "contraparte", "texto": "Señoría, el acto es plenamente legal y, además, el plazo ya pasó." } ],
+        "decision": { "pregunta": "¿Qué cuidas para que prospere la impugnación?", "articulo": "Término para impugnar y motivación del acto", "opciones": [ { "texto": "Impugnar dentro del término y demostrar la ilegalidad o falta de motivación del acto", "conviccion": 15, "feedback": "Correcto: la oportunidad y la prueba de la ilegalidad son decisivas." }, { "texto": "Presentar la demanda cuando sea, sin apuro", "conviccion": -12, "feedback": "Vencido el término, la impugnación se rechaza." }, { "texto": "No fundamentar la ilegalidad", "conviccion": -10, "feedback": "Sin demostrar el vicio, el acto se presume válido." } ] } }
+    ],
+    "veredictoGana": "El Tribunal declara la ilegalidad del acto, lo anula y restablece el derecho de tu cliente.",
+    "veredictoPierde": "El Tribunal mantiene el acto por extemporaneidad o falta de prueba de su ilegalidad. Cuida el término y la motivación."
+  },
+  {
+    "id": "caso_contencioso_tributario",
+    "titulo": "Impugnar una glosa del SRI",
+    "materia": "Contencioso tributario",
+    "rol": "Abogado del contribuyente",
+    "resumen": "La administración tributaria determinó a tu cliente una glosa millonaria que consideras improcedente. Buscas impugnarla.",
+    "dificultad": "Experto",
+    "meta": 66,
+    "etapas": [
+      { "id": "briefing", "lugar": "oficina", "titulo": "La determinación tributaria", "dialogos": [ { "quien": "cliente", "texto": "Doctor, la administración tributaria me determinó una deuda enorme que no corresponde." } ],
+        "decision": { "pregunta": "¿Ante qué jurisdicción impugnas el acto de determinación tributaria?", "articulo": "COGEP (procedimiento contencioso tributario, Arts. 299 y ss.)", "opciones": [ { "texto": "Ante el Tribunal Distrital de lo Contencioso Tributario", "conviccion": 15, "feedback": "Correcto: los actos de la administración tributaria se impugnan ante lo contencioso tributario." }, { "texto": "Ante un juez de inquilinato", "conviccion": -12, "feedback": "Materia equivocada; lo tributario tiene jurisdicción especializada." }, { "texto": "Con una denuncia penal al funcionario", "conviccion": -10, "feedback": "La legalidad de la glosa se discute en lo contencioso tributario." } ] } },
+      { "id": "afianzamiento", "lugar": "oficina", "titulo": "Suspender el cobro", "dialogos": [ { "quien": "tu", "texto": "Si quiero suspender la ejecución del cobro mientras litigo, debo considerar el afianzamiento." } ],
+        "decision": { "pregunta": "Para suspender el cobro coactivo durante el juicio, ¿qué suele exigirse?", "articulo": "Afianzamiento (caución) en lo tributario", "opciones": [ { "texto": "Rendir el afianzamiento o caución que exige la ley", "conviccion": 15, "feedback": "Correcto: el afianzamiento permite suspender el cobro mientras se discute la obligación." }, { "texto": "Nada; el cobro se suspende solo con presentar la demanda", "conviccion": -10, "feedback": "Por regla, sin afianzamiento la administración puede continuar el cobro." }, { "texto": "Ocultar los bienes para que no cobren", "conviccion": -14, "feedback": "Mala fe e ilícito; agrava la situación." } ] } },
+      { "id": "prueba", "lugar": "sala", "titulo": "Desvirtuar la glosa", "dialogos": [ { "quien": "contraparte", "texto": "Señoría, la determinación está correctamente sustentada." } ],
+        "decision": { "pregunta": "¿Cómo desvirtúas la determinación tributaria?", "articulo": "Prueba documental y pericial contable", "opciones": [ { "texto": "Con documentación contable y pericia que acrediten la realidad económica", "conviccion": 16, "feedback": "Correcto: la prueba contable y pericial es clave para derribar la glosa." }, { "texto": "Solo afirmando que el SRI se equivoca", "conviccion": -10, "feedback": "El alegato no basta; hay que probar." }, { "texto": "Con facturas falsas", "conviccion": -14, "feedback": "Delito tributario: hunde tu caso." } ] } }
+    ],
+    "veredictoGana": "El Tribunal acepta la impugnación, deja sin efecto la glosa y tu cliente no paga lo indebido.",
+    "veredictoPierde": "El Tribunal ratifica la determinación por falta de prueba o de afianzamiento. Sustenta la realidad económica y cuida los requisitos."
   }
 ]

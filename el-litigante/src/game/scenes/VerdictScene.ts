@@ -68,10 +68,13 @@ export class VerdictScene extends Phaser.Scene {
       this.add.text(cx, 582, '🏆 ' + unlocked.slice(0, 3).map((u) => u.name).join(' · '), { fontFamily: 'Segoe UI', fontSize: fs(15), color: '#f5d547', wordWrap: { width: GAME_WIDTH - 180 } }).setOrigin(0.5).setDepth(5);
     }
 
-    makeButton(this, cx - 180, GAME_HEIGHT - 50, won ? 'Otro caso' : 'Reintentar', () => {
+    const b1 = makeButton(this, cx - 200, GAME_HEIGHT - 64, won ? '⚖️ Jugar otro caso' : '↻ Reintentar', () => {
       if (won) this.scene.start('CaseSelect');
       else this.scene.start('Audiencia', { caseId: caso.id });
-    }, { width: 300, height: 56, primary: true });
-    makeButton(this, cx + 180, GAME_HEIGHT - 50, 'Menú', () => this.scene.start('Menu'), { width: 300, height: 56 });
+    }, { width: 340, height: 64, primary: true, fontSize: 22 });
+    const b2 = makeButton(this, cx + 200, GAME_HEIGHT - 64, '🏠 Menú', () => this.scene.start('Menu'), { width: 340, height: 64, fontSize: 22 });
+    // Por encima del velo oscuro para que se vean nítidos y reciban el toque.
+    b1.setDepth(50);
+    b2.setDepth(50);
   }
 }
