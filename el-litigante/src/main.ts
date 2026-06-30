@@ -4,11 +4,9 @@ import { store } from './core/store';
 import { evaluateAchievements } from './core/achievements';
 import { PreloadScene } from './game/scenes/PreloadScene';
 import { MenuScene } from './game/scenes/MenuScene';
-import { DifficultyScene } from './game/scenes/DifficultyScene';
-import { WorldSelectScene } from './game/scenes/WorldSelectScene';
-import { LevelScene } from './game/scenes/LevelScene';
-import { HudScene } from './game/scenes/HudScene';
-import { LessonScene } from './game/scenes/LessonScene';
+import { CaseSelectScene } from './game/scenes/CaseSelectScene';
+import { AudienciaScene } from './game/scenes/AudienciaScene';
+import { VerdictScene } from './game/scenes/VerdictScene';
 import { SettingsScene } from './game/scenes/SettingsScene';
 import { AchievementsScene } from './game/scenes/AchievementsScene';
 import { ProfileScene } from './game/scenes/ProfileScene';
@@ -33,11 +31,9 @@ const config: Phaser.Types.Core.GameConfig = {
   scene: [
     PreloadScene,
     MenuScene,
-    DifficultyScene,
-    WorldSelectScene,
-    LevelScene,
-    HudScene,
-    LessonScene,
+    CaseSelectScene,
+    AudienciaScene,
+    VerdictScene,
     SettingsScene,
     AchievementsScene,
     ProfileScene,

@@ -46,19 +46,15 @@ export class ProfileScene extends Phaser.Scene {
   private renderStats() {
     const p = store.active!;
     const t = theme();
-    const worldsTotal = store.content.worlds.length;
-    const pct = Math.round((p.worldsCompleted.length / worldsTotal) * 100);
+    const casesTotal = store.content.cases.length;
+    const pct = Math.round((p.casesWon.length / casesTotal) * 100);
     const nextLvl = xpForLevel(p.charLevel + 1);
     const lines = [
       `Nombre: ${p.name}    ·    Dificultad: ${p.difficulty}`,
       `Nivel de personaje: ${p.charLevel}   (XP ${p.xp} / ${nextLvl})`,
       `Monedas LEX: ${p.lex}`,
-      `Progreso del COGEP: ${pct}%   (${p.worldsCompleted.length}/${worldsTotal} mundos)`,
-      `Niveles superados: ${p.levelsCompleted.length}`,
-      `Errores procesales vencidos: ${p.stats.enemies}`,
-      `Expedientes recogidos: ${p.stats.documents}`,
-      `Trivias correctas: ${p.stats.trivia}`,
-      `Niveles impecables (sin daño): ${p.stats.perfectLevels}`,
+      `Casos ganados: ${p.casesWon.length} / ${casesTotal}   (${pct}%)`,
+      `Decisiones acertadas: ${p.stats.trivia}`,
       `Logros: ${p.achievements.length} / ${store.content.achievements.length}`,
       `Tiempo jugado: ${p.stats.minutes} min`,
     ];

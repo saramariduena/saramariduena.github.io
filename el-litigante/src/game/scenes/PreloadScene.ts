@@ -3,6 +3,7 @@ import { GAME_WIDTH, GAME_HEIGHT } from '../../config/gameConfig';
 import { loadContent } from '../../content/ContentLoader';
 import { store } from '../../core/store';
 import { generateTextures } from '../systems/assets';
+import { generateCourtroom } from '../systems/courtroom';
 
 export class PreloadScene extends Phaser.Scene {
   constructor() {
@@ -47,6 +48,7 @@ export class PreloadScene extends Phaser.Scene {
     this.tweens.add({ targets: fill, width: 400, duration: 600, ease: 'Sine.inOut' });
 
     generateTextures(this);
+    generateCourtroom(this);
 
     loadContent()
       .then((content) => {

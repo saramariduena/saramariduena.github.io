@@ -47,6 +47,7 @@ export function createProfile(name: string, difficulty: string): SaveProfile {
     levelsCompleted: [],
     worldsCompleted: [],
     bossesDefeated: [],
+    casesWon: [],
     lessonsRead: [],
     achievements: [],
     difficultyWorldsDone: [],
@@ -72,11 +73,20 @@ class Store {
       p.stats = { ...emptyStats(), ...(p.stats || {}) };
       p.skills = p.skills || {};
       p.achievements = p.achievements || [];
+      p.casesWon = p.casesWon || [];
     });
   }
 
   get active(): SaveProfile | null {
     return this.profiles.find((p) => p.id === this.activeId) || null;
+  }
+
+  /** Devuelve el perfil activo, creando uno por defecto si no existe. */
+  ensureProfile(): SaveProfile {
+    if (this.active) return this.active;
+    const p = createProfile('Litigante', 'estudiante');
+    this.addProfile(p);
+    return p;
   }
 
   addProfile(p: SaveProfile) {

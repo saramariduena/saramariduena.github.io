@@ -118,6 +118,44 @@ export interface Dato {
   articulo: string;
 }
 
+export interface CaseOption {
+  texto: string;
+  conviccion: number;
+  feedback: string;
+}
+
+export interface CaseDecision {
+  pregunta: string;
+  articulo: string;
+  opciones: CaseOption[];
+}
+
+export interface CaseDialogo {
+  quien: string;
+  texto: string;
+}
+
+export interface CaseStage {
+  id: string;
+  lugar: 'oficina' | 'sala';
+  titulo: string;
+  dialogos: CaseDialogo[];
+  decision?: CaseDecision;
+}
+
+export interface LegalCase {
+  id: string;
+  titulo: string;
+  materia: string;
+  rol: string;
+  resumen: string;
+  dificultad: string;
+  meta: number;
+  etapas: CaseStage[];
+  veredictoGana: string;
+  veredictoPierde: string;
+}
+
 export interface Content {
   worlds: World[];
   lessons: Record<string, Lesson>;
@@ -127,6 +165,7 @@ export interface Content {
   achievements: Achievement[];
   npcs: Npc[];
   datos: { pruebas: Dato[]; peligros: Dato[] };
+  cases: LegalCase[];
 }
 
 export interface Stats {
@@ -151,6 +190,7 @@ export interface SaveProfile {
   levelsCompleted: string[];
   worldsCompleted: string[];
   bossesDefeated: string[];
+  casesWon: string[];
   lessonsRead: string[];
   achievements: string[];
   difficultyWorldsDone: string[];

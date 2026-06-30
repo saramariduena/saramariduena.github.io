@@ -2,7 +2,9 @@
 
 **Videojuego educativo de plataformas para aprender el Código Orgánico General de Procesos (COGEP) del Ecuador.**
 
-Encarna a *El Litigante*, un joven abogado que debe convertirse en el mejor del país superando 15 mundos inspirados en las instituciones del proceso civil ecuatoriano: principios, competencia, demanda, citación, prueba, audiencias, procedimientos, ejecución, recursos y medidas cautelares.
+**Modo principal — Simulador de Audiencias:** eres abogado y litigas casos hipotéticos por las etapas del COGEP (la vía procesal, la demanda, la citación, la audiencia, la prueba y la sentencia). En cada etapa hay diálogos con el juez, tu cliente y la contraparte, y debes **elegir la opción correcta** según el COGEP. Tus decisiones suben o bajan la **"convicción del juez"** y al final **ganas o pierdes** el caso. Cada decisión explica la regla y su artículo.
+
+> Los casos viven en `public/data/cases.json` (editables sin tocar código). Existe además un modo plataformas heredado cuyo código se conserva en `src/game/scenes` por si quieres reactivarlo.
 
 > **Aviso académico:** el contenido es **educativo** y **no sustituye** el estudio del texto oficial del COGEP. Los artículos citados deben verificarse contra la versión vigente (incluidas sus reformas). Todo el contenido jurídico está en archivos de datos editables (ver más abajo) para mantenerlo alineado con la normativa.
 

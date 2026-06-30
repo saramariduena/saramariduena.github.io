@@ -1,0 +1,287 @@
+[
+  {
+    "id": "caso_monitorio",
+    "titulo": "El cobro de la deuda",
+    "materia": "Procedimiento monitorio",
+    "rol": "Abogado de la parte ACTORA",
+    "resumen": "Tu clienta prestó USD 5.000 con un pagaré firmado. El deudor no paga. Debes lograr el cobro aplicando bien el COGEP.",
+    "dificultad": "Básico",
+    "meta": 60,
+    "etapas": [
+      {
+        "id": "briefing",
+        "lugar": "oficina",
+        "titulo": "Tu clienta te visita",
+        "dialogos": [
+          { "quien": "cliente", "texto": "Doctor, le presté 5.000 dólares a un conocido. Firmamos un pagaré con fecha de pago y nunca me pagó." },
+          { "quien": "cliente", "texto": "¿Tendré que ir a un juicio larguísimo para recuperar mi dinero?" },
+          { "quien": "tu", "texto": "Tranquila. Como la deuda es determinada, líquida, exigible y consta en un documento, hay una vía rápida." }
+        ],
+        "decision": {
+          "pregunta": "¿Qué procedimiento eliges para cobrar la deuda?",
+          "articulo": "COGEP Arts. 356-361 (monitorio)",
+          "opciones": [
+            { "texto": "Procedimiento monitorio", "conviccion": 15, "feedback": "¡Correcto! Para deudas determinadas y documentadas el monitorio es la vía idónea y rápida." },
+            { "texto": "Procedimiento ordinario", "conviccion": -8, "feedback": "Es la vía general y más lenta; existiendo documento de la deuda, el monitorio es mejor." },
+            { "texto": "Procedimiento ejecutivo sin más", "conviccion": -4, "feedback": "El ejecutivo exige título ejecutivo específico; aquí el monitorio encaja mejor para formar el título." }
+          ]
+        }
+      },
+      {
+        "id": "demanda",
+        "lugar": "oficina",
+        "titulo": "Preparas la petición",
+        "dialogos": [
+          { "quien": "tu", "texto": "Redactaré la solicitud de pago. Debe ser clara y acompañar el documento de la deuda." }
+        ],
+        "decision": {
+          "pregunta": "¿Qué es IMPRESCINDIBLE acompañar a la petición monitoria?",
+          "articulo": "COGEP Art. 356 y 142",
+          "opciones": [
+            { "texto": "El documento que prueba la deuda", "conviccion": 14, "feedback": "Correcto: el monitorio se basa en un documento que justifica la deuda." },
+            { "texto": "Dos testigos de la conversación", "conviccion": -6, "feedback": "El monitorio se sustenta en documento, no en testigos para acreditar la deuda." },
+            { "texto": "Una denuncia penal previa", "conviccion": -10, "feedback": "El cobro de una deuda civil no requiere denuncia penal; eso sería improcedente." }
+          ]
+        }
+      },
+      {
+        "id": "citacion",
+        "lugar": "oficina",
+        "titulo": "No encuentran al deudor",
+        "dialogos": [
+          { "quien": "secretario", "texto": "Doctor, el citador no ubicó al demandado en el domicilio señalado." }
+        ],
+        "decision": {
+          "pregunta": "¿Cómo procuras una citación VÁLIDA?",
+          "articulo": "COGEP Arts. 53-56 (citación)",
+          "opciones": [
+            { "texto": "Citación por boletas y, de ser necesario, por medios, bajo juramento de desconocer su domicilio", "conviccion": 13, "feedback": "Correcto: agotada la búsqueda, procede la citación por boletas o por la prensa/medios, con declaración juramentada." },
+            { "texto": "Le entrego la demanda a un vecino y listo", "conviccion": -12, "feedback": "Eso no es citación válida y puede generar nulidad por indefensión." },
+            { "texto": "Sigo esperando indefinidamente", "conviccion": -6, "feedback": "La pasividad estanca el proceso; debes impulsar la citación por las vías legales." }
+          ]
+        }
+      },
+      {
+        "id": "audiencia",
+        "lugar": "sala",
+        "titulo": "El deudor se opone",
+        "dialogos": [
+          { "quien": "juez", "texto": "Se instala la audiencia. La parte demandada formula oposición. Adelante." },
+          { "quien": "contraparte", "texto": "Señoría, la obligación está PRESCRITA. Ha pasado demasiado tiempo." },
+          { "quien": "tu", "texto": "Señoría, eso no es así y puedo demostrarlo." }
+        ],
+        "decision": {
+          "pregunta": "¿Cómo desvirtúas la excepción de prescripción?",
+          "articulo": "Prescripción: puede interrumpirse (citación / reconocimiento)",
+          "opciones": [
+            { "texto": "Acredito que la prescripción se interrumpió (abono parcial y citación)", "conviccion": 16, "feedback": "Correcto: a diferencia de la caducidad, la prescripción se interrumpe; un abono o la citación la reinician." },
+            { "texto": "Admito que prescribió pero pido piedad al juez", "conviccion": -14, "feedback": "El proceso se resuelve con derecho y prueba, no con clemencia." },
+            { "texto": "Ignoro la excepción y sigo con otra cosa", "conviccion": -10, "feedback": "No contestar una excepción puede costarte el caso: hay que rebatirla." }
+          ]
+        }
+      },
+      {
+        "id": "prueba",
+        "lugar": "sala",
+        "titulo": "Practicas la prueba",
+        "dialogos": [
+          { "quien": "juez", "texto": "Practique su prueba, doctor." }
+        ],
+        "decision": {
+          "pregunta": "¿Qué prueba presentas para sostener el cobro?",
+          "articulo": "COGEP Arts. 193 y ss. (prueba documental)",
+          "opciones": [
+            { "texto": "El pagaré original y el reconocimiento del abono parcial", "conviccion": 14, "feedback": "Correcto: la prueba documental pertinente acredita la deuda y la interrupción." },
+            { "texto": "Una grabación oculta sin autorización", "conviccion": -12, "feedback": "Prueba ilícita: obtenida con violación de derechos, carece de eficacia." },
+            { "texto": "Solo mi palabra como abogado", "conviccion": -8, "feedback": "El alegato no es prueba; hay que acreditar los hechos." }
+          ]
+        }
+      }
+    ],
+    "veredictoGana": "El juez declara CON LUGAR la demanda y ordena el pago de la deuda más intereses y costas. Tu clienta recupera su dinero. ¡Gran litigio!",
+    "veredictoPierde": "El juez no se convence: acepta la oposición y rechaza la demanda. La deuda queda sin cobrar. Repasa los principios y vuelve a intentarlo."
+  },
+  {
+    "id": "caso_inquilinato",
+    "titulo": "El inquilino que no paga",
+    "materia": "Procedimiento sumario (inquilinato)",
+    "rol": "Abogado de la parte ACTORA (arrendador)",
+    "resumen": "Tu cliente arrendó un local. El inquilino lleva 5 meses sin pagar. Buscas la terminación del contrato y la desocupación.",
+    "dificultad": "Intermedio",
+    "meta": 62,
+    "etapas": [
+      {
+        "id": "briefing",
+        "lugar": "oficina",
+        "titulo": "El arrendador acude a ti",
+        "dialogos": [
+          { "quien": "cliente", "texto": "Doctor, mi inquilino no paga hace cinco meses y no se quiere ir del local." },
+          { "quien": "tu", "texto": "Veamos la vía procesal adecuada para el inquilinato." }
+        ],
+        "decision": {
+          "pregunta": "¿Qué procedimiento corresponde al inquilinato?",
+          "articulo": "COGEP Arts. 332-335 (sumario)",
+          "opciones": [
+            { "texto": "Procedimiento sumario", "conviccion": 15, "feedback": "Correcto: las controversias de inquilinato se tramitan por la vía sumaria, en audiencia única." },
+            { "texto": "Procedimiento ordinario", "conviccion": -8, "feedback": "El ordinario es la regla general; el inquilinato tiene trámite especial sumario." },
+            { "texto": "Procedimiento monitorio", "conviccion": -6, "feedback": "El monitorio es para deudas documentadas; aquí buscas terminación y desocupación." }
+          ]
+        }
+      },
+      {
+        "id": "demanda",
+        "lugar": "oficina",
+        "titulo": "Estructuras la demanda",
+        "dialogos": [
+          { "quien": "tu", "texto": "La demanda debe tener una pretensión clara y anunciar la prueba desde ya." }
+        ],
+        "decision": {
+          "pregunta": "¿Qué incluyes para no fallar en la demanda?",
+          "articulo": "COGEP Art. 142 y 152",
+          "opciones": [
+            { "texto": "Pretensión clara, fundamentos y anuncio de toda la prueba", "conviccion": 14, "feedback": "Correcto: lo que no anuncias en la demanda, por regla general, no podrás practicarlo luego." },
+            { "texto": "Solo el reclamo, la prueba la consigo después", "conviccion": -10, "feedback": "Riesgo grave: la prueba se anuncia oportunamente; si no, se inadmite." },
+            { "texto": "Amenazas al inquilino en el escrito", "conviccion": -12, "feedback": "Eso vulnera la lealtad procesal y puede sancionarse." }
+          ]
+        }
+      },
+      {
+        "id": "audiencia",
+        "lugar": "sala",
+        "titulo": "Audiencia única",
+        "dialogos": [
+          { "quien": "juez", "texto": "En el sumario tenemos audiencia única. Primero, ¿hay ánimo conciliatorio?" },
+          { "quien": "contraparte", "texto": "Mi cliente pagaría una parte si le dan plazo." }
+        ],
+        "decision": {
+          "pregunta": "El juez promueve la conciliación. ¿Qué haces?",
+          "articulo": "Conciliación; el acta es título de ejecución",
+          "opciones": [
+            { "texto": "Exploro un acuerdo razonable que asegure el pago y la desocupación", "conviccion": 12, "feedback": "Bien: a veces el mejor litigio es un buen acuerdo; el acta de conciliación es título de ejecución." },
+            { "texto": "Rechazo todo de plano sin escuchar", "conviccion": -6, "feedback": "Cerrarse sin evaluar puede no convenir a tu cliente ni al juez." },
+            { "texto": "Insulto a la contraparte", "conviccion": -12, "feedback": "La temeridad y la mala fe se sancionan; pierdes credibilidad." }
+          ]
+        }
+      },
+      {
+        "id": "prueba",
+        "lugar": "sala",
+        "titulo": "La prueba del impago",
+        "dialogos": [
+          { "quien": "juez", "texto": "No hubo acuerdo total. Practiquen su prueba." }
+        ],
+        "decision": {
+          "pregunta": "¿Con qué pruebas acreditas el incumplimiento?",
+          "articulo": "COGEP Arts. 193 y ss.",
+          "opciones": [
+            { "texto": "El contrato de arrendamiento y los comprobantes de los pagos no realizados", "conviccion": 15, "feedback": "Correcto: prueba documental pertinente y conducente del incumplimiento." },
+            { "texto": "La opinión de un vecino molesto", "conviccion": -6, "feedback": "Poco conducente; debes acreditar el impago con documentos." },
+            { "texto": "Entrar a la fuerza al local para tomar fotos", "conviccion": -14, "feedback": "Prueba ilícita y conducta indebida; sin valor y contraproducente." }
+          ]
+        }
+      }
+    ],
+    "veredictoGana": "El juez declara la terminación del contrato y ordena la desocupación y el pago de lo adeudado. Tu cliente recupera su local.",
+    "veredictoPierde": "El juez no encuentra acreditado el incumplimiento conforme a derecho y niega la pretensión. Revisa la prueba y la vía."
+  },
+  {
+    "id": "caso_danos",
+    "titulo": "Daños y perjuicios",
+    "materia": "Procedimiento ordinario",
+    "rol": "Abogado de la parte ACTORA",
+    "resumen": "Un vehículo de una empresa dañó la propiedad de tu cliente. Reclamas la reparación por la vía ordinaria.",
+    "dificultad": "Avanzado",
+    "meta": 65,
+    "etapas": [
+      {
+        "id": "briefing",
+        "lugar": "oficina",
+        "titulo": "El caso de los daños",
+        "dialogos": [
+          { "quien": "cliente", "texto": "Un camión de la empresa destruyó el muro de mi casa. Quiero que me reparen el daño." },
+          { "quien": "tu", "texto": "Como no hay trámite especial, iremos por la vía de conocimiento general." }
+        ],
+        "decision": {
+          "pregunta": "¿Qué procedimiento aplica a esta pretensión de daños?",
+          "articulo": "COGEP Arts. 289-295 (ordinario)",
+          "opciones": [
+            { "texto": "Procedimiento ordinario", "conviccion": 14, "feedback": "Correcto: sin trámite especial, la regla residual es el ordinario, con dos audiencias." },
+            { "texto": "Procedimiento sumario", "conviccion": -8, "feedback": "El sumario es para materias señaladas; los daños generales van por ordinario." },
+            { "texto": "Monitorio", "conviccion": -10, "feedback": "El monitorio es para deudas documentadas, no para daños a probar." }
+          ]
+        }
+      },
+      {
+        "id": "competencia",
+        "lugar": "oficina",
+        "titulo": "¿Ante qué juez?",
+        "dialogos": [
+          { "quien": "tu", "texto": "Antes de demandar, debo asegurar la competencia para evitar excepciones." }
+        ],
+        "decision": {
+          "pregunta": "¿Qué verificas para no errar la competencia?",
+          "articulo": "COGEP Arts. 9 y ss.",
+          "opciones": [
+            { "texto": "Materia, territorio, personas y grado del juez", "conviccion": 13, "feedback": "Correcto: la competencia se fija por materia, territorio, personas y grados." },
+            { "texto": "El juez que me caiga mejor", "conviccion": -12, "feedback": "La competencia no se elige por simpatía; se rige por la ley." },
+            { "texto": "No importa, cualquiera sirve", "conviccion": -10, "feedback": "Demandar ante juez incompetente genera excepción y demora." }
+          ]
+        }
+      },
+      {
+        "id": "preliminar",
+        "lugar": "sala",
+        "titulo": "Audiencia preliminar",
+        "dialogos": [
+          { "quien": "juez", "texto": "En el ordinario hay dos audiencias. Estamos en la preliminar: sanearemos el proceso y admitiré la prueba." },
+          { "quien": "contraparte", "texto": "Señoría, opongo excepción de incompetencia." }
+        ],
+        "decision": {
+          "pregunta": "¿Cómo enfrentas la audiencia preliminar?",
+          "articulo": "COGEP Art. 294 (audiencia preliminar)",
+          "opciones": [
+            { "texto": "Sostengo la competencia y pido admisión de mi prueba pertinente", "conviccion": 15, "feedback": "Correcto: la preliminar sanea el proceso, fija el objeto y admite la prueba pertinente." },
+            { "texto": "Renuncio a la prueba para ir rápido", "conviccion": -12, "feedback": "Sin prueba admitida no podrás acreditar el daño en el juicio." },
+            { "texto": "Me retiro de la audiencia", "conviccion": -14, "feedback": "Abandonar la audiencia es desastroso para tu cliente." }
+          ]
+        }
+      },
+      {
+        "id": "juicio",
+        "lugar": "sala",
+        "titulo": "Audiencia de juicio",
+        "dialogos": [
+          { "quien": "juez", "texto": "Audiencia de juicio. Practique su prueba y alegue." }
+        ],
+        "decision": {
+          "pregunta": "¿Qué prueba es la más fuerte para acreditar el daño y su monto?",
+          "articulo": "COGEP Arts. 221 y ss. (pericial)",
+          "opciones": [
+            { "texto": "Informe pericial del daño y su valoración, más fotos y facturas", "conviccion": 16, "feedback": "Correcto: la pericia aporta el conocimiento técnico para valorar el daño con imparcialidad." },
+            { "texto": "Solo decir un número al azar", "conviccion": -10, "feedback": "El monto debe acreditarse; un número sin sustento no convence." },
+            { "texto": "Un testigo que 'escuchó' del daño", "conviccion": -4, "feedback": "Útil como apoyo, pero débil frente a una pericia para valorar el daño." }
+          ]
+        }
+      },
+      {
+        "id": "alegato",
+        "lugar": "sala",
+        "titulo": "Alegato final",
+        "dialogos": [
+          { "quien": "juez", "texto": "Su alegato final, doctor." }
+        ],
+        "decision": {
+          "pregunta": "¿Cómo cierras tu alegato?",
+          "articulo": "Oralidad: el alegato integra hechos, prueba y derecho",
+          "opciones": [
+            { "texto": "Conecto los hechos probados con el derecho y la pretensión, con claridad", "conviccion": 14, "feedback": "Excelente: un buen alegato hila prueba, hechos y norma hacia tu pretensión." },
+            { "texto": "Repito gritando que tengo razón", "conviccion": -8, "feedback": "La oralidad premia la claridad y la técnica, no el volumen." },
+            { "texto": "Leo un texto sin relación con el caso", "conviccion": -10, "feedback": "El alegato debe responder al caso concreto y su prueba." }
+          ]
+        }
+      }
+    ],
+    "veredictoGana": "El juez declara CON LUGAR la demanda y condena a la empresa a reparar el daño y pagar costas. Tu cliente obtiene justicia.",
+    "veredictoPierde": "El juez considera no acreditados el daño o su monto y rechaza la pretensión. Refuerza tu prueba pericial y tu alegato."
+  }
+]

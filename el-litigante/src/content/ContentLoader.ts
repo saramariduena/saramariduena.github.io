@@ -8,6 +8,7 @@ import type {
   Achievement,
   Npc,
   Dato,
+  LegalCase,
 } from '../core/types';
 
 // Carga todo el contenido jurídico/de juego desde archivos JSON estáticos.
@@ -23,7 +24,7 @@ export async function loadContent(): Promise<Content> {
   const base = import.meta.env.BASE_URL || '/';
   const p = (f: string) => `${base}data/${f}`.replace(/\/+/g, '/');
 
-  const [worlds, lessons, enemies, skills, difficulties, achievements, npcs, datos] =
+  const [worlds, lessons, enemies, skills, difficulties, achievements, npcs, datos, cases] =
     await Promise.all([
       getJson<World[]>(p('worlds.json')),
       getJson<Record<string, Lesson>>(p('lessons.json')),
@@ -33,8 +34,9 @@ export async function loadContent(): Promise<Content> {
       getJson<Achievement[]>(p('achievements.json')),
       getJson<Npc[]>(p('npcs.json')),
       getJson<{ pruebas: Dato[]; peligros: Dato[] }>(p('datos.json')),
+      getJson<LegalCase[]>(p('cases.json')),
     ]);
 
   worlds.sort((a, b) => a.order - b.order);
-  return { worlds, lessons, enemies, skills, difficulties, achievements, npcs, datos };
+  return { worlds, lessons, enemies, skills, difficulties, achievements, npcs, datos, cases };
 }
