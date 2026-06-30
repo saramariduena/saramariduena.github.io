@@ -1,0 +1,15 @@
+{
+  "pruebas": [
+    { "titulo": "Prueba documental", "texto": "Los documentos públicos y privados sirven para acreditar los hechos alegados.", "articulo": "COGEP Arts. 193 y siguientes" },
+    { "titulo": "Prueba testimonial", "texto": "La declaración de testigos se rinde oralmente en audiencia y puede ser repreguntada.", "articulo": "COGEP Arts. 174 y siguientes" },
+    { "titulo": "Prueba pericial", "texto": "El perito aporta conocimiento técnico, científico o artístico de forma imparcial.", "articulo": "COGEP Arts. 221 y siguientes" },
+    { "titulo": "Declaración de parte", "texto": "Una parte puede ser llamada a declarar sobre los hechos controvertidos.", "articulo": "COGEP Arts. 187 y siguientes" },
+    { "titulo": "Inspección judicial", "texto": "El juez examina directamente personas, lugares, cosas o documentos.", "articulo": "COGEP Arts. 228 y siguientes" },
+    { "titulo": "Anuncio de la prueba", "texto": "Toda prueba debe anunciarse oportunamente y ser pertinente, útil y conducente.", "articulo": "COGEP Art. 160" }
+  ],
+  "peligros": [
+    { "titulo": "¡Prueba ilícita!", "texto": "La prueba obtenida con violación de la Constitución o la ley carece de eficacia.", "articulo": "Constitución Art. 76.4; COGEP Art. 160" },
+    { "titulo": "¡Indefensión!", "texto": "Impedir a una parte ejercer su defensa vicia el proceso y puede causar nulidad.", "articulo": "COGEP Arts. 107 a 109" },
+    { "titulo": "¡Vencimiento de término!", "texto": "Los términos corren fatalmente; lo actuado fuera de término puede rechazarse.", "articulo": "COGEP (cómputo de términos)" }
+  ]
+}

@@ -1,14 +1,122 @@
 [
-  { "id": "demanda_mala", "name": "Demanda Mal Planteada", "color": "#c0392b", "behavior": "patrol", "speed": 60 },
-  { "id": "caducidad", "name": "Caducidad", "color": "#8e44ad", "behavior": "patrol", "speed": 80 },
-  { "id": "prescripcion", "name": "Prescripción", "color": "#2c3e50", "behavior": "jumper", "speed": 70 },
-  { "id": "incompetencia", "name": "Incompetencia", "color": "#7f8c8d", "behavior": "patrol", "speed": 55 },
-  { "id": "falta_citacion", "name": "Falta de Citación", "color": "#16a085", "behavior": "patrol", "speed": 65 },
-  { "id": "prueba_inadmisible", "name": "Prueba Inadmisible", "color": "#d35400", "behavior": "jumper", "speed": 75 },
-  { "id": "mala_fe", "name": "Mala Fe Procesal", "color": "#922b21", "behavior": "chaser", "speed": 85 },
-  { "id": "abandono", "name": "Abandono", "color": "#566573", "behavior": "patrol", "speed": 50 },
-  { "id": "dilacion", "name": "Dilación", "color": "#b7950b", "behavior": "patrol", "speed": 60 },
-  { "id": "nulidad", "name": "Nulidad", "color": "#6c3483", "behavior": "jumper", "speed": 70 },
-  { "id": "improcedencia", "name": "Improcedencia", "color": "#1f618d", "behavior": "patrol", "speed": 65 },
-  { "id": "recurso_malo", "name": "Recurso Mal Interpuesto", "color": "#117864", "behavior": "chaser", "speed": 80 }
+  {
+    "id": "demanda_mala",
+    "name": "Demanda Mal Planteada",
+    "color": "#c0392b",
+    "behavior": "patrol",
+    "speed": 60,
+    "concepto": "Demanda que no cumple los requisitos de forma o contenido que exige la ley.",
+    "articulo": "COGEP Arts. 142 a 147",
+    "dato": "El juez ordena completar o aclarar la demanda; si no se subsana en término, se la tiene por no presentada."
+  },
+  {
+    "id": "caducidad",
+    "name": "Caducidad",
+    "color": "#8e44ad",
+    "behavior": "patrol",
+    "speed": 80,
+    "concepto": "Pérdida del derecho a ejercer la acción por transcurrir el plazo fijado por la ley.",
+    "articulo": "Plazos de caducidad según cada materia",
+    "dato": "La caducidad corre fatalmente: no se interrumpe ni suspende. ¡Demanda a tiempo!"
+  },
+  {
+    "id": "prescripcion",
+    "name": "Prescripción",
+    "color": "#2c3e50",
+    "behavior": "jumper",
+    "speed": 70,
+    "concepto": "Extinción de la acción por la inacción del titular durante el tiempo que marca la ley.",
+    "articulo": "Se alega como excepción (Código Civil)",
+    "dato": "A diferencia de la caducidad, la prescripción puede interrumpirse, por ejemplo con la citación."
+  },
+  {
+    "id": "incompetencia",
+    "name": "Incompetencia",
+    "color": "#7f8c8d",
+    "behavior": "patrol",
+    "speed": 55,
+    "concepto": "El juez carece de competencia por materia, territorio, personas o grados.",
+    "articulo": "COGEP Arts. 9 y siguientes",
+    "dato": "Se alega como excepción previa. Verifica la competencia ANTES de presentar la demanda."
+  },
+  {
+    "id": "falta_citacion",
+    "name": "Falta de Citación",
+    "color": "#16a085",
+    "behavior": "patrol",
+    "speed": 65,
+    "concepto": "No se hizo conocer al demandado la demanda y la providencia que la califica.",
+    "articulo": "COGEP Arts. 53 a 60",
+    "dato": "Sin citación válida hay nulidad: se vulnera el derecho de defensa."
+  },
+  {
+    "id": "prueba_inadmisible",
+    "name": "Prueba Inadmisible",
+    "color": "#d35400",
+    "behavior": "jumper",
+    "speed": 75,
+    "concepto": "Prueba impertinente, inútil o inconducente, o anunciada fuera de tiempo.",
+    "articulo": "COGEP Art. 160",
+    "dato": "Anuncia tu prueba oportunamente y asegúrate de que sea pertinente, útil y conducente."
+  },
+  {
+    "id": "mala_fe",
+    "name": "Mala Fe Procesal",
+    "color": "#922b21",
+    "behavior": "chaser",
+    "speed": 85,
+    "concepto": "Actuar con deslealtad, temeridad o abuso del proceso.",
+    "articulo": "Deberes de lealtad y buena fe procesal",
+    "dato": "La mala fe y la temeridad pueden ser sancionadas por la jueza o el juez."
+  },
+  {
+    "id": "abandono",
+    "name": "Abandono",
+    "color": "#566573",
+    "behavior": "patrol",
+    "speed": 50,
+    "concepto": "Terminación del proceso por inactividad de las partes durante el tiempo legal.",
+    "articulo": "COGEP Arts. 245 a 249",
+    "dato": "Impulsa el proceso: el abandono extingue la instancia y puedes perder lo avanzado."
+  },
+  {
+    "id": "dilacion",
+    "name": "Dilación",
+    "color": "#b7950b",
+    "behavior": "patrol",
+    "speed": 60,
+    "concepto": "Maniobras o incidentes que buscan retrasar indebidamente el proceso.",
+    "articulo": "COGEP Art. 3 (dirección e impulso)",
+    "dato": "El juez debe evitar dilaciones; la economía y celeridad procesal son un deber."
+  },
+  {
+    "id": "nulidad",
+    "name": "Nulidad",
+    "color": "#6c3483",
+    "behavior": "jumper",
+    "speed": 70,
+    "concepto": "Vicio que invalida actos procesales por violar el debido proceso.",
+    "articulo": "COGEP Arts. 107 a 109",
+    "dato": "La nulidad solo procede si el vicio causa efectiva indefensión y no se ha convalidado."
+  },
+  {
+    "id": "improcedencia",
+    "name": "Improcedencia",
+    "color": "#1f618d",
+    "behavior": "patrol",
+    "speed": 65,
+    "concepto": "Pretensión, vía o recurso que no cabe en derecho para el caso.",
+    "articulo": "COGEP (según la institución de que se trate)",
+    "dato": "Elige bien la vía y el recurso: lo improcedente se rechaza de plano."
+  },
+  {
+    "id": "recurso_malo",
+    "name": "Recurso Mal Interpuesto",
+    "color": "#117864",
+    "behavior": "chaser",
+    "speed": 80,
+    "concepto": "Recurso presentado fuera de plazo o sin la debida fundamentación.",
+    "articulo": "COGEP Arts. 250 y siguientes",
+    "dato": "Cuida el término y fundamenta: un recurso mal interpuesto se rechaza por extemporáneo o infundado."
+  }
 ]

@@ -57,6 +57,9 @@ export class LevelScene extends Phaser.Scene {
   private paused = false;
   private intro = false;
   private lastOnGround = 0;
+  private taughtEnemies = new Set<string>();
+  private docIdx = 0;
+  private hazIdx = 0;
 
   constructor() {
     super('Level');
@@ -70,6 +73,10 @@ export class LevelScene extends Phaser.Scene {
     this.finished = false;
     this.tookDamage = false;
     this.paused = false;
+    this.intro = false;
+    this.taughtEnemies = new Set();
+    this.docIdx = 0;
+    this.hazIdx = 0;
   }
 
   create() {
@@ -101,7 +108,7 @@ export class LevelScene extends Phaser.Scene {
     if (this.boss) this.physics.add.overlap(this.player, this.boss, () => this.onBoss());
     this.physics.add.overlap(this.player, this.coins, (_pl, c) => this.collectCoin(c as Phaser.Physics.Arcade.Sprite));
     this.physics.add.overlap(this.player, this.docs, (_pl, d) => this.collectDoc(d as Phaser.Physics.Arcade.Sprite));
-    this.physics.add.overlap(this.player, this.hazards, () => this.takeDamage(this.diff.hazardDamage));
+    this.physics.add.overlap(this.player, this.hazards, () => this.onHazard());
     if (this.flag) this.physics.add.overlap(this.player, this.flag, () => this.completeLevel());
 
     // Entrada.
@@ -253,8 +260,15 @@ export class LevelScene extends Phaser.Scene {
       store.active!.lex += lexGain;
       store.active!.stats.enemies += 1;
       grantXp(store.active!, ENEMY_XP * this.diff.xpMul);
-      this.floatingText(enemy.x, enemy.y - 20, `¡${def.name} superado! +${lexGain} LEX`);
+      this.floatingText(enemy.x, enemy.y - 20, `+${lexGain} LEX`);
       this.emitHud();
+      // Enseñanza COGEP: la primera vez que vences cada tipo de error.
+      if (def.dato && !this.taughtEnemies.has(def.id) && !this.intro) {
+        this.taughtEnemies.add(def.id);
+        this.showDato('⚖️ Error vencido: ' + def.name, (def.concepto ? def.concepto + '\n\n' : '') + '💡 ' + def.dato, def.articulo || '');
+      } else if (def.dato) {
+        this.showBanner('⚖️ ' + def.name, def.dato, def.articulo || '');
+      }
     } else {
       this.takeDamage(1);
     }
@@ -297,7 +311,12 @@ export class LevelScene extends Phaser.Scene {
     doc.destroy();
     store.active!.lex += DOC_LEX;
     store.active!.stats.documents += 1;
-    this.floatingText(this.player.x, this.player.y - 30, '📄 Expediente +' + DOC_LEX + ' LEX');
+    // Cada expediente enseña un medio de prueba del COGEP.
+    const pruebas = store.content.datos.pruebas;
+    const d = pruebas[this.docIdx % pruebas.length];
+    this.docIdx += 1;
+    this.showBanner('📄 ' + d.titulo, d.texto, d.articulo);
+    this.floatingText(this.player.x, this.player.y - 30, '+' + DOC_LEX + ' LEX');
     this.emitHud();
   }
 
@@ -433,7 +452,7 @@ export class LevelScene extends Phaser.Scene {
 
     const btn = this.add.text(width / 2, height / 2 + 165, '▶  ¡JUGAR!', { fontFamily: 'Segoe UI', fontSize: '28px', color: '#0b1d33', fontStyle: 'bold', backgroundColor: '#f5d547', padding: { x: 32, y: 12 } }).setOrigin(0.5).setInteractive({ useHandCursor: true });
     layer.add(btn);
-    this.add.text(width / 2, height / 2 + 205, '(toca la pantalla o pulsa una tecla para empezar)', { fontFamily: 'Segoe UI', fontSize: '13px', color: '#9fb3d1' }).setOrigin(0.5).setDepth(9600);
+    layer.add(this.add.text(width / 2, height / 2 + 205, '(toca la pantalla o pulsa una tecla para empezar)', { fontFamily: 'Segoe UI', fontSize: '13px', color: '#9fb3d1' }).setOrigin(0.5).setScrollFactor(0));
 
     const start = () => {
       if (!this.intro) return;
@@ -445,6 +464,56 @@ export class LevelScene extends Phaser.Scene {
     this.input.once('pointerup', start);
     this.input.keyboard!.once('keydown', start);
     btn.on('pointerup', start);
+  }
+
+  private onHazard() {
+    if (this.finished || this.time.now < this.invulnUntil) return;
+    const pel = store.content.datos.peligros;
+    const p = pel[this.hazIdx % pel.length];
+    this.hazIdx += 1;
+    this.showBanner('⚠️ ' + p.titulo, p.texto, p.articulo);
+    this.takeDamage(this.diff.hazardDamage);
+  }
+
+  // Tarjeta educativa que pausa el juego (se cierra al tocar o pulsar).
+  private showDato(title: string, body: string, articulo: string) {
+    this.intro = true;
+    this.physics.pause();
+    const { width, height } = this.scale;
+    const layer = this.add.container(0, 0).setScrollFactor(0).setDepth(9400).setName('datoLayer');
+    const shade = this.add.rectangle(width / 2, height / 2, width, height, 0x0b1d33, 0.9).setInteractive();
+    layer.add(shade);
+    layer.add(this.add.rectangle(width / 2, height / 2, 820, 400, 0x13294b, 1).setStrokeStyle(3, 0xf5d547));
+    layer.add(this.add.text(width / 2, height / 2 - 150, '📚 ¿Sabías que…?', { fontFamily: 'Segoe UI', fontSize: '18px', color: '#9fb3d1' }).setOrigin(0.5));
+    layer.add(this.add.text(width / 2, height / 2 - 112, title, { fontFamily: 'Georgia, serif', fontSize: '26px', color: '#f5d547', fontStyle: 'bold', align: 'center', wordWrap: { width: 760 } }).setOrigin(0.5));
+    layer.add(this.add.text(width / 2, height / 2 - 20, body, { fontFamily: 'Segoe UI', fontSize: '18px', color: '#eaf2ff', align: 'center', wordWrap: { width: 740 }, lineSpacing: 5 }).setOrigin(0.5));
+    if (articulo) layer.add(this.add.text(width / 2, height / 2 + 95, '📜 ' + articulo, { fontFamily: 'Segoe UI', fontSize: '16px', color: '#f5d547', align: 'center', wordWrap: { width: 740 } }).setOrigin(0.5));
+    const btn = this.add.text(width / 2, height / 2 + 150, '▶  Entendido', { fontFamily: 'Segoe UI', fontSize: '24px', color: '#0b1d33', fontStyle: 'bold', backgroundColor: '#f5d547', padding: { x: 28, y: 10 } }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+    layer.add(btn);
+
+    const guard = this.time.now + 300;
+    const close = () => {
+      if (!this.intro || this.time.now < guard) return;
+      layer.destroy();
+      this.intro = false;
+      this.physics.resume();
+    };
+    shade.on('pointerup', close);
+    btn.on('pointerup', close);
+    this.input.keyboard!.once('keydown-SPACE', close);
+    this.input.keyboard!.once('keydown-ENTER', close);
+  }
+
+  // Banner no bloqueante en la parte superior (dura ~3.5 s).
+  private showBanner(title: string, body: string, articulo: string) {
+    const w = this.scale.width;
+    const c = this.add.container(w / 2, 116).setScrollFactor(0).setDepth(8000);
+    c.add(this.add.rectangle(0, 0, 780, 74, 0x0b1d33, 0.9).setStrokeStyle(2, 0xf5d547));
+    c.add(this.add.text(0, -20, title, { fontFamily: 'Segoe UI', fontSize: '17px', color: '#f5d547', fontStyle: 'bold', align: 'center', wordWrap: { width: 740 } }).setOrigin(0.5));
+    c.add(this.add.text(0, 12, body + (articulo ? '  ·  ' + articulo : ''), { fontFamily: 'Segoe UI', fontSize: '13px', color: '#eaf2ff', align: 'center', wordWrap: { width: 740 } }).setOrigin(0.5));
+    c.setAlpha(0);
+    this.tweens.add({ targets: c, alpha: 1, duration: 200 });
+    this.time.delayedCall(3400, () => this.tweens.add({ targets: c, alpha: 0, duration: 300, onComplete: () => c.destroy() }));
   }
 
   // ---- Pausa ----

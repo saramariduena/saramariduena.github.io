@@ -44,7 +44,9 @@ const config: Phaser.Types.Core.GameConfig = {
   ],
 };
 
-new Phaser.Game(config);
+const game = new Phaser.Game(config);
+// Acceso para depuración desde la consola del navegador.
+(window as unknown as { __game: Phaser.Game }).__game = game;
 
 // Conteo de tiempo jugado (estadística + logros) cada minuto.
 setInterval(() => {

@@ -71,6 +71,10 @@ export interface EnemyDef {
   color: string;
   behavior: 'patrol' | 'jumper' | 'chaser';
   speed: number;
+  /** Contenido educativo del error procesal (se muestra al vencerlo). */
+  concepto?: string;
+  articulo?: string;
+  dato?: string;
 }
 
 export interface Skill {
@@ -108,6 +112,12 @@ export interface Npc {
   lines: string[];
 }
 
+export interface Dato {
+  titulo: string;
+  texto: string;
+  articulo: string;
+}
+
 export interface Content {
   worlds: World[];
   lessons: Record<string, Lesson>;
@@ -116,6 +126,7 @@ export interface Content {
   difficulties: Difficulty[];
   achievements: Achievement[];
   npcs: Npc[];
+  datos: { pruebas: Dato[]; peligros: Dato[] };
 }
 
 export interface Stats {
