@@ -8,8 +8,11 @@ alucinación.
 **Limitación importante:** esto es investigación por búsqueda web, no un
 scraping real del buscador oficial de la Corte (que sigue bloqueado desde
 este entorno). Los motores de búsqueda solo indexan una fracción de las
-sentencias — muchas casos recientes, poco cubiertos por prensa o sin
-comentario académico, no aparecen. Esta lista no es exhaustiva.
+sentencias — muchos casos recientes, poco cubiertos por prensa o sin
+comentario académico, no aparecen. Esta lista no es exhaustiva. Prueba de
+ello: la sentencia 27-24-JD/26 (ver fila 11) no apareció en ninguna búsqueda
+web propia; se agregó solo porque el usuario aportó el PDF directamente
+desde fielweb.com.
 
 **Resultado sobre IA específicamente:** no existe (a julio 2026) ninguna
 sentencia de la Corte Constitucional del Ecuador centrada en inteligencia
@@ -18,7 +21,7 @@ regional más relevante es la Sentencia T-323 de 2024 de la Corte
 Constitucional de **Colombia** (uso de ChatGPT por un juez).
 
 Ampliando la búsqueda a "nuevas tecnologías" en general, se encontraron las
-siguientes 10 sentencias ecuatorianas reales y verificadas:
+siguientes 11 sentencias ecuatorianas reales y verificadas:
 
 | # | Sentencia | Tema | Resumen | Fuente |
 |---|-----------|------|---------|--------|
@@ -32,14 +35,7 @@ siguientes 10 sentencias ecuatorianas reales y verificadas:
 | 8 | [59-19-IN/24](https://www.corteconstitucional.gob.ec/inconstitucionalidad-con-efectos-diferidos-del-acuerdo-ministerial-que-aprueba-el-uso-de-la-historia-clinica-ocupacional/) | Historia clínica ocupacional electrónica | Declaró inconstitucional (efectos diferidos) el acuerdo ministerial que exigía historia clínica ocupacional sin consentimiento del trabajador y con datos irrelevantes/transmisión obligatoria a terceros. | [Corte Constitucional](https://www.corteconstitucional.gob.ec/inconstitucionalidad-con-efectos-diferidos-del-acuerdo-ministerial-que-aprueba-el-uso-de-la-historia-clinica-ocupacional/) |
 | 9 | [23-25-IN/25](https://www.corteconstitucional.gob.ec/la-corte-constitucional-resolvio-la-demanda-de-inconstitucionalidad-23-25-in-y-condiciono-la-constitucionalidad-de-la-primera-frase-del-articulo-1-de-la-resolucion-ple-cne-2-13-3-2025/) | Celulares en recintos electorales | Constitucionalidad condicionada de la prohibición del CNE de usar celulares durante la votación: solo aplica entre la entrega de la papeleta y su depósito en la urna; no habilita incautación. | [Primicias](https://www.primicias.ec/politica/corte-constitucional-dictamen-prohibicion-celulares-segunda-vuelta-electoral-cne-93202/) |
 | 10 | [2919-19-EP/21](https://www.cijc.org/es/cuadernos/Sentencias/54e7f41e-97cf-48ae-9766-6e5b99fcb6b4.pdf) | Hábeas data / buró de crédito | Ordenó eliminar información crediticia errónea de los accionantes en el buró de crédito, tras confirmarse el error en justicia ordinaria. | [PDF CIJC](https://www.cijc.org/es/cuadernos/Sentencias/54e7f41e-97cf-48ae-9766-6e5b99fcb6b4.pdf) |
-
-## Pendiente de verificar
-
-- **27-24-JD/26** — mencionada por el usuario como una sentencia adicional
-  relevante. No se pudo localizar ni verificar vía búsqueda web (probable
-  caso muy reciente de 2026, aún no indexado, o sin cobertura de prensa).
-  No se incluye en la tabla hasta poder confirmar su contenido con una
-  fuente directa.
+| 11 | 27-24-JD/26 | Hábeas data — acta de matrimonio "inexistente" en el Registro Civil | Mujer de 89 años pidió su acta de matrimonio (1954) para tramitar el montepío; el Registro Civil la negó por "inexistente" pese a haber emitido durante ~50 años cédulas y certificados (algunos digitales) que reconocían el matrimonio, y llegó a cambiarle el estado civil a "soltera". La Corte aceptó el hábeas data, declaró vulnerados los derechos a la protección de datos personales (art. 66.19) y a la identidad (art. 66.28), ordenó reconstruir el acta, corregir el estado civil (incluso en el acta de defunción, pues la accionante falleció durante el proceso) y pagar $5.000 de reparación. Nota: no es un caso de "nueva tecnología" propiamente — es hábeas data clásico sobre registros civiles; lo digital aparece solo de forma incidental (un certificado digital de identidad entre varios documentos). | PDF aportado por el usuario (fielweb.com), no indexado en búsquedas web |
 
 ## Pistas descartadas (verificadas pero no aplicables)
 
