@@ -52,4 +52,5 @@ jobs:
             fj_home.png
             fj_after_search.png
             fj_juez_form.png
+            fj_resultados.png
           if-no-files-found: ignore

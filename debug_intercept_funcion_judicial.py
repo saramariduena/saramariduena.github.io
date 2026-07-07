@@ -192,6 +192,47 @@ async def main():
         except Exception as e:
             print(f"[!] No se pudo capturar screenshot del formulario de juez: {e}")
 
+        # Escribir un texto de prueba (>=3 caracteres) y enviar la búsqueda para
+        # capturar el endpoint real de la API de búsqueda.
+        print("\n--- Escribiendo texto de prueba y buscando ---")
+        try:
+            texto_input = page.locator('input[formcontrolname="texto"]').first
+            await texto_input.fill("Garcia")
+            await asyncio.sleep(1.5)
+            pre_count = len(captured)
+            buscar_btn = page.locator('button[type="submit"]:has-text("Buscar")').first
+            await buscar_btn.click(timeout=8000, force=True)
+            print("Clic en 'Buscar' con texto de prueba 'Garcia'")
+            await asyncio.sleep(2)
+            try:
+                await page.wait_for_load_state("networkidle", timeout=20000)
+            except Exception:
+                pass
+            await asyncio.sleep(3)
+        except Exception as e:
+            print(f"[!] Error al completar/enviar la búsqueda: {e}")
+            pre_count = len(captured)
+
+        print(f"\nURL tras buscar: {page.url}")
+        new_reqs = captured[pre_count:]
+        print(f"Requests nuevos tras la búsqueda: {len(new_reqs)}")
+        for r in new_reqs:
+            print(f"  [{r['method']}] {r['url']} -> {r['status']}")
+
+        try:
+            await page.screenshot(path="fj_resultados.png", full_page=True)
+            print("Screenshot guardado: fj_resultados.png")
+        except Exception as e:
+            print(f"[!] No se pudo capturar screenshot de resultados: {e}")
+
+        # Volcar cualquier tabla / lista de resultados visible
+        resultados_html = await page.evaluate("""() => {
+            const cont = document.querySelector('table, mat-table, [class*="resultado"], [class*="result"]');
+            return cont ? cont.outerHTML.slice(0, 3000) : null;
+        }""")
+        print("\n=== HTML DE RESULTADOS (si existe) ===")
+        print(resultados_html)
+
         print(f"\n=== TOTAL REQUESTS RELEVANTES CAPTURADOS: {len(captured)} ===")
         print("\n=== RESUMEN DE ENDPOINTS ÚNICOS ===")
         vistos = set()
