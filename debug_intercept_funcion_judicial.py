@@ -1,0 +1,162 @@
+"""
+Debug: intercepta las llamadas reales a la API del portal de procesos
+judiciales de la Función Judicial del Ecuador, para descubrir el endpoint
+de búsqueda, los campos del formulario y la forma de los resultados
+(incluyendo si el juez es un filtro de búsqueda o solo un dato del resultado).
+
+Mismo enfoque que debug_intercept.py (usado para la Corte Constitucional),
+adaptado a este portal.
+"""
+
+import asyncio
+import json
+import re
+
+from playwright.async_api import async_playwright
+
+BASE_URL = "https://procesosjudiciales.funcionjudicial.gob.ec"
+
+STATIC_EXT = re.compile(r"\.(js|css|png|jpg|jpeg|svg|gif|woff2?|ttf|eot|ico|map)(\?|$)", re.IGNORECASE)
+
+
+async def main():
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True, args=["--disable-web-security"])
+        context = await browser.new_context(
+            user_agent=(
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+            ),
+            viewport={"width": 1366, "height": 900},
+            ignore_https_errors=True,
+        )
+        page = await context.new_page()
+
+        captured = []
+
+        async def on_response(resp):
+            try:
+                req = resp.request
+                url = resp.url
+                if STATIC_EXT.search(url):
+                    return
+                ctype = resp.headers.get("content-type", "")
+                is_json = "json" in ctype
+                if req.method == "GET" and not is_json:
+                    return
+
+                req_body = req.post_data or ""
+                body_preview = ""
+                if is_json:
+                    try:
+                        body_preview = (await resp.text())[:2000]
+                    except Exception:
+                        body_preview = "<no se pudo leer el body>"
+
+                captured.append({
+                    "method": req.method,
+                    "url": url,
+                    "status": resp.status,
+                    "request_body": req_body[:1500],
+                    "response_preview": body_preview,
+                })
+                print(f"\n[{req.method}] {url} -> {resp.status}")
+                if req_body:
+                    print(f"  REQUEST BODY: {req_body[:800]}")
+                if body_preview:
+                    print(f"  RESPONSE: {body_preview[:1200]}")
+            except Exception as e:
+                print(f"[capture error] {e}")
+
+        page.on("response", on_response)
+
+        print(f"Cargando {BASE_URL} ...")
+        try:
+            await page.goto(BASE_URL, timeout=45000, wait_until="domcontentloaded")
+            await page.wait_for_load_state("networkidle", timeout=30000)
+        except Exception as e:
+            print(f"[!] Aviso al cargar página: {e}")
+        await asyncio.sleep(3)
+
+        try:
+            await page.screenshot(path="fj_home.png", full_page=True)
+            print("\nScreenshot guardado: fj_home.png")
+        except Exception as e:
+            print(f"[!] No se pudo capturar screenshot: {e}")
+
+        # Volcar todos los campos de formulario visibles en la carga inicial
+        fields = await page.evaluate("""() => {
+            const out = [];
+            document.querySelectorAll('input, select, textarea, button').forEach(el => {
+                out.push({
+                    tag: el.tagName,
+                    type: el.type || '',
+                    id: el.id || '',
+                    name: el.name || '',
+                    formcontrolname: el.getAttribute('formcontrolname') || '',
+                    placeholder: el.placeholder || '',
+                    text: (el.innerText || el.value || '').slice(0, 60),
+                });
+            });
+            return out;
+        }""")
+        print("\n=== CAMPOS DEL FORMULARIO (carga inicial) ===")
+        print(json.dumps(fields, indent=2, ensure_ascii=False))
+
+        # Detectar posible captcha
+        html_lower = (await page.content()).lower()
+        if "recaptcha" in html_lower or "captcha" in html_lower or "hcaptcha" in html_lower:
+            print("\n[!] POSIBLE CAPTCHA detectado en la página.")
+
+        # Intentar seleccionar la primera opción disponible en cada <select>
+        # (suele disparar cascadas provincia -> judicatura -> etc.)
+        selects = await page.query_selector_all("select")
+        print(f"\nSelects encontrados: {len(selects)}")
+        for i, sel in enumerate(selects):
+            try:
+                options = await sel.query_selector_all("option")
+                if len(options) > 1:
+                    value = await options[1].get_attribute("value")
+                    await sel.select_option(value=value)
+                    print(f"  select[{i}] -> seleccionado value={value}")
+                    await asyncio.sleep(2)
+            except Exception as e:
+                print(f"  select[{i}] error: {e}")
+
+        await asyncio.sleep(2)
+
+        # Intentar hacer clic en un botón de búsqueda
+        clicked = False
+        for texto in ["Buscar", "BUSCAR", "Consultar", "CONSULTAR", "Search"]:
+            try:
+                btn = page.locator(f'button:has-text("{texto}")').first
+                if await btn.count() > 0:
+                    await btn.click(timeout=5000)
+                    print(f"\nClic en botón '{texto}'")
+                    clicked = True
+                    await asyncio.sleep(6)
+                    break
+            except Exception:
+                continue
+        if not clicked:
+            print("\n[!] No se encontró un botón de búsqueda visible para hacer clic automático.")
+
+        try:
+            await page.screenshot(path="fj_after_search.png", full_page=True)
+            print("Screenshot guardado: fj_after_search.png")
+        except Exception as e:
+            print(f"[!] No se pudo capturar screenshot final: {e}")
+
+        print(f"\n=== TOTAL REQUESTS RELEVANTES CAPTURADOS: {len(captured)} ===")
+        print("\n=== RESUMEN DE ENDPOINTS ÚNICOS ===")
+        vistos = set()
+        for c in captured:
+            ep = c["url"].split("?")[0]
+            if ep not in vistos:
+                vistos.add(ep)
+                print(f"  [{c['method']}] {ep}")
+
+        await browser.close()
+
+
+asyncio.run(main())

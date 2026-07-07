@@ -1,0 +1,36 @@
+name: Debug — Interceptar API Función Judicial
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  intercept:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Instalar dependencias
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Interceptar API del portal de procesos judiciales
+        run: python debug_intercept_funcion_judicial.py
+
+      - name: Subir screenshots como artefacto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fj-intercept-screenshots
+          path: |
+            fj_home.png
+            fj_after_search.png
+          if-no-files-found: ignore
