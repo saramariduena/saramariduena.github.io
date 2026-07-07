@@ -125,27 +125,72 @@ async def main():
 
         await asyncio.sleep(2)
 
-        # Intentar hacer clic en un botón de búsqueda
+        # Clic específico en "Procesos resueltos por juez"
         clicked = False
-        for texto in ["Buscar", "BUSCAR", "Consultar", "CONSULTAR", "Search"]:
-            try:
-                btn = page.locator(f'button:has-text("{texto}")').first
-                if await btn.count() > 0:
-                    await btn.click(timeout=5000)
-                    print(f"\nClic en botón '{texto}'")
-                    clicked = True
-                    await asyncio.sleep(6)
-                    break
-            except Exception:
-                continue
+        try:
+            btn = page.locator('button:has-text("Procesos resueltos por juez")').first
+            if await btn.count() > 0:
+                await btn.click(timeout=8000, force=True)
+                print("\nClic en botón 'Procesos resueltos por juez'")
+                clicked = True
+                await page.wait_for_load_state("networkidle", timeout=20000)
+                await asyncio.sleep(3)
+        except Exception as e:
+            print(f"\n[!] Error al hacer clic en 'Procesos resueltos por juez': {e}")
+
         if not clicked:
-            print("\n[!] No se encontró un botón de búsqueda visible para hacer clic automático.")
+            print("\n[!] No se pudo hacer clic en el botón de búsqueda por juez.")
+
+        print(f"\nURL actual: {page.url}")
 
         try:
             await page.screenshot(path="fj_after_search.png", full_page=True)
             print("Screenshot guardado: fj_after_search.png")
         except Exception as e:
             print(f"[!] No se pudo capturar screenshot final: {e}")
+
+        # Volcar campos del formulario DESPUÉS del clic (pantalla de búsqueda por juez)
+        fields_after = await page.evaluate("""() => {
+            const out = [];
+            document.querySelectorAll('input, select, textarea, button, mat-select, [role="combobox"]').forEach(el => {
+                out.push({
+                    tag: el.tagName,
+                    type: el.type || '',
+                    id: el.id || '',
+                    name: el.name || '',
+                    formcontrolname: el.getAttribute('formcontrolname') || '',
+                    placeholder: el.placeholder || el.getAttribute('placeholder') || '',
+                    ariaLabel: el.getAttribute('aria-label') || '',
+                    text: (el.innerText || el.value || '').slice(0, 80),
+                });
+            });
+            return out;
+        }""")
+        print("\n=== CAMPOS DEL FORMULARIO (después de clic en 'Procesos resueltos por juez') ===")
+        print(json.dumps(fields_after, indent=2, ensure_ascii=False))
+
+        # Intentar abrir cualquier <mat-select> / combobox para ver catálogos (provincia, judicatura, etc.)
+        combos = await page.query_selector_all('mat-select, [role="combobox"]')
+        print(f"\nCombos/selects encontrados tras el clic: {len(combos)}")
+        for i, combo in enumerate(combos):
+            try:
+                await combo.click(timeout=3000)
+                await asyncio.sleep(1.5)
+                options_text = await page.evaluate("""() => {
+                    const opts = document.querySelectorAll('mat-option, [role="option"]');
+                    return Array.from(opts).slice(0, 15).map(o => o.textContent.trim());
+                }""")
+                print(f"  combo[{i}] opciones (primeras 15): {options_text}")
+                await page.keyboard.press("Escape")
+                await asyncio.sleep(0.5)
+            except Exception as e:
+                print(f"  combo[{i}] error: {e}")
+
+        try:
+            await page.screenshot(path="fj_juez_form.png", full_page=True)
+            print("\nScreenshot guardado: fj_juez_form.png")
+        except Exception as e:
+            print(f"[!] No se pudo capturar screenshot del formulario de juez: {e}")
 
         print(f"\n=== TOTAL REQUESTS RELEVANTES CAPTURADOS: {len(captured)} ===")
         print("\n=== RESUMEN DE ENDPOINTS ÚNICOS ===")
