@@ -135,24 +135,18 @@ async def buscar_procesos_por_juez_async(
         await page.goto(BASE_URL, timeout=45000, wait_until="domcontentloaded")
         await page.wait_for_load_state("networkidle", timeout=30000)
 
-        btn_juez = page.locator('button:has-text("Procesos resueltos por juez")').first
-        await btn_juez.click(timeout=10000, force=True)
-        await page.wait_for_load_state("networkidle", timeout=20000)
-        await asyncio.sleep(1)
-
-        texto_input = page.locator('input[formcontrolname="texto"]').first
-        await texto_input.fill(nombre_juez)
-        await asyncio.sleep(1)
-
-        # El portal exige resolver un reCAPTCHA antes de buscar. Un script no
-        # puede (ni debe) resolverlo automáticamente: se pausa aquí para que
-        # una persona lo resuelva a mano en la ventana del navegador.
+        # La página es una SPA dinámica (Angular) y exige resolver un
+        # reCAPTCHA antes de buscar — un script no puede (ni debe) hacer
+        # esos pasos automáticamente. Se deja TODA la búsqueda en manos de
+        # la persona frente al navegador; el script solo espera y luego
+        # extrae los resultados.
         print("\n" + "=" * 70)
         print("ACCIÓN MANUAL REQUERIDA en la ventana del navegador que se abrió:")
-        print(f'  1. Verifica que el campo de búsqueda tenga: "{nombre_juez}"')
-        print('  2. Marca la casilla "No soy un robot" (resuelve el desafío si aparece)')
-        print('  3. Haz clic en el botón "Buscar"')
-        print("  4. Espera a que aparezcan los resultados en pantalla")
+        print('  1. Haz clic en el botón "Procesos resueltos por juez"')
+        print(f'  2. Escribe en el cuadro de búsqueda: "{nombre_juez}"')
+        print('  3. Marca la casilla "No soy un robot" (resuelve el desafío si aparece)')
+        print('  4. Haz clic en el botón "Buscar"')
+        print("  5. Espera a que aparezcan los resultados en pantalla")
         print("=" * 70)
         await asyncio.to_thread(input, "Cuando veas los resultados, vuelve aquí y presiona Enter para continuar... ")
 
