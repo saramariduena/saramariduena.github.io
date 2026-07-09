@@ -6,6 +6,30 @@ de búsqueda, los campos del formulario y la forma de los resultados
 
 Mismo enfoque que debug_intercept.py (usado para la Corte Constitucional),
 adaptado a este portal.
+
+=== HALLAZGO (2026-07-09, 4 corridas vía GitHub Actions) ===
+El portal SÍ tiene un flujo dedicado: botón "Procesos resueltos por juez" en
+el home -> navega a /busqueda-por-juez -> campo de texto libre
+(formcontrolname="texto", requiere >=3 caracteres) -> botón "Buscar".
+
+Al enviar la búsqueda, la SPA (Angular) intenta llamar a una API en un HOST
+DISTINTO al del portal: api.funcionjudicial.gob.ec. Endpoints identificados
+(vía beacons de Google Analytics con ep.event_category=api rest):
+  GET https://api.funcionjudicial.gob.ec/MANTICORE-SERVICE/api/manticore/consulta/jueces
+  GET https://api.funcionjudicial.gob.ec/EXPEL-UBICACION-SERVICE/api/ubicacion/provincia/getAll
+  GET https://api.funcionjudicial.gob.ec/EXPEL-CATALOGO-JURIDICO-SERVICE/api/catalogo/materia/getAllNemonico
+
+Las TRES llamadas fallan con net::ERR_CONNECTION_RESET al ejecutarse desde
+runners de GitHub Actions (IPs fuera de Ecuador, en rangos de nube conocidos).
+No es un error de DNS ni de timeout: la conexión se establece y luego se
+resetea activamente — consistente con un firewall/WAF que bloquea IPs fuera
+de Ecuador o fuera de rangos autorizados.
+
+Conclusión: el scraping automatizado de este portal NO es viable desde este
+repositorio (ni desde este sandbox ni desde GitHub Actions), porque ambos
+corren fuera de Ecuador. Se necesitaría ejecutar la automatización desde una
+máquina/servidor con IP ecuatoriana. El contrato de API de arriba es el punto
+de partida correcto si en el futuro se cuenta con esa infraestructura.
 """
 
 import asyncio
