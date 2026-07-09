@@ -6,6 +6,7 @@ Usa Gmail con contraseña de aplicación (App Password).
 import logging
 import os
 import smtplib
+from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from datetime import datetime, timezone, timedelta
@@ -178,6 +179,87 @@ def send_no_news_alert() -> bool:
         return True
     except Exception as e:
         logger.error(f"Error al enviar correo sin novedades: {e}")
+        return False
+
+
+def send_listado_procesos_juez(nombre_juez: str, procesos: list[dict], csv_path: str | None = None) -> bool:
+    """
+    Envía por correo el listado de procesos judiciales encontrados para un juez
+    (portal de la Función Judicial). Adjunta el CSV si se provee csv_path.
+    """
+    gmail_user = os.environ.get("GMAIL_USER", "")
+    gmail_password = os.environ.get("GMAIL_APP_PASSWORD", "")
+    recipients_raw = os.environ.get("NOTIFICATION_EMAILS", gmail_user)
+
+    if not gmail_user or not gmail_password:
+        logger.error("GMAIL_USER o GMAIL_APP_PASSWORD no configurados.")
+        return False
+
+    recipients = [r.strip() for r in recipients_raw.split(",") if r.strip()]
+    if not recipients:
+        logger.error("No hay destinatarios configurados en NOTIFICATION_EMAILS.")
+        return False
+
+    count = len(procesos)
+    hoy = datetime.now(ECU).strftime("%d/%m/%Y")
+    subject = f"⚖️ [{count} proceso(s)] Juez {nombre_juez} — Función Judicial Ecuador"
+
+    msg = MIMEMultipart("mixed")
+    msg["Subject"] = subject
+    msg["From"] = gmail_user
+    msg["To"] = ", ".join(recipients)
+
+    alt = MIMEMultipart("alternative")
+    text_lines = [f"Procesos encontrados para el juez {nombre_juez}: {count}", f"Fecha: {hoy}", ""]
+    for p in procesos:
+        text_lines.append(f"- {p.get('numero_causa') or '(sin número detectado)'}")
+        text_lines.append(f"  {p.get('texto_completo', '')[:300]}")
+        text_lines.append("")
+    alt.attach(MIMEText("\n".join(text_lines), "plain", "utf-8"))
+
+    rows = ""
+    for p in procesos:
+        rows += f"""
+        <tr>
+          <td style="padding:8px;border:1px solid #ddd;font-weight:bold;">{p.get('numero_causa') or '—'}</td>
+          <td style="padding:8px;border:1px solid #ddd;">{p.get('texto_completo', '')[:400]}</td>
+        </tr>"""
+    html = f"""
+    <html><body style="font-family:Arial,sans-serif;color:#333;">
+      <div style="max-width:900px;margin:0 auto;padding:20px;">
+        <div style="background:#1a56db;color:white;padding:16px;border-radius:8px 8px 0 0;">
+          <h2 style="margin:0;">⚖️ Procesos por juez — Función Judicial Ecuador</h2>
+          <p style="margin:4px 0 0;">Juez: {nombre_juez} — {hoy}</p>
+        </div>
+        <div style="background:#f9fafb;padding:16px;border:1px solid #e5e7eb;">
+          <p>Se encontraron <strong>{count} proceso(s)</strong> para este juez.</p>
+          <table style="width:100%;border-collapse:collapse;background:white;">
+            <thead><tr style="background:#1a56db;color:white;">
+              <th style="padding:10px;border:1px solid #ddd;text-align:left;">Número de causa</th>
+              <th style="padding:10px;border:1px solid #ddd;text-align:left;">Detalle</th>
+            </tr></thead>
+            <tbody>{rows}</tbody>
+          </table>
+        </div>
+      </div>
+    </body></html>"""
+    alt.attach(MIMEText(html, "html", "utf-8"))
+    msg.attach(alt)
+
+    if csv_path and os.path.exists(csv_path):
+        with open(csv_path, "rb") as f:
+            part = MIMEApplication(f.read(), Name=os.path.basename(csv_path))
+        part["Content-Disposition"] = f'attachment; filename="{os.path.basename(csv_path)}"'
+        msg.attach(part)
+
+    try:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(gmail_user, gmail_password)
+            server.sendmail(gmail_user, recipients, msg.as_string())
+        logger.info(f"Listado de procesos enviado a: {recipients}")
+        return True
+    except Exception as e:
+        logger.error(f"Error al enviar listado de procesos: {e}")
         return False
 
 
