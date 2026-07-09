@@ -2,21 +2,31 @@
 Scraper de "Procesos resueltos por juez" del portal de la Función Judicial
 del Ecuador (procesosjudiciales.funcionjudicial.gob.ec).
 
-IMPORTANTE: la API real de este portal (api.funcionjudicial.gob.ec) rechaza
-conexiones desde IPs fuera de Ecuador (confirmado: net::ERR_CONNECTION_RESET
-desde GitHub Actions y desde sandboxes de Claude Code). Este script SOLO
-funciona ejecutado desde una computadora/red con IP ecuatoriana. Ver
-debug_intercept_funcion_judicial.py para el detalle del hallazgo.
+IMPORTANTE — dos limitaciones confirmadas en producción (2026-07-09):
+
+1. La API real de este portal (api.funcionjudicial.gob.ec) rechaza conexiones
+   desde IPs fuera de Ecuador (net::ERR_CONNECTION_RESET desde GitHub Actions
+   y desde sandboxes de Claude Code). Este script SOLO funciona ejecutado
+   desde una computadora/red con IP ecuatoriana. Ver
+   debug_intercept_funcion_judicial.py para el detalle del hallazgo.
+
+2. La página de búsqueda (E-SATJE) exige resolver un reCAPTCHA ("No soy un
+   robot") antes de poder buscar. Por eso el navegador NO corre en modo
+   headless: se abre visible y el flujo se PAUSA después de escribir el
+   nombre del juez, para que una persona marque el captcha y haga clic en
+   "Buscar" a mano. El script continúa automáticamente desde ahí (extrae
+   resultados, pagina, genera CSV y envía el correo). No es 100%
+   desatendido — necesita ese paso manual cada vez que se ejecuta.
 
 Automatiza el flujo real del portal con Playwright (no usa la API REST
-directamente porque no se pudo capturar su contrato completo — las llamadas
-fallaban antes de completarse): clic en "Procesos resueltos por juez",
-escribe el nombre del juez, clic en "Buscar", pagina y extrae resultados.
+directamente porque no se pudo capturar su contrato completo): clic en
+"Procesos resueltos por juez", escribe el nombre del juez, pausa para el
+captcha manual, y luego pagina y extrae resultados.
 
 Como la estructura exacta de la tabla de resultados nunca pudo verificarse
-en vivo (el diagnóstico se hizo desde un entorno bloqueado), la extracción
-es "best effort": guarda siempre un HTML crudo y un screenshot de los
-resultados junto al CSV, para poder ajustar los selectores si hace falta.
+en vivo antes del reCAPTCHA, la extracción es "best effort": guarda siempre
+un HTML crudo y un screenshot de los resultados junto al CSV, para poder
+ajustar los selectores si hace falta.
 """
 
 import asyncio
@@ -106,7 +116,7 @@ async def _ir_a_siguiente_pagina(page) -> bool:
 
 
 async def buscar_procesos_por_juez_async(
-    nombre_juez: str, max_paginas: int = MAX_PAGINAS, headless: bool = True
+    nombre_juez: str, max_paginas: int = MAX_PAGINAS, headless: bool = False
 ) -> list[dict]:
     resultados_crudos: list[str] = []
 
@@ -134,9 +144,17 @@ async def buscar_procesos_por_juez_async(
         await texto_input.fill(nombre_juez)
         await asyncio.sleep(1)
 
-        buscar_btn = page.locator('button[type="submit"]:has-text("Buscar")').first
-        logger.info(f"Buscando procesos del juez: {nombre_juez}")
-        await buscar_btn.click(timeout=10000, force=True)
+        # El portal exige resolver un reCAPTCHA antes de buscar. Un script no
+        # puede (ni debe) resolverlo automáticamente: se pausa aquí para que
+        # una persona lo resuelva a mano en la ventana del navegador.
+        print("\n" + "=" * 70)
+        print("ACCIÓN MANUAL REQUERIDA en la ventana del navegador que se abrió:")
+        print(f'  1. Verifica que el campo de búsqueda tenga: "{nombre_juez}"')
+        print('  2. Marca la casilla "No soy un robot" (resuelve el desafío si aparece)')
+        print('  3. Haz clic en el botón "Buscar"')
+        print("  4. Espera a que aparezcan los resultados en pantalla")
+        print("=" * 70)
+        await asyncio.to_thread(input, "Cuando veas los resultados, vuelve aquí y presiona Enter para continuar... ")
 
         try:
             await page.wait_for_load_state("networkidle", timeout=30000)
@@ -184,5 +202,5 @@ async def buscar_procesos_por_juez_async(
     return [asdict(p) for p in procesos]
 
 
-def buscar_procesos_por_juez(nombre_juez: str, max_paginas: int = MAX_PAGINAS, headless: bool = True) -> list[dict]:
+def buscar_procesos_por_juez(nombre_juez: str, max_paginas: int = MAX_PAGINAS, headless: bool = False) -> list[dict]:
     return asyncio.run(buscar_procesos_por_juez_async(nombre_juez, max_paginas, headless))

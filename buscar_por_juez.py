@@ -53,7 +53,7 @@ def run(nombre_juez: str):
     logger.info(f"Búsqueda de procesos por juez: {nombre_juez}")
     logger.info("=" * 60)
 
-    procesos = buscar_procesos_por_juez(nombre_juez, headless=True)
+    procesos = buscar_procesos_por_juez(nombre_juez, headless=False)
 
     if not procesos:
         logger.warning(
