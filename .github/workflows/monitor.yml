@@ -40,17 +40,25 @@ jobs:
           playwright install chromium
           playwright install-deps chromium
 
-      - name: TEMP DEBUG — interceptar API Función Judicial
-        run: python debug_intercept_funcion_judicial.py
+      - name: Diagnóstico — interceptar payload real del buscador
+        run: python debug_intercept.py
 
-      - name: TEMP DEBUG — subir screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: fj-intercept-screenshots
-          path: |
-            fj_home.png
-            fj_after_search.png
-            fj_juez_form.png
-            fj_resultados.png
-          if-no-files-found: ignore
+      - name: Ejecutar monitor de sentencias
+        env:
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+          DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          NOTIFICATION_EMAILS: ${{ secrets.NOTIFICATION_EMAILS }}
+          SEARCH_TEXT: ${{ github.event.inputs.search_text || '' }}
+          MAX_SENTENCES: ${{ github.event.inputs.max_sentences || '50' }}
+        run: python main.py
+
+      - name: Guardar estado actualizado en el repositorio
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add state.json
+          # Solo commitear si hay cambios en el estado
+          git diff --staged --quiet || git commit -m "chore: actualizar estado de sentencias [skip ci]"
+          git push
