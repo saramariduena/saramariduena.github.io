@@ -42,7 +42,8 @@ async def main():
                     return
                 ctype = resp.headers.get("content-type", "")
                 is_json = "json" in ctype
-                if req.method == "GET" and not is_json:
+                looks_like_api = any(k in url.lower() for k in ["/api/", "consulta", "provincia", "catalogo", "juez", "busqueda", "rest"])
+                if req.method == "GET" and not is_json and not looks_like_api and resp.status < 400:
                     return
 
                 req_body = req.post_data or ""
@@ -68,7 +69,17 @@ async def main():
             except Exception as e:
                 print(f"[capture error] {e}")
 
+        async def on_request_failed(req):
+            try:
+                if STATIC_EXT.search(req.url):
+                    return
+                failure = req.failure
+                print(f"\n[REQUEST FAILED] [{req.method}] {req.url} -> {failure}")
+            except Exception as e:
+                print(f"[requestfailed capture error] {e}")
+
         page.on("response", on_response)
+        page.on("requestfailed", on_request_failed)
 
         print(f"Cargando {BASE_URL} ...")
         try:
