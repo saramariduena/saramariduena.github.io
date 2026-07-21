@@ -142,11 +142,11 @@ def _parse_item(item: dict) -> "Sentencia":
     )
 
 
-def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_results: int = 50) -> list:
+def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_results: int = 50, dias: int = 30) -> list:
     hoy = datetime.now()
-    hace_30 = hoy - timedelta(days=30)
+    hace_dias = hoy - timedelta(days=dias)
     # Formato exacto del buscador: "YYYY-MM-DD;YYYY-MM-DD"
-    fecha_decision = f"{hace_30.strftime('%Y-%m-%d')};{hoy.strftime('%Y-%m-%d')}"
+    fecha_decision = f"{hace_dias.strftime('%Y-%m-%d')};{hoy.strftime('%Y-%m-%d')}"
     logger.info(f"fechaDecision: {fecha_decision}")
 
     session = requests.Session()

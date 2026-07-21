@@ -1,0 +1,34 @@
+name: Búsqueda histórica IA — Corte Constitucional Ecuador
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  buscar:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Instalar dependencias
+        run: pip install requests==2.32.3
+
+      - name: Buscar sentencias sobre IA (sin correos ni commits)
+        run: python buscar_sentencias_ia.py
+
+      - name: Subir resultados como artefacto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sentencias-ia-encontradas
+          path: sentencias_ia_encontradas.json
+          if-no-files-found: ignore
