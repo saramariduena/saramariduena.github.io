@@ -156,57 +156,72 @@ def buscar_sentencias(texto: str = "", numero: str = "", causa: str = "", max_re
     except Exception as e:
         logger.debug(f"Init error: {e}")
 
-    # Payload exacto capturado del navegador real
-    payload = {
-        "numSentencia": numero,
-        "numeroCausa": causa,
-        "textoSentencia": texto,
-        "motivo": "",
-        "metadata": "",
-        "subBusqueda": "",
-        "tipoLegitimado": 100,
-        "legitimados": "",
-        "tipoAcciones": [],
-        "materias": [],
-        "intereses": [],
-        "decisiones": [],
-        "jueces": [],
-        "derechoDemandado": [],
-        "derechosTratado": [],
-        "derechosVulnerado": [],
-        "temaEspecificos": [],
-        "conceptos": [],
-        "fechaNotificacion": "",
-        "fechaDecision": fecha_decision,
-        "sort": "desc",
-        "precedenteAprobado": "",
-        "precedentePropuesto": "",
-        "tipoNormas": [],
-        "asuntos": [],
-        "analisisMerito": "",
-        "novedad": "",
-        "merito": "",
-        "paginacion": {"page": 1, "pageSize": max_results, "total": 0, "contar": True},
-        "flag": True,
-    }
+    def _payload(page: int) -> dict:
+        # Payload exacto capturado del navegador real
+        return {
+            "numSentencia": numero,
+            "numeroCausa": causa,
+            "textoSentencia": texto,
+            "motivo": "",
+            "metadata": "",
+            "subBusqueda": "",
+            "tipoLegitimado": 100,
+            "legitimados": "",
+            "tipoAcciones": [],
+            "materias": [],
+            "intereses": [],
+            "decisiones": [],
+            "jueces": [],
+            "derechoDemandado": [],
+            "derechosTratado": [],
+            "derechosVulnerado": [],
+            "temaEspecificos": [],
+            "conceptos": [],
+            "fechaNotificacion": "",
+            "fechaDecision": fecha_decision,
+            "sort": "desc",
+            "precedenteAprobado": "",
+            "precedentePropuesto": "",
+            "tipoNormas": [],
+            "asuntos": [],
+            "analisisMerito": "",
+            "novedad": "",
+            "merito": "",
+            "paginacion": {"page": page, "pageSize": max_results, "total": 0, "contar": True},
+            "flag": True,
+        }
 
-    data = _call_api(session, API_SEARCH, payload)
     sentencias = []
+    page = 1
+    total = None
+    # El servidor puede ignorar el pageSize solicitado y devolver una página
+    # más chica (p.ej. 20 resultados) sin importar cuántos se pidan. Por eso
+    # paginamos de verdad en vez de confiar en un solo request.
+    while True:
+        data = _call_api(session, API_SEARCH, _payload(page))
+        if not data:
+            break
 
-    if data:
         msg = data.get("mensaje", "")
         total = data.get("totalFilas", 0)
-        logger.info(f"totalFilas={total}, mensaje='{msg}'")
+        logger.info(f"page={page} totalFilas={total}, mensaje='{msg}'")
         dato = data.get("dato")
-        if isinstance(dato, list) and dato:
-            logger.info(f"Primer item: {json.dumps(dato[0], ensure_ascii=False)}")
-            for item in dato[:max_results]:
-                if isinstance(item, dict):
-                    s = _parse_item(item)
-                    if s.numero:
-                        sentencias.append(s)
+        if not isinstance(dato, list) or not dato:
+            break
 
-    logger.info(f"Total sentencias: {len(sentencias)}")
+        logger.info(f"Primer item de la página {page}: {json.dumps(dato[0], ensure_ascii=False)}")
+        for item in dato:
+            if isinstance(item, dict):
+                s = _parse_item(item)
+                if s.numero:
+                    sentencias.append(s)
+
+        if len(sentencias) >= max_results or len(sentencias) >= total or len(dato) == 0:
+            break
+        page += 1
+
+    sentencias = sentencias[:max_results]
+    logger.info(f"Total sentencias: {len(sentencias)} (de totalFilas={total})")
     return sentencias
 
 
