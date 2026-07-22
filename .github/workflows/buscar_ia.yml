@@ -1,7 +1,12 @@
-name: Búsqueda histórica IA — Corte Constitucional Ecuador
+name: Búsqueda histórica derecho digital — Corte Constitucional Ecuador
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      terminos:
+        description: "Términos a buscar, separados por coma (vacío = protección de datos, redes sociales, temas electrónicos, derechos digitales)"
+        required: false
+        default: ""
 
 jobs:
   buscar:
@@ -22,7 +27,9 @@ jobs:
       - name: Instalar dependencias
         run: pip install requests==2.32.3
 
-      - name: Buscar sentencias sobre IA (sin correos ni commits)
+      - name: Buscar sentencias de derecho digital (sin correos ni commits)
+        env:
+          TERMINOS_BUSQUEDA: ${{ github.event.inputs.terminos }}
         run: python buscar_sentencias_ia.py
 
       - name: Subir resultados como artefacto

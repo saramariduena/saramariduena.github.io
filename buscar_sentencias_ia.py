@@ -1,13 +1,17 @@
 """
 Búsqueda histórica en el buscador oficial de la Corte Constitucional del Ecuador
-de sentencias relacionadas con inteligencia artificial, algoritmos, sesgos
-algorítmicos y alucinaciones de IA.
+de sentencias relacionadas con derecho digital: protección de datos, redes
+sociales, temas electrónicos y derechos digitales en general.
 
 A diferencia de main.py (el monitor semanal), este script:
   - No compara contra state.json ni marca nada como "visto".
   - No envía correos ni sube archivos a Drive.
   - Busca en un rango de fechas amplio (desde la creación de la Corte
     Constitucional en 2008 hasta hoy), no solo en los últimos 30 días.
+
+Los términos de búsqueda se pueden sobreescribir con la variable de entorno
+TERMINOS_BUSQUEDA (separados por coma), por ejemplo para volver a correr la
+búsqueda original de IA: TERMINOS_BUSQUEDA="inteligencia artificial,algoritmo".
 
 Requiere acceso de red a buscador.corteconstitucional.gob.ec. Ejecutar donde
 haya salida a internet real (localmente o vía `workflow_dispatch` en GitHub
@@ -19,6 +23,7 @@ Uso:
 
 import json
 import logging
+import os
 import sys
 import time
 
@@ -29,16 +34,20 @@ logger = logging.getLogger(__name__)
 
 DIAS_HISTORICO = 6500  # ~18 años: cubre toda la existencia de la Corte Constitucional (desde 2008)
 
-TERMINOS = [
-    "inteligencia artificial",
-    "algoritmo",
-    "sesgo algoritmico",
-    "sesgo algorítmico",
-    "alucinacion",
-    "alucinación",
-    "chatgpt",
-    "sistema automatizado",
+TERMINOS_DEFECTO = [
+    "protección de datos personales",
+    "hábeas data",
+    "redes sociales",
+    "internet",
+    "telefonía móvil",
+    "plataforma digital",
+    "notificación electrónica",
+    "firma electrónica",
+    "datos informáticos",
 ]
+
+_override = os.environ.get("TERMINOS_BUSQUEDA", "").strip()
+TERMINOS = [t.strip() for t in _override.split(",") if t.strip()] if _override else TERMINOS_DEFECTO
 
 
 def main():
@@ -61,8 +70,8 @@ def main():
 
     if not encontradas:
         print("\n" + "=" * 70)
-        print("Sin resultados: no se encontró ninguna sentencia que mencione")
-        print("inteligencia artificial, algoritmos, sesgos o alucinaciones.")
+        print("Sin resultados para los términos buscados:")
+        print(", ".join(TERMINOS))
         print("=" * 70)
         return
 
