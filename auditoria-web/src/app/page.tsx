@@ -61,9 +61,16 @@ export default function Home() {
   const conteo = { alto: 0, medio: 0, bajo: 0, info: 0 };
   for (const h of resultado?.hallazgos ?? []) conteo[h.severidad]++;
 
+  const fechaLegible = resultado
+    ? new Date(resultado.fecha).toLocaleString("es-EC", {
+        dateStyle: "long",
+        timeStyle: "short",
+      })
+    : "";
+
   return (
     <main className={styles.main}>
-      <div className={styles.header}>
+      <div className={`${styles.header} ${styles.noImprimir}`}>
         <h1 className={styles.title}>Auditor de Protección de Datos Personales</h1>
         <p className={styles.subtitle}>
           Pega la URL de un sitio web y revisa indicios sobre su tratamiento de datos
@@ -72,7 +79,7 @@ export default function Home() {
         </p>
       </div>
 
-      <form className={styles.form} onSubmit={auditar}>
+      <form className={`${styles.form} ${styles.noImprimir}`} onSubmit={auditar}>
         <input
           className={styles.input}
           type="text"
@@ -87,40 +94,67 @@ export default function Home() {
           {cargando ? "Auditando…" : "Auditar"}
         </button>
       </form>
-      <p className={styles.hint}>
+      <p className={`${styles.hint} ${styles.noImprimir}`}>
         Solo se admiten sitios públicos accesibles por HTTP o HTTPS.
       </p>
 
-      {cargando && <p className={styles.loading}>Cargando el sitio y analizando su contenido…</p>}
-      {error && <p className={styles.error}>{error}</p>}
+      {cargando && (
+        <p className={`${styles.loading} ${styles.noImprimir}`}>
+          Cargando el sitio y analizando su contenido…
+        </p>
+      )}
+      {error && <p className={`${styles.error} ${styles.noImprimir}`}>{error}</p>}
 
       {resultado && (
-        <div>
-          <div className={styles.summary}>
-            <span
-              className={styles.summaryItem}
-              style={{ color: "var(--alto)", background: "var(--alto-bg)" }}
+        <div className={styles.reporte}>
+          <div className={styles.soloImprimir}>
+            <h1 className={styles.reporteTitulo}>Informe de Auditoría de Protección de Datos Personales</h1>
+            <p>
+              <strong>Sitio auditado:</strong> {resultado.url}
+            </p>
+            <p>
+              <strong>Fecha del análisis:</strong> {fechaLegible}
+            </p>
+            <p>
+              <strong>Generado con:</strong> Auditor de Protección de Datos Personales
+              (auditoriadatos-web.vercel.app)
+            </p>
+          </div>
+
+          <div className={`${styles.summaryRow} ${styles.noImprimir}`}>
+            <div className={styles.summary}>
+              <span
+                className={styles.summaryItem}
+                style={{ color: "var(--alto)", background: "var(--alto-bg)" }}
+              >
+                {conteo.alto} alto{conteo.alto === 1 ? "" : "s"}
+              </span>
+              <span
+                className={styles.summaryItem}
+                style={{ color: "var(--medio)", background: "var(--medio-bg)" }}
+              >
+                {conteo.medio} medio{conteo.medio === 1 ? "" : "s"}
+              </span>
+              <span
+                className={styles.summaryItem}
+                style={{ color: "var(--bajo)", background: "var(--bajo-bg)" }}
+              >
+                {conteo.bajo} bajo{conteo.bajo === 1 ? "" : "s"}
+              </span>
+              <span
+                className={styles.summaryItem}
+                style={{ color: "var(--info)", background: "var(--info-bg)" }}
+              >
+                {conteo.info} informativo{conteo.info === 1 ? "" : "s"}
+              </span>
+            </div>
+            <button
+              type="button"
+              className={styles.buttonSecondary}
+              onClick={() => window.print()}
             >
-              {conteo.alto} alto{conteo.alto === 1 ? "" : "s"}
-            </span>
-            <span
-              className={styles.summaryItem}
-              style={{ color: "var(--medio)", background: "var(--medio-bg)" }}
-            >
-              {conteo.medio} medio{conteo.medio === 1 ? "" : "s"}
-            </span>
-            <span
-              className={styles.summaryItem}
-              style={{ color: "var(--bajo)", background: "var(--bajo-bg)" }}
-            >
-              {conteo.bajo} bajo{conteo.bajo === 1 ? "" : "s"}
-            </span>
-            <span
-              className={styles.summaryItem}
-              style={{ color: "var(--info)", background: "var(--info-bg)" }}
-            >
-              {conteo.info} informativo{conteo.info === 1 ? "" : "s"}
-            </span>
+              Descargar informe (PDF)
+            </button>
           </div>
 
           {agruparPorCategoria(resultado.hallazgos).map(([categoria, hallazgos]) => (
@@ -143,10 +177,35 @@ export default function Home() {
       )}
 
       <div className={styles.footer}>
-        Esta auditoría es un apoyo técnico automatizado y no sustituye una revisión legal
-        completa bajo la LOPDP (Ecuador) u otras normas aplicables: no verifica, por ejemplo,
-        contratos con encargados del tratamiento, registros de actividades de tratamiento,
-        evaluaciones de impacto ni cookies/rastreadores cargados dinámicamente por JavaScript.
+        <p>
+          Esta auditoría es un apoyo técnico automatizado y no sustituye una revisión legal
+          completa bajo la LOPDP (Ecuador) u otras normas de protección de datos que puedan
+          aplicar (por ejemplo, en transferencias internacionales). Los niveles de severidad son
+          indicadores heurísticos para priorizar la revisión, no un dictamen legal concluyente, y
+          deben ser corroborados por un profesional de derecho o protección de datos.
+        </p>
+        <p>Entre otras cosas, esta herramienta no verifica:</p>
+        <ul className={styles.footerList}>
+          <li>Contratos con encargados del tratamiento ni cláusulas de confidencialidad.</li>
+          <li>El registro de actividades de tratamiento (RAT).</li>
+          <li>Evaluaciones de impacto de protección de datos (EIPD) cuando correspondan.</li>
+          <li>La designación de un Delegado de Protección de Datos, cuando la ley lo exige.</li>
+          <li>Procedimientos internos de respuesta ante incidentes o brechas de seguridad.</li>
+          <li>
+            Cookies, rastreadores o llamadas a servicios de terceros que un sitio agrega
+            dinámicamente por JavaScript (esta versión web solo analiza el HTML y las cabeceras
+            de la carga inicial del servidor).
+          </li>
+          <li>Medidas de seguridad físicas u organizativas, ni la seguridad real de las bases de datos o sistemas backend.</li>
+          <li>
+            Si las prácticas declaradas en la política de privacidad (plazos de conservación,
+            finalidades, etc.) se cumplen realmente en la operación del sitio.
+          </li>
+          <li>
+            Otras páginas, subdominios o aplicaciones móviles del mismo responsable: el análisis
+            se limita a la URL exacta ingresada, en el momento en que se ejecutó.
+          </li>
+        </ul>
       </div>
     </main>
   );
