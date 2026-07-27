@@ -129,6 +129,13 @@
   line-height: 1.6;
 }
 
+.categoryExplicacion {
+  color: var(--muted);
+  font-size: 0.87rem;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
 .loading {
   color: var(--muted);
   font-size: 0.95rem;
@@ -196,7 +203,8 @@
     -webkit-print-color-adjust: exact;
   }
 
-  .footer {
+  .footer,
+  .categoryExplicacion {
     color: black;
   }
 }

@@ -13,6 +13,23 @@ const ETIQUETA_SEVERIDAD: Record<Severidad, string> = {
 
 const ORDEN_SEVERIDAD: Record<Severidad, number> = { alto: 0, medio: 1, bajo: 2, info: 3 };
 
+const EXPLICACION_CATEGORIA: Record<string, string> = {
+  "Cifrado en tránsito":
+    "Indica si la comunicación entre el navegador del usuario y el sitio va cifrada (HTTPS). Sin esto, cualquier persona en la misma red podría leer los datos que se envían.",
+  "Certificado TLS":
+    "El certificado es el documento digital que confirma la identidad del sitio y habilita el candado del navegador. Aquí se revisa si es válido, si la cadena hasta una entidad de confianza está completa, y cuánto le falta para vencer.",
+  "Cabeceras de seguridad":
+    "Instrucciones que el servidor envía al navegador para reforzar la seguridad (por ejemplo, forzar HTTPS o bloquear scripts no autorizados). Que falten no es necesariamente grave, pero reduce las protecciones disponibles.",
+  Cookies:
+    "Pequeños archivos que el sitio guarda en el navegador del usuario, usados por ejemplo para mantener una sesión iniciada. Se revisa cuántas hay, si son de terceros (posible rastreo entre sitios) y si viajan protegidas con el flag \"Secure\" (solo por HTTPS).",
+  "Rastreadores de terceros":
+    "Scripts de servicios externos (como Google Analytics o Meta Pixel) que recolectan datos sobre el comportamiento de quienes visitan el sitio. Deben estar declarados en la política de privacidad y, salvo excepción legal, requieren el consentimiento previo del usuario.",
+  Formularios:
+    "Campos donde el usuario ingresa información personal (correo, teléfono, cédula, etc.). Se revisa si el envío viaja por HTTPS y si se pide una casilla de consentimiento antes de enviar los datos.",
+  "Política de privacidad":
+    "El documento donde el sitio debe explicar qué datos personales recolecta, para qué los usa y qué derechos tiene el usuario (por ejemplo, los derechos ARCO: Acceso, Rectificación, Cancelación y Oposición). Se revisa si existe un enlace visible y si su contenido cubre los puntos exigidos por la LOPDP de Ecuador.",
+};
+
 function agruparPorCategoria(hallazgos: Hallazgo[]): [string, Hallazgo[]][] {
   const mapa = new Map<string, Hallazgo[]>();
   for (const h of hallazgos) {
@@ -160,6 +177,9 @@ export default function Home() {
           {agruparPorCategoria(resultado.hallazgos).map(([categoria, hallazgos]) => (
             <div className={styles.category} key={categoria}>
               <h2 className={styles.categoryTitle}>{categoria}</h2>
+              {EXPLICACION_CATEGORIA[categoria] && (
+                <p className={styles.categoryExplicacion}>{EXPLICACION_CATEGORIA[categoria]}</p>
+              )}
               {hallazgos.map((h, i) => (
                 <div className={styles.finding} key={i}>
                   <span
