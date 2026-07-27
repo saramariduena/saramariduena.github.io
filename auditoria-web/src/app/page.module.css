@@ -134,3 +134,69 @@
   font-size: 0.95rem;
   margin-bottom: 24px;
 }
+
+.footerList {
+  margin: 10px 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summaryRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.buttonSecondary {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.soloImprimir {
+  display: none;
+}
+
+.reporteTitulo {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+}
+
+@media print {
+  .noImprimir {
+    display: none !important;
+  }
+
+  .soloImprimir {
+    display: block;
+    margin-bottom: 24px;
+  }
+
+  .main {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .category {
+    break-inside: avoid;
+  }
+
+  .badge {
+    border: 1px solid currentColor;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .footer {
+    color: black;
+  }
+}
