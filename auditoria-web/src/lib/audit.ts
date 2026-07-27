@@ -2,6 +2,7 @@ import * as cheerio from "cheerio";
 import dns from "node:dns/promises";
 import net from "node:net";
 import tls from "node:tls";
+import { Agent, fetch as fetchUndici } from "undici";
 
 export type Severidad = "alto" | "medio" | "bajo" | "info";
 
@@ -128,6 +129,42 @@ async function fetchConTimeout(url: string, timeoutMs = FETCH_TIMEOUT_MS): Promi
   });
 }
 
+// Node rechaza por defecto certificados con una cadena incompleta o no verificable
+// (código UNABLE_TO_VERIFY_LEAF_SIGNATURE y similares), algo frecuente en sitios reales
+// que los navegadores toleran igual. Si la carga falla por eso, reintentamos una sola vez
+// sin validar la cadena, para poder seguir analizando el sitio; el problema del certificado
+// se reporta aparte en revisarCertificado().
+const CODIGOS_ERROR_TLS = new Set([
+  "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
+  "UNABLE_TO_GET_ISSUER_CERT",
+  "UNABLE_TO_GET_ISSUER_CERT_LOCALLY",
+  "SELF_SIGNED_CERT_IN_CHAIN",
+  "DEPTH_ZERO_SELF_SIGNED_CERT",
+  "CERT_HAS_EXPIRED",
+  "ERR_TLS_CERT_ALTNAME_INVALID",
+]);
+
+const agenteTlsRelajado = new Agent({ connect: { rejectUnauthorized: false } });
+
+async function fetchConReintentoTls(url: string, timeoutMs = FETCH_TIMEOUT_MS): Promise<Response> {
+  try {
+    return await fetchConTimeout(url, timeoutMs);
+  } catch (e) {
+    const codigo = (e as { cause?: { code?: string } })?.cause?.code;
+    if (!codigo || !CODIGOS_ERROR_TLS.has(codigo)) throw e;
+    // Node's global fetch validates `dispatcher` against its own internal undici
+    // instance, so an Agent from the npm `undici` package is rejected (UND_ERR_INVALID_ARG).
+    // Using undici's own fetch() alongside its own Agent keeps them matched.
+    const resp = await fetchUndici(url, {
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; AuditorProteccionDatos/1.0)" },
+      redirect: "follow",
+      signal: AbortSignal.timeout(timeoutMs),
+      dispatcher: agenteTlsRelajado,
+    });
+    return resp as unknown as Response;
+  }
+}
+
 function revisarHttps(finalUrl: string, r: ResultadoAuditoria) {
   if (!finalUrl.startsWith("https://")) {
     agregar(
@@ -142,34 +179,58 @@ function revisarHttps(finalUrl: string, r: ResultadoAuditoria) {
   }
 }
 
-function revisarCertificado(hostname: string, esHttps: boolean, r: ResultadoAuditoria): Promise<void> {
+function revisarCertificado(
+  hostname: string,
+  puerto: number,
+  esHttps: boolean,
+  r: ResultadoAuditoria
+): Promise<void> {
   if (!esHttps) {
     agregar(r, "Certificado TLS", "medio", "No aplica: el sitio no usa HTTPS.");
     return Promise.resolve();
   }
   return new Promise((resolve) => {
+    // rejectUnauthorized:false porque aquí solo queremos inspeccionar el certificado, no
+    // decidir si confiar en la conexión; socket.authorized indica si la cadena es válida.
     const socket = tls.connect(
-      { host: hostname, port: 443, servername: hostname, timeout: 8000 },
+      { host: hostname, port: puerto, servername: hostname, timeout: 8000, rejectUnauthorized: false },
       () => {
         const cert = socket.getPeerCertificate();
+        const cadenaValida = socket.authorized;
+        const errorCadena = socket.authorizationError;
         socket.end();
+
         if (!cert || !cert.valid_to) {
           agregar(r, "Certificado TLS", "medio", "No se pudieron obtener los detalles del certificado TLS.");
           return resolve();
         }
+
+        if (!cadenaValida) {
+          agregar(
+            r,
+            "Certificado TLS",
+            "alto",
+            `La cadena de certificados no se pudo validar (${errorCadena}). El sitio probablemente no está ` +
+              "enviando los certificados intermedios necesarios. Algunos navegadores lo toleran (usan una " +
+              "copia propia del intermedio), pero otros mostrarán una advertencia de seguridad a los usuarios."
+          );
+        }
+
         const expira = new Date(cert.valid_to);
         const diasRestantes = Math.floor((expira.getTime() - Date.now()) / 86_400_000);
         if (diasRestantes < 0) {
           agregar(r, "Certificado TLS", "alto", "El certificado TLS está vencido.");
         } else if (diasRestantes < 15) {
           agregar(r, "Certificado TLS", "medio", `El certificado TLS vence en ${diasRestantes} días.`);
-        } else {
+        } else if (cadenaValida) {
           agregar(
             r,
             "Certificado TLS",
             "info",
             `Certificado válido, emitido por ${cert.issuer?.O ?? cert.issuer?.CN ?? "desconocido"}, vence en ${diasRestantes} días.`
           );
+        } else {
+          agregar(r, "Certificado TLS", "info", `El certificado (cadena no válida) vence en ${diasRestantes} días.`);
         }
         resolve();
       }
@@ -393,7 +454,7 @@ async function revisarPoliticaPrivacidad($: cheerio.CheerioAPI, urlBase: string,
 
   try {
     const urlValidada = await validarUrlPublica(enlace);
-    const resp = await fetchConTimeout(urlValidada.toString(), 8000);
+    const resp = await fetchConReintentoTls(urlValidada.toString(), 8000);
     const textoHtml = await resp.text();
     const textoPolitica = cheerio.load(textoHtml)("body").text().toLowerCase();
 
@@ -431,21 +492,23 @@ export async function auditar(rawUrl: string): Promise<ResultadoAuditoria> {
 
   let resp: Response;
   try {
-    resp = await fetchConTimeout(urlValidada.toString());
+    resp = await fetchConReintentoTls(urlValidada.toString());
   } catch (e) {
     throw new AuditError(`No se pudo cargar el sitio: ${describirError(e)}`);
   }
 
   const html = await resp.text();
   const finalUrl = resp.url || urlValidada.toString();
-  const hostname = new URL(finalUrl).hostname;
+  const urlFinalParseada = new URL(finalUrl);
+  const hostname = urlFinalParseada.hostname;
+  const puerto = urlFinalParseada.port ? Number(urlFinalParseada.port) : 443;
   const esHttps = finalUrl.startsWith("https://");
 
   const r = nuevoResultado(finalUrl);
   const $ = cheerio.load(html);
 
   revisarHttps(finalUrl, r);
-  await revisarCertificado(hostname, esHttps, r);
+  await revisarCertificado(hostname, puerto, esHttps, r);
   revisarCabeceras(resp.headers, r);
   revisarCookies(resp.headers, hostname, r);
   revisarRastreadores(html, r);
