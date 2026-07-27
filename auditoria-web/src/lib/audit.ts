@@ -19,6 +19,14 @@ export interface ResultadoAuditoria {
 
 export class AuditError extends Error {}
 
+// fetch (undici) suele envolver el error real en `.cause` con un mensaje genérico
+// como "fetch failed"; esto extrae la causa concreta (ECONNREFUSED, timeout, TLS, etc.).
+function describirError(e: unknown): string {
+  const err = e as { message?: string; cause?: { message?: string; code?: string } };
+  const causa = err.cause?.code || err.cause?.message;
+  return causa ? `${err.message} (${causa})` : err.message || "error desconocido";
+}
+
 export const SEVERIDAD_ORDEN: Record<Severidad, number> = { alto: 0, medio: 1, bajo: 2, info: 3 };
 const FETCH_TIMEOUT_MS = 10_000;
 
@@ -425,7 +433,7 @@ export async function auditar(rawUrl: string): Promise<ResultadoAuditoria> {
   try {
     resp = await fetchConTimeout(urlValidada.toString());
   } catch (e) {
-    throw new AuditError(`No se pudo cargar el sitio: ${(e as Error).message}`);
+    throw new AuditError(`No se pudo cargar el sitio: ${describirError(e)}`);
   }
 
   const html = await resp.text();
