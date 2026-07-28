@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sara Mariduena — Derecho & Tecnología</title>
+<meta name="description" content="Portafolio de Sara Mariduena: proyectos de legaltech, auditorías de protección de datos y desarrollo de software.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚖️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="bg-decor" aria-hidden="true">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<header class="nav" id="top">
+  <a href="#top" class="brand">Sara<span>.</span></a>
+  <nav>
+    <a href="#sobre-mi">Sobre mí</a>
+    <a href="#proyectos">Proyectos</a>
+    <a href="#habilidades">Habilidades</a>
+    <a href="#contacto" class="nav-cta">Contacto</a>
+  </nav>
+  <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">🌙</button>
+</header>
+
+<main>
+  <section class="hero">
+    <p class="eyebrow">Derecho · Tecnología · Datos</p>
+    <h1>Hola, soy <span class="gradient-text">Sara Mariduena</span></h1>
+    <p class="hero-sub">
+      Construyo herramientas donde el derecho ecuatoriano se encuentra con la tecnología:
+      videojuegos educativos, auditorías de protección de datos e IA aplicada a la
+      búsqueda de sentencias.
+    </p>
+    <div class="hero-actions">
+      <a href="#proyectos" class="btn btn-primary">Ver proyectos</a>
+      <a href="#contacto" class="btn btn-ghost">Hablemos</a>
+    </div>
+    <div class="hero-tags">
+      <span>⚖️ COGEP</span>
+      <span>🔐 LOPDP</span>
+      <span>🤖 IA aplicada</span>
+      <span>🇪🇨 Ecuador</span>
+    </div>
+  </section>
+
+  <section id="sobre-mi" class="section">
+    <div class="section-head">
+      <span class="tag">Sobre mí</span>
+      <h2>Uniendo el mundo legal con el código</h2>
+    </div>
+    <p class="lead">
+      Vengo del derecho, pero paso mis días construyendo software. Me interesa
+      todo lo que ayude a que la ley ecuatoriana sea más entendible, más
+      transparente y más accesible: desde un videojuego que enseña procedimiento
+      civil, hasta scripts que auditan si un sitio web respeta la privacidad de
+      sus usuarios. UEES, Guayaquil 🇪🇨.
+    </p>
+  </section>
+
+  <section id="proyectos" class="section">
+    <div class="section-head">
+      <span class="tag">Proyectos</span>
+      <h2>Lo que he estado construyendo</h2>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card-icon">⚖️</div>
+        <h3>El Litigante</h3>
+        <p>
+          Videojuego educativo de plataformas para aprender el COGEP.
+          Litigas casos hipotéticos por cada etapa del proceso —demanda,
+          citación, audiencia, prueba y sentencia— con retroalimentación
+          jurídica real en cada decisión.
+        </p>
+        <div class="card-tags"><span>Phaser 3</span><span>TypeScript</span><span>Vite</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">🔐</div>
+        <h3>Auditoría de Protección de Datos</h3>
+        <p>
+          Herramienta en Python que analiza un sitio web público y genera
+          un reporte de indicios sobre su tratamiento de datos personales,
+          conforme a la LOPDP de Ecuador: cifrado, cookies, rastreadores y
+          formularios.
+        </p>
+        <div class="card-tags"><span>Python</span><span>LOPDP</span><span>Seguridad</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">🌐</div>
+        <h3>Auditoría Web</h3>
+        <p>
+          Aplicación web construida con Next.js para revisar y visualizar
+          el estado técnico y de cumplimiento de sitios web de forma
+          rápida y clara.
+        </p>
+        <div class="card-tags"><span>Next.js</span><span>TypeScript</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">🤖</div>
+        <h3>Buscador de Sentencias con IA</h3>
+        <p>
+          Scraper y sistema de búsqueda para sentencias de la Corte
+          Constitucional sobre nuevas tecnologías y derecho digital en
+          Ecuador, con alertas automáticas por correo.
+        </p>
+        <div class="card-tags"><span>Python</span><span>Automatización</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="habilidades" class="section">
+    <div class="section-head">
+      <span class="tag">Habilidades</span>
+      <h2>Con qué trabajo</h2>
+    </div>
+    <div class="skills">
+      <span>Python</span>
+      <span>TypeScript</span>
+      <span>React / Next.js</span>
+      <span>Derecho procesal (COGEP)</span>
+      <span>Protección de datos (LOPDP)</span>
+      <span>Automatización</span>
+      <span>Diseño de producto</span>
+      <span>IA aplicada</span>
+    </div>
+  </section>
+
+  <section id="contacto" class="section contact-section">
+    <div class="contact-card">
+      <span class="tag">Contacto</span>
+      <h2>¿Hablamos de tu próximo proyecto?</h2>
+      <p>Escríbeme y con gusto conversamos.</p>
+      <a class="btn btn-primary" href="mailto:sara.mariduena@uees.edu.ec">
+        sara.mariduena@uees.edu.ec
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <p>Hecho con 💛 por Sara Mariduena — © <span id="year"></span></p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
