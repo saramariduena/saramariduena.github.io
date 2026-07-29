@@ -3,8 +3,7 @@ document.getElementById("year").textContent = new Date().getFullYear();
 const root = document.documentElement;
 const toggle = document.getElementById("themeToggle");
 const stored = localStorage.getItem("theme");
-const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-const initial = stored || (prefersLight ? "light" : "dark");
+const initial = stored || "light";
 root.setAttribute("data-theme", initial);
 toggle.textContent = initial === "dark" ? "🌙" : "☀️";
 
