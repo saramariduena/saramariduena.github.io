@@ -9,8 +9,8 @@
   --gold: #b8902f;
   --gold-soft: rgba(184, 144, 47, 0.14);
   --radius: 14px;
-  --font-display: "Playfair Display", "Georgia", serif;
-  --font-body: "Inter", sans-serif;
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Work Sans", sans-serif;
 }
 
 :root[data-theme="dark"] {
@@ -155,7 +155,7 @@ main { padding: 0 6vw; }
 
 :root[data-theme="dark"] .hero h1 { color: var(--text); }
 
-.accent-text { color: var(--gold); }
+.accent-text { color: var(--gold); font-style: italic; }
 
 .hero-sub {
   font-size: 1.12rem;
