@@ -289,6 +289,17 @@ main { padding: 0 6vw; }
   margin: 0;
 }
 
+.card-link {
+  display: inline-block;
+  margin-top: 14px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--gold);
+  transition: transform 0.2s ease;
+}
+
+.card-link:hover { transform: translateX(3px); }
+
 .about-grid {
   display: grid;
   grid-template-columns: auto 1fr;
