@@ -150,12 +150,12 @@ main { padding: 0 6vw; }
   background-position: center;
 }
 
-.hero-with-bg .eyebrow { color: var(--gold); }
-.hero-with-bg h1,
-.hero-with-bg .hero-sub { color: #f2f0e9; }
-.hero-with-bg .hero-sub { color: rgba(242, 240, 233, 0.85); }
-.hero-with-bg .btn-ghost { border-color: #f2f0e9; color: #f2f0e9; }
-.hero-with-bg .hero-tags span {
+.hero.hero-with-bg .eyebrow { color: var(--gold); }
+.hero.hero-with-bg h1,
+.hero.hero-with-bg .hero-sub { color: #f2f0e9; }
+.hero.hero-with-bg .hero-sub { color: rgba(242, 240, 233, 0.85); }
+.hero.hero-with-bg .btn-ghost { border-color: #f2f0e9; color: #f2f0e9; }
+.hero.hero-with-bg .hero-tags span {
   background: rgba(242, 240, 233, 0.12);
   border-color: rgba(242, 240, 233, 0.3);
   color: #f2f0e9;
