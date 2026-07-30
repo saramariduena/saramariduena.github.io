@@ -155,8 +155,6 @@ main { padding: 0 6vw; }
 
 :root[data-theme="dark"] .hero h1 { color: var(--text); }
 
-.accent-text { color: var(--gold); font-style: italic; }
-
 .hero-sub {
   font-size: 1.12rem;
   color: var(--text-muted);
