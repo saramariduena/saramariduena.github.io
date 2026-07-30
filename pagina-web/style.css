@@ -296,19 +296,16 @@ main { padding: 0 6vw; }
   align-items: center;
 }
 
-.avatar-placeholder {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, var(--navy), var(--navy-soft));
-  color: var(--gold);
+.avatar-photo {
+  width: 230px;
+  height: 280px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 14px;
   border: 3px solid var(--gold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: 2.4rem;
+  box-shadow: 0 20px 40px -20px rgba(11, 37, 69, 0.4);
   flex-shrink: 0;
+  background: var(--surface);
 }
 
 .credentials {
@@ -320,6 +317,78 @@ main { padding: 0 6vw; }
   gap: 10px;
   font-size: 0.95rem;
   color: var(--text-muted);
+}
+
+.subsection-head {
+  margin-top: 56px;
+  margin-bottom: 30px;
+}
+
+.timeline {
+  border-left: 2px solid var(--gold-soft);
+  margin-left: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-item {
+  position: relative;
+  padding: 0 0 32px 30px;
+}
+
+.timeline-item:last-child { padding-bottom: 0; }
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--bg);
+}
+
+.timeline-role {
+  font-size: 1.1rem;
+  margin: 0 0 4px;
+  color: var(--navy);
+}
+
+:root[data-theme="dark"] .timeline-role { color: var(--text); }
+
+.timeline-meta {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold);
+  margin: 0 0 8px;
+}
+
+.timeline-desc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+  max-width: 640px;
+}
+
+.formacion-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 780px;
+}
+
+.formacion-list li {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 6px;
+  padding: 16px 20px;
+  font-size: 0.95rem;
 }
 
 .contact-section { padding-bottom: 60px; }
@@ -374,5 +443,5 @@ a.contact-item:hover { background: rgba(255, 255, 255, 0.12); transform: transla
 @media (max-width: 760px) {
   .nav nav { display: none; }
   .about-grid { grid-template-columns: 1fr; text-align: center; }
-  .about-grid .avatar-placeholder { margin: 0 auto; }
+  .about-grid .avatar-photo { margin: 0 auto; }
 }
