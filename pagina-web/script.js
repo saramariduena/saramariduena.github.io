@@ -30,11 +30,26 @@ sections.forEach((section) => observer.observe(section));
 
 const listaNovedades = document.getElementById("novedades-lista");
 const actualizadoEl = document.getElementById("novedades-actualizado");
+const semanaEl = document.getElementById("novedades-semana");
 
 function escaparHTML(texto) {
   const div = document.createElement("div");
   div.textContent = texto ?? "";
   return div.innerHTML;
+}
+
+function formatearRangoSemana(inicioStr, finStr) {
+  const inicio = new Date(inicioStr + "T00:00:00Z");
+  const fin = new Date(finStr + "T00:00:00Z");
+  const opcionesDia = { day: "numeric", timeZone: "UTC" };
+  const opcionesCompletas = { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" };
+  const mismoMes =
+    inicio.getUTCMonth() === fin.getUTCMonth() && inicio.getUTCFullYear() === fin.getUTCFullYear();
+  const finTexto = fin.toLocaleDateString("es-EC", opcionesCompletas);
+  const inicioTexto = mismoMes
+    ? inicio.toLocaleDateString("es-EC", opcionesDia)
+    : inicio.toLocaleDateString("es-EC", opcionesCompletas);
+  return `Semana del ${inicioTexto} al ${finTexto}`;
 }
 
 fetch("novedades.json", { cache: "no-store" })
@@ -75,7 +90,11 @@ fetch("novedades.json", { cache: "no-store" })
         hour: "2-digit",
         minute: "2-digit",
       });
-      actualizadoEl.textContent = `Actualizado automáticamente · ${fechaActualizado}`;
+      actualizadoEl.textContent = `Última actualización · ${fechaActualizado}`;
+    }
+
+    if (datos.semana_inicio && datos.semana_fin) {
+      semanaEl.textContent = formatearRangoSemana(datos.semana_inicio, datos.semana_fin);
     }
   })
   .catch(() => {

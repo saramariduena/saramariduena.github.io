@@ -2,7 +2,7 @@ name: Actualizar novedades de IA y derechos digitales
 
 on:
   schedule:
-    - cron: "0 */6 * * *"
+    - cron: "0 8 * * 1"
   workflow_dispatch:
 
 permissions:

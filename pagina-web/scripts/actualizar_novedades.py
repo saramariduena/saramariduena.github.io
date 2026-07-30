@@ -9,15 +9,17 @@ import re
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from email.utils import parsedate_to_datetime
 
+DIAS_VENTANA = 7
+
 CONSULTAS = [
-    "inteligencia artificial derecho",
-    "protección de datos Ecuador",
-    "derechos digitales América Latina",
-    "regulación inteligencia artificial",
+    "inteligencia artificial derecho when:7d",
+    "protección de datos Ecuador when:7d",
+    "derechos digitales América Latina when:7d",
+    "regulación inteligencia artificial when:7d",
 ]
 
 FEED_URL = (
@@ -90,8 +92,13 @@ def main():
     todas.sort(key=orden, reverse=True)
     seleccion = todas[:MAX_NOTICIAS]
 
+    hoy = datetime.now(timezone.utc)
+    inicio_semana = hoy - timedelta(days=DIAS_VENTANA - 1)
+
     salida = {
-        "actualizado": datetime.now(timezone.utc).isoformat(),
+        "actualizado": hoy.isoformat(),
+        "semana_inicio": inicio_semana.date().isoformat(),
+        "semana_fin": hoy.date().isoformat(),
         "noticias": seleccion,
     }
 
