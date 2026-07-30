@@ -517,7 +517,8 @@ main { padding: 0 6vw; }
 
 .contact-card .tag { color: var(--gold); }
 .contact-card h2 { color: #fff; margin: 6px 0 10px; }
-.contact-card p { color: rgba(242, 240, 233, 0.75); margin-bottom: 32px; }
+.contact-card p { color: rgba(242, 240, 233, 0.75); margin-bottom: 20px; }
+.contact-card .btn-primary { margin-bottom: 32px; }
 
 .contact-grid {
   display: flex;
