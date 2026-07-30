@@ -29,10 +29,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          if git diff --quiet -- pagina-web/novedades.json; then
+          git add pagina-web/novedades.json
+          if git diff --cached --quiet; then
             echo "Sin cambios en novedades.json"
             exit 0
           fi
-          git add pagina-web/novedades.json
           git commit -m "Actualiza novedades de IA y derechos digitales"
           git push
