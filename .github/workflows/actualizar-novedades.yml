@@ -1,0 +1,38 @@
+name: Actualizar novedades de IA y derechos digitales
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generar novedades.json
+        run: python3 pagina-web/scripts/actualizar_novedades.py
+
+      - name: Commit si hay cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- pagina-web/novedades.json; then
+            echo "Sin cambios en novedades.json"
+            exit 0
+          fi
+          git add pagina-web/novedades.json
+          git commit -m "Actualiza novedades de IA y derechos digitales"
+          git push

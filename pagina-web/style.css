@@ -283,6 +283,55 @@ main { padding: 0 6vw; }
 
 :root[data-theme="dark"] .card h3 { color: var(--text); }
 
+.area-card { padding: 0; cursor: pointer; }
+
+.area-card summary {
+  list-style: none;
+  padding: 26px;
+  position: relative;
+}
+
+.area-card summary::-webkit-details-marker { display: none; }
+
+.area-card summary::after {
+  content: "+";
+  position: absolute;
+  top: 26px;
+  right: 22px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--gold);
+  transition: transform 0.2s ease;
+}
+
+.area-card[open] summary::after { transform: rotate(45deg); }
+
+.area-card summary .card-icon { margin-bottom: 12px; }
+.area-card summary h3 { margin: 0; padding-right: 24px; }
+
+.card-activities {
+  list-style: none;
+  margin: 0;
+  padding: 0 26px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-activities li {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  padding-left: 16px;
+  position: relative;
+}
+
+.card-activities li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+}
+
 .card p {
   color: var(--text-muted);
   font-size: 0.92rem;
@@ -400,6 +449,53 @@ main { padding: 0 6vw; }
   border-radius: 6px;
   padding: 16px 20px;
   font-size: 0.95rem;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.news-status {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.news-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 8px;
+  padding: 18px 22px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.news-item:hover {
+  transform: translateX(4px);
+  border-color: var(--gold);
+}
+
+.news-item-title {
+  font-weight: 600;
+  color: var(--navy);
+  font-size: 0.98rem;
+}
+
+:root[data-theme="dark"] .news-item-title { color: var(--text); }
+
+.news-item-meta {
+  font-size: 0.8rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.news-updated {
+  margin-top: 18px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
 }
 
 .contact-section { padding-bottom: 60px; }
