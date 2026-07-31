@@ -191,6 +191,13 @@ main { padding: 0 6vw; }
   font-size: 1.12rem;
   color: var(--text-muted);
   max-width: 600px;
+  margin-bottom: 10px;
+}
+
+.hero-location {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--gold);
   margin-bottom: 34px;
 }
 
