@@ -49,17 +49,20 @@ de **Colombia** (uso de ChatGPT por un juez).
 | 14 | [456-20-JP/21](https://www.corteconstitucional.gob.ec/sentencia-456-20-jp-21/) | ~2021 | Sexting en contexto educativo | Sanción desproporcionada por sexting escolar; exige justicia restaurativa. |
 | 15 | [59-19-IN/24](https://www.corteconstitucional.gob.ec/inconstitucionalidad-con-efectos-diferidos-del-acuerdo-ministerial-que-aprueba-el-uso-de-la-historia-clinica-ocupacional/) | ~2024 | Historia clínica ocupacional electrónica | Inconstitucional exigirla sin consentimiento y con datos irrelevantes. |
 | 16 | [2919-19-EP/21](https://www.cijc.org/es/cuadernos/Sentencias/54e7f41e-97cf-48ae-9766-6e5b99fcb6b4.pdf) | ~2021 | Hábeas data / buró de crédito | Orden de eliminar datos crediticios erróneos. |
+| 17 | 47-19-JD/22 | 21/12/2022 | Hábeas data — confidencialidad en denuncias disciplinarias | La persona denunciada en un proceso disciplinario **no puede** usar hábeas data para obtener los datos del denunciante (no son sus datos personales), pero **sí puede** acceder a su propia información dentro del expediente. |
+| 18 | 29-21-JI/21 | 01/12/2021 | Acceso a información pública — datos de vacunación COVID | La Defensoría del Pueblo pidió al Ministerio de Salud el listado de personas vacunadas (fase 0) y el Ministerio se negó. La Corte, con test de proporcionalidad, determinó que entregar esos datos **no vulnera la privacidad** de los vacunados y que negarlos sí vulneró el acceso a la información pública. Ordenó entregar la data (sin cédulas). |
+| 19 | 17-25-TI/26 y 17-25-TI/26A | 22/01/2026 y 19/03/2026 | Tratado internacional Ecuador-Corea del Sur (SECA) — comercio electrónico y cooperación tecnológica | El SECA es el tratado más completo firmado por Ecuador (23 capítulos: bienes, servicios, telecomunicaciones, **comercio electrónico**, propiedad intelectual, y cooperación tecnológica citando a Corea como potencia en microchips, IA y ciberseguridad — de ahí que "algoritmo" e "inteligencia artificial" aparezcan en el texto). La Corte: (1º momento) determinó que requería aprobación de la Asamblea; (2º momento) declaró constitucional todo el contenido. **Importante:** es un control de constitucionalidad integral/formal del tratado — no hay evidencia de que la Corte haya analizado a fondo, de forma separada, las cláusulas de IA o comercio digital en particular. |
 
 ## Pendiente de verificar con más detalle
 
-- **17-25-TI/26 y 17-25-TI/26A** (control de constitucionalidad del Acuerdo
-  Ecuador-Corea del Sur) mencionan "algoritmo" e "inteligencia artificial",
-  probablemente en un capítulo de comercio digital del tratado — no
-  confirmado si la Corte analiza el fondo de esas cláusulas o solo las cita.
 - **3022-23-EP/26** hizo match con los 4 términos principales (hábeas data,
   internet, protección de datos, redes sociales) pero su resumen oficial es
   sobre juez competente/cosa juzgada — no está claro si el caso de origen
   era de datos personales. No se incluye hasta confirmar.
+- **6-17-IN/25** (datos biométricos + geolocalización) y **52-25-IN/25**
+  (biometría + comercio electrónico + inteligencia artificial) son casos
+  reales confirmados por la API oficial, pero no logré encontrar su
+  contenido sustantivo — no se incluyen hasta confirmar de qué tratan.
 
 ## Pistas descartadas (verificadas pero no aplicables)
 
