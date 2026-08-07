@@ -8,17 +8,29 @@ investigación por búsqueda web — son metadatos reales devueltos por el
 propio sistema de la Corte (número, fecha, ponente, materia y resumen
 oficial de cada sentencia).
 
-**Metodología y su límite:** se buscaron los términos "protección de datos
-personales", "hábeas data", "redes sociales", "internet", "telefonía móvil",
-"plataforma digital", "notificación electrónica", "firma electrónica" y
-"datos informáticos" en todo el histórico de la Corte (desde 2008). Esto
-devolvió **502 sentencias únicas**, pero la gran mayoría son falsos
-positivos: estos términos aparecen constantemente como referencias
-incidentales (p. ej. "Coronavirus", "Terremoto", "Eutanasia" también hacen
-match con "internet" o "redes sociales" porque esas palabras aparecen en
-algún pasaje del texto, sin que el caso trate sobre eso). La tabla de abajo
-es una curaduría manual de las que **sí** tratan sustantivamente sobre
-derecho digital, según el resumen oficial de cada sentencia.
+**Metodología y su límite:** se buscaron ~35 términos en todo el histórico
+de la Corte (desde 2008), en tres tandas: (1) protección de datos
+personales, hábeas data, redes sociales, internet, telefonía móvil,
+plataforma digital, notificación electrónica, firma electrónica, datos
+informáticos; (2) biometría, reconocimiento facial, big data, aprendizaje
+automático, ciberseguridad, criptomoneda, blockchain, comercio electrónico,
+geolocalización, derecho al olvido, SATJE, aplicación móvil, WhatsApp,
+videovigilancia, dron; (3) voto electrónico, software, internet de las
+cosas, chatbot, robot, automatización, contrato inteligente, streaming,
+cookies, ciberacoso, grooming, pornografía infantil, nombre de dominio,
+domicilio electrónico, apuestas en línea, influencer, publicidad digital,
+código fuente, delito informático, suplantación de identidad, phishing,
+estafa electrónica, vigilancia digital, datos biométricos, huella digital,
+correo electrónico, mensajería instantánea. Esto devolvió más de 1500
+resultados en total (muchos duplicados entre términos), pero la gran
+mayoría son falsos positivos: estos términos aparecen constantemente como
+referencias incidentales (p. ej. "Coronavirus", "Terremoto", "Eutanasia",
+"prisión preventiva", "Estado de Excepción" también hacen match con
+"internet", "redes sociales", "vigilancia digital" o "huella digital"
+porque esas palabras aparecen en algún pasaje del texto, sin que el caso
+trate sobre eso). La tabla de abajo es una curaduría manual de las que
+**sí** tratan sustantivamente sobre derecho digital, según el resumen
+oficial de cada sentencia o verificación externa.
 
 **Sobre IA específicamente:** buscando "inteligencia artificial",
 "algoritmo", "alucinación", "chatgpt" y "sesgo algorítmico" en el mismo
@@ -52,6 +64,7 @@ de **Colombia** (uso de ChatGPT por un juez).
 | 17 | 47-19-JD/22 | 21/12/2022 | Hábeas data — confidencialidad en denuncias disciplinarias | La persona denunciada en un proceso disciplinario **no puede** usar hábeas data para obtener los datos del denunciante (no son sus datos personales), pero **sí puede** acceder a su propia información dentro del expediente. |
 | 18 | 29-21-JI/21 | 01/12/2021 | Acceso a información pública — datos de vacunación COVID | La Defensoría del Pueblo pidió al Ministerio de Salud el listado de personas vacunadas (fase 0) y el Ministerio se negó. La Corte, con test de proporcionalidad, determinó que entregar esos datos **no vulnera la privacidad** de los vacunados y que negarlos sí vulneró el acceso a la información pública. Ordenó entregar la data (sin cédulas). |
 | 19 | 17-25-TI/26 y 17-25-TI/26A | 22/01/2026 y 19/03/2026 | Tratado internacional Ecuador-Corea del Sur (SECA) — comercio electrónico y cooperación tecnológica | El SECA es el tratado más completo firmado por Ecuador (23 capítulos: bienes, servicios, telecomunicaciones, **comercio electrónico**, propiedad intelectual, y cooperación tecnológica citando a Corea como potencia en microchips, IA y ciberseguridad — de ahí que "algoritmo" e "inteligencia artificial" aparezcan en el texto). La Corte: (1º momento) determinó que requería aprobación de la Asamblea; (2º momento) declaró constitucional todo el contenido. **Importante:** es un control de constitucionalidad integral/formal del tratado — no hay evidencia de que la Corte haya analizado a fondo, de forma separada, las cláusulas de IA o comercio digital en particular. |
+| 20 | 0006-17-IN (numerado "6-17-IN/25" en el buscador) | 04/12/2025 | Datos biométricos — sistema de identidad y registro civil | Acción pública de inconstitucionalidad presentada el 20/01/2017 por la Clínica Jurídica de la USFQ (Farith Simon, Daniela Salazar, Hugo Cahueñas, junto con Roberto Eguiguren e Isabel Samaniego) contra los artículos 37, 46, 47, 54, 79 y 94 de la Ley Orgánica de Gestión de la Identidad y Datos Civiles (LOGIDAC) — la ley que regula la captura biométrica de la ciudadanía para la cédula y el registro civil. Resuelta 8 años después. **No pude confirmar el sentido final del fallo** (aceptada/negada/parcial) con fuentes públicas — se incluye por ser un caso real y sustantivo sobre datos biométricos estatales, pendiente de verificar el resultado exacto. |
 
 ## Pendiente de verificar con más detalle
 
@@ -59,10 +72,16 @@ de **Colombia** (uso de ChatGPT por un juez).
   internet, protección de datos, redes sociales) pero su resumen oficial es
   sobre juez competente/cosa juzgada — no está claro si el caso de origen
   era de datos personales. No se incluye hasta confirmar.
-- **6-17-IN/25** (datos biométricos + geolocalización) y **52-25-IN/25**
-  (biometría + comercio electrónico + inteligencia artificial) son casos
-  reales confirmados por la API oficial, pero no logré encontrar su
-  contenido sustantivo — no se incluyen hasta confirmar de qué tratan.
+- El sentido exacto del fallo de **0006-17-IN** (fila 20 de la tabla) — se
+  confirmó de qué trata (biometría del registro civil/cédula) pero no qué
+  resolvió la Corte.
+- Varias sentencias de tipo **"EE" (Estado de Excepción)** — 9-25-EE/25,
+  3-25-EE/25, 1-26-EE/26 — hicieron match con "reconocimiento facial" o
+  "vigilancia digital". Es plausible que algunos decretos de excepción
+  autoricen tecnología de vigilancia/reconocimiento facial para fuerzas de
+  seguridad, pero no confirmé el contenido específico de ninguno (uno de
+  ellos, 1-26-EE/26, resultó ser sobre conmoción interna/crimen organizado
+  sin relación con vigilancia digital). No se incluyen hasta confirmar.
 
 ## Pistas descartadas (verificadas pero no aplicables)
 
@@ -78,6 +97,23 @@ de **Colombia** (uso de ChatGPT por un juez).
   **Corte Constitucional de Colombia**, no de Ecuador.
 - La filtración masiva de datos de **Novaestrat** (2019) no llegó a una
   sentencia de la Corte Constitucional.
+- **52-25-IN/25** — confirmado: es la sentencia sobre la Ley Orgánica de
+  Integridad Pública (declarada inconstitucional por vicios de forma,
+  septiembre 2025). Solo apareció por match difuso con "biometría/comercio
+  electrónico/IA"; no tiene relación con derecho digital.
+- **1-24-CP/24** — dictamen sobre las 11 preguntas de consulta popular de
+  Noboa (2024); la pregunta que hizo match con "apuestas en línea" trata
+  sobre regular casinos y casas de apuestas **físicas**, no apuestas en
+  línea.
+- Los términos "delito informático" (61 resultados), "vigilancia digital"
+  (37), "huella digital" (18) y "correo electrónico" (1922, ruido casi
+  puro) resultaron ser mayoritariamente acciones extraordinarias de
+  protección sobre debido proceso penal donde esos términos aparecen de
+  forma incidental (tipificación de un delito entre varios, "huella" como
+  evidencia física, motivación judicial, etc.), no casos centrados en
+  derecho digital. Ejemplos verificados como falsos positivos: 95-18-EP/24
+  (identidad de género en educación), 360-19-JH/25 (prisión preventiva),
+  96-21-JP/25 (violencia obstétrica), 4642-22-JP/25 (derecho al agua).
 
 ## Temas sin sentencia ecuatoriana encontrada
 
@@ -86,3 +122,14 @@ drones, reconocimiento facial/biometría como eje central, videovigilancia en
 espacio público, voto electrónico, neutralidad de red, propiedad intelectual
 en entornos digitales, derecho al olvido (hay un caso **389-24-EP** admitido
 sobre esto, pero sin sentencia final confirmada).
+
+**Nota sobre la Ley Orgánica de Inteligencia (2025):** hay una demanda de
+inconstitucionalidad muy relevante para vigilancia digital — el caso
+**86-25-IN**, con medidas cautelares ya concedidas por la Corte suspendiendo
+artículos que permitían a agentes de inteligencia operar con identidades
+falsas, usar técnicas de vigilancia en el ciberespacio y pedir datos a
+telefónicas sin control judicial suficiente (con amicus curiae de EFF y
+Fundación Karisma). No apareció en ninguna de las búsquedas del scraper
+(no hizo match con ninguno de los ~35 términos probados) y aún no tiene
+sentencia final — solo medidas cautelares. Vale la pena buscarlo
+directamente por número de causa en una futura corrida.
