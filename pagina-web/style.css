@@ -324,6 +324,27 @@ main { padding: 0 6vw; }
 
 :root[data-theme="dark"] .card h3 { color: var(--text); }
 
+.curso-card {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-photo {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+.curso-card .card-body {
+  padding: 22px 26px 26px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .area-card { padding: 0; cursor: pointer; }
 
 .area-card summary {
