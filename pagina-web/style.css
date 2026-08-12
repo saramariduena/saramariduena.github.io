@@ -407,11 +407,21 @@ main { padding: 0 6vw; }
 }
 
 .card-link {
+  appearance: none;
+  -webkit-appearance: none;
   display: inline-block;
   margin-top: 14px;
+  font-family: inherit;
   font-weight: 600;
   font-size: 0.9rem;
   color: var(--gold);
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
   transition: transform 0.2s ease;
 }
 

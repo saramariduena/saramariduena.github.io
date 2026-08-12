@@ -101,29 +101,52 @@ fetch("novedades.json", { cache: "no-store" })
     listaNovedades.innerHTML = '<p class="news-status">No se pudieron cargar las novedades en este momento.</p>';
   });
 
+function abrirModal(modal) {
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function cerrarModal(modal) {
+  modal.hidden = true;
+  document.body.style.overflow = "";
+}
+
+function configurarModal(modal, disparadores, botonCerrar) {
+  disparadores.forEach((disparador) => {
+    if (disparador) disparador.addEventListener("click", () => abrirModal(modal));
+  });
+  botonCerrar.addEventListener("click", () => cerrarModal(modal));
+  modal.addEventListener("click", (evento) => {
+    if (evento.target === modal) cerrarModal(modal);
+  });
+  document.addEventListener("keydown", (evento) => {
+    if (evento.key === "Escape" && !modal.hidden) cerrarModal(modal);
+  });
+}
+
 const modalComentario = document.getElementById("modal-comentario");
 const abrirComentario = document.getElementById("abrir-comentario");
 const abrirComentarioNav = document.getElementById("abrir-comentario-nav");
 const cerrarComentario = document.getElementById("cerrar-comentario");
 
-function abrirModal() {
-  modalComentario.hidden = false;
-  document.body.style.overflow = "hidden";
-}
-
-function cerrarModal() {
-  modalComentario.hidden = true;
-  document.body.style.overflow = "";
-}
-
 if (abrirComentario) {
-  abrirComentario.addEventListener("click", abrirModal);
-  abrirComentarioNav.addEventListener("click", abrirModal);
-  cerrarComentario.addEventListener("click", cerrarModal);
-  modalComentario.addEventListener("click", (evento) => {
-    if (evento.target === modalComentario) cerrarModal();
-  });
-  document.addEventListener("keydown", (evento) => {
-    if (evento.key === "Escape" && !modalComentario.hidden) cerrarModal();
+  configurarModal(modalComentario, [abrirComentario, abrirComentarioNav], cerrarComentario);
+}
+
+const FORM_INTERES_BASE = "https://docs.google.com/forms/d/e/1FAIpQLSfSe7urIrdlQy8srKEfYqOSQmg9rHd07XN_y89C5Q9pdftsZw/viewform";
+const modalInteres = document.getElementById("modal-interes");
+const cerrarInteres = document.getElementById("cerrar-interes");
+const iframeInteres = document.getElementById("iframe-interes");
+const interesCursoNombre = document.getElementById("interes-curso-nombre");
+
+if (modalInteres) {
+  configurarModal(modalInteres, [], cerrarInteres);
+  document.querySelectorAll(".btn-interes").forEach((boton) => {
+    boton.addEventListener("click", () => {
+      const curso = boton.dataset.curso || "";
+      interesCursoNombre.textContent = curso;
+      iframeInteres.src = `${FORM_INTERES_BASE}?embedded=true`;
+      abrirModal(modalInteres);
+    });
   });
 }
