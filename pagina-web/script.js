@@ -124,15 +124,6 @@ function configurarModal(modal, disparadores, botonCerrar) {
   });
 }
 
-const modalComentario = document.getElementById("modal-comentario");
-const abrirComentario = document.getElementById("abrir-comentario");
-const abrirComentarioNav = document.getElementById("abrir-comentario-nav");
-const cerrarComentario = document.getElementById("cerrar-comentario");
-
-if (abrirComentario) {
-  configurarModal(modalComentario, [abrirComentario, abrirComentarioNav], cerrarComentario);
-}
-
 const FORM_INTERES_BASE = "https://docs.google.com/forms/d/e/1FAIpQLSfSe7urIrdlQy8srKEfYqOSQmg9rHd07XN_y89C5Q9pdftsZw/viewform";
 const modalInteres = document.getElementById("modal-interes");
 const cerrarInteres = document.getElementById("cerrar-interes");
