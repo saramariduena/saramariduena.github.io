@@ -39,6 +39,7 @@
     <a href="#sobre-mi">Sobre mí</a>
     <a href="#proyectos">Trayectoria</a>
     <a href="#formacion">Formación</a>
+    <a href="#cursos">Cursos</a>
     <a href="#novedades">Novedades</a>
     <button type="button" id="abrir-comentario-nav" class="nav-link-btn">💬 Comentarios</button>
     <a href="https://calendar.app.google/MFV1tGBPu8ZdAbhm6" target="_blank" rel="noopener" class="nav-cta">Agenda una consulta</a>
@@ -370,6 +371,82 @@
     </ul>
   </section>
 
+  <section id="cursos" class="section">
+    <div class="section-head">
+      <span class="tag">Cursos</span>
+      <h2>Formación en IA para profesionales del derecho</h2>
+      <p class="lead">Programas prácticos para litigantes, estudios jurídicos e instituciones que quieren usar inteligencia artificial con criterio profesional. Cupos limitados — te aviso apenas se confirme el grupo.</p>
+    </div>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card-icon">📝</div>
+        <h3>Claude para abogados: del prompt al escrito</h3>
+        <p>
+          Redacta demandas, contestaciones y contratos con IA, revisa
+          cláusulas, resume expedientes extensos y aprende a detectar
+          alucinaciones antes de firmar. Para litigantes independientes,
+          estudios pequeños y abogados in-house.
+        </p>
+        <button type="button" class="card-link btn-interes" data-curso="Claude para abogados: del prompt al escrito">Me interesa →</button>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">🛡️</div>
+        <h3>IA sin meterte en problemas: ética, responsabilidad y deber de diligencia</h3>
+        <p>
+          Confidencialidad del cliente al usar modelos de IA, secreto
+          profesional, riesgos de citar jurisprudencia inexistente y cómo
+          documentar el uso de IA en tu ejercicio profesional.
+        </p>
+        <button type="button" class="card-link btn-interes" data-curso="IA sin meterte en problemas: ética, responsabilidad y deber de diligencia">Me interesa →</button>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">📊</div>
+        <h3>Del dato a la estrategia: jurimetría asistida por IA</h3>
+        <p>
+          Cómo leer patrones en decisiones judiciales, estimar
+          probabilidades de resultado y usar datos para decidir si
+          litigar, transar o desistir.
+        </p>
+        <button type="button" class="card-link btn-interes" data-curso="Del dato a la estrategia: jurimetría asistida por IA">Me interesa →</button>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">🔐</div>
+        <h3>LOPDP e IA: cumplimiento en la era de los modelos</h3>
+        <p>
+          Qué exige la protección de datos al entrenar o usar IA:
+          decisiones automatizadas, evaluaciones de impacto y el puente
+          hacia ISO/IEC 42001.
+        </p>
+        <button type="button" class="card-link btn-interes" data-curso="LOPDP e IA: cumplimiento en la era de los modelos">Me interesa →</button>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">🏛️</div>
+        <h3>IA en la administración pública y el gobierno electrónico</h3>
+        <p>
+          Uso de IA en trámites, decisiones administrativas
+          automatizadas, transparencia algorítmica y sus límites, para
+          funcionarios e instituciones públicas.
+        </p>
+        <button type="button" class="card-link btn-interes" data-curso="IA en la administración pública y el gobierno electrónico">Me interesa →</button>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">🎓</div>
+        <h3>IA para estudiantes y recién graduados</h3>
+        <p>
+          Introducción práctica a la inteligencia artificial aplicada al
+          derecho, pensada para quienes están empezando su carrera legal.
+        </p>
+        <button type="button" class="card-link btn-interes" data-curso="IA para estudiantes y recién graduados">Me interesa →</button>
+      </article>
+    </div>
+  </section>
+
   <section id="novedades" class="section">
     <div class="section-head">
       <span class="tag">Novedades</span>
@@ -427,6 +504,25 @@
       class="modal-iframe"
       src="https://docs.google.com/forms/d/e/1FAIpQLSeZLBFyCeLweMHG-5z3817BUVTwTc5hqMDtc3SiU4xenYlIRA/viewform?embedded=true"
       title="Formulario de comentarios"
+      loading="lazy"
+    >Cargando…</iframe>
+  </div>
+</div>
+
+<div id="modal-interes" class="modal-overlay" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-interes-titulo">
+    <button type="button" id="cerrar-interes" class="modal-close" aria-label="Cerrar">&times;</button>
+    <h3 id="modal-interes-titulo">Me interesa este curso</h3>
+    <p class="modal-sub">
+      Curso: <strong id="interes-curso-nombre"></strong><br>
+      Completa tus datos y menciona el nombre del curso de arriba en el
+      formulario. Te aviso apenas se confirme el grupo.
+    </p>
+    <iframe
+      id="iframe-interes"
+      class="modal-iframe"
+      src=""
+      title="Formulario de interés en curso"
       loading="lazy"
     >Cargando…</iframe>
   </div>
