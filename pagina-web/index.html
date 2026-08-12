@@ -387,7 +387,10 @@
       <span class="tag">Contacto</span>
       <h2>Conversemos sobre tu caso</h2>
       <p>Escríbeme por el medio que prefieras, o agenda un horario directo.</p>
-      <a href="https://calendar.app.google/MFV1tGBPu8ZdAbhm6" target="_blank" rel="noopener" class="btn btn-primary">Reservar una cita</a>
+      <div class="contact-cta-row">
+        <a href="https://calendar.app.google/MFV1tGBPu8ZdAbhm6" target="_blank" rel="noopener" class="btn btn-primary">Reservar una cita</a>
+        <button type="button" id="abrir-comentario" class="btn btn-ghost">Dejar un comentario</button>
+      </div>
       <div class="contact-grid">
         <a class="contact-item" href="mailto:sara.mariduena@gmail.com">
           <span class="contact-icon">✉</span>
@@ -413,6 +416,21 @@
     </div>
   </section>
 </main>
+
+<div id="modal-comentario" class="modal-overlay" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-comentario-titulo">
+    <button type="button" id="cerrar-comentario" class="modal-close" aria-label="Cerrar">&times;</button>
+    <h3 id="modal-comentario-titulo">Déjame un comentario</h3>
+    <p class="modal-sub">Escríbeme tu comentario, pregunta o experiencia y te leo apenas lo envíes.</p>
+    <form id="form-comentario">
+      <input type="text" name="nombre" placeholder="Tu nombre" required>
+      <input type="email" name="email" placeholder="Tu email (opcional)">
+      <textarea name="comentario" rows="4" placeholder="Escribe tu comentario..." required></textarea>
+      <button type="submit" class="btn btn-primary">Enviar comentario</button>
+    </form>
+    <p id="comentario-status" class="form-status" role="status"></p>
+  </div>
+</div>
 
 <footer class="footer">
   <p>Sara Maridueña Orellana — Abogada · Consultora Jurídica · Guayaquil, Ecuador — © <span id="year"></span></p>
