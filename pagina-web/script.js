@@ -103,6 +103,7 @@ fetch("novedades.json", { cache: "no-store" })
 
 const modalComentario = document.getElementById("modal-comentario");
 const abrirComentario = document.getElementById("abrir-comentario");
+const abrirComentarioNav = document.getElementById("abrir-comentario-nav");
 const cerrarComentario = document.getElementById("cerrar-comentario");
 
 function abrirModal() {
@@ -117,6 +118,7 @@ function cerrarModal() {
 
 if (abrirComentario) {
   abrirComentario.addEventListener("click", abrirModal);
+  abrirComentarioNav.addEventListener("click", abrirModal);
   cerrarComentario.addEventListener("click", cerrarModal);
   modalComentario.addEventListener("click", (evento) => {
     if (evento.target === modalComentario) cerrarModal();
