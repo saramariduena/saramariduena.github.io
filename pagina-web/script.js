@@ -100,3 +100,60 @@ fetch("novedades.json", { cache: "no-store" })
   .catch(() => {
     listaNovedades.innerHTML = '<p class="news-status">No se pudieron cargar las novedades en este momento.</p>';
   });
+
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/TU_ID_AQUI";
+
+const modalComentario = document.getElementById("modal-comentario");
+const abrirComentario = document.getElementById("abrir-comentario");
+const cerrarComentario = document.getElementById("cerrar-comentario");
+const formComentario = document.getElementById("form-comentario");
+const comentarioStatus = document.getElementById("comentario-status");
+
+function abrirModal() {
+  modalComentario.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function cerrarModal() {
+  modalComentario.hidden = true;
+  document.body.style.overflow = "";
+}
+
+if (abrirComentario) {
+  abrirComentario.addEventListener("click", abrirModal);
+  cerrarComentario.addEventListener("click", cerrarModal);
+  modalComentario.addEventListener("click", (evento) => {
+    if (evento.target === modalComentario) cerrarModal();
+  });
+  document.addEventListener("keydown", (evento) => {
+    if (evento.key === "Escape" && !modalComentario.hidden) cerrarModal();
+  });
+
+  formComentario.addEventListener("submit", async (evento) => {
+    evento.preventDefault();
+    const boton = formComentario.querySelector("button[type=submit]");
+    boton.disabled = true;
+    comentarioStatus.textContent = "Enviando…";
+    comentarioStatus.className = "form-status";
+
+    try {
+      const datos = new FormData(formComentario);
+      datos.append("tipo", "comentario");
+      const respuesta = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: datos,
+        headers: { Accept: "application/json" },
+      });
+      if (!respuesta.ok) throw new Error("Fallo el envío");
+      comentarioStatus.textContent = "¡Gracias! Tu comentario fue enviado.";
+      comentarioStatus.className = "form-status exito";
+      formComentario.reset();
+      setTimeout(cerrarModal, 1800);
+    } catch (error) {
+      comentarioStatus.textContent = "No se pudo enviar. Intenta de nuevo o escríbeme por WhatsApp.";
+      comentarioStatus.className = "form-status error";
+    } finally {
+      boton.disabled = false;
+    }
+  });
+}
