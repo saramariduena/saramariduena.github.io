@@ -422,13 +422,12 @@
     <button type="button" id="cerrar-comentario" class="modal-close" aria-label="Cerrar">&times;</button>
     <h3 id="modal-comentario-titulo">Déjame un comentario</h3>
     <p class="modal-sub">Escríbeme tu comentario, pregunta o experiencia y te leo apenas lo envíes.</p>
-    <form id="form-comentario">
-      <input type="text" name="nombre" placeholder="Tu nombre" required>
-      <input type="email" name="email" placeholder="Tu email (opcional)">
-      <textarea name="comentario" rows="4" placeholder="Escribe tu comentario..." required></textarea>
-      <button type="submit" class="btn btn-primary">Enviar comentario</button>
-    </form>
-    <p id="comentario-status" class="form-status" role="status"></p>
+    <iframe
+      class="modal-iframe"
+      src="https://docs.google.com/forms/d/e/1FAIpQLSeZLBFyCeLweMHG-5z3817BUVTwTc5hqMDtc3SiU4xenYlIRA/viewform?embedded=true"
+      title="Formulario de comentarios"
+      loading="lazy"
+    >Cargando…</iframe>
   </div>
 </div>
 
