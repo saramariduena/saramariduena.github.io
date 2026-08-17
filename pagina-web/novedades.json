@@ -1,67 +1,67 @@
 {
-  "actualizado": "2026-08-10T09:08:03.881095+00:00",
-  "semana_inicio": "2026-08-04",
-  "semana_fin": "2026-08-10",
+  "actualizado": "2026-08-17T08:32:10.539411+00:00",
+  "semana_inicio": "2026-08-11",
+  "semana_fin": "2026-08-17",
   "noticias": [
     {
-      "titulo": "Reglamento Europeo de IA tras el Ómnibus: qué obligaciones y sanciones ya son exigibles en agosto de 2026 - Economist & Jurist",
-      "enlace": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxPYlRUUTdzeUdaNnZrNGNZRmx4SEE4NmptS3lONjR5UzV1NmRCQS03Y1poVkJRYXFlX1ZKSXJjU21SbklCOGtkdkJ2MmN5SDY2Slk5T0tVZURybkp5UlkwTy1SM0pyRmVGanNRbjBoWG5SN0xyYWJmc0Q3eHBOak9mbXQ5OElvY3oxMWJyZy1hSjViQ3JvZU1KSEE0ZGdqak4yWlU3LVRpV0RiOEtLZXA5enQ0WGtvUFBaeWpEQTI5dHdKeXgwcHhhSC1jTV94dDVWbmxheld5Sm5peDRUQjZnaVd2c0RVS29SQ1E?oc=5",
-      "fuente": "Economist & Jurist",
-      "fecha": "2026-08-10T08:41:03+00:00"
+      "titulo": "¿Qué hacer si alguien utiliza tu obra con IA sin permiso? Guía sobre derechos de autoría, plagio y cómo reclamar - dod Magazine",
+      "enlace": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1mczlaM0RhYmxyWjQybThweUJpSUFwLXdYamJoLU1RaGIwQ3FHRkZBRWloaTBtSzlXTlh3dUszbzd3SzlhSUF4SUVYWU5nOEpMcTU5dWMxbnNkN3RGUTRrbUVaWXlsbF9kLXhj?oc=5",
+      "fuente": "dod Magazine",
+      "fecha": "2026-08-17T08:31:08+00:00"
     },
     {
-      "titulo": "Simplificación de la regulación de la IA y derechos fundamentales - El Derecho",
-      "enlace": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQbXpUS25UeEFINmVqLXRFQkVWQkVFU1ZSamlTcWEycHU3UlozNC02aDVSMTZTOEU5WXhuT0lobGhmdVhhMW1FTnVneFVkVXJIcjMzelNOWURzNWsybm9qNXRIUXJqakF5MzZRdjB3OW83T2IwTXRjVVlVM1ljYjUtZlBLUF84dUZ4LWFPTEJJUnZIT2t1aERxYkFwLWVqTmI5dXloRFREb2gxRW5ZRVVaNFYyWjBVT3RRejdEeUFob0Fpa0ZvVUE?oc=5",
+      "titulo": "Jueces rechazan \"denegaciones en masa\" de solicitudes de asilo y recuerdan que se tienen que estudiar \"caso a caso\" - El Derecho",
+      "enlace": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQcURtUVk2R01ZZldhRmRVdU05Z2l6eFBuSGhhUHJBak9lMXhsQ1ZKMzJjR2tYVGlwbE1PWXpSRXcta01LdzhZdFpLR3Y1cWRBTUYxM0RIblhpSzFyYm5faTYxNmpVb3J2cXR2R1pvODhFcjAxN195dEtmY3pSU0hwMGFHTWx3cHYtNi12TERwekhfd0JSQVpSNF9wNWpuNGhSdU0yOWNHUGNwSkNOTjdxbWR5SERaMzZ0b0syZ1FxQzVwYjRuQTdEazRiQW52UQ?oc=5",
       "fuente": "El Derecho",
-      "fecha": "2026-08-10T07:01:04+00:00"
+      "fecha": "2026-08-17T07:45:39+00:00"
     },
     {
-      "titulo": "¿Está preparado el Código Penal español para la inteligencia artificial? - Legal Today",
-      "enlace": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNcWJTR3Jyam0xUVpTcmhkRHk0MmhseUlaVkRfckR4UE55MEpCaXd1VTdLdXRiN1IwSWJRMXpyaU1zai0wTTFTS1JVMmNrVEhtV1FMUFI5UkprUExKcVlwa0ZPNEk2UGNjaVlETjJodFAtLUNQSnlhYU5tak1wYnBBcmpzMU5QOTJ0dUZlLVZIbGVzdTRxeG52bWNqcnR3Y1dMY1d6YnYwd1hUQVNsd3c0dS1LQmo2M1dxcmZpRTZhaHlGcjd4NjV6U2kwYnFVeWFTMW9udQ?oc=5",
-      "fuente": "Legal Today",
-      "fecha": "2026-08-10T06:24:00+00:00"
+      "titulo": "El Gobierno propone prohibir el acceso a las redes sociales a menores de 16 años - Lancelot Digital",
+      "enlace": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQTjRPOFRfVENjYjB2OEdHVm5wYTZfbkF2bHNHUjRoTzlXQUVQRFBuTkFtald0S2ZHcEV1VURXQktwbkJTb195MjZBQ0g1T3hzMmkzRlZTMlJPUEkyYWhmODVzTkNTbGp3cHY0ZHJWeHpNSkJ5OGpNNzVQbWV3SkQtRE96YWxUS096NzNoSGRBVFNIdVNmS1VmTVMwN0prdzk5bHFxOERtaklvSUplYndtZEhuWUc5OUZ4ZE5wZ0dR?oc=5",
+      "fuente": "Lancelot Digital",
+      "fecha": "2026-08-17T07:26:44+00:00"
     },
     {
-      "titulo": "El crecimiento exponencial de la inteligencia artificial representa un reto normativo para las instituciones - Diario La R",
-      "enlace": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxNY2VCalM1WHQzRHMyeHZQRXhnUFJWZVRrUUUwS2RIMXRXSExFVEt5R1lEVTJ5SGQ0MlB4RFU4bzBMUzJLRUVMQmhJRFFCMnVRMjJJZ0Y3c2dLRTJWQWYtT2pyYjlqU09yTUFBYTRDeHhadGVHY2dDNElaR1VKbW1nMkM0eUtNLWlGUE13aGU2NkFKOUdOMHl5OC1IZnpnd0xlS0g2elJ0cWNEQ3k5a1ZOazhwZ0ZpRXlkdnUtRE5aNkhNMElGSXo5SFdqbUI0ajEtLUlfRndaWmZmOGp0bERLSw?oc=5",
-      "fuente": "Diario La R",
-      "fecha": "2026-08-10T03:50:25+00:00"
+      "titulo": "La IA desafía al derecho laboral paraguayo - latribuna.com.py",
+      "enlace": "https://news.google.com/rss/articles/CBMipAFBVV95cUxORnpoaGZRUS1LYjVmN3RweDFjM2xER3dRaUk2R0dsdVhWOVE5RHFEV3l1aVJ1TGl0R3QtUGFNMGlqdHRuVG9ZM1l0RVhnQWZrcVdLSlJJMlN5Mkc2MmY3ZkZNNTV1OFNpd3pWcEUxcTZIeTVxeGVaX1dnVXpsb3ZETFNCNGJyb0RBWWZ4YnFzYlIwRW94ek5IUHNQZGRxcDJvd01maw?oc=5",
+      "fuente": "latribuna.com.py",
+      "fecha": "2026-08-17T07:00:00+00:00"
     },
     {
-      "titulo": "La inteligencia artificial y el sector sanitario: protección de datos, riesgos y responsabilidades - Law&Trends",
-      "enlace": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPNjdab09VdHc4bjktaVRBejJLZ3BFclEzdVFvUzMxM0YxSDJWTGllMC1NY1d5TkltaGZBV2NGeEhkVHFUMkFiTGZJbDA2dU5aeFBUNTlfamR5MTdXTjJOTEZ1cDJhTWtkMGFaalhOSk1HYm5zQXpRaGlZUUZyWDM4REhiVzNBTVFueW02Ymk0RkVEQXFYMFZnNjFNcmx6UVRMbjBoYmpIQkJrRTJyalg0MmwyM0V0TVFFRzhCbkNIU0ZacE5wLXdqX0pTbmgyNFRSZlFPRXR1NnRnNnF0OGc?oc=5",
-      "fuente": "Law&Trends",
-      "fecha": "2026-08-10T03:28:42+00:00"
+      "titulo": "Expertos nacionales e internacionales analizarán los principales desafíos tributarios en Costa Rica - Delfino.cr",
+      "enlace": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOZEI2SnB6ekFxRnI0TU5PczV1WnZJSmtSUHZFcEtmNmtOemZHYWVReEliZXB0UVpyTDJ3VmdKczBrNU4tbnp6OW9iSDl5UkJWTlRkSmhMUEhMYTJnbXFZeGV4SVIwN0xBRE9aQjJsdkdsRF9BNnlaV2l0TkJIWWZSQU1SY21kRWlSdE5YcVNobE1RdUp2NmdZdEhIdmJncmFYNVJBenZJN3MxVkkyMi1kendkR19xSEVjcUgxVjBsQ3VVb3Rs?oc=5",
+      "fuente": "Delfino.cr",
+      "fecha": "2026-08-17T05:54:57+00:00"
     },
     {
-      "titulo": "Derecho a saber qué es real: Europa obliga a declarar el uso de IA - Los Andes",
-      "enlace": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOZlJYcEtJRUEtc0NtLUI4TmlQVmh5bzZJdkZJZGdRdDFtVWlxZTZ2ZzBPaS1tMGY4V3JNTGJUVEg3eVJ0WjZ3VzFWWmdkUi1YV3l0bjhOTVhkMkpWbF9qc0x3RERRX0VqYTFCcHhuZXRuZlo4NmQwQi1PMDJPU3RuUG5XUERvaE1EdzhUQk5UNDBjSlVrbjhTeXZIdWVSdjNzTV8xMV9n?oc=5",
-      "fuente": "Los Andes",
-      "fecha": "2026-08-10T03:00:00+00:00"
+      "titulo": "Inteligencia artificial obliga a México a preparar nuevos empleos - laverdadnoticias.com",
+      "enlace": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOUTRleTVubzRrQ2N5Y1JibkZtZkIwaWdYY2dqSktXR3hUeExVbzFFSUpnT0pLMkQ1RWNHX3VXbDh0ek96NVhmMFdFdG9Tc3hSNG9wRllWbTRRemV3ZThiMVEzUjdjU2dXbk93NEprV1JEN1prb2YzaG1xR1YyaDBiZHVKOGJBS2c3Ym1MM1VFeHlibnFxR21NNlBkb9IBowFBVV95cUxNNWw2R1dyNlZycGRKUWtsZldEdVNMdDlLV3V4QXdSRmlDbl9Ecm92ekEzMmpCM3h3UUJ1cUFhbWFMQWdzcnl1UVp6aFJxaFVTU0p0eld2RzBPR1I1bDEySjdpYk04RXhOVlhGQ05FRmQxT3JycW85T2tWTnBDS205aW9TRUNNM1JzTV9OaTZlazQ5S19sMDJrekFFa09lMG9Vd3d3?oc=5",
+      "fuente": "laverdadnoticias.com",
+      "fecha": "2026-08-17T02:09:31+00:00"
     },
     {
-      "titulo": "El derecho editorial ante el desafío de la IA - Vietnam.vn",
-      "enlace": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBSMEpxdFllMG1jTnNvMnphbjRMSEtSU2h6UEU4SkdXYl9YdWRsTl95MzVUQ25uRnptd1UwNk9IQmRBQXJMQUY1QXMteE1ZTzYzNDZtRkR6OS1VOGYyLVlodWw5YTBJT1FL?oc=5",
-      "fuente": "Vietnam.vn",
-      "fecha": "2026-08-10T02:49:58+00:00"
+      "titulo": "Huawei: 4 países de América Latina liderarán inversión en data centers 2026 - ecosistemastartup.com",
+      "enlace": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQY1YxZC1CS040ZHgtMnJPZ25sQ21KSUlHZGdaZkJKTTBIa2taUThpa2JQRVRQejhZS2FVOHpQMEd0QUE0cjRvSF9HVnVRQlpBLWF4X2trNlNUWm95TjJVSjI5ZjNLUUp3VnF5VnhleUNXV1djYlppdkFqZEVOWml5YUE3anNlRExtc0FzaGUwV1BKLVY3bFppR2VidllvMHExOUZxdjZTX2c?oc=5",
+      "fuente": "ecosistemastartup.com",
+      "fecha": "2026-08-17T00:15:32+00:00"
     },
     {
-      "titulo": "Colombia avanza en la regulación de la inteligencia artificial y se posiciona entre los países líderes de América Latina - Technocio",
-      "enlace": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPdllDb3VwbFN0V1VKUy1vbWJHSHlGbVo4aUg3clp2Y0dBTjM2bWxXTEx3YnVwcWo1Nkt4RGVsVWVwTjFtbUdfY3I0R0YzTHd2TjZSSTlYUlpLaEx3c1g5Zkl2bGVldF9HMC1MZk8yMlR4bDNrc0N2bV9Nb1Bsb19WdFd2Q3dnclQwb2hVV1pPWjFqMFAzbTZHNV9mU29nbVVaamFkTWlNcE1QSXFRNW9TNUpMLVlaeXpjNG0tV0lxWGUzd21EeVRmeS1fRm5PSVlLQWxGVTMzMmhwS0dTMkVKSNIB5gFBVV95cUxPVzFSWXJOT0ROM25qRDhyYThpM1dlLWw4cmNtN242UjJ6UTZLeTZHMDNXQ05PZ0RxWlhpVWpnb0lyYzBCSUhJeGVGR09yNzltOHZldGJ1aDg3SXdlYUtTSGoya3NFSnlkTkVpRE9sY1ZHam9pMDJvM2h2dE5FalJSVHJNU0pUYzdtRGg5OXptSFhIWEtIRGlhQnpRbjlUbng5UGM1MGVqaUpPTU43UWNEYUZ5OUNtSlhXeXpPTHJ3S1NFRTNsdjRNUHlOMlhkalJ3UjdvbFNpVkYwN1I3OGxtd2FaZzRydw?oc=5",
-      "fuente": "Technocio",
-      "fecha": "2026-08-10T02:46:38+00:00"
+      "titulo": "Registro de repartidores en Quito: ¿funcionará contra la delincuencia? - extra.ec",
+      "enlace": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQUGZHeG5ldWJjNzFXcTZyZEdZcTRiNENjM0lCS2dWTjFMdjhuN0VfY2hMUXhtOUJBNUtLN3l2ZW1yM2FRTVlvMFFEN0gxU2pDcHdLSHpfbjhUWktXTUgwREZvZnZ5YWNwdGVzcFJxTkM3clJ3RGNNU2h4ZnNqdG95ZHFpck1HT2F2Q2VXcXk3MkR3eHFtV1NQMjUwdEZQSmM?oc=5",
+      "fuente": "extra.ec",
+      "fecha": "2026-08-16T22:24:01+00:00"
     },
     {
-      "titulo": "Modelos de OpenAI atacan plataforma por iniciativa propia; ¿quién responde por la IA? - eltiempomx.com",
-      "enlace": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPbTMzRDZyVERKZWNfNHVoZlhMdl81cjhWcF9SSlA4WWxsTHoyQzVEcDI3THlTeVgydjJjZUF3cU54SFVhd0pjeDQ3Y0h5U0FLdW5ZTWliSGJLWkZjOXcxZF9ORVBVVTI0NGhOSG5TOEhJWEppcFh0bksySGFCdWM4QXJZaEVaVTVPbXRHdTV5cWRpa2JpZXFYUkdpOWtjUElMRkVUUkVqQWIzaG4zQ3hiMXZIQzhPX2JOLTdJRGplazfSAbQBQVVfeXFMUDRUVk94VEV0MkJHRVFNUnBhV0dRTG5YMDlmSVM3Z3VyeE1jQjM1aGg4Rk1HWi1kUjFlSWVwX2xOSjlLb2hWal9IbVNkbHlzUGFkRDZSLTBGZVdteDI1aDk0Y1NQUUJsOTREOERKR1VxaTRtQjlLdXV3dTJZb0h0dm5yeTJtYWg5cXdIZFpieGVTTjNSRmR2MTNQb1o5Q2hnUFY4ZHJCLTdmbnhaTEU5TS1uN3Yw?oc=5",
-      "fuente": "eltiempomx.com",
-      "fecha": "2026-08-10T00:10:03+00:00"
+      "titulo": "Se aprobo el dictamen que reforma la ley de los derechos de niñas niños y adolescentes - emsavalles.com",
+      "enlace": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQZHdmN0VvV3V1aVFNdm1GckVUVHc3V09hckVsVWxOTDduMDFlM3hyMWF6N0IyQ2pERmVDTTRaUVNGMWVsc1g2N3pMaVFIOHBIejlXZUNDaTNTTXFvN1RPaUNtVElxcWpMYW1ScFRHN1ZpQ3hvbzNQTmdaSmN4OGQ5ODFhQ0lpMzdEeDVoLUJVc1JwcGR3dGRrNUt3WnBYQVFGaUtNVDRGaF9vNV9CSnBJZW45MlpLY21iUUFzcGdtOA?oc=5",
+      "fuente": "emsavalles.com",
+      "fecha": "2026-08-16T21:03:00+00:00"
     },
     {
-      "titulo": "Una provincia sancionó una ley que regula el uso de celulares e inteligencia artificial en escuelas - LA17",
-      "enlace": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNYjJxZDBYZklCUmdfcllSOFNHWVdjMFJYNUt5bC1LeE03OHdTSHhWUldBWFloMmxQbmFFRFVrNjRJNVB2V3FWckl0X3JyMHZ5WWRTcmZKUGJiLUlTd2ZBcl96akZ5dHdEN1BSZk9rdVFpNDY3aG9uX0pzVm03cXlFcjVDWWY1QnVqQThXQkhydF91R0t0MEhjN0RnOFBWN0gyOGNwSnZ4VkJ4WXByX0o3SDhoSk5tXy1kWldzMUQ3dzNKekpkSVNxeDRBaTBXdw?oc=5",
-      "fuente": "LA17",
-      "fecha": "2026-08-09T23:11:00+00:00"
+      "titulo": "En Simple: Inteligencia artificial transforma el Derecho - Radio Agricultura",
+      "enlace": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQdS1EX3BGa3k2UUs0YXVMNm91ZXB2b1YwaFYtNGU2M3BXT1NHT0dkYlg4dVROVVlRMkEySHMtRUctQzhzRUo5a05yWHVxNWM1X3dsTVRPQk5zYkx4WXNKWC1hS3FYWUVKZ3dDd2REbG5HSms0T29mYzhzelhQOGV1bGNWRVJzR2xqX2dJb241Y2ltSS1aa0FsMGJiN2tHZ3pQTGdyclFPOVVDTk1ERXFTUnVaYXdsQQ?oc=5",
+      "fuente": "Radio Agricultura",
+      "fecha": "2026-08-16T19:19:41+00:00"
     }
   ]
 }
