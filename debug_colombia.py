@@ -1,15 +1,20 @@
 """
-Script de diagnóstico: la respuesta completa (~29KB) del GET a buscador_new
-con accion=search probablemente SÍ contiene la tabla de resultados más
-abajo en el HTML — los intentos anteriores solo imprimieron los primeros
-2000-3000 caracteres (puro <head>/CSS). Este script busca en el body
-COMPLETO cualquier patrón de número de sentencia o indicios de resultados.
+Descubrimiento clave: searchOption=prov_sentencia busca por NÚMERO de
+sentencia (p.ej. "T-388 DE 2019"), no texto completo — por eso "habeas
+data" e "inteligencia artificial" no encontraban nada con esa opción,
+aunque la búsqueda en sí funciona (server-rendered, sin JS necesario).
+El mensaje de "sin resultados" sugiere otras opciones: "Texto completo
+de la providencia", "Temas/subtemas", "Normas". Este script extrae las
+opciones reales del <select id="searchOption"> del HTML para saber sus
+valores exactos, y luego prueba una búsqueda de texto completo con cada
+una.
 """
 
 import logging
 import re
 
 import requests
+from bs4 import BeautifulSoup
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
@@ -30,48 +35,47 @@ session.headers.update(HEADERS)
 SENTENCIA_RE = re.compile(r"\b(?:T|C|SU|A|SV|AV)-\d{1,4}[A-Za-z]?[-/]\d{2,4}\b")
 
 
-def analizar(nombre, resp):
-    print("\n" + "=" * 80)
-    print(f"[{nombre}] Status: {resp.status_code} | bytes: {len(resp.content)}")
-    body = resp.text
-    matches = SENTENCIA_RE.findall(body)
-    print(f"Ocurrencias de patrón sentencia (T-/C-/SU-/A-###-##): {len(matches)}")
-    print("Ejemplos:", matches[:20])
-    for kw in ["Sin resultados", "No fue posible", "totalFilas", "No se encontraron",
-               "div_resultado_detalle", "table", "prov_sentencia\"", "checkbox"]:
-        idx = body.find(kw)
-        print(f"  '{kw}' encontrado en offset: {idx}")
-    # imprimir un bloque alrededor de donde debería estar el div de resultados
-    idx = body.find('id="div_resultado_detalle"')
-    if idx == -1:
-        idx = body.find('div_container')
-    if idx >= 0:
-        print("\n--- contexto alrededor de resultados ---")
-        print(body[idx:idx + 3000])
-    else:
-        print("\n--- últimos 3000 caracteres del body (por si el resultado está al final) ---")
-        print(body[-3000:])
-
-
 def main():
-    params = {
-        "searchOption": "prov_sentencia",
-        "finicio": "1992-01-01",
-        "ffin": "2026-08-27",
-        "buscar_por": "inteligencia artificial",
-        "accion": "search",
-        "ver_formulario": "si",
-        "volver_a": "relatoria",
-        "OrderbyOption": "des__score",
-        "cant_providencias": "500",
-    }
-    r = session.get(BUSCADOR_URL, params=params, timeout=30)
-    analizar("GET buscador_new (params completos, como URL real de ejemplo)", r)
+    r = session.get(BUSCADOR_URL, timeout=30)
+    soup = BeautifulSoup(r.text, "lxml")
+    sel = soup.find("select", id="searchOption")
+    print("=== opciones reales de #searchOption ===")
+    opciones = []
+    if sel:
+        for opt in sel.find_all("option"):
+            val = opt.get("value", "")
+            texto = opt.get_text(strip=True)
+            opciones.append(val)
+            print(f"  value={val!r} texto={texto!r}")
+    else:
+        print("  No se encontró el <select id='searchOption'> en el HTML inicial.")
 
-    # Probar también buscando algo con muchísimos resultados esperables: "habeas data"
-    params2 = {**params, "buscar_por": "habeas data"}
-    r2 = session.get(BUSCADOR_URL, params=params2, timeout=30)
-    analizar("GET buscador_new (habeas data)", r2)
+    # Probar full-text search con cada opción candidata (las que no sean
+    # claramente "por número" o "por magistrado")
+    candidatos = [v for v in opciones if v and v not in ("prov_sentencia", "prov_magistrados")]
+    if not candidatos:
+        candidatos = ["texto_completo", "prov_texto", "prov_temas", "ver_todas"]
+
+    for opt_val in candidatos[:6]:
+        params = {
+            "searchOption": opt_val,
+            "finicio": "1992-01-01",
+            "ffin": "2026-08-27",
+            "buscar_por": "inteligencia artificial",
+            "accion": "search",
+            "ver_formulario": "si",
+            "volver_a": "relatoria",
+            "OrderbyOption": "des__score",
+            "cant_providencias": "50",
+        }
+        resp = session.get(BUSCADOR_URL, params=params, timeout=30)
+        body = resp.text
+        matches = SENTENCIA_RE.findall(body)
+        sin_resultados = "No se encontraron resultados" in body
+        print(f"\n[searchOption={opt_val!r}] status={resp.status_code} bytes={len(resp.content)} "
+              f"sin_resultados={sin_resultados} matches_sentencia={len(set(matches))}")
+        if matches:
+            print("  ejemplos:", list(dict.fromkeys(matches))[:15])
 
 
 if __name__ == "__main__":
