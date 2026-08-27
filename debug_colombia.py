@@ -1,15 +1,10 @@
 """
-Script de diagnóstico puntual para entender por qué scraper_colombia.py
-devuelve 0 resultados: inspecciona el HTML crudo que devuelve
-buscador_new, busca scripts, endpoints de API embebidos, y prueba
-variantes de la petición (headers, POST, JSON).
-
-Uso: python debug_colombia.py
-Requiere red real (correr vía GitHub Actions, no en el sandbox de dev).
+Script de diagnóstico puntual: prueba el POST real a index.php (el
+endpoint AJAX real usado por buscadorV1.js, con accion=search) para ver
+qué devuelve y qué campos de FormData realmente necesita.
 """
 
 import logging
-import re
 
 import requests
 
@@ -17,57 +12,59 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger(__name__)
 
 BASE_URL = "https://www.corteconstitucional.gov.co"
-BUSCADOR_URL = f"{BASE_URL}/relatoria/buscador_new/"
+INDEX_URL = f"{BASE_URL}/relatoria/buscador_new/index.php"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                   "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept": "*/*",
     "Accept-Language": "es-CO,es;q=0.9",
+    "X-Requested-With": "XMLHttpRequest",
+    "Referer": f"{BASE_URL}/relatoria/buscador_new/",
 }
 
 session = requests.Session()
 session.headers.update(HEADERS)
 
 
-def dump(nombre, resp):
+def intentar(nombre, data):
     print("\n" + "=" * 80)
-    print(f"[{nombre}] {resp.request.method} {resp.url}")
-    print(f"Status: {resp.status_code} | Content-Type: {resp.headers.get('Content-Type')} | bytes: {len(resp.content)}")
-    body = resp.text
-    print("--- primeros 2000 caracteres ---")
-    print(body[:2000])
-    print("--- scripts <script src=...> ---")
-    for m in re.findall(r'<script[^>]+src="([^"]+)"', body):
-        print("  ", m)
-    print("--- pistas de API (api/, axios, fetch(, /rest/, .json) ---")
-    pistas = set()
-    for pat in [r'["\'](/[^"\']*api[^"\']*)["\']', r'["\'](/[^"\']*/rest/[^"\']*)["\']',
-                r'["\']([^"\']*\.json[^"\']*)["\']', r'fetch\(["\']([^"\']+)', r'axios\.[a-z]+\(["\']([^"\']+)']:
-        for m in re.findall(pat, body, re.IGNORECASE):
-            pistas.add(m)
-    for p in sorted(pistas)[:40]:
-        print("  ", p)
+    print(f"[{nombre}] POST {INDEX_URL}")
+    print("data:", data)
+    try:
+        r = session.post(INDEX_URL, data=data, timeout=30)
+        print(f"Status: {r.status_code} | Content-Type: {r.headers.get('Content-Type')} | bytes: {len(r.content)}")
+        print("--- primeros 3000 caracteres ---")
+        print(r.text[:3000])
+    except Exception as e:
+        logger.error(f"Error: {e}")
 
 
 def main():
-    # El JS del buscador (buscadorV1.js) es donde vive la lógica real de
-    # la búsqueda: ahí deberían estar la URL del endpoint y el payload.
+    base_fields = {
+        "searchOption": "prov_sentencia",
+        "buscar_por": "inteligencia artificial",
+        "finicio": "1992-01-01",
+        "ffin": "2026-08-27",
+        "OrderbyOption": "des__score",
+        "maxprov": "500",
+        "ver_formulario": "si",
+        "volver_a": "relatoria",
+    }
+
+    intentar("accion=search (form-urlencoded)", {**base_fields, "accion": "search"})
+    intentar("accion=searchByAggs (form-urlencoded)", {**base_fields, "accion": "searchByAggs"})
+
+    # Intento con multipart real (como hace $.ajax con FormData/contentType:false)
+    print("\n" + "=" * 80)
+    print("[accion=search (multipart real)]")
     try:
-        r5 = session.get(f"{BASE_URL}/relatoria/buscador_new/assets/js/buscadorV1.js", timeout=30)
-        print("\n" + "=" * 80)
-        print(f"[buscadorV1.js] Status: {r5.status_code} | bytes: {len(r5.content)}")
-        body = r5.text
-        print("--- caracteres 6000-20718 (resto del archivo) ---")
-        print(body[6000:20718])
-        print("\n--- ocurrencias de 'DataTable(' ---")
-        for m in re.finditer(r'.{0,50}DataTable\(.{0,600}', body, re.DOTALL):
-            print("  ...", m.group(0).replace("\n", " ")[:700], "...")
-        print("\n--- ocurrencias de accion=/accion':/'accion\" con valor ---")
-        for m in re.finditer(r'accion[\'"]?\s*[,:=]\s*[\'"]([a-zA-Z_]+)[\'"]', body):
-            print("  accion ->", m.group(1))
+        files = {k: (None, v) for k, v in {**base_fields, "accion": "search"}.items()}
+        r = session.post(INDEX_URL, files=files, timeout=30)
+        print(f"Status: {r.status_code} | Content-Type: {r.headers.get('Content-Type')} | bytes: {len(r.content)}")
+        print(r.text[:3000])
     except Exception as e:
-        logger.error(f"Error buscadorV1.js: {e}")
+        logger.error(f"Error multipart: {e}")
 
 
 if __name__ == "__main__":
