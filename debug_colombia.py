@@ -51,33 +51,6 @@ def dump(nombre, resp):
 
 
 def main():
-    r1 = session.get(BUSCADOR_URL, params={
-        "searchOption": "prov_sentencia",
-        "buscar_por": "inteligencia artificial",
-        "accion": "search",
-    }, timeout=30)
-    dump("GET buscador_new (con query)", r1)
-
-    r2 = session.get(f"{BASE_URL}/relatoria/", timeout=30)
-    dump("GET /relatoria/ (base)", r2)
-
-    # Probar con Accept: application/json por si el mismo endpoint responde distinto
-    try:
-        r3 = session.get(BUSCADOR_URL, params={"buscar_por": "inteligencia artificial"},
-                          headers={**HEADERS, "Accept": "application/json, text/plain, */*",
-                                   "X-Requested-With": "XMLHttpRequest"}, timeout=30)
-        dump("GET buscador_new (Accept: json, XHR)", r3)
-    except Exception as e:
-        logger.error(f"Error variante JSON: {e}")
-
-    # robots.txt / sitemap por si delatan rutas de API
-    try:
-        r4 = session.get(f"{BASE_URL}/robots.txt", timeout=15)
-        print("\n=== robots.txt ===")
-        print(r4.text[:2000])
-    except Exception as e:
-        logger.error(f"Error robots.txt: {e}")
-
     # El JS del buscador (buscadorV1.js) es donde vive la lógica real de
     # la búsqueda: ahí deberían estar la URL del endpoint y el payload.
     try:
@@ -85,10 +58,14 @@ def main():
         print("\n" + "=" * 80)
         print(f"[buscadorV1.js] Status: {r5.status_code} | bytes: {len(r5.content)}")
         body = r5.text
-        print(body[:6000])
-        print("\n--- ocurrencias de 'API' / 'ajax' / 'url:' en buscadorV1.js ---")
-        for m in re.finditer(r'.{0,80}(?:/API/|\$\.ajax|\$\.post|\$\.get|url\s*:).{0,200}', body, re.IGNORECASE):
-            print("  ...", m.group(0).replace("\n", " ").strip(), "...")
+        print("--- caracteres 6000-20718 (resto del archivo) ---")
+        print(body[6000:20718])
+        print("\n--- ocurrencias de 'DataTable(' ---")
+        for m in re.finditer(r'.{0,50}DataTable\(.{0,600}', body, re.DOTALL):
+            print("  ...", m.group(0).replace("\n", " ")[:700], "...")
+        print("\n--- ocurrencias de accion=/accion':/'accion\" con valor ---")
+        for m in re.finditer(r'accion[\'"]?\s*[,:=]\s*[\'"]([a-zA-Z_]+)[\'"]', body):
+            print("  accion ->", m.group(1))
     except Exception as e:
         logger.error(f"Error buscadorV1.js: {e}")
 
