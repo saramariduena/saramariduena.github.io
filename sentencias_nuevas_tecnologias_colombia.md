@@ -93,6 +93,18 @@ citada en el documento de Ecuador antes de esta búsqueda.
 | 3 | [T-453 de 2024](https://www.corteconstitucional.gov.co/relatoria/2024/T-453-24.htm) | 2024 | Debido proceso en plataformas digitales — bloqueo de cuenta | TikTok bloqueó la cuenta de un influencer/abogado mayor de edad alegando que tenía menos de 13 años; pese a que el usuario envió su cédula para corregir el error, la plataforma mantuvo el bloqueo. La Corte concedió el amparo (debido proceso, habeas data, derechos laborales) y ordenó a TikTok restablecer o corregir los datos del usuario. |
 | 4 | [T-176 de 2026](https://www.corteconstitucional.gov.co/relatoria/2026/T-176-26.htm) | 2026 | Moderación de contenido y debido proceso en redes sociales | Suspensión de las cuentas de Facebook, Instagram y WhatsApp de un usuario colombiano. La Corte concluyó que, si bien las plataformas tienen el deber de combatir contenido ilícito (en particular de explotación sexual infantil), también están obligadas a garantizar garantías mínimas de debido proceso al tomar esas decisiones. |
 | 5 | [T-360 de 2022](https://www.corteconstitucional.gov.co/relatoria/2022/T-360-22.htm) | 2022 | Habeas data — suplantación de identidad y fraude crediticio | Banco Davivienda reportó al accionante en centrales de riesgo (Datacrédito) por obligaciones crediticias que nunca adquirió, obtenidas mediante suplantación de identidad. La Sala Sexta de Revisión resolvió sobre la protección del habeas data financiero frente al reporte negativo originado en fraude de identidad. |
+| 6 | [T-184 de 2026](https://www.corteconstitucional.gov.co/relatoria/2026/T-184-26.htm) | 2026 | Violencia digital — difusión no consentida de contenido íntimo | "Paola" grabó contenido íntimo con "Lucas" para difundirlo en redes sociales bajo la condición de bloquearlo en Colombia; él lo difundió sin esa restricción y, pese a prometer borrarlo, permitió que siguiera circulando en internet. La Corte calificó la difusión no consentida de contenido íntimo como violencia digital/de género, estableció que el consentimiento inicial es revocable en cualquier momento, exhortó al Congreso a legislar (vacío penal) y ordenó a la Defensoría del Pueblo y al MinTIC crear una guía de prevención digital. |
+| 7 | [T-280 de 2022](https://www.corteconstitucional.gov.co/relatoria/2022/T-280-22.htm) | 2022 | Violencia digital — difusión no consentida de imágenes íntimas (precedente de T-184/26) | Grabación y difusión no consentida de videos íntimos. La Corte fijó que la tutela es el mecanismo principal, idóneo y eficaz para proteger la imagen e intimidad frente a la difusión no consentida de contenido íntimo, reconoció un vacío legal en la materia y llamó a regularlo. Es el precedente directo que la propia Corte desarrolla y precisa en la T-184 de 2026. |
+| 8 | [T-179 de 2019](https://www.corteconstitucional.gov.co/relatoria/2019/T-179-19.htm) | 2019 | Libertad de expresión en plataformas digitales y redes sociales | Ponente Alejandro Linares. La Corte fijó que la libertad de expresión tiene un carácter preferente con cuatro presunciones a su favor, y que quien busca limitarla tiene la carga de la prueba. Convocó como amicus a centros académicos y organizaciones de derechos digitales (Centro de Internet y Sociedad de la U. Rosario, DEJUSTICIA, Fundación Karisma, FLIP, Relatoría Especial para la Libertad de Expresión de la CIDH) sobre los límites a la libertad de opinión en plataformas digitales y redes sociales, en tensión con el buen nombre/honra de representantes religiosos. |
+| 9 | [T-229 de 2020](https://www.corteconstitucional.gov.co/relatoria/2020/T-229-20.htm) | 2020 | Responsabilidad de intermediarios de internet | Tutela de Mauricio Meza Blanco contra Google Inc. y el MinTIC. La Sala Tercera de Revisión (con Luis Guillermo Guerrero Pérez presidiendo) determinó que los intermediarios de internet no son responsables por el contenido publicado por sus usuarios y no deben ser sometidos a obligaciones de supervisión/filtrado de expresiones para detectar contenido ilícito — precedente colombiano sobre responsabilidad de intermediarios, en línea con el caso "Google/YouTube no pueden ser jueces" citado informalmente en medios. |
+
+**Nota sobre esta segunda ronda de verificación:** las filas 6-9 se añadieron
+después de que se señalara que la T-184 de 2026 (encontrada por la búsqueda,
+pero no incluida en la primera versión de este documento) es un caso
+sustantivo real. Esto confirma que, dentro de las ~226 sentencias
+encontradas por al menos un término específico y las ~989 en total, es
+razonable esperar que existan más casos genuinamente relevantes que no
+se verificaron individualmente — la tabla de abajo no es exhaustiva.
 
 ## Pendiente de verificar con más detalle
 
@@ -120,6 +132,18 @@ y no es una mención incidental:
   "sesgo algorítmico" (el término que la encontró) no se pudo verificar
   con precisión; se incluyó por el caso TikTok en sí (debido proceso
   digital), no por sesgo algorítmico.
+- **T-203 de 2022**, **T-227 de 2025**, **T-242 de 2022**, **T-245A de
+  2022**, **T-260 de 2012**, **T-310 de 2022**, **T-342 de 2020**,
+  **T-356 de 2021**, **T-362 de 2020**, **T-561 de 2023** — combinaciones
+  de "pornografía infantil" con otro término específico (ciberacoso,
+  grooming, sexting, phishing, dron, suplantación de identidad, derecho
+  al olvido); dado que **T-184 de 2026** y **T-280 de 2022** confirmaron
+  que este patrón de términos sí puede señalar casos reales de violencia
+  digital (no solo explotación sexual infantil), es plausible que algunas
+  de estas también lo sean, pero no se verificaron individualmente.
+- **T-229 de 2020** — ver fila 9 de la tabla verificada; se deja también
+  aquí como recordatorio de que "whatsapp" (el término genérico que la
+  encontró originalmente) sí puede esconder casos sustantivos.
 
 ## Pistas descartadas (verificadas pero no aplicables)
 
@@ -128,6 +152,14 @@ y no es una mención incidental:
   empresa concesionaria del juego de Chance en Bogotá/Cundinamarca: el
   caso trata sobre un contrato de concesión, no sobre regulación de
   apuestas/juego en internet.
+- **T-388 de 2013** y **T-762 de 2015** — ambas hicieron match con varios
+  términos (derecho al olvido, pornografía infantil, reconocimiento
+  facial, suplantación de identidad, videovigilancia), pero son las
+  sentencias que declaran y hacen seguimiento al Estado de Cosas
+  Inconstitucional del sistema penitenciario y carcelario colombiano por
+  hacinamiento — no tienen relación con derecho digital; el match es
+  incidental, probablemente por la extensión y variedad temática de estos
+  fallos estructurales.
 
 ## Temas sin sentencia colombiana encontrada con estos términos
 
