@@ -78,6 +78,20 @@ def main():
     except Exception as e:
         logger.error(f"Error robots.txt: {e}")
 
+    # El JS del buscador (buscadorV1.js) es donde vive la lógica real de
+    # la búsqueda: ahí deberían estar la URL del endpoint y el payload.
+    try:
+        r5 = session.get(f"{BASE_URL}/relatoria/buscador_new/assets/js/buscadorV1.js", timeout=30)
+        print("\n" + "=" * 80)
+        print(f"[buscadorV1.js] Status: {r5.status_code} | bytes: {len(r5.content)}")
+        body = r5.text
+        print(body[:6000])
+        print("\n--- ocurrencias de 'API' / 'ajax' / 'url:' en buscadorV1.js ---")
+        for m in re.finditer(r'.{0,80}(?:/API/|\$\.ajax|\$\.post|\$\.get|url\s*:).{0,200}', body, re.IGNORECASE):
+            print("  ...", m.group(0).replace("\n", " ").strip(), "...")
+    except Exception as e:
+        logger.error(f"Error buscadorV1.js: {e}")
+
 
 if __name__ == "__main__":
     main()
