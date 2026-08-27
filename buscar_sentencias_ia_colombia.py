@@ -112,8 +112,8 @@ def main():
 
         logger.info(f"  -> {len(resultados)} resultado(s)")
         for s in resultados:
-            encontradas.setdefault(s.numero, {"sentencia": s, "terminos": set()})
-            encontradas[s.numero]["terminos"].add(termino)
+            encontradas.setdefault(s.slug, {"sentencia": s, "terminos": set()})
+            encontradas[s.slug]["terminos"].add(termino)
 
         time.sleep(2)
 
@@ -132,10 +132,9 @@ def main():
     for _, item in sorted(encontradas.items()):
         s = item["sentencia"]
         terminos = sorted(item["terminos"])
-        print(f"\nNúmero: {s.numero}")
+        print(f"\nNúmero: {s.numero} ({s.slug})")
         print(f"Año: {s.anio}")
         print(f"Términos que la encontraron: {', '.join(terminos)}")
-        print(f"Título/resumen: {s.titulo[:300]}")
         print(f"Ficha: {s.ficha_url}")
         salida.append({**sentencias_to_dicts([s])[0], "terminos_encontrados": terminos})
 
