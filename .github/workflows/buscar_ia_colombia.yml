@@ -1,0 +1,41 @@
+name: Búsqueda histórica derecho digital — Corte Constitucional Colombia
+
+on:
+  workflow_dispatch:
+    inputs:
+      terminos:
+        description: "Términos a buscar, separados por coma (vacío = protección de datos, redes sociales, temas electrónicos, IA)"
+        required: false
+        default: ""
+
+jobs:
+  buscar:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Instalar dependencias
+        run: pip install requests==2.32.3 beautifulsoup4==4.12.3 lxml
+
+      - name: Buscar sentencias de derecho digital e IA (sin correos ni commits)
+        env:
+          TERMINOS_BUSQUEDA: ${{ github.event.inputs.terminos }}
+        run: python buscar_sentencias_ia_colombia.py
+
+      - name: Subir resultados como artefacto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sentencias-ia-encontradas-colombia
+          path: sentencias_ia_encontradas_colombia.json
+          if-no-files-found: ignore
