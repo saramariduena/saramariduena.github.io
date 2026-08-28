@@ -14,6 +14,26 @@ toggle.addEventListener("click", () => {
   toggle.textContent = next === "dark" ? "🌙" : "☀️";
 });
 
+const menuToggle = document.getElementById("menuToggle");
+const menuMovil = document.getElementById("menuMovil");
+
+if (menuToggle) {
+  menuToggle.addEventListener("click", () => {
+    const abierto = !menuMovil.hidden;
+    menuMovil.hidden = abierto;
+    menuToggle.setAttribute("aria-expanded", String(!abierto));
+    menuToggle.textContent = abierto ? "☰" : "✕";
+  });
+
+  menuMovil.querySelectorAll("a").forEach((enlace) => {
+    enlace.addEventListener("click", () => {
+      menuMovil.hidden = true;
+      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle.textContent = "☰";
+    });
+  });
+}
+
 const sections = document.querySelectorAll(".section");
 const observer = new IntersectionObserver(
   (entries) => {
