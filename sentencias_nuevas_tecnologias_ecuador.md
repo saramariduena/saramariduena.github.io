@@ -65,6 +65,7 @@ de **Colombia** (uso de ChatGPT por un juez).
 | 18 | 29-21-JI/21 | 01/12/2021 | Acceso a información pública — datos de vacunación COVID | La Defensoría del Pueblo pidió al Ministerio de Salud el listado de personas vacunadas (fase 0) y el Ministerio se negó. La Corte, con test de proporcionalidad, determinó que entregar esos datos **no vulnera la privacidad** de los vacunados y que negarlos sí vulneró el acceso a la información pública. Ordenó entregar la data (sin cédulas). |
 | 19 | 17-25-TI/26 y 17-25-TI/26A | 22/01/2026 y 19/03/2026 | Tratado internacional Ecuador-Corea del Sur (SECA) — comercio electrónico y cooperación tecnológica | El SECA es el tratado más completo firmado por Ecuador (23 capítulos: bienes, servicios, telecomunicaciones, **comercio electrónico**, propiedad intelectual, y cooperación tecnológica citando a Corea como potencia en microchips, IA y ciberseguridad — de ahí que "algoritmo" e "inteligencia artificial" aparezcan en el texto). La Corte: (1º momento) determinó que requería aprobación de la Asamblea; (2º momento) declaró constitucional todo el contenido. **Importante:** es un control de constitucionalidad integral/formal del tratado — no hay evidencia de que la Corte haya analizado a fondo, de forma separada, las cláusulas de IA o comercio digital en particular. |
 | 20 | 0006-17-IN (numerado "6-17-IN/25" en el buscador) | 04/12/2025 | Datos biométricos — sistema de identidad y registro civil | Acción pública de inconstitucionalidad presentada el 20/01/2017 por la Clínica Jurídica de la USFQ (Farith Simon, Daniela Salazar, Hugo Cahueñas, junto con Roberto Eguiguren e Isabel Samaniego) contra los artículos 37, 46, 47, 54, 79 y 94 de la Ley Orgánica de Gestión de la Identidad y Datos Civiles (LOGIDAC) — la ley que regula la captura biométrica de la ciudadanía para la cédula y el registro civil. Resuelta 8 años después. **No pude confirmar el sentido final del fallo** (aceptada/negada/parcial) con fuentes públicas — se incluye por ser un caso real y sustantivo sobre datos biométricos estatales, pendiente de verificar el resultado exacto. |
+| 21 | 2172-21-EP/25 | 05/06/2025 | Desnaturalización del hábeas data — reembolso económico | A una clienta del Banco Pichincha le debitaban USD 3.71 mensuales de su cuenta de ahorros a favor de NovaEcuador sin su autorización. Los jueces de instancia usaron el hábeas data para ordenar reparación económica por el uso no autorizado de su información. La Corte declaró que eso **desnaturaliza el hábeas data**: la garantía no procede para exigir reembolsos económicos ni resolver conflictos contractuales — la reparación debe limitarse a la vulneración del dato personal en sí. Declaró vulnerado el derecho a la seguridad jurídica del banco. Se suma a las filas 8 y 9 en la misma línea jurisprudencial de delimitar el ámbito del hábeas data. |
 
 ## Pendiente de verificar con más detalle
 
@@ -114,6 +115,18 @@ de **Colombia** (uso de ChatGPT por un juez).
   derecho digital. Ejemplos verificados como falsos positivos: 95-18-EP/24
   (identidad de género en educación), 360-19-JH/25 (prisión preventiva),
   96-21-JP/25 (violencia obstétrica), 4642-22-JP/25 (derecho al agua).
+- Se probó la terminología específica de la Ley Orgánica de Protección de
+  Datos Personales (LOPDP, 2021): "Superintendencia de Protección de Datos
+  Personales", "tratamiento de datos personales", "responsable del
+  tratamiento", "elaboración de perfiles", "transferencia internacional de
+  datos", "consentimiento del titular", "decisiones automatizadas". Casi
+  todo resultó ruido: "ADN" y "prueba genética" son en su enorme mayoría
+  juicios de paternidad/filiación (nada que ver con protección de datos);
+  "Superintendencia de Protección de Datos Personales" aparece incluso en
+  sentencias de 2009-2018, años antes de que esa entidad existiera —
+  confirma que es coincidencia de palabras sueltas, no de la frase. La
+  única sentencia real que salió de esta tanda fue la 2172-21-EP/25 (fila
+  21 de la tabla).
 
 ## Temas sin sentencia ecuatoriana encontrada
 
