@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://saramariduena.github.io/sitemap.xml
