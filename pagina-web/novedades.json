@@ -1,67 +1,67 @@
 {
-  "actualizado": "2026-10-05T16:36:57.331354+00:00",
-  "semana_inicio": "2026-09-29",
-  "semana_fin": "2026-10-05",
+  "actualizado": "2026-10-12T17:08:28.067379+00:00",
+  "semana_inicio": "2026-10-06",
+  "semana_fin": "2026-10-12",
   "noticias": [
     {
-      "titulo": "Regulación de la IA gana terreno: Qué cambia para empresas, gobiernos y usuarios - TyN Magazine",
-      "enlace": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPR1pQZjlnNnZOaVJSQzlVOU5lTWh2Y1lfRl9MS0pGLTc4MWdtOE53ck13bTJRMk9NQUlQNGZTcnlzZi1jX1c1SFIyNDlmU0NQZ1BhcldXTVJMbEtMdDFNeEppaGVoTHhOMnJJWGtoT19uR2hxZzZMdm03NlJjNmtKZy01YU1GdW4xUFI3cFEtZ0h1Z2ViaEJOOW5mZWlqblRMdXVWcWpR?oc=5",
-      "fuente": "TyN Magazine",
-      "fecha": "2026-10-05T16:18:45+00:00"
+      "titulo": "Entrevista a Pedro Vaca Villarreal (Parte 2): La RELE ante la inteligencia artificial y el futuro del Sistema Interamericano - Agenda Estado de Derecho",
+      "enlace": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQc1EwOWUxWFhTXzQwSVNmeXlaNHFTVFdpMUpXaC1ZbnFfRi1lVjBGalRkSkVkLTY1LUdsbzBEQ1lLS0c1c1drd0RsWEpDenVTa25aOXp5N2RFNDNVdWpOX0VCcmRkaTNsR20yUXlPdDVMMjRGX29TMmJtbm9OLXRRNUY0RG1QdTdaYzJjY3Bna3FqNnBJTXI4bFBYUU5FdUZhRjBodW1wQQ?oc=5",
+      "fuente": "Agenda Estado de Derecho",
+      "fecha": "2026-10-12T16:30:00+00:00"
     },
     {
-      "titulo": "Regulación, sanciones y uso de datos: los puntos clave del proyecto de ley IA en Ecuador - Teleamazonas",
-      "enlace": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOcFh4SVRHUVNXakhpZU9fOFNQNVlSOTZRSWk2ZVplZElmZ3dYc1I5SXloRHNPdmJ6NGhENUp3bEtRVEtqM1R6TmpYTkYzdEotSjNNNS1xcXRRQVNMTXljb3FmcF91TXFielVZTGlBTWVUNXBuRkEzSjhrM3Iwd1BkNnF6U1BMdHJuNkJURzFua3BIQ2FNWFFDc0h3VjJ5ZENjN2NaUDdEbDdYOWVsSkYwV0JVSXUzNWowTVdwNnBEZEZNVTF0eTQ4?oc=5",
-      "fuente": "Teleamazonas",
-      "fecha": "2026-10-05T16:15:25+00:00"
+      "titulo": "Octubre, mes de Concientización sobre la Ciberseguridad - El Comercio",
+      "enlace": "https://news.google.com/rss/articles/CBMiogFBVV95cUxObGpRRGlhcHlEeHlfUEVtWHUtT1J4ZWFSVWQ1LVlqdW8tRm90bThOX21CTW1lMldEclVUX2d4OUxWZFJpZmgybDFTVXNrWEJrQXdTdHZ1MmtUaVVsdlh2Vm9tMnJsa3JEZm1SNUdkMEhzZ2dkbTd2cVhiMWFhYXZUMlA2RUp5VzZESXVXTk1TRG9IOW1vYVZ1b1BJbjhVNmoyY0E?oc=5",
+      "fuente": "El Comercio",
+      "fecha": "2026-10-12T13:53:11+00:00"
     },
     {
-      "titulo": "Noruega propone la primera ley para vetar AI glasses - El Ecosistema Startup",
-      "enlace": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPTjhZVDBBU1QwZ3hQQWVsWXFDOXo3X3VPQ1I4UkE5cEJudmpXQnkxeENULWNzM3ZvMEF2TWFJRWNINTRROTBSdnp5WXN5MG5DTEhPX2ViTk1PUHpIYVNEMGJnZnFDU0R5d0Nua3pRZVpvX0ItU0RfUXNSY3dBV3YyekoyRkhzZkpkcVo4?oc=5",
-      "fuente": "El Ecosistema Startup",
-      "fecha": "2026-10-05T16:06:57+00:00"
+      "titulo": "Brad Smith exige regulación global para inteligencia artificial - Xpectro FM",
+      "enlace": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOOVZTY1FnRi1qV0xMSUZFM1d2eUd3Q2tpb2t0SGhnaG1DWE1QVi1od1dxaUpRSXhrNktxdFNCVDg5bVBSb0NJNnRpckU0RmgwVUdNOWwtTkZfWkpJTFpiaHR0SjFqek15LU90UmpmN3FWLUp6aUdjalJDOUZCNUNzejBsdS1JbHBNUTV3Z0tHbw?oc=5",
+      "fuente": "Xpectro FM",
+      "fecha": "2026-10-12T13:26:44+00:00"
     },
     {
-      "titulo": "La UBA reunirá a jueces y especialistas internacionales para debatir los desafíos del arbitraje - Revista Quórum",
-      "enlace": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxOc2MyaWR0SkJHZk53b0lzVy1MemlUWko2TE1DZml5VVZQVTI2a1dZM0RBaGhPS1Jhd2UwSDVvN1M1M1QweEJjS2hLUjlNUG5IeWppc2YzSlpOdnVBeWVXcFQ0UjZuOVMwNkZ5Mjc0U1M4ZUZJM3FhTFpkNGM1N09jTExUczRGdzBxRHhYd0pSMmdQbVR4YWRIbkZfd0ZuS1czM1RjT3FoQ2xXUEZkLThNcUlwSVJGME5reUx4WXBrN1Y4V2U2UEpsNHgwYXQyZnd5Smc?oc=5",
-      "fuente": "Revista Quórum",
-      "fecha": "2026-10-05T15:24:42+00:00"
+      "titulo": "Despedida tras rechazar 160 fotos al día desde la webcam - Pasquale Pillitteri",
+      "enlace": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPV1RVN1FPZURvaTQ2dXpqcnlkemdPamd5aEpqaTEwNnFlRG1UYlhUbVM4b0Y0d2t3NVM4emVWZGlVWmUxV09mZjE5RGw4T0JKN2RjTHdSMzJUT2RjT0V5TTkwSFhHNmpnLXJtYWgta3hvZkNQOWd6ZWtoXy1xOTVQM3lmam4xUQ?oc=5",
+      "fuente": "Pasquale Pillitteri",
+      "fecha": "2026-10-12T12:51:30+00:00"
     },
     {
-      "titulo": "En la Mira 2: Un panorama de las amenazas digitales en América Latina - Pressenza - International Press Agency",
-      "enlace": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPZVZPemsyT29TR25mVHA5WUZLLUlET0dyYUJXRzFHYXB1WkJlRXdVcFhFTDd4OWxYM2lIeHZuVkpqVmEwZXRQaERWelFXdEtFeEgxVXBab04zaFppN2xYSFhUUmNsdzRuU2FpZ1M5amFmUXFsVGR3ZW9lMjRpdEVFR0tsOVI1UWdYOFRTVklGbFJFWVdENzQ4V0JLcnpMVzZHdnpPOFYwdEpFQQ?oc=5",
-      "fuente": "Pressenza - International Press Agency",
-      "fecha": "2026-10-05T14:24:39+00:00"
+      "titulo": "El presidente de Microsoft dice que la leche está más regulada que la IA - Yahoo",
+      "enlace": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOZlZCbDhMdkxvSnZneTJFMEFVMUVEamV3cXpib2thbXVfdjA0OFE0OW44c3BJNU9pMDFxUnE0UU1YVUdDZmE3cUhVV094Q3FhWFhyTURBODlZckVtekhBbEVJLXBhMzlQMVhqX1FVYWVKTWtiR0xXNUJEOFJGTW1Obkoza2p4UmxscWVyU21CZGV1VjYxVUE?oc=5",
+      "fuente": "Yahoo",
+      "fecha": "2026-10-12T10:15:56+00:00"
     },
     {
-      "titulo": "Inteligencia artificial y discapacidad: nueva protección frente a la discriminación - Titularísimos",
-      "enlace": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNNnVPNnpzbWo2a0M1UGkxbFhfRmZOUDRwWGM0eVFjLVUySXlVYW5jeUFjcUZtR0FwVXAzNGhDZnNyUThlb243RThuWjUyYXlRQV9TalRoaXc5RDNFLXlFa0ZpVFZFaGlvcWlHX1d5MHVXMkJpVnBsMzNRd09wUEtmWDh1clZSSk1ucFRwV1Fkd1BJYlpNa3JHemZodHBEdnF0STk2Y3YzNA?oc=5",
-      "fuente": "Titularísimos",
-      "fecha": "2026-10-05T14:16:44+00:00"
+      "titulo": "Periódicos demandan a OpenAI por presunta infracción de derechos de autor - Diario Constitucional",
+      "enlace": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPblpGNHZheDFMNEpaakJMaWtmY1RSTXd6Wl9XQVVDOUs0dGdVbVVsT0o3azFEaXpsaTJzNEpGb2JhRWtweFNQdzlIdWtqSXh5UzE4WHJ2S0R3ZldUOE5Ub19iVjN0NlRNQ0Q1UHY2THpnajZWWWdwX1RUMXlsa2l6UmlPaDdiMmtLQ0E4Y3RuaHdzNjRPcW83dzlxM2lJbkhsMkpNbTVYelctWnJiNUlfS3cwSU5tWnhRNmMwRnBR?oc=5",
+      "fuente": "Diario Constitucional",
+      "fecha": "2026-10-12T10:15:53+00:00"
     },
     {
-      "titulo": "Desde hoy, las empresas tienen que explicar a sus trabajadores cómo funciona el algoritmo que gestiona su puesto de trabajo - Xataka",
-      "enlace": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxPQ1dsTnV4eWNtREdsSFNUSWY1NmNrdkVKanB3M2p1dFU2a1RLTXJjREYyblRpNUtlRnZpQ3kzTkhhUGhXdFd0X2N2Tl90V2w4MkNfdWdFd1pZZlp2TTExa2tZVl9fSUZhSVZiZi1oRlBJUWxNUno5M2Q5bUpJdklMLURKUXBBS3pOOURvVzBvT21UR2hKSUxVTnk4c252VXBGam1RbVREOFh5ZkV5MDBkNTQ2R3dDekt4QThwNUNyQVBpQWJTdk9NVEcxY1ZKQkhpTVdMVnJOLUNobFpkUWZqTEdPRlVuMnPSAewBQVVfeXFMT1lJdUoxN2d4Y3hnU2FQWHczNkZ2cExkOGw5V2plOEdWeHVPVU5teU5ZX2t0OUUxMTdqN0NKNTNWWWFKRGszRzQyQ1BQUW1JZVFEQW5qUHdjUElib3BsN1ZfNG0taHpIVGN0QTJicUY3eW0zMWxycF9UMUx5N3hXbmhleEEzT1VCb1lrUHZVeXZCcW1iMjAxbUxfUXBJRmIzUHZDQ0lvVFR2SHpqOFFqQzVMcm8zVE0tSjhlWEowWUIzVUZvdGdPSlFQRHJWdkRIZXBTcVpOV2VraUJQRzJnOW5fZ2M4bVNWd3dPSXE?oc=5",
-      "fuente": "Xataka",
-      "fecha": "2026-10-05T14:15:23+00:00"
+      "titulo": "Inteligencia Artificial: De la Técnica a los Derechos en la Universidad Federico II - Il Mattino",
+      "enlace": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNaHFpbU92QWlqNnlELUhMUzZlZUpHbUFlTHJncGJXTS1uYjNsUUdVdDVwbHdwVGtpRmtKUFlob3NWMnl5VG9LTzVKY2p2NE1OX0o1ekFIZTZEcWZzRjBBd21DSEFmUmNfQlUtVS1BdExWNGtYR3B3alY4NXhJT3M5QmRTMkxid19YWWNtekNma2lJWFNONGIySDVrOVVZcWdXbXU2SnVJeUs1dXdFeGdXMl9RcXAwTGd6dlNtS2R0NXFTdk9EVGfSAcYBQVVfeXFMTWhxaW1PdkFpajZ5RC1ITFM2ZWVKR21BZUxyZ3BiV00tbmIzbFFHVXQ1cGx3cFRraUZrSlBZaG9zVjJ5eVRvS081SmNqdjRNTl9KNXpBSGU2RHFmc0YwQXdtQ0hBZlJjX0JVLVUtQXRMVjRrWEdwd2pWODV4SU9zOUJkUzJMYndfWFljbXpDZmtpSVhTTjRiMkg1azlVWXFnV211Nkp1SXlLNXV3RXhnVzJfUXFwMExnenZTbUtkdDVxU3ZPRFRn?oc=5",
+      "fuente": "Il Mattino",
+      "fecha": "2026-10-12T09:52:17+00:00"
     },
     {
-      "titulo": "La inteligencia artificial cambia la forma de litigar: el nuevo desafío de la Justicia - Infobae",
-      "enlace": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNcTZCbHFfTVJQdms4QUp2RDh0OG5ROGpHZl9adWNpUHhFWmlyWnl3WFVqWEltNzNUdDJwN01na0d3MVVSWGs4RUxYMGg2SXBTMWM4LWRTNlVUTkFESklrWFpFUVRjeG1GLWNmZnhxVXlHRExKeXJDVkZDSEFoTF9YTzFWX1Z0T19PSmtxbjRXc3FId2J6eEVHWEl0REJ3WjNaT0NtWks4c1dRdVBvMmgtSnVTemlXTjlWTFhjM0YwWGVad2NjM3RBMtIB4wFBVV95cUxOemFGN0pqcWhtWnNiNmVyWWE3VU1rTzM4V3JsbnBCTE1jVERWcDZqTnUwUkR4MHhtWHV3NzQ4SFVIb25rNUFLblNRUlBRalVxdXdUWmdJRWdHOEFZdXd2U0JnVS1hRVlXOF9XMEVTTU9iMmwwM0JPOUZneGRhdm1KZmJoOVJYT1ZPTlVVQmI0MU95NktzMmpMU29EY3d3cVJJNFE3SXdLTXlIZkl6dGlwYlYzNG9mNHJRcWVEcDNEYVdVVkNNVVc3QmYyTTNOeGJ1NzBUYlpfU2FsYl9ZRm9RQ0ptYw?oc=5",
-      "fuente": "Infobae",
-      "fecha": "2026-10-05T14:03:41+00:00"
+      "titulo": "La IA y los derechos de la infancia y la adolescencia a debate en un congreso internacional en València - Cadena SER",
+      "enlace": "https://news.google.com/rss/articles/CBMigwJBVV95cUxOeTdZdHl2cEU4eWFvOFJNczN4bWxvRHRTbEZ6Z2J3Q004d1VjbTYxSU1fam9sYXVITjdBMlJLcDdzUUlIcXp2dUdpUjBSbmdLX01KUnc2STJZSWU2YmVUY2p0a2t0Z3NfSUtNRWhUOFQtYkFEMHRlaFlIZnBmclp3LVhkaEEyMWFGUUF1R0tPdkhaVlNlOWthSUotRG0wRzh2am9nQUc5ejAxVGZmWU9hRDRIeE5kUUl5RHd2YnhtX3FubzgtaWFHdHQ4a1N6THRBZGNaeDFqT25oTllOZjVjWXktQW9oeDR2N0Z6Ykk3YUJBMkJBZWhPM01ORWQtSGhBM1FJ0gGXAkFVX3lxTFBuS0xFSkdZbFVPNG1fTGFCbHN0Ym9iRi1obndIRGxFYlRTSzA4bFVlMG52OEpIYUhlSzRZOFdZWXJCZlFiVWphWTRvc3NqVXNnMVVWeWpBb0xrTHhlZDNDUTlpTnJHSVk2RWJ0d1g2b0UzbE5kRDhKeE9DWDQ2d0xwajlxWjR0Z3NXelZkcUpoNjJuUHhuakppRmVXdEZyLUlZdy1oM1FMcWRlT253LTRjQVJuX2htTmRTRGZNX2g1OG9uVkxNSnk0QVhKZWxzOG9hdktHemRha3BUb2RJaGJLSXp3bjdqV2Nld1lVSDRPX29tWWtVcDdiLVNmWHFReXJSVVhabmdvdloyYzhqdkFWWkZaWlNUZw?oc=5",
+      "fuente": "Cadena SER",
+      "fecha": "2026-10-12T08:19:55+00:00"
     },
     {
-      "titulo": "Nueva Ley de Discapacidad 2026: estos son todos los cambios y nuevos derechos - Titularísimos",
-      "enlace": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPajhaZDlUbHdwTUt6RDV0Rm1PZVFfdDlEODhuNERxRURSTG9jOWJFdGx4cVJFd2V5MXhnUnRmaC14VzVEQ0VXU1Flb01sUE4zZXk2Q1U1WkppTUtRcS13UHRia09Pd2NxbFlLTWhkS1NUY1QtX3VqUmJMbGItVG1VTC1QZERRbzFBWnBwdHV2Uk0wdWo2NFNkLXFPSklWNmRy?oc=5",
-      "fuente": "Titularísimos",
-      "fecha": "2026-10-05T13:30:37+00:00"
+      "titulo": "Construir el derecho del lenguaje claro - La Jornada Hidalgo",
+      "enlace": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5uUEladTJ5VGJiOWM3c0xjY3NUTW1qbGdyWWFGc1oyWGF5VTc5aTJGZkdMV2lTZ2s0N0JsMGZ2OW1ZaXFFellqWTlBVmxKeXA3elQ0ZE1rQjZKQi04MV8wZXMzR1FYNDJBbTFabmwyZnF6dlFsMEZrUw?oc=5",
+      "fuente": "La Jornada Hidalgo",
+      "fecha": "2026-10-12T08:10:00+00:00"
     },
     {
-      "titulo": "Entrevista a Pedro Vaca Villarreal (Parte 1): Libertad de expresión y democracia en América Latina - agendaestadodederecho.com",
-      "enlace": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOVWlPcjNGN2pEY2JSaHBqSW5KVjRuY3JldnNOeDRoT2ZBUV9FakIwVnh3RkxKTGI5WkdUWmNKc3dMbzcwSlFBMEp6U2tCTm9Lb01ENmpOWGFCLWo2cXlwNE1zckxkTEtEMkExMHBhaGFkYWhSU2Y5NkVOODRHc1hIR0xCVQ?oc=5",
-      "fuente": "agendaestadodederecho.com",
-      "fecha": "2026-10-05T13:24:35+00:00"
+      "titulo": "Vietnam refuerza el control del uso de IA en el sector bancario - Vietnam+ (VietnamPlus)",
+      "enlace": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNTGVCMWl2RkxWTllfcDJGUFM3YlM4NXNyTHNJWnJoejdsR2prdnZqVml2VDBQTEg1NTJMWHNjcllGWnF1TkZneHluZUZWeWt0WG00ZEVlQkF3OGU4aWtJQkI4UVIwN2xZWUktTE9tT1o0dmNMVXVhMzVCQnI1dkNDR3hUbElPM2FqdFNmaF9uOGFIWkFPeUN5QkR1UWxfRUVqWTJBeXJjQQ?oc=5",
+      "fuente": "Vietnam+ (VietnamPlus)",
+      "fecha": "2026-10-12T06:26:09+00:00"
     }
   ]
 }
