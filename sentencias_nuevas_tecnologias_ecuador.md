@@ -106,6 +106,14 @@ de **Colombia** (uso de ChatGPT por un juez).
   Noboa (2024); la pregunta que hizo match con "apuestas en línea" trata
   sobre regular casinos y casas de apuestas **físicas**, no apuestas en
   línea.
+- **38-22-IN/26** (acumulada con 34-22-IN y 32-22-IN) — reapareció en
+  varios lotes de búsqueda sin que se pudiera confirmar su contenido;
+  finalmente se confirmó: son acciones de inconstitucionalidad sobre
+  **secreto profesional, legalidad del régimen administrativo
+  sancionador y lavado de activos** (potestad sancionadora de la UAFE).
+  Las tres acciones fueron **desestimadas**. No es un caso de protección
+  de datos personales ni de derecho digital pese a coincidir con ese
+  término por mención incidental de "secreto profesional".
 - Los términos "delito informático" (61 resultados), "vigilancia digital"
   (37), "huella digital" (18) y "correo electrónico" (1922, ruido casi
   puro) resultaron ser mayoritariamente acciones extraordinarias de
