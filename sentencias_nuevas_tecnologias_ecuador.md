@@ -73,6 +73,7 @@ de **Colombia** (uso de ChatGPT por un juez).
 | 26 | 3156-22-EP/26 | 20/08/2026 | Acceso no consentido al celular de una estudiante | La inspectora y la vicerrectora de una unidad educativa accedieron **sin consentimiento** al celular de una estudiante y exhibieron contenido personal, además de emitir un discurso estigmatizante basado en estereotipos de género. La Corte determinó que esto vulneró el interés superior del niño y los derechos a la intimidad, integridad psicológica, honor y buen nombre, y una vida libre de violencia en el entorno educativo. |
 | 27 | [4-23-IN/26](https://buscador.corteconstitucional.gob.ec/buscador-externo/principal/fichaSentencia?numero=4-23-IN%2F26) | 27/08/2026 | Protección de datos personales — discapacidad oculta por código QR | La cédula de identidad exigía mostrar la discapacidad y su porcentaje (art. 110 Ley de Personas con Discapacidad, art. 94.17 LOGIDAC). La Corte aceptó la acción pública de inconstitucionalidad: declaró **inconstitucionalidad aditiva con efectos diferidos** por vulnerar la protección de datos personales (art. 66.19) y la intimidad (art. 66.20) — viola la **autodeterminación informativa**. Ordenó que las personas con discapacidad puedan pedir que ese dato se oculte en el documento físico y se acredite mediante un mecanismo tecnológico (**código QR**) bajo su propio control. Es el caso más directamente relacionado con tecnología y protección de datos encontrado hasta ahora. |
 | 28 | [28-23-IN/26](https://www.corteconstitucional.gob.ec/sentencia-28-23-in-26/) (acumulada con 33-23-IN/26) | 27/08/2026 | Conservación de datos informáticos por la Fiscalía sin orden judicial previa | Acción de inconstitucionalidad contra la Ley de Fortalecimiento de Capacidades Institucionales y Seguridad Integral. Sobre el artículo que permite a la Fiscalía ordenar la **conservación de datos informáticos específicos sin autorización judicial previa**: la Corte determinó que, al ser una medida temporal que no da acceso al contenido, **no vulnera** la protección de datos personales ni la intimidad — es compatible con la Constitución. También revisó la identificación pública de personas aprehendidas en flagrancia ante medios (no vulnera por sí sola la presunción de inocencia) y declaró constitucionalidad condicionada de la intervención de las FFAA en tareas de seguridad (art. 158). |
+| 29 | [27-24-JD/26](https://www.fielweb.com/App_Themes/InformacionInteres/27-24-JD26.pdf) | 04/06/2026 | Hábeas data — acta de matrimonio negada por el Registro Civil | Una mujer de 89 años pidió acceder a su acta de matrimonio para tramitar una pensión de montepío; el Registro Civil negó que el acta existiera, pese a haberle emitido antes otros documentos oficiales que certificaban el matrimonio. La Corte aceptó la acción de hábeas data y declaró la vulneración del derecho a la **protección de datos personales** (art. 66.19) en relación con el **derecho a la identidad** (art. 66.28). |
 
 ## Pendiente de verificar con más detalle
 
@@ -86,6 +87,12 @@ de **Colombia** (uso de ChatGPT por un juez).
   Parece seguir el mismo patrón que la fila 23/24 (hábeas data no sirve
   para disputas de pagos/remuneración), pero no logré confirmar el texto
   de esta sentencia en particular con fuentes externas.
+- **134-23-IS/25** — confirmado pero descartado: es una acción de
+  incumplimiento sobre la ejecución fáctica de un hábeas data previo
+  (Banco del Austro), sin aportar doctrina nueva sobre protección de datos.
+- **2033-22-EP/26** — confirmado como real (acción extraordinaria de
+  protección del SRI contra una sentencia de hábeas data), pero no se pudo
+  confirmar el fondo del asunto de datos con fuentes públicas.
 
 - **3022-23-EP/26** hizo match con los 4 términos principales (hábeas data,
   internet, protección de datos, redes sociales) pero su resumen oficial es
