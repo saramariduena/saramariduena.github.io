@@ -1,5 +1,7 @@
 # Sentencias de la Corte Constitucional del Ecuador sobre derecho digital
 
+Compilación: Sara Maridueña Orellana
+
 Última actualización: datos obtenidos directamente de la API real del
 buscador oficial de la Corte Constitucional (`buscador.corteconstitucional.gob.ec`),
 vía GitHub Actions (`buscar_sentencias_ia.py` + `.github/workflows/buscar_ia.yml`).
