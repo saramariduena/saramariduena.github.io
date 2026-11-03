@@ -1,14 +1,17 @@
 # Sentencias de la Corte Constitucional de Colombia sobre derecho digital
 
-Última actualización: datos obtenidos directamente del buscador oficial de
-Relatoría de la Corte Constitucional de Colombia
-(`corteconstitucional.gov.co/relatoria/buscador_new/`), vía GitHub Actions
-(`buscar_sentencias_ia_colombia.py` + `.github/workflows/buscar_ia_colombia.yml`),
-más una segunda ronda de verificación puntual por búsqueda externa sobre
-las coincidencias que el buscador oficial sí encontró pero que no se
-habían revisado, después de que se detectara que **T-184 de 2026**
-(un caso real de violencia digital) se había quedado fuera de la primera
-versión de este documento por no revisarse individualmente.
+Última actualización: **3 de noviembre de 2026** — datos obtenidos
+directamente del buscador oficial de Relatoría de la Corte Constitucional
+de Colombia (`corteconstitucional.gov.co/relatoria/buscador_new/`), vía
+GitHub Actions (`buscar_sentencias_ia_colombia.py` +
+`.github/workflows/buscar_ia_colombia.yml`), más rondas de verificación
+puntual por búsqueda externa sobre las coincidencias que el buscador
+oficial sí encontró pero que no se habían revisado, después de que se
+detectara que **T-184 de 2026** (un caso real de violencia digital) se
+había quedado fuera de la primera versión de este documento por no
+revisarse individualmente. Esta es la segunda actualización: la primera
+corrida fue el 27 de agosto de 2026; esta repite la búsqueda completa más
+de dos meses después para capturar sentencias nuevas.
 
 ## Metodología y su límite
 
@@ -64,6 +67,18 @@ Penal colombiano, lo cual sí permitió encontrar varias sentencias nuevas
 sobre ese eje). Ambas sentencias se incluyen igual en la tabla de abajo,
 verificadas por fuera del buscador oficial.
 
+**Tercera corrida (3 de noviembre de 2026)** — se repitieron los ~44
+términos originales para capturar sentencias emitidas desde agosto. El
+total deduplicado se mantuvo en 989 sentencias únicas (coincidencia:
+entran sentencias nuevas de 2026 y salen otras del tope de 500 resultados
+por término), pero sí aparecieron casos nuevos de 2026 no vistos antes,
+de los cuales se verificaron dos externamente y se agregaron a las tablas
+de abajo (T-174/26 y T-208/26). Otras coincidencias nuevas de 2026 con
+término específico (T-186-26, T-240-26, T-281-26, T-309-26, T-332-26,
+T-346-26 —esta con match en "chatgpt" y "algoritmo", la más prometedora—,
+T-348-26) no pudieron verificarse: parecen demasiado recientes para
+tener cobertura de prensa o resumen indexado todavía.
+
 Igual que en Ecuador, la gran mayoría de las 989 coincidencias son falsos
 positivos: términos de uso cotidiano en cualquier proceso judicial hacen
 match masivamente sin que el caso trate sobre derecho digital. Los
@@ -116,6 +131,7 @@ específicos, que no se revisaron todas.
 | [T-360 de 2022](https://www.corteconstitucional.gov.co/relatoria/2022/T-360-22.htm) | 2022 | Banco Davivienda reportó al accionante en centrales de riesgo (Datacrédito) por obligaciones crediticias que nunca adquirió, obtenidas mediante suplantación de identidad. Resolvió sobre la protección del habeas data financiero frente al reporte negativo originado en fraude de identidad. |
 | [T-294 de 2023](https://www.corteconstitucional.gov.co/relatoria/2023/T-294-23.htm) | 2023 | La periodista Claudia Julieta Duque, bajo esquema de protección de la Unidad Nacional de Protección (UNP), cuestionó que la entidad recolectara y almacenara datos de su geolocalización de forma más propia de labores de inteligencia/vigilancia que de protección. La Corte ordenó eliminar la información recopilada sobre ella, con ciertas excepciones. |
 | [C-413 de 2025](https://www.corteconstitucional.gov.co/relatoria/2025/C-413-25.htm) | 2025 | Control previo de constitucionalidad del Proyecto de Ley Estatutaria 190/2022 (Cámara) – 303/2023 (Senado), que protege a las víctimas de suplantación de identidad digital frente a reportes negativos y cobros por deudas que no contrajeron: bancos y operadores de información deben suspender cobros y eliminar reportes negativos a víctimas de fraude digital. La Corte declaró inconstitucionales algunas expresiones del art. 5 y condicionó otras partes. |
+| [T-208 de 2026](https://www.corteconstitucional.gov.co/relatoria/2026/T-208-26.htm) | 2026 | Una ciudadana cuestionó como desproporcionado tener que actualizar sus huellas y rasgos faciales para renovar el pasaporte. La Corte avaló que exigir datos biométricos (huellas, fotografía) para expedir/renovar el pasaporte no vulnera la intimidad ni el habeas data (fin legítimo: verificar identidad y prevenir suplantaciones; no hay transferencia de datos entre Cancillería y Registraduría, solo cotejo), pero objetó que la Cancillería los conserve de forma indefinida sin justificación constitucional, y la exhortó a definir criterios y plazos claros de retención. |
 
 ### Redes sociales, plataformas y libertad de expresión
 
@@ -130,6 +146,7 @@ específicos, que no se revisaron todas.
 | [T-176 de 2026](https://www.corteconstitucional.gov.co/relatoria/2026/T-176-26.htm) | 2026 | Suspensión de las cuentas de Facebook, Instagram y WhatsApp de un usuario colombiano. Las plataformas tienen el deber de combatir contenido ilícito (en particular de explotación sexual infantil), pero también deben garantizar mínimas garantías de debido proceso al tomar esas decisiones. |
 | [T-372 de 2023](https://www.corteconstitucional.gov.co/relatoria/2023/T-372-23.htm) | 2023 | Durante el Paro Nacional de 2021 en Cali, el Gobierno no informó con claridad sobre apagones de internet y el presunto uso de inhibidores de señal por la fuerza pública. La Corte determinó que esto violó la libertad de expresión, asociación y reunión, y fijó límites desde derechos humanos al uso estatal de tecnología para controlar comunicaciones en contextos de protesta social. |
 | [T-561 de 2023](https://www.corteconstitucional.gov.co/relatoria/2023/T-561-23.htm) | 2023 | Un usuario publicó en redes sociales un artículo que vinculaba a otra persona con la muerte de una joven en Bucaramanga, afectando su intimidad, buen nombre, honra y dignidad. La Corte resolvió la tensión entre libertad de expresión y protección de derechos fundamentales en publicaciones de redes sociales. |
+| [T-174 de 2026](https://www.corteconstitucional.gov.co/relatoria/2026/T-174-26.htm) | 2026 | La cuenta verificada de X de un usuario fue secuestrada en diciembre de 2023 (publicaciones maliciosas, cargos no autorizados a su tarjeta); la plataforma respondió suspendiéndola definitivamente. La Corte amparó su derecho de petición y exhortó al Congreso y a la Presidencia a crear mecanismos efectivos de diálogo entre usuarios y plataformas digitales, con participación de MinTIC, la CRC y la SIC. |
 
 ### Violencia digital, menores y contenido íntimo
 
@@ -149,10 +166,11 @@ específicos, que no se revisaron todas.
 ## Pendiente de verificar / casos con verificación parcial
 
 - **T-190 de 2024** — tutela por libertad de expresión y protección de menores contra Fucks News S.A.S. y, subsidiariamente, contra Google, Meta, ByteDance/TikTok por contenido algorítmico; **declarada improcedente** por falta de legitimación y subsidiariedad — no hubo pronunciamiento de fondo sobre algoritmos.
-- **T-450 de 2025**, **T-186 de 2026**, **T-457 de 2025** — match en "inteligencia artificial"/"algoritmo", sin verificación externa disponible.
+- **T-450 de 2025**, **T-457 de 2025** — match en "inteligencia artificial"/"algoritmo", sin verificación externa disponible.
 - **T-234 de 2024**, **T-304 de 2023** — "internet de las cosas"; sin verificar.
 - **T-227 de 2025**, **T-203 de 2022**, **T-242 de 2022**, **T-260 de 2012**, **T-310 de 2022**, **T-342 de 2020**, **T-356 de 2021**, **T-362 de 2020** — combinaciones de "pornografía infantil" con otro término específico (ciberacoso, grooming, sexting, phishing, dron, suplantación de identidad); dado que T-184/26, T-280/22 y T-245A/22 confirmaron que este patrón sí puede señalar casos reales de violencia digital (no solo explotación sexual infantil), es plausible que algunas de estas también lo sean, pero no se verificaron individualmente.
-- Sentencias encontradas por "perfilamiento" en la segunda corrida (T-202-24, T-208-26, T-236-21, T-270-24 nota: año probablemente mal capturado por un bug de parseo, revisar, T-310-22, T-365-22, T-388-25, T-391-25, T-397-25, T-491-25, T-560-16, T-594-16) — no se verificó ninguna individualmente; "perfilamiento" es un concepto legítimo de habeas data (Ley 1581/2012) así que el patrón amerita revisión futura.
+- Sentencias encontradas por "perfilamiento" en la segunda corrida (T-202-24, T-236-21, T-270-24 —nota: año probablemente mal capturado por un bug de parseo, revisar—, T-310-22, T-365-22, T-388-25, T-391-25, T-397-25, T-491-25, T-560-16, T-594-16) — no se verificó ninguna individualmente; "perfilamiento" es un concepto legítimo de habeas data (Ley 1581/2012) así que el patrón amerita revisión futura.
+- **De la tercera corrida (noviembre 2026), sin verificar**: T-186 de 2026, T-240 de 2026, T-281 de 2026, T-309 de 2026, T-332 de 2026, T-348 de 2026 (match en "inteligencia artificial"/"algoritmo"/"ciberacoso", demasiado recientes para tener cobertura de prensa indexada). **T-346 de 2026 es la más prometedora** de este grupo — hizo match con "chatgpt", "algoritmo" e "inteligencia artificial" a la vez (el mismo patrón que T-323/24), pero no se encontró ninguna fuente externa que la describa; podría ser un caso real sobre uso de IA generativa, o simplemente una sentencia que cita a la T-323/24 como precedente. Verificar en una próxima corrida cuando tenga más cobertura.
 
 ## Pistas descartadas (verificadas pero no aplicables)
 
