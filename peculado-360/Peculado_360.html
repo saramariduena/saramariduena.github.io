@@ -99,7 +99,7 @@ input[type=text],textarea,select{width:100%;border:1px solid #c9d1e1;background:
         </div>
       </div>
       <label for="caso">Caso que vas a analizar</label>
-      <select id="caso"><option value="fundas">Caso Fundas para cadáveres · Hospital IESS Los Ceibos (2020)</option><option value="chobo">Caso El Chobo · GAD Municipal de Durán</option></select>
+      <select id="caso"><option value="fundas">Caso Fundas para cadáveres · Hospital IESS Los Ceibos (2020)</option><option value="chobo">Caso El Chobo · GAD Municipal de Durán</option><option value="apagones">Caso Apagón (Progen) · Celec EP, crisis eléctrica de 2024 · en curso</option></select>
       <div id="groupFields">
         <label for="members">Integrantes (uno por línea)</label>
         <textarea id="members" placeholder="1. Nombre Apellido&#10;2. Nombre Apellido&#10;3. Nombre Apellido"></textarea>
@@ -118,9 +118,9 @@ input[type=text],textarea,select{width:100%;border:1px solid #c9d1e1;background:
     <aside class="introAside">
       <div class="eyebrow">Qué vas a encontrar</div>
       <div class="card"><b>Sala de audiencias recorrible</b><span>Estrado, mesas de Fiscalía y Defensa, archivo de Contraloría y seis pizarras en las paredes.</span></div>
-      <div class="card"><b>Elige tu caso</b><span>Fundas para cadáveres (disposición arbitraria en emergencia) o El Chobo (cadena de firmas y coautoría en un GAD).</span></div>
+      <div class="card"><b>Elige tu caso</b><span>Fundas para cadáveres (disposición arbitraria en emergencia), El Chobo (cadena de firmas y coautoría en un GAD) o Apagón/Progen (pagos de emergencia sin garantías, caso actual en curso).</span></div>
       <div class="card"><b>Cinco personajes del proceso</b><span>Fiscal, defensor, jueza, perita de Contraloría y analista de compras públicas.</span></div>
-      <div class="card"><b>Seis pizarras · 22 preguntas</b><span>Cada respuesta se corrige con su explicación y su fuente: COIP, Constitución y sentencias de la Corte Constitucional.</span></div>
+      <div class="card"><b>Seis pizarras · 22 a 25 preguntas</b><span>Cada respuesta se corrige con su explicación y su fuente: COIP, Constitución y sentencias de la Corte Constitucional.</span></div>
       <div class="card"><b>Informe final</b><span>Resume tus respuestas, tu puntaje, tus argumentos abiertos y una reflexión para entregar al docente.</span></div>
     </aside>
   </div>
@@ -158,12 +158,14 @@ input[type=text],textarea,select{width:100%;border:1px solid #c9d1e1;background:
 <script>
 'use strict';
 const $=id=>document.getElementById(id), KEY='peculado360_tema2_v2';
-const CASES={fundas:'Caso Fundas para cadáveres (Hospital IESS Los Ceibos)',chobo:'Caso El Chobo (GAD Municipal de Durán)'};
-function glosasBoard(k){const F=k==='fundas';
- const quien=F?'la exgerente del hospital':'un exadministrador del contrato de El Chobo';
- const priv=F?'el empresario proveedor de las fundas':'el contratista de la obra';
- const perj=F?'el sobreprecio pagado por las 4.000 fundas (USD 148,50 por unidad frente a un precio cercano a USD 12)':'el perjuicio sostenido por la Fiscalía, superior a USD 41 millones';
- return {id:'glosas_'+k,caseKey:k,title:'Glosas de tu caso: peculado, cohecho, concusión o tráfico',short:'Glosas del caso',sign:'GLOSAS',sub:F?'Supuestos sobre el caso Fundas':'Supuestos sobre el caso El Chobo',accent:'#8a2b3f',
+const CASES={fundas:'Caso Fundas para cadáveres (Hospital IESS Los Ceibos)',chobo:'Caso El Chobo (GAD Municipal de Durán)',apagones:'Caso Apagón / Progen (Celec EP, crisis eléctrica de 2024)'};
+const CASE_SHORT={fundas:'Caso Fundas',chobo:'Caso El Chobo',apagones:'Caso Apagón'};
+function glosasBoard(k){const V={
+  fundas:['la exgerente del hospital','el empresario proveedor de las fundas','el sobreprecio pagado por las 4.000 fundas (USD 148,50 por unidad frente a un precio cercano a USD 12)','Supuestos sobre el caso Fundas'],
+  chobo:['un exadministrador del contrato de El Chobo','el contratista de la obra','el perjuicio sostenido por la Fiscalía, superior a USD 41 millones','Supuestos sobre el caso El Chobo'],
+  apagones:['un exfuncionario de Celec que aprobó los pagos','un representante de la empresa contratista','los pagos de unos USD 104 millones a la contratista sin generadores operativos ni garantías, según la tesis fiscal','Supuestos sobre el caso Apagón']}[k];
+ const quien=V[0],priv=V[1],perj=V[2];
+ return {id:'glosas_'+k,caseKey:k,title:'Glosas de tu caso: peculado, cohecho, concusión o tráfico',short:'Glosas del caso',sign:'GLOSAS',sub:V[3],accent:'#8a2b3f',
  intro:`Conexión con tu caso: por ${perj}, la Contraloría puede determinar una glosa, que es la responsabilidad civil por el perjuicio a recursos públicos. La glosa no es el peculado: corre por la vía administrativa y civil, mientras la Fiscalía persigue el delito con autonomía. Si alguien negocia indebidamente el desvanecimiento de esa glosa, aparece otro delito: en el cohecho el servidor vende su función a quien quiere comprarla; en la concusión exige un pago a quien no quiere darlo, valiéndose del temor que inspira su cargo; en el tráfico de influencias presiona a otro servidor para que decida a favor de alguien. IMPORTANTE: los supuestos de esta pizarra son hipotéticos y no forman parte de los hechos reales del caso.`,
  legal:'Arts. 278 (peculado), 280 (cohecho), 281 (concusión), 285-286 (tráfico de influencias) COIP; art. 233 CRE (imprescriptibilidad); Sentencia 5-13-IN/19 (informe de Contraloría como noticia del delito).',
  questions:[
@@ -216,8 +218,19 @@ const ALL=[
   ['¿Qué lógica permitió a la Fiscalía plantear coautoría entre tantos funcionarios?',['Todos pertenecían a la misma institución','La cadena de firmas: cada eslabón (adjudica, califica, recibe planillas, certifica, paga) tiene una porción de disponibilidad jurídica sobre los fondos','La responsabilidad objetiva del alcalde','El informe de Contraloría los nombraba a todos'],1,'Esa lógica obliga a cada defensa a reconstruir qué competencia tenía su cliente y qué sabía al firmar.'],
   ['En un caso con doce procesados que firmaron en distintas etapas, ¿qué debe reconstruir cada defensa?',['Solo si el informe de Contraloría menciona a su cliente','Qué competencia tenía su cliente en la cadena de firmas y qué sabía al firmar','El monto total del perjuicio, que se divide entre todos','Si su cliente era servidor de carrera o de libre remoción'],1,'La coautoría por cadena de firmas obliga a cada defensa a delimitar la porción de disponibilidad jurídica de su cliente y su conocimiento al firmar: ahí se discute la relación funcional con el bien y el dolo.']],
  fields:[['f4a','Asuman la defensa del fiscalizador de la obra. ¿Qué tendrían que reconstruir sobre su competencia y su conocimiento al firmar para discutir su coautoría?']]},
+{id:'apagones',caseKey:'apagones',title:'Caso Apagón: contratos de emergencia con Progen',short:'Caso Apagón (Progen)',sign:'APAGÓN',sub:'Celec EP · Progen · 2024',accent:'#c79a3b',
+ intro:'Caso Apagón o caso Progen (en curso). Durante la crisis eléctrica y los apagones de 2024, Celec EP firmó por emergencia dos contratos con la estadounidense Progen Industries LLC, por unos USD 149,1 millones, para instalar generación térmica en El Salitral (Guayas, unos USD 99,4 millones) y Quevedo (Los Ríos, unos USD 49,7 millones): alrededor de 150 MW adicionales. Según la Fiscalía, se pagaron unos USD 104,4 millones (cerca del 70 % del valor) como «Hito 1» sin exigir garantías bancarias y sin generadores operativos; la Contraloría había detectado irregularidades. Tras allanamientos desde julio de 2025, el 14 de mayo de 2026 la Fiscalía formuló cargos por peculado ante la Corte Nacional de Justicia contra 21 personas, entre ellas un exministro de Energía y un exgerente de Celec; luego pidió vincular a otras nueve o diez. A fines de septiembre de 2026 la Fiscalía emitió un dictamen abstentivo a favor del exministro. Todas las personas procesadas conservan su presunción de inocencia.',
+ legal:'Art. 278 COIP (texto reformado en 2021: proveedores del Estado y agravación por emergencia y sectores estratégicos); arts. 5.3 y 455 COIP; art. 76.2 CRE. Datos tomados de información periodística de 2025 y 2026 (Primicias, El Comercio, El Universo, El Diario, Radio Pichincha); el proceso no tiene sentencia.',
+ questions:[
+  ['Según la tesis de la Fiscalía, el dinero salió de Celec mediante contratos firmados, órdenes de pago y un «Hito 1» pagado sin garantías ni generadores operativos. ¿Qué verbo rector se ajusta mejor a esa tesis?',['Apropiarse, porque los servidores se quedaron con el dinero','Disponer arbitrariamente: la facultad de pagar existía, pero se habría ejercido al margen de las reglas que la condicionan','Distraer, porque el dinero iba destinado a otro programa público','Ninguno: un pago de emergencia nunca puede ser peculado'],1,'Como en los grandes casos de contratación pública, lo arbitrario no está en la forma (hay firma, contrato y orden de pago) sino en la falta de justificación jurídica de la decisión: pagar sin garantías y sin recibir lo contratado.'],
+  ['Los hechos son de 2024. ¿Cómo podrían responder los directivos de la empresa contratista?',['Solo como cómplices, por la vía del último inciso del art. 233 CRE, igual que en el caso Fundas','Directamente como autores: desde la reforma de 2021 el art. 278 incluye a los proveedores del Estado','No pueden responder porque la empresa es extranjera','Solo responde la empresa como persona jurídica'],1,'A diferencia del caso Fundas (hechos de 2020), aquí la reforma de 2021 ya estaba vigente y menciona expresamente a los proveedores del Estado. Según la prensa, los directivos de la empresa no han comparecido ante la Fiscalía.'],
+  ['Si se probara el peculado, ¿podría aplicarse la regla que impone el máximo de la pena?',['No, porque la agravación es de 2021 y los hechos son anteriores','Sí: los hechos son de 2024, posteriores a la reforma, y se relacionan con el aprovechamiento de una emergencia y con un sector estratégico como la energía','No, porque la agravación solo aplica a fondos de salud','Solo si el perjuicio supera USD 149 millones'],1,'Aquí no hay problema de irretroactividad (art. 76.3 CRE), a diferencia del caso Fundas. Aun así, la Fiscalía tendría que probar el aprovechamiento de la emergencia y el nexo con la conducta.'],
+  ['La Fiscalía se abstuvo de acusar al exministro porque, según la prensa, no estableció un nexo entre sus funciones y el perjuicio. ¿Qué elemento del tipo quedó sin cerrar?',['La calidad de servidor público','La relación funcional con los fondos (disponibilidad jurídica) y su vínculo con el perjuicio','El objeto material, porque la energía no es un bien público','La agravación'],1,'La matriz de la pizarra de prueba: una acusación es tan sólida como su elemento más débil. Sin disponibilidad jurídica sobre los fondos ni nexo con el perjuicio, no puede atribuirse el peculado (art. 455 COIP).'],
+  ['¿Cuál es la situación procesal de las personas investigadas en el caso Apagón?',['Están condenadas en primera instancia','Conservan su presunción de inocencia: es un proceso en curso, sin sentencia','Su culpabilidad se presume porque hubo prisión preventiva','Quedaron absueltas por el dictamen abstentivo del exministro'],1,'La prisión preventiva es una medida cautelar, no una condena, y el dictamen abstentivo a favor de una persona no beneficia por sí solo a las demás (art. 76.2 CRE).']],
+ fields:[['f4p','Asuman la defensa de un técnico de Celec (mando medio) que firmó un informe previo al pago del «Hito 1». ¿Qué discutirían: disponibilidad jurídica, dolo, principio de confianza? Y como Fiscalía, ¿cómo probarían el dolo sin prueba directa?']]},
 glosasBoard('fundas'),
 glosasBoard('chobo'),
+glosasBoard('apagones'),
 {id:'gobernanza',title:'Corrupción, transparencia y buena gobernanza',short:'Buena gobernanza',sign:'GOBERNANZA',sub:'Transparencia e integridad',accent:'#c79a3b',
  intro:'El bien jurídico de estos delitos no es solo el dinero del Estado, sino el correcto funcionamiento de la administración pública como servicio sometido a los principios del art. 227 CRE. El derecho penal es la última línea de defensa: las primeras son la transparencia activa, el acceso a la información pública, la rendición de cuentas y los sistemas de integridad.',
  legal:'Arts. 18, 227 y 233 CRE; Sentencia 5-13-IN/19 (párrs. 53-55); Convención de las Naciones Unidas contra la Corrupción (2003); Decretos Ejecutivos 4 (2021), 86 (2023) y 173 (2024).',
@@ -228,11 +241,11 @@ glosasBoard('chobo'),
  fields:[['f7a','Propongan una medida de transparencia activa o de integridad (no penal) que habría dificultado alguno de los casos estudiados. ¿Por qué un código de ética que depende de un decreto es frágil?']]}
 ];
 const npcsData=[
- {name:'Fiscal Daniela Cevallos',role:'Fiscalía',label:'Mesa de la Fiscalía',x:-6,z:-4,color:0x2f5d9e,text:'En peculado no basta decir «hubo corrupción». Elijo con precisión el verbo rector, porque cada verbo tiene su momento de consumación y su prueba. Si el dinero salió con firma, resolución y orden de pago, normalmente hablo de disposición arbitraria.',clue:'Relaciona las pizarras de verbos rectores, de prueba y la de tu caso: un verbo por procesado y cada indicio conectado con un elemento del tipo.'},
- {name:'Dr. Esteban Villacís',role:'Defensa técnica',label:'Mesa de la Defensa',x:6,z:-4,color:0x6b3a4a,text:'Una buena defensa no discute todo: busca el elemento que la Fiscalía no logró cerrar. ¿Mi cliente tenía disponibilidad jurídica sobre los fondos o solo hizo un trámite? ¿La prueba se obtuvo legalmente?',clue:'Apunta a la pizarra de prueba y defensa: disponibilidad jurídica, principio de confianza, ilicitud de la prueba (art. 76.4 CRE) y nexo causal (art. 455 COIP).'},
- {name:'Jueza Rosa Alvarado',role:'Jueza de garantías penales',label:'Estrado',x:0,z:-12.8,color:0x1c2a4a,text:'Para condenar necesito convencimiento más allá de toda duda razonable; la duda favorece al reo. Y la ley penal desfavorable no se aplica hacia atrás: una agravación creada en 2021 no alcanza hechos de 2020.',clue:'Clave para las pizarras de estructura del art. 278 y de tu caso: art. 5.3 COIP, art. 76.2 y 76.3 CRE.'},
- {name:'Ing. Lucía Benítez',role:'Perita de Contraloría',label:'Archivo de Contraloría',x:-17,z:13,color:0xc79a3b,text:'Mi informe es una noticia del delito y contiene indicios. No es requisito para que la Fiscalía actúe, y en juicio puede confirmarse o refutarse. Si hubo negligencia sin dolo, lo que corresponde es responsabilidad administrativa y civil, no peculado culposo.',clue:'Relaciona las pizarras de estructura y de prueba: Sentencia 5-13-IN/19 y art. 27 COIP. En la pizarra de glosas: si mi glosa se desvanece, el proceso penal sigue.'},
- {name:'Abg. Tomás Carrera',role:'Analista de compras públicas',label:'Expedientes de contratación',x:13.2,z:5.6,color:0x1f7d74,text:'En compras públicas el dinero casi nunca sale «a escondidas». Sale con estudio de mercado, adjudicación, actas y planillas. Por eso comparo precios referenciales y cotizaciones, y reviso quién firmó cada paso de la cadena.',clue:'Útil para la pizarra de tu caso: sobreprecio frente a cotizaciones de otros proveedores (Fundas) o cadena de firmas y coautoría (El Chobo).'}
+ {longHair:true,earrings:true,lips:true,hair:0x3a2416,skin:0xd9a27a,name:'Fiscal Daniela Cevallos',role:'Fiscalía',label:'Mesa de la Fiscalía',x:-6,z:-4,color:0x2f5d9e,text:'En peculado no basta decir «hubo corrupción». Elijo con precisión el verbo rector, porque cada verbo tiene su momento de consumación y su prueba. Si el dinero salió con firma, resolución y orden de pago, normalmente hablo de disposición arbitraria.',clue:'Relaciona las pizarras de verbos rectores, de prueba y la de tu caso: un verbo por procesado y cada indicio conectado con un elemento del tipo.'},
+ {beard:true,hair:0x1f1a17,skin:0xc98d66,tie:0x1c2a4a,name:'Dr. Esteban Villacís',role:'Defensa técnica',label:'Mesa de la Defensa',x:6,z:-4,color:0x6b3a4a,text:'Una buena defensa no discute todo: busca el elemento que la Fiscalía no logró cerrar. ¿Mi cliente tenía disponibilidad jurídica sobre los fondos o solo hizo un trámite? ¿La prueba se obtuvo legalmente?',clue:'Apunta a la pizarra de prueba y defensa: disponibilidad jurídica, principio de confianza, ilicitud de la prueba (art. 76.4 CRE) y nexo causal (art. 455 COIP).'},
+ {bun:true,lips:true,gray:true,hair:0x4a3a30,skin:0xe6bb98,glasses:true,name:'Jueza Rosa Alvarado',role:'Jueza de garantías penales',label:'Estrado',x:0,z:-12.8,color:0x1c2a4a,text:'Para condenar necesito convencimiento más allá de toda duda razonable; la duda favorece al reo. Y la ley penal desfavorable no se aplica hacia atrás: una agravación creada en 2021 no alcanza hechos de 2020.',clue:'Clave para las pizarras de estructura del art. 278 y de tu caso: art. 5.3 COIP, art. 76.2 y 76.3 CRE.'},
+ {longHair:true,earrings:true,lips:true,glasses:true,hair:0x6b3e1f,skin:0xf0c8a5,name:'Ing. Lucía Benítez',role:'Perita de Contraloría',label:'Archivo de Contraloría',x:-17,z:13,color:0xc79a3b,text:'Mi informe es una noticia del delito y contiene indicios. No es requisito para que la Fiscalía actúe, y en juicio puede confirmarse o refutarse. Si hubo negligencia sin dolo, lo que corresponde es responsabilidad administrativa y civil, no peculado culposo.',clue:'Relaciona las pizarras de estructura y de prueba: Sentencia 5-13-IN/19 y art. 27 COIP. En la pizarra de glosas: si mi glosa se desvanece, el proceso penal sigue.'},
+ {glasses:true,hair:0x2b2b2b,skin:0xb87c55,tie:0xc79a3b,name:'Abg. Tomás Carrera',role:'Analista de compras públicas',label:'Expedientes de contratación',x:13.2,z:5.6,color:0x1f7d74,text:'En compras públicas el dinero casi nunca sale «a escondidas». Sale con estudio de mercado, adjudicación, actas y planillas. Por eso comparo precios referenciales y cotizaciones, y reviso quién firmó cada paso de la cadena.',clue:'Útil para la pizarra de tu caso: sobreprecio frente a cotizaciones de otros proveedores (Fundas), cadena de firmas y coautoría (El Chobo) o pagos de emergencia sin garantías ni entrega (Apagón).'}
 ];
 let mode='group',group='Grupo 1',members='',name='',caso='fundas',doneMap={},a={},active=-1,listOnly=false,boards=[],N=0,boardGroup=null;
 function setBoards(){boards=ALL.filter(b=>!b.caseKey||b.caseKey===caso);N=boards.length}setBoards();
@@ -260,7 +273,7 @@ function start(resume,noWorld){
   const s=loadSaved();if(s&&s.name===name){doneMap=s.doneMap||{};a=s.a||{}}else{doneMap={};a={}}}
  buildBoards();
  listOnly=!!noWorld;$('start').style.display='none';started=true;
- $('studentHud').textContent=(mode==='group'?`${group} · ${members.split(/\n+/).filter(x=>x.trim()).length} integrantes`:'Participante: '+name)+' · '+(caso==='fundas'?'Caso Fundas':'Caso El Chobo');
+ $('studentHud').textContent=(mode==='group'?`${group} · ${members.split(/\n+/).filter(x=>x.trim()).length} integrantes`:'Participante: '+name)+' · '+CASE_SHORT[caso];
  $('menuButton').style.display='block';updateProgress();saveState();
  if(listOnly||!window.THREE){$('fallback').style.display='block';$('hudWrap').style.display='none';setTouch(false);if(!window.THREE&&!listOnly)toast('El motor 3D no cargó: se abrió el modo sin 3D.');return}
  $('fallback').style.display='none';$('hudWrap').style.display='block';
@@ -320,14 +333,43 @@ function closeDialog(silent){$('dialogOverlay').style.display='none';if(!silent)
 function roundRect(x,X,Y,W,H,R){x.beginPath();if(x.roundRect)x.roundRect(X,Y,W,H,R);else x.rect(X,Y,W,H);x.fill()}
 function labelTexture(lines,bg,accent){const c=document.createElement('canvas');c.width=1024;c.height=256;const x=c.getContext('2d');x.fillStyle=bg;roundRect(x,8,8,1008,240,42);x.fillStyle=accent;x.fillRect(40,8,944,18);x.textAlign='center';x.fillStyle='#fff';x.font='bold 74px Arial';x.fillText(lines[0]||'',512,116);x.font='44px Arial';x.fillStyle='#e6e9f3';x.fillText(lines[1]||'',512,184);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
 function createLabelSprite(lines,sx,sy,bg,accent){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:labelTexture(lines,bg,accent),transparent:true,depthTest:false}));s.scale.set(sx,sy,1);return s}
-function createHumanoid(cfg){const g=new THREE.Group();const m=c=>new THREE.MeshStandardMaterial({color:c,roughness:.78});const skin=m(cfg.skin||0xd9ae8d),shirt=m(cfg.shirt),pants=m(cfg.pants||0x263248),hair=m(cfg.hair||0x2a2420);
- function add(geo,mat,x,y,z){const o=new THREE.Mesh(geo,mat);o.position.set(x,y,z);o.castShadow=true;g.add(o);return o}
- add(new THREE.CylinderGeometry(.35,.42,.78,12),shirt,0,1.15,0);add(new THREE.SphereGeometry(.25,16,12),skin,0,1.82,0);add(new THREE.SphereGeometry(.255,14,10,0,Math.PI*2,0,Math.PI*.45),hair,0,1.91,0);
- if(cfg.toga){add(new THREE.CylinderGeometry(.42,.55,1.1,14),shirt,0,.9,0)}
- const lA=add(new THREE.CylinderGeometry(.105,.11,.67,12),shirt,-.44,1.14,0),rA=add(new THREE.CylinderGeometry(.105,.11,.67,12),shirt,.44,1.14,0),lL=add(new THREE.CylinderGeometry(.13,.14,.78,12),pants,-.18,.4,0),rL=add(new THREE.CylinderGeometry(.13,.14,.78,12),pants,.18,.4,0);
+function createHumanoid(cfg){const g=new THREE.Group();const m=(c,r=.78)=>new THREE.MeshStandardMaterial({color:c,roughness:r});
+ const skin=m(cfg.skin||0xe0b48f,.7),shirt=m(cfg.shirt),pants=m(cfg.pants||0x263248),hair=m(cfg.hair||0x2a2420,.9),dark=m(0x1d1a1a,.4),white=m(0xffffff,.3),shoe=m(0x241c18,.5),blush=new THREE.MeshStandardMaterial({color:0xe88f8f,roughness:.9,transparent:true,opacity:.55}),lip=m(0x9c4a4a,.6);
+ function add(geo,mat,x,y,z,parent){const o=new THREE.Mesh(geo,mat);o.position.set(x,y,z);o.castShadow=true;(parent||g).add(o);return o}
+ // cuerpo (el frente del personaje mira hacia -z)
+ add(new THREE.CylinderGeometry(.33,.4,.8,16),shirt,0,1.16,0);
+ if(cfg.toga){add(new THREE.CylinderGeometry(.4,.56,1.15,16),shirt,0,.9,0);add(new THREE.BoxGeometry(.16,.34,.03),white,0,1.38,-.33)}
+ else{add(new THREE.BoxGeometry(.2,.3,.03),white,0,1.4,-.335);add(new THREE.BoxGeometry(.07,.26,.03),m(cfg.tie||0x8a2b3f,.6),0,1.36,-.35)}
+ add(new THREE.CylinderGeometry(.1,.11,.12,12),skin,0,1.6,0);
+ // cabeza y cara
+ const head=new THREE.Group();head.position.set(0,1.84,0);g.add(head);
+ add(new THREE.SphereGeometry(.26,24,18),skin,0,0,0,head);
+ for(const sx of[-1,1]){add(new THREE.SphereGeometry(.06,10,8),skin,sx*.255,-.01,0,head);
+  add(new THREE.SphereGeometry(.052,14,10),white,sx*.09,.03,-.218,head);
+  add(new THREE.SphereGeometry(.03,12,10),m(cfg.eyes||0x3b2a1e,.3),sx*.09,.03,-.258,head);
+  add(new THREE.SphereGeometry(.011,8,6),white,sx*.09+.012,.045,-.284,head);
+  const brow=add(new THREE.BoxGeometry(.085,.017,.02),hair,sx*.092,.105,-.228,head);brow.rotation.z=sx*-.12;
+  const ch=add(new THREE.SphereGeometry(.04,10,8),blush,sx*.15,-.06,-.19,head);ch.scale.set(1,.6,.4);
+  if(cfg.glasses){const r=add(new THREE.TorusGeometry(.062,.009,8,20),dark,sx*.09,.03,-.262,head)}}
+ if(cfg.glasses){add(new THREE.BoxGeometry(.06,.01,.01),dark,0,.04,-.265,head)}
+ const nose=add(new THREE.SphereGeometry(.032,10,8),m(cfg.skin||0xe0b48f,.6),0,-.035,-.255,head);nose.scale.set(1,1.15,1);
+ const mouth=add(new THREE.TorusGeometry(.06,.013,8,18,Math.PI),cfg.lips?lip:m(0x7a3b30,.6),0,-.095,-.228,head);mouth.rotation.z=Math.PI;mouth.rotation.x=.2;
+ if(cfg.beard){const bd=add(new THREE.SphereGeometry(.262,20,12,Math.PI*.15,Math.PI*.7,Math.PI*.6,Math.PI*.3),hair,0,-.005,-.012,head);bd.rotation.y=Math.PI;const ms=add(new THREE.BoxGeometry(.13,.028,.03),hair,0,-.068,-.248,head)}
+ // cabello
+ add(new THREE.SphereGeometry(.272,22,14,0,Math.PI*2,0,Math.PI*.42),hair,0,.035,.02,head);
+ const back=add(new THREE.SphereGeometry(.268,18,14,0,Math.PI,0,Math.PI*.62),hair,0,.01,.02,head);back.rotation.y=0;
+ if(cfg.longHair){add(new THREE.CylinderGeometry(.25,.22,.5,16,1,false,-Math.PI/2,Math.PI),hair,0,-.24,.03,head);for(const sx of[-1,1]){const st=add(new THREE.BoxGeometry(.075,.46,.2),hair,sx*.245,-.15,-.03,head);st.rotation.z=sx*.08}add(new THREE.SphereGeometry(.275,20,10,Math.PI*.6,Math.PI*.8,0,Math.PI*.2),hair,0,.04,-.015,head)}
+ if(cfg.lips){for(const sx of[-1,1])for(const t of[-1,0,1]){const l=add(new THREE.BoxGeometry(.012,.03,.008),dark,sx*.09+t*.025+sx*.012,.093,-.252,head);l.rotation.z=t*-.4}}
+ if(cfg.earrings){for(const sx of[-1,1])add(new THREE.SphereGeometry(.022,8,6),m(0xc79a3b,.3),sx*.26,-.08,-.01,head)}
+ if(cfg.bun){add(new THREE.SphereGeometry(.1,12,10),hair,0,.16,.2,head)}
+ if(cfg.gray){/* canas en las sienes */for(const sx of[-1,1])add(new THREE.SphereGeometry(.05,8,6),m(0xcfcfcf,.9),sx*.24,.08,.03,head)}
+ // brazos con manos y piernas con zapatos
+ function limb(len,r,mat,x,y,end,endMat,endY,endZ){const piv=new THREE.Group();piv.position.set(x,y,0);g.add(piv);add(new THREE.CylinderGeometry(r,r*1.05,len,12),mat,0,-len/2,0,piv);add(end,endMat,0,-len+endY,endZ||0,piv);return piv}
+ const lA=limb(.66,.1,shirt,-.44,1.48,new THREE.SphereGeometry(.085,12,10),skin,-.02),rA=limb(.66,.1,shirt,.44,1.48,new THREE.SphereGeometry(.085,12,10),skin,-.02);
+ const lL=limb(.76,.13,pants,-.17,.8,new THREE.BoxGeometry(.2,.12,.32),shoe,-.02,-.06),rL=limb(.76,.13,pants,.17,.8,new THREE.BoxGeometry(.2,.12,.32),shoe,-.02,-.06);
  if(cfg.player){const h=new THREE.Mesh(new THREE.RingGeometry(.52,.6,36),new THREE.MeshBasicMaterial({color:0xc79a3b,transparent:true,opacity:.85,side:THREE.DoubleSide}));h.rotation.x=-Math.PI/2;h.position.y=.03;g.add(h)}
- const label=createLabelSprite([shortName(cfg.name),cfg.role||''],cfg.player?1.9:1.75,cfg.player?.45:.42,cfg.player?'#1c2a4a':'#3a2230',cfg.accent||'#c79a3b');label.position.set(0,2.55,0);g.add(label);g.userData.label=label;
- g.position.set(cfg.x||0,cfg.y||0,cfg.z||0);g.rotation.y=cfg.ry||0;g.userData.parts=[lA,rA,lL,rL];scene.add(g);return g}
+ const label=createLabelSprite([shortName(cfg.name),cfg.role||''],cfg.player?1.9:1.75,cfg.player?.45:.42,cfg.player?'#1c2a4a':'#3a2230',cfg.accent||'#c79a3b');label.position.set(0,2.6,0);g.add(label);g.userData.label=label;
+ g.position.set(cfg.x||0,cfg.y||0,cfg.z||0);g.rotation.y=cfg.ry||0;g.userData.parts=[lA,rA,lL,rL];g.userData.head=head;scene.add(g);return g}
 function updatePlayerLabel(){if(!avatar)return;avatar.remove(avatar.userData.label);const l=createLabelSprite([shortName(mode==='group'?group:name),mode==='group'?'Equipo de litigio':'Litigante'],1.9,.45,'#1c2a4a','#c79a3b');l.position.set(0,2.55,0);avatar.userData.label=l;avatar.add(l)}
 function init3D(){try{
  scene=new THREE.Scene();scene.background=new THREE.Color(0x1a2440);scene.fog=new THREE.Fog(0x1a2440,46,96);
@@ -372,8 +414,8 @@ function init3D(){try{
  function sign(x,y,z,t,s,bg,ac,ry,w,h){const p=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:signTex(t,s,bg,ac)}));p.position.set(x,y,z);p.rotation.y=ry;scene.add(p)}
  sign(0,4.7,-25.55,'PECULADO 360°','Sala de audiencias · Unidad Judicial Penal','#1c2a4a','#c79a3b',0,10.4,2.6);
  sign(0,4.7,25.55,'SALA DE AUDIENCIAS','Delitos contra la eficiencia de la administración pública','#5a1f2c','#c79a3b',Math.PI,10.4,2.6);
- avatar=createHumanoid({name:mode==='group'?group:name,role:'',player:true,x:0,z:17,shirt:0x2f5d9e,pants:0x1c2a4a,accent:'#c79a3b'});avatarParts=avatar.userData.parts;
- npcsData.forEach((n,i)=>{const o=createHumanoid({...n,shirt:n.color,toga:i<3,pants:0x2b2b38,accent:'#c79a3b',ry:n.z<-10?0:Math.PI*0}) ;o.userData.npc=n;npcObjects.push(o)});
+ avatar=createHumanoid({name:mode==='group'?group:name,role:'',player:true,x:0,z:17,shirt:0x2f5d9e,pants:0x1c2a4a,accent:'#c79a3b',hair:0x3a2618,tie:0xc79a3b});avatarParts=avatar.userData.parts;
+ npcsData.forEach((n,i)=>{const o=createHumanoid({...n,shirt:n.color,toga:i<3,pants:0x2b2b38,accent:'#c79a3b',ry:Math.PI});o.userData.npc=n;npcObjects.push(o)});
  clock=new THREE.Clock();
  const tgt=new THREE.Vector3(),des=new THREE.Vector3();
  function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.045);let moving=false;
@@ -381,8 +423,8 @@ function init3D(){try{
    if(fw||sd){const dx=-Math.sin(yaw)*fw+Math.cos(yaw)*sd,dz=-Math.cos(yaw)*fw-Math.sin(yaw)*sd,nn=Math.hypot(dx,dz);let nx=Math.min(23.8,Math.max(-23.8,avatar.position.x+dx/nn*6.1*dt)),nz=Math.min(23.8,Math.max(-23.8,avatar.position.z+dz/nn*6.1*dt));
     if(Math.abs(nx)<7.2&&nz<-13.6&&nz>-19.2)nz=avatar.position.z<=-19.2?-19.2:-13.6; // no atravesar el estrado
     avatar.position.x=nx;avatar.position.z=nz;avatar.rotation.y=Math.atan2(-dx,-dz);moving=true}}
-  const ph=performance.now()*.009;for(let k=0;k<4;k++)avatarParts[k].rotation.x=Math.sin(ph+(k%2?Math.PI:0))*(moving?.55:0);avatar.position.y=moving?Math.abs(Math.sin(ph))*.045:0;
-  npcObjects.forEach((n,i)=>{n.rotation.y=Math.atan2(avatar.position.x-n.position.x,avatar.position.z-n.position.z)*.0+Math.sin(ph*.4+i)*.05+(dist(n.position)<6?Math.atan2(avatar.position.x-n.position.x,avatar.position.z-n.position.z):0)});
+  const ph=performance.now()*.009;for(let k=0;k<4;k++)avatarParts[k].rotation.x=Math.sin(ph+((k===0||k===3)?0:Math.PI))*(moving?.55:0);avatar.position.y=moving?Math.abs(Math.sin(ph))*.045:0;
+  npcObjects.forEach((n,i)=>{const near=dist(n.position)<6,want=near?Math.atan2(avatar.position.x-n.position.x,avatar.position.z-n.position.z)+Math.PI:Math.PI;let d=((want-n.rotation.y+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;n.rotation.y+=d*Math.min(1,dt*5);n.userData.head.rotation.y=Math.sin(ph*.25+i)*.12;n.userData.head.rotation.x=Math.sin(ph*.18+i*2)*.04});
   tgt.set(avatar.position.x,1.4,avatar.position.z);des.set(tgt.x+Math.sin(yaw)*4.4,3.1+Math.sin(pitch)*2.05,tgt.z+Math.cos(yaw)*4.4);des.x=Math.max(-24.4,Math.min(24.4,des.x));des.z=Math.max(-24.4,Math.min(24.4,des.z));camera.position.lerp(des,Math.min(1,dt*9));camera.lookAt(tgt);
   const prevNear=nearBoard;nearBoard=-1;let bb=999;boardAnchors.forEach((b,i)=>{const dd=dist(b);if(dd<bb&&dd<3.4){bb=dd;nearBoard=i}});if(prevNear!==nearBoard)updateProgress();
   currentNPC=null;let bn=999;npcObjects.forEach(n=>{const dd=dist(n.position);if(dd<bn&&dd<2.6){bn=dd;currentNPC=n}});
