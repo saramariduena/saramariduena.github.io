@@ -32,7 +32,8 @@ input[type=text],textarea,select{width:100%;border:1px solid #c9d1e1;background:
 .hud small{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em}.hud strong{display:block;margin:3px 0}
 #top{top:calc(14px + env(safe-area-inset-top,0px));left:calc(130px + env(safe-area-inset-left,0px));max-width:min(500px,calc(100vw - 420px))}
 #progress{top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));width:260px}
-#boardList{top:calc(112px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));width:260px;max-height:calc(100vh - 190px);overflow:auto}
+#boardList{top:calc(196px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));width:260px;max-height:calc(100vh - 270px);overflow:auto}
+/*hud score*/.scoreLine{font-size:13px;margin-top:8px}.hudBtn{width:100%;margin-top:9px;padding:9px 12px;font-size:13px}
 #keys{left:calc(14px + env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));font-size:11px;color:var(--muted)}
 .bar{height:8px;border-radius:999px;background:#e2e6f0;overflow:hidden;margin-top:7px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brass),var(--wine));transition:width .25s}
 .step{font-size:12px;display:flex;align-items:center;gap:8px;margin:8px 0;cursor:pointer;background:none;border:0;padding:0;font-weight:600;color:var(--text);text-align:left;width:100%;border-radius:6px}.step span{width:23px;height:23px;border-radius:50%;display:grid;place-items:center;background:#e1e5ef;color:#4f5b74;font-weight:800;flex:none}
@@ -129,7 +130,7 @@ input[type=text],textarea,select{width:100%;border:1px solid #c9d1e1;background:
 <button id="menuButton" onclick="openMenu()">☰ MENÚ</button>
 <div id="hudWrap">
   <div id="top" class="hud"><small>SALA DE AUDIENCIAS · PECULADO 360°</small><strong id="mission">Recorre las seis pizarras</strong><small id="studentHud"></small></div>
-  <div id="progress" class="hud"><small>PROGRESO · <b id="percent">0%</b></small><div class="bar"><i id="bar"></i></div><small id="completedCount">0/6 pizarras</small></div>
+  <div id="progress" class="hud"><small>PROGRESO · <b id="percent">0%</b></small><div class="bar"><i id="bar"></i></div><small id="completedCount">0/6 pizarras</small><div class="scoreLine">Puntaje: <b id="scoreHud" class="mono">0/22</b></div><button class="darkbtn hudBtn" onclick="showReport()">▤ Ver informe final</button></div>
   <div id="boardList" class="hud"><b style="font-size:12px">PIZARRAS</b><div id="steps"></div></div>
   <div id="keys" class="hud">WASD / flechas: caminar · Ratón: mirar · E: interactuar · M: menú · Esc: liberar puntero</div>
 </div>
@@ -148,7 +149,7 @@ input[type=text],textarea,select{width:100%;border:1px solid #c9d1e1;background:
   <button class="darkbtn" onclick="showReport()">▤ Ver informe / resultado</button>
   <p class="note">Puedes abrir las pizarras desde aquí o caminar por la sala y hablar con los personajes antes de responder.</p>
 </nav>
-<div id="pause"><h3>Recorrido en pausa</h3><p class="note">Tu avatar sigue en la sala. Haz clic en «Continuar» para retomar el control o abre el menú para ir a una pizarra.</p><div class="actions"><button class="primary" onclick="capture()">▶ CONTINUAR</button><button class="secondary" onclick="openMenu()">☰ MENÚ</button></div></div>
+<div id="pause"><h3>Recorrido en pausa</h3><p class="note">Tu avatar sigue en la sala. Haz clic en «Continuar» para retomar el control, abre el menú para ir a una pizarra o revisa tu informe con el puntaje.</p><div class="actions"><button class="primary" onclick="capture()">▶ CONTINUAR</button><button class="secondary" onclick="openMenu()">☰ MENÚ</button><button class="darkbtn" onclick="showReport()">▤ INFORME</button></div></div>
 <div id="overlay"><article class="work" role="dialog" aria-modal="true" aria-labelledby="boardTitle"><div class="workHead"><div><span class="tag" id="boardTag">PIZARRA 1 DE 6</span><div class="title" id="boardTitle">Actividad</div></div><div><button class="secondary" onclick="closeBoard()">✕ Volver a la sala</button></div></div><div id="boardBody"></div><div class="actions"><button class="secondary" onclick="closeBoard()">GUARDAR BORRADOR Y SALIR</button><button class="primary" onclick="checkBoard()">✓ VALIDAR Y REGISTRAR PIZARRA</button></div><div id="boardFeedback"></div></article></div>
 <div id="dialogOverlay"><article class="work" role="dialog" aria-modal="true" aria-labelledby="dialogTitle" style="width:min(720px,96vw)"><div class="workHead"><div><span class="tag" id="dialogTag">PERSONAJE</span><div class="title" id="dialogTitle">Entrevista</div></div><div><button class="secondary" onclick="closeDialog()">✕ Cerrar</button></div></div><div id="dialogBody"></div></article></div>
 <div id="reportCover"><div class="report" id="report"></div></div>
@@ -245,7 +246,8 @@ function buildBoards(){if(window.buildBoards&&window.buildBoards!==buildBoards)w
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function shortName(t){t=String(t||'').trim();if(!t)return'Investigador';return t.length>20?t.slice(0,19)+'…':t}
 function toast(s){$('toast').textContent=s;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2600)}
-function saveState(){if(!name)return;try{localStorage.setItem(KEY,JSON.stringify({mode,group,members,name,caso,doneMap,a,time:Date.now()}))}catch(e){}}
+let storageWarned=false;
+function saveState(){if(!name)return;try{localStorage.setItem(KEY,JSON.stringify({mode,group,members,name,caso,doneMap,a,time:Date.now()}))}catch(e){if(!storageWarned){storageWarned=true;toast('Este navegador no permite guardar el avance: no cierres la página hasta copiar o imprimir tu informe.')}}}
 function loadSaved(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){return null}}
 function restore(){const s=loadSaved();if(!s?.name)return false;mode=s.mode||'group';group=s.group||'Grupo 1';members=s.members||'';name=s.name;caso=s.caso||'fundas';doneMap=s.doneMap||{};a=s.a||{};setBoards();return true}
 function updateMode(){const ind=$('mode').value==='individual';$('groupFields').classList.toggle('hidden',ind);$('groupSel').classList.toggle('hidden',ind);$('individualFields').classList.toggle('hidden',!ind)}
@@ -270,7 +272,7 @@ $('continue').onclick=()=>{if(restore()){$('mode').value=mode;updateMode();$('gr
 function setTouch(on){$('touchPad').style.display=on?'grid':'none';$('touchAct').style.display=on?'block':'none'}
 function scoreOf(i){return boards[i].questions.filter((q,j)=>a[qid(i,j)]===String(q[2])).length}
 const totalQ=()=>boards.reduce((s,b)=>s+b.questions.length,0);
-function updateProgress(){const n=doneCount();$('percent').textContent=Math.round(n/N*100)+'%';$('bar').style.width=(n/N*100)+'%';$('completedCount').textContent=n+'/'+N+' pizarras';
+function updateProgress(){const n=doneCount();$('percent').textContent=Math.round(n/N*100)+'%';$('bar').style.width=(n/N*100)+'%';$('completedCount').textContent=n+'/'+N+' pizarras';$('scoreHud').textContent=boards.reduce((t,_,i)=>t+(D(i)?scoreOf(i):0),0)+'/'+totalQ();
  const next=boards.findIndex((_,i)=>!D(i));$('mission').textContent=n===N?'Expediente completo · genera tu informe final':'Siguiente: '+boards[next].title;
  $('menuStudent').textContent=(mode==='group'?group:name)+' · '+n+' de '+N+' pizarras completadas';
  $('steps').innerHTML=boards.map((b,i)=>`<button class="step ${D(i)?'done':''} ${i===nearBoard?'now':''}" onclick="openBoard(${i})"><span>${D(i)?'✓':i+1}</span>${esc(b.short)}</button>`).join('');
@@ -288,7 +290,7 @@ function checkBoard(){readInputs();if(active<0)return;const b=boards[active];con
  if(qs.some(k=>a[k]===undefined))return toast('Responde todas las preguntas de opción múltiple.');
  if(b.fields.some(f=>(a[f[0]]||'').trim().length<40))return toast('Desarrolla la respuesta abierta (mínimo 40 caracteres).');
  doneMap[boards[active].id]=true;$('boardBody').innerHTML=boardHTML(active,true);$('boardFeedback').innerHTML=feedbackHTML(active);updateProgress();saveState();
- toast('Pizarra '+(active+1)+' incorporada al informe');$('boardFeedback').scrollIntoView({behavior:'smooth',block:'nearest'})}
+ if(doneCount()===N){toast('¡Expediente completo! Abriendo tu informe final…');setTimeout(()=>{if(active>=0){active=-1;$('overlay').style.display='none'}showReport()},1800)}else toast('Pizarra '+(active+1)+' incorporada al informe · Puntaje total: '+$('scoreHud').textContent);$('boardFeedback').scrollIntoView({behavior:'smooth',block:'nearest'})}
 function grade(score){const p=score/totalQ();return p>=.9?['SOBRESALIENTE','Dominio sólido de verbos, prueba y casos.']:p>=.75?['MUY BUENO','Buen manejo; revisa las preguntas marcadas.']:p>=.6?['SUFICIENTE','Vuelve a las pizarras con más errores.']:['EN PROCESO','Repasa el material y vuelve a intentarlo.']}
 function reportText(){let t=`PECULADO 360° · INFORME\n${mode==='group'?'Grupo: '+group+'\nIntegrantes:\n'+members:'Participante: '+name}\nCaso elegido: ${CASES[caso]}\nFecha: ${new Date().toLocaleDateString('es-EC')}\n\n`;boards.forEach((b,i)=>{t+=`PIZARRA ${i+1}. ${b.title} (${scoreOf(i)}/${b.questions.length})\n`;b.questions.forEach((q,j)=>{const p=a[qid(i,j)];t+=`  ${j+1}. ${p===undefined?'Sin respuesta':q[1][+p]} ${p===String(q[2])?'✓':'✕'}\n`});b.fields.forEach(([id,l])=>t+=`  Respuesta abierta: ${a[id]||'Sin respuesta'}\n`);t+='\n'});t+='REFLEXIÓN FINAL\n'+(a.finalReflection||'');return t}
 function copyReport(){const t=reportText();const fb=()=>{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Informe copiado')}catch(e){toast('No se pudo copiar automáticamente')}ta.remove()};try{navigator.clipboard.writeText(t).then(()=>toast('Informe copiado al portapapeles'),fb)}catch(e){fb()}}
