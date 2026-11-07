@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Peculado 360°</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Sala de audiencias 3D + pizarras de trabajo. Paleta judicial: azul toga, vino de estrado, latón de sello. */
+:root{--navy:#1c2a4a;--blue:#2f5d9e;--wine:#8a2b3f;--brass:#c79a3b;--brassSoft:#f3e3bd;--teal:#1f7d74;--bg:#141d33;--panel:#f6f7fb;--line:#dadfea;--text:#1c2a40;--muted:#5d6880;--good:#1f7d62;--bad:#a53f48;--paper:#ffffff;color-scheme:light}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:"Public Sans",Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,textarea,select{font:inherit}button{cursor:pointer;border:0;border-radius:11px;padding:12px 16px;font-weight:800}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,label.opt:focus-within{outline:3px solid var(--brass);outline-offset:2px}
+.primary{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff}.secondary{background:#eef1f8;color:var(--navy);border:1px solid #cdd5e5}.accent{background:linear-gradient(135deg,var(--brass),#e1bd6d);color:#3d2a06}.darkbtn{background:var(--wine);color:#fff}
+.disp{font-family:"Bitter",Georgia,serif}
+.cover{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:22px max(16px,env(safe-area-inset-right,0px)) 22px max(16px,env(safe-area-inset-left,0px));background:radial-gradient(circle at 12% 8%,#8a2b3f33 0,transparent 32%),radial-gradient(circle at 88% 90%,#c79a3b40 0,transparent 30%),linear-gradient(135deg,#e9edf6,#eef0f6 55%,#f7f0e2)}
+.intro{width:min(1040px,100%);max-height:94vh;overflow:auto;background:#fffffff7;border:1px solid #d3d9e6;border-radius:24px;box-shadow:0 32px 90px #0b142a33;display:grid;grid-template-columns:1.15fr .85fr}
+.introMain{padding:34px 36px;min-width:0}.introAside{padding:34px;background:linear-gradient(180deg,#f1f3fa,#f7efe0);border-left:1px solid #dfe3ec;min-width:0}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--wine)}
+h1{font-family:"Bitter",Georgia,serif;font-size:clamp(34px,5vw,58px);line-height:1;letter-spacing:-.03em;margin:10px 0;color:var(--navy);text-wrap:balance}
+h2{font-family:"Bitter",Georgia,serif;font-size:23px;margin:8px 0 10px;letter-spacing:-.01em;text-wrap:balance}h3{font-family:"Bitter",Georgia,serif;margin:16px 0 8px}
+p{line-height:1.58}.lead{color:var(--muted);font-size:16px;max-width:62ch}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{display:block;font-size:13px;font-weight:800;margin:14px 0 6px}
+input[type=text],textarea,select{width:100%;border:1px solid #c9d1e1;background:#fff;border-radius:10px;padding:12px;color:var(--text)}textarea{min-height:84px;resize:vertical}
+.card{padding:13px 15px;border:1px solid #d7dcea;border-radius:13px;background:#fff;margin:10px 0}.card b{display:block}.card span{color:var(--muted);font-size:12px}
+.tag{display:inline-flex;align-items:center;gap:8px;background:#f6ecd6;border:1px solid #e6d2a4;color:#5b420e;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;border-radius:999px}
+.note{font-size:12px;color:var(--muted);line-height:1.55}.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;margin-top:18px}.intro .actions{justify-content:flex-start}
+#world{position:fixed;inset:0;background:#1a2440;touch-action:none}#world canvas{display:block}
+#hudWrap{position:fixed;inset:0;z-index:10;pointer-events:none;display:none}
+.hud{position:absolute;background:#fffffff2;border:1px solid #cfd6e6;border-radius:13px;padding:11px 14px;box-shadow:0 8px 28px #00000022;pointer-events:auto}
+.hud small{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em}.hud strong{display:block;margin:3px 0}
+#top{top:calc(14px + env(safe-area-inset-top,0px));left:calc(130px + env(safe-area-inset-left,0px));max-width:min(500px,calc(100vw - 420px))}
+#progress{top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));width:260px}
+#boardList{top:calc(112px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));width:260px;max-height:calc(100vh - 190px);overflow:auto}
+#keys{left:calc(14px + env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));font-size:11px;color:var(--muted)}
+.bar{height:8px;border-radius:999px;background:#e2e6f0;overflow:hidden;margin-top:7px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brass),var(--wine));transition:width .25s}
+.step{font-size:12px;display:flex;align-items:center;gap:8px;margin:8px 0;cursor:pointer;background:none;border:0;padding:0;font-weight:600;color:var(--text);text-align:left;width:100%;border-radius:6px}.step span{width:23px;height:23px;border-radius:50%;display:grid;place-items:center;background:#e1e5ef;color:#4f5b74;font-weight:800;flex:none}
+.step.done span{background:var(--teal);color:#fff}.step.now span{background:var(--brass);color:#3d2a06}
+#prompt{position:fixed;bottom:calc(76px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);z-index:12;background:#fbf1da;border:1px solid #e3c47c;border-radius:12px;padding:11px 16px;box-shadow:0 8px 24px #0003;font-weight:800;display:none;color:#55390b;max-width:calc(100vw - 32px)}
+#menuButton{position:fixed;top:calc(15px + env(safe-area-inset-top,0px));left:calc(15px + env(safe-area-inset-left,0px));z-index:14;display:none;background:linear-gradient(135deg,var(--brass),#e1bd6d);color:#3d2a06;box-shadow:0 8px 24px #0003}
+#menuShade{position:fixed;inset:0;background:#0009;display:none;z-index:15}
+#menu{position:fixed;left:0;top:0;bottom:0;width:370px;max-width:92vw;background:#fafbfe;z-index:16;transform:translateX(-105%);transition:transform .22s;box-shadow:10px 0 34px #0004;padding:calc(24px + env(safe-area-inset-top,0px)) 24px 24px calc(24px + env(safe-area-inset-left,0px));overflow:auto}
+#menu.open{transform:translateX(0)}#menu>button{width:100%;text-align:left;margin:6px 0}#menu .card{cursor:pointer;width:100%;text-align:left;font-weight:400}#menu .card:hover{border-color:#a9b6d3}
+#pause{position:fixed;z-index:13;left:50%;top:50%;transform:translate(-50%,-50%);width:400px;max-width:90vw;background:#fffffffa;border:1px solid #cfd6e6;border-radius:18px;padding:22px;text-align:center;display:none;box-shadow:0 16px 48px #0004}
+#pause .actions{justify-content:center}
+#overlay,#dialogOverlay{position:fixed;inset:0;z-index:20;background:#0d1530c4;display:none;place-items:center;padding:16px}
+.work{width:min(1000px,97vw);max-height:94vh;overflow:auto;background:#fff;border-radius:20px;box-shadow:0 20px 80px #0008;padding:24px 28px}
+.workHead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:12px}
+.title{font-family:"Bitter",Georgia,serif;font-size:25px;font-weight:700;letter-spacing:-.01em;color:var(--navy)}
+.case{background:#f1f4fb;border:1px solid #d3dbec;border-left:5px solid var(--blue);padding:13px 16px;border-radius:9px;font-size:14px;line-height:1.6;margin:15px 0}
+.case.law{background:#fbf5e7;border-color:#ecdcb4;border-left-color:var(--brass)}.case.reflect{background:#f8eef0;border-color:#ebd0d6;border-left-color:var(--wine)}
+.quote{font-family:"Bitter",Georgia,serif;font-style:italic}
+.q{padding:14px 0;border-bottom:1px solid #e6e9f1}.q strong{display:block;margin:2px 0 9px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:9px;border:1px solid #d6dcea;border-radius:10px;background:#fff;padding:10px 12px;font-size:13px;cursor:pointer;margin:0;font-weight:500;line-height:1.45}
+.opt:has(input:checked){background:#eef2fb;border-color:#7d97c9}.opt input{accent-color:var(--navy);width:16px;height:16px;margin:2px 0 0;flex:none}
+.opt.right{background:#e9f6f0;border-color:#5fae8f}.opt.wrong{background:#fbecee;border-color:#d58b95}
+.explain{margin-top:9px;font-size:13px;line-height:1.55;padding:9px 12px;border-radius:8px;background:#f6f7fb;border:1px solid #e1e5ef}
+.feedback{margin-top:14px;padding:12px 14px;border-left:4px solid var(--brass);background:#fbf3e1;border-radius:6px;font-size:13px;line-height:1.55}.feedback.ok{background:#ebf7f1;border-color:var(--good)}
+.response{margin:8px 0 14px;border:1px solid var(--line);background:#fbfcfe;border-radius:8px;padding:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0}th,td{border:1px solid #d9dfeb;text-align:left;padding:10px;vertical-align:top}th{background:#f0f2f8}
+#reportCover{display:none;position:fixed;inset:0;z-index:40;background:#e9ecf4;overflow:auto;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px))}
+.report{max-width:920px;margin:0 auto;background:#fff;padding:34px;box-shadow:0 12px 34px #0002;border-radius:14px}.report .actions{position:sticky;top:0;background:#fff;padding:8px 0;z-index:2}
+.scorebox{display:flex;gap:14px;flex-wrap:wrap;align-items:center}.seal{width:92px;height:92px;border-radius:50%;border:3px double var(--wine);display:grid;place-items:center;text-align:center;color:var(--wine);font-weight:800;font-size:12px;line-height:1.15;transform:rotate(-8deg);flex:none;font-family:"Bitter",Georgia,serif}
+.seal b{display:block;font-size:22px}
+#toast{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom,0px));right:calc(18px + env(safe-area-inset-right,0px));z-index:60;background:var(--navy);color:#fff;padding:13px 18px;border-radius:11px;opacity:0;transform:translateY(15px);transition:.25s;pointer-events:none;max-width:calc(100vw - 36px)}#toast.show{opacity:1;transform:none}
+.npcname{display:flex;align-items:center;gap:12px;margin-bottom:12px}.avatarBadge{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#f3e8cf;color:#6b4a0e;font-weight:800;font-size:20px;border:1px solid #e3cf9f;flex:none;font-family:"Bitter",Georgia,serif}
+.dialogue{font-size:16px;line-height:1.6;background:#f5f7fc;border:1px solid #dbe1ee;padding:16px;border-radius:12px}
+.clue{margin-top:12px;padding:11px 13px;border-radius:9px;background:#fbf3df;border:1px solid #ead494;font-size:13px;line-height:1.55}
+.hidden{display:none!important}
+#fallback{display:none;position:fixed;inset:0;background:#eef1f8;z-index:6;padding:35px max(16px,env(safe-area-inset-right,0px)) 35px max(16px,env(safe-area-inset-left,0px));overflow:auto}
+.fallbackBoards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}#fallback button{background:#fff;border:1px solid #cfd6e6;padding:24px;min-height:120px;text-align:left;font-weight:500;color:var(--text)}
+#touchPad{position:fixed;z-index:11;left:calc(16px + env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:none;grid-template-columns:repeat(3,52px);grid-template-rows:repeat(2,52px);gap:6px}
+#touchPad button{padding:0;background:#ffffffe0;color:var(--navy);border:1px solid #cfd6e6;font-size:20px;touch-action:none;user-select:none;-webkit-user-select:none}
+#touchAct{position:fixed;z-index:11;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:none;width:74px;height:74px;border-radius:50%;padding:0;font-size:22px}
+@media (max-width:860px){.intro{display:block}.introMain,.introAside{padding:22px}#top{left:calc(14px + env(safe-area-inset-left,0px));top:calc(68px + env(safe-area-inset-top,0px));max-width:calc(100vw - 28px)}#boardList,#keys{display:none!important}#progress{width:170px}.opts,.grid2,.fallbackBoards{grid-template-columns:1fr}.work{padding:18px}.title{font-size:20px}.report{padding:20px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{#world,#hudWrap,#menuButton,#menu,#menuShade,#pause,#prompt,#overlay,#dialogOverlay,#toast,#start,#fallback,#touchPad,#touchAct{display:none!important}html,body{overflow:visible;height:auto;background:#fff}#reportCover{position:static;display:block!important;padding:0;background:#fff;overflow:visible}.report{box-shadow:none;max-width:none;padding:0}.report .actions{display:none!important}#finalReflection{display:none!important}#printReflection{display:block!important}@page{size:A4;margin:14mm}}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,500;0,700;0,800;1,500&family=Public+Sans:wght@400;500;600;800&family=IBM+Plex+Mono:wght@500&display=swap">
+
+<section id="start" class="cover">
+  <div class="intro">
+    <div class="introMain">
+      <div class="eyebrow">Laboratorio inmersivo · Delitos contra la administración pública · Ecuador</div>
+      <h1>PECULADO <span style="color:var(--wine)">360°</span></h1>
+      <h2 style="color:var(--blue);font-size:21px">Artículo 278 del COIP: verbos rectores, prueba y análisis de un caso</h2>
+      <p class="lead">Recorre una sala de audiencias en 3D con tu avatar, conversa con la fiscal, la defensa, la jueza, la perita y otros personajes, elige un caso real para analizar y resuelve seis pizarras construidas a partir del material de estudio del Tema 2.</p>
+      <div class="grid2">
+        <div>
+          <label for="mode">Modalidad de trabajo</label>
+          <select id="mode"><option value="group">Grupal</option><option value="individual">Individual</option></select>
+        </div>
+        <div id="groupSel">
+          <label for="group">Grupo</label>
+          <select id="group"><option>Grupo 1</option><option>Grupo 2</option><option>Grupo 3</option><option>Grupo 4</option><option>Grupo 5</option><option>Grupo 6</option></select>
+        </div>
+      </div>
+      <label for="caso">Caso que vas a analizar</label>
+      <select id="caso"><option value="fundas">Caso Fundas para cadáveres · Hospital IESS Los Ceibos (2020)</option><option value="chobo">Caso El Chobo · GAD Municipal de Durán</option></select>
+      <div id="groupFields">
+        <label for="members">Integrantes (uno por línea)</label>
+        <textarea id="members" placeholder="1. Nombre Apellido&#10;2. Nombre Apellido&#10;3. Nombre Apellido"></textarea>
+      </div>
+      <div id="individualFields" class="hidden">
+        <label for="student">Nombre y apellido</label>
+        <input id="student" type="text" maxlength="58" placeholder="Ej. Andrea Pérez" autocomplete="name">
+      </div>
+      <div class="actions">
+        <button class="primary" id="begin">▶ INGRESAR A LA SALA</button>
+        <button class="secondary hidden" id="continue">↻ RETOMAR AVANCE</button>
+        <button class="secondary" id="listMode">☷ JUGAR SIN 3D</button>
+      </div>
+      <p class="note">Los casos reales se presentan según las fuentes del material de estudio. El avance se guarda en este navegador. Controles: WASD o flechas para caminar, ratón para mirar, E para interactuar, M para el menú y Esc para liberar el puntero. En teléfono aparecen botones táctiles.</p>
+    </div>
+    <aside class="introAside">
+      <div class="eyebrow">Qué vas a encontrar</div>
+      <div class="card"><b>Sala de audiencias recorrible</b><span>Estrado, mesas de Fiscalía y Defensa, archivo de Contraloría y seis pizarras en las paredes.</span></div>
+      <div class="card"><b>Elige tu caso</b><span>Fundas para cadáveres (disposición arbitraria en emergencia) o El Chobo (cadena de firmas y coautoría en un GAD).</span></div>
+      <div class="card"><b>Cinco personajes del proceso</b><span>Fiscal, defensor, jueza, perita de Contraloría y analista de compras públicas.</span></div>
+      <div class="card"><b>Seis pizarras · 21 preguntas</b><span>Cada respuesta se corrige con su explicación y su fuente: COIP, Constitución y sentencias de la Corte Constitucional.</span></div>
+      <div class="card"><b>Informe final</b><span>Resume tus respuestas, tu puntaje, tus argumentos abiertos y una reflexión para entregar al docente.</span></div>
+    </aside>
+  </div>
+</section>
+<div id="world"></div>
+<section id="fallback"><div class="eyebrow">Modo sin 3D</div><h2>Pizarras de la sala</h2><p class="note">Entra directamente a cualquiera de las seis pizarras. Puedes volver al menú o al informe en cualquier momento.</p><div class="actions" style="justify-content:flex-start"><button class="secondary" onclick="openMenu()">☰ Menú</button><button class="darkbtn" onclick="showReport()">▤ Ver informe</button></div><div class="fallbackBoards" id="fallbackBoards" style="margin-top:14px"></div></section>
+<button id="menuButton" onclick="openMenu()">☰ MENÚ</button>
+<div id="hudWrap">
+  <div id="top" class="hud"><small>SALA DE AUDIENCIAS · PECULADO 360°</small><strong id="mission">Recorre las seis pizarras</strong><small id="studentHud"></small></div>
+  <div id="progress" class="hud"><small>PROGRESO · <b id="percent">0%</b></small><div class="bar"><i id="bar"></i></div><small id="completedCount">0/6 pizarras</small></div>
+  <div id="boardList" class="hud"><b style="font-size:12px">PIZARRAS</b><div id="steps"></div></div>
+  <div id="keys" class="hud">WASD / flechas: caminar · Ratón: mirar · E: interactuar · M: menú · Esc: liberar puntero</div>
+</div>
+<button id="prompt" type="button" onclick="interact()"></button>
+<div id="touchPad"><span></span><button data-k="KeyW" aria-label="Avanzar">▲</button><span></span><button data-k="KeyA" aria-label="Izquierda">◀</button><button data-k="KeyS" aria-label="Retroceder">▼</button><button data-k="KeyD" aria-label="Derecha">▶</button></div>
+<button id="touchAct" class="accent" onclick="interact()" aria-label="Interactuar">E</button>
+<div id="menuShade" onclick="closeMenu(false)"></div>
+<nav id="menu">
+  <div class="eyebrow">Centro de navegación</div>
+  <h2>Mi expediente</h2>
+  <p class="note" id="menuStudent"></p>
+  <button class="primary" onclick="closeMenu(true)">▶ Volver a la sala</button>
+  <button class="secondary" onclick="home()">⌂ Ir al inicio</button>
+  <button class="secondary" onclick="teleportCenter()">↶ Ir al centro de la sala</button>
+  <div id="menuBoards"></div>
+  <button class="darkbtn" onclick="showReport()">▤ Ver informe / resultado</button>
+  <p class="note">Puedes abrir las pizarras desde aquí o caminar por la sala y hablar con los personajes antes de responder.</p>
+</nav>
+<div id="pause"><h3>Recorrido en pausa</h3><p class="note">Tu avatar sigue en la sala. Haz clic en «Continuar» para retomar el control o abre el menú para ir a una pizarra.</p><div class="actions"><button class="primary" onclick="capture()">▶ CONTINUAR</button><button class="secondary" onclick="openMenu()">☰ MENÚ</button></div></div>
+<div id="overlay"><article class="work" role="dialog" aria-modal="true" aria-labelledby="boardTitle"><div class="workHead"><div><span class="tag" id="boardTag">PIZARRA 1 DE 6</span><div class="title" id="boardTitle">Actividad</div></div><div><button class="secondary" onclick="closeBoard()">✕ Volver a la sala</button></div></div><div id="boardBody"></div><div class="actions"><button class="secondary" onclick="closeBoard()">GUARDAR BORRADOR Y SALIR</button><button class="primary" onclick="checkBoard()">✓ VALIDAR Y REGISTRAR PIZARRA</button></div><div id="boardFeedback"></div></article></div>
+<div id="dialogOverlay"><article class="work" role="dialog" aria-modal="true" aria-labelledby="dialogTitle" style="width:min(720px,96vw)"><div class="workHead"><div><span class="tag" id="dialogTag">PERSONAJE</span><div class="title" id="dialogTitle">Entrevista</div></div><div><button class="secondary" onclick="closeDialog()">✕ Cerrar</button></div></div><div id="dialogBody"></div></article></div>
+<div id="reportCover"><div class="report" id="report"></div></div>
+<div id="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+'use strict';
+const $=id=>document.getElementById(id), KEY='peculado360_tema2_v2';
+const CASES={fundas:'Caso Fundas para cadáveres (Hospital IESS Los Ceibos)',chobo:'Caso El Chobo (GAD Municipal de Durán)'};
+const ALL=[
+{id:'verbos',title:'Verbos rectores del peculado',short:'Verbos rectores',sign:'VERBOS',sub:'Art. 278, inciso primero',accent:'#2f5d9e',
+ intro:'El tipo es alternativo: basta con uno de los cuatro verbos (abusar, apropiarse, distraer, disponer arbitrariamente). Cada verbo tiene su propio momento de consumación y su propia prueba. Todos exigen que el bien esté en poder del autor en virtud o razón de su cargo y que la conducta sea en beneficio propio o de terceros.',
+ legal:'Art. 278 COIP, reformado por la Ley Orgánica Reformatoria del COIP en materia anticorrupción (R.O. 2.º Supl. 392, 17-02-2021): pena de 10 a 13 años. Art. 13 COIP (interpretación estricta).',
+ questions:[
+  ['La tesorera de una junta parroquial transfiere USD 18.000 a la cuenta de su cónyuge con la glosa «anticipo de obra», sin contrato, orden de pago ni obra. ¿Qué verbo se configura?',['Distraer','Apropiarse','Abusar','Disponer arbitrariamente'],1,'Apropiarse es incorporar el bien público al patrimonio propio o de un tercero. Se consuma cuando el dinero sale de la esfera de la administración, y la prueba típica es el rastro financiero.'],
+  ['El director financiero de un municipio usa un crédito destinado a alcantarillado para pagar por anticipado a la empresa de eventos de un concejal. ¿Qué verbo se configura?',['Distraer','Apropiarse','Disponer arbitrariamente','Ninguno: es solo una infracción presupuestaria'],0,'Distraer es apartar el bien de su destino legal y darle otro. El director no se apropia del dinero, pero hay un tercero beneficiado, y eso permite el encaje penal.'],
+  ['¿Qué verbo es el típico de los grandes casos de contratación pública, donde el dinero sale con firma, resolución y orden de pago?',['Abusar','Apropiarse','Disponer arbitrariamente','Distraer'],2,'Disponer arbitrariamente es ejercer una facultad de disposición que el servidor sí tiene, pero al margen de las reglas que la condicionan. Lo arbitrario no está en la forma sino en la falta de justificación jurídica.'],
+  ['La tesorera devuelve el dinero apropiado un mes después. ¿Qué efecto tiene la devolución?',['Extingue el delito','Convierte el hecho en peculado culposo','No borra el delito; podrá valorarse como reparación','Obliga a archivar la causa'],2,'El apropiamiento se consuma con la salida del bien. No hace falta que el autor lo gaste, y la devolución posterior solo se valora como reparación.']],
+ fields:[['f0a','Para reflexionar: un jefe departamental usa la camioneta institucional los fines de semana para su negocio familiar. ¿Abuso del inciso primero (10 a 13 años) o uso lucrativo de bienes del sector público del numeral 1, literal a (5 a 7 años)? Fundamenten con el principio de especialidad y el art. 13 COIP.']]},
+{id:'estructura',title:'Estructura del artículo 278 después de 2021',short:'Estructura y penas',sign:'ART. 278',sub:'Incisos, numerales y penas',accent:'#8a2b3f',
+ intro:'Después de la reforma de 2021, el artículo 278 tiene un inciso primero (peculado clásico), un inciso segundo (peculado bancario), tres numerales con penas distintas y una regla de agravación al máximo.',
+ legal:'Art. 278 COIP (incisos y numerales 1 a 3); art. 27 COIP; art. 76.3 CRE (irretroactividad de la ley penal desfavorable).',
+ questions:[
+  ['¿Qué pena corresponde al numeral 1 (uso lucrativo de trabajadores o bienes del sector público, o aprovechamiento de información reservada)?',['10 a 13 años','7 a 10 años','5 a 7 años','1 a 3 años'],2,'El numeral 1 sanciona con 5 a 7 años. El numeral 2 (créditos vinculados) con 7 a 10, y el inciso primero y el numeral 3 con 10 a 13.'],
+  ['¿En qué supuesto se impone el máximo de la pena?',['Siempre que el perjuicio supere USD 100.000','Si se aprovecha una emergencia o estado de excepción, o si recae sobre fondos de salud, alimentación, educación, vivienda o seguridad social','Solo si el autor es la máxima autoridad de la entidad','Cuando el procesado no devuelve el dinero'],1,'La agravación también aplica si el hecho se relaciona con áreas protegidas, recursos naturales, sectores estratégicos o defensa nacional.'],
+  ['Un servidor maneja fondos con grave negligencia, sin dolo. ¿Cómo se resuelve?',['Peculado culposo con pena reducida','Peculado por distracción','No hay peculado culposo: responde administrativa y civilmente ante la Contraloría','Peculado bancario'],2,'El COIP no tipifica el peculado culposo. La negligencia, por grave que sea, se resuelve en la responsabilidad administrativa y civil que determina la Contraloría (art. 27 COIP).']],
+ fields:[['f1a','Expliquen por qué la regla de agravación al máximo, introducida en 2021, no puede aplicarse a hechos de 2020, aunque se hayan cometido en plena emergencia sanitaria (art. 76.3 CRE).']]},
+{id:'prueba',title:'Diligencias para sustentar o controvertir la acusación',short:'Prueba y defensa',sign:'PRUEBA',sub:'Acusación y defensa',accent:'#1f7d74',
+ intro:'Una acusación es tan sólida como el más débil de sus elementos probados, y una defensa eficaz no discute todo sino el elemento que la Fiscalía no logró cerrar. La matriz recorre el tipo elemento por elemento: sujeto activo, relación funcional, objeto y perjuicio, verbo rector, dolo y beneficio, y agravación.',
+ legal:'Sentencia 5-13-IN/19 de la Corte Constitucional (02-07-2019, párr. 62); Sentencia 129-21-IN/25 (19-06-2025); art. 5.3 y 455 COIP; art. 76.2 y 76.4 CRE.',
+ questions:[
+  ['Según la Sentencia 5-13-IN/19, ¿qué valor tiene el informe de la Contraloría en un proceso por peculado?',['Es requisito de procedibilidad sin el cual no hay acción penal','Es una vía de noticia del delito con indicios que pueden confirmarse o refutarse','Es prueba plena e irrefutable del perjuicio','Solo sirve para el proceso administrativo y no puede usarse en lo penal'],1,'La Corte declaró inconstitucional exigir el informe como requisito de procedibilidad, porque limitaba la autonomía de la Fiscalía y vaciaba la imprescriptibilidad.'],
+  ['La defensa alega «intervención de mero trámite» y «principio de confianza en los demás eslabones». ¿Qué elemento del tipo está discutiendo?',['Calidad del sujeto activo','Agravación','Relación funcional con el bien (disponibilidad jurídica)','Objeto y perjuicio'],2,'La relación funcional se acredita con manual de funciones, delegaciones, actas de entrega-recepción y roles en los sistemas. La defensa la ataca negando la disponibilidad jurídica.'],
+  ['¿Qué estándar de prueba exige la condena por peculado en Ecuador?',['Probabilidad preponderante, por la dificultad de probar la corrupción','Convencimiento más allá de toda duda razonable; la duda favorece al reo','Basta el informe de Contraloría','Presunción de responsabilidad del servidor que firmó'],1,'Art. 5.3 COIP y art. 76.2 CRE. La dificultad probatoria se resuelve construyendo mejor la prueba indirecta a partir de hechos probados (art. 455 COIP), no bajando el estándar.'],
+  ['¿A qué delito aplicó la Sentencia 129-21-IN/25 la misma lógica sobre el informe de Contraloría?',['Lavado de activos','Sobreprecios en contratación pública (art. 294.1)','Concusión','Enriquecimiento privado no justificado'],1,'La sentencia de 19 de junio de 2025 extendió el criterio al delito de sobreprecios en contratación pública.']],
+ fields:[['f2a','Elijan un elemento del tipo (p. ej. «verbo rector» o «dolo y beneficio»). Propongan dos diligencias que pediría la Fiscalía y un argumento concreto que plantearía la defensa.']]},
+{id:'fundas',caseKey:'fundas',title:'Desvío de fondos en compra de insumos médicos',short:'Caso Fundas para cadáveres',sign:'INSUMOS',sub:'Hospital IESS Los Ceibos',accent:'#c79a3b',
+ intro:'Caso Fundas para cadáveres (Hospital del IESS Los Ceibos, Guayaquil). Durante la emergencia sanitaria de 2020 el hospital pagó, según la información periodística, USD 148,50 por cada una de 4.000 fundas cuyo precio rondaba los USD 12. El 5 de julio de 2021 el Tribunal de Garantías Penales del Guayas condenó por peculado a ocho personas: siete a trece años como autores y una a seis años y seis meses como cómplice. El 13 de mayo de 2024 la Corte Provincial del Guayas ratificó la condena.',
+ legal:'Art. 278 COIP (texto vigente en 2020); art. 233, último inciso, CRE; art. 76.3 CRE.',
+ questions:[
+  ['¿Qué verbo rector eligió la Fiscalía y por qué?',['Apropiarse, porque las servidoras se quedaron con el dinero','Distraer, porque el dinero iba a otro programa','Disponer arbitrariamente, porque el dinero salió mediante un procedimiento formalmente válido','Abusar, porque fue el verbo incorporado en 2021'],2,'La tesis fiscal fue que la gerente, la responsable de compras y la subdirectora financiera dispusieron arbitrariamente de fondos públicos pese a que existían cotizaciones a menor precio.'],
+  ['El empresario condenado no era servidor público. ¿Por qué vía respondió?',['Por ser proveedor del Estado según el art. 278 vigente en 2020','Por el último inciso del art. 233 CRE, que extiende estas normas a quienes participan sin ser servidores','Por lavado de activos','No podía responder penalmente'],1,'En 2020 el art. 278 todavía no mencionaba a los proveedores del Estado; esa mención llegó con la reforma de 2021.'],
+  ['¿Pudo el tribunal aplicar la regla de 2021 que obliga a imponer el máximo por aprovechar la emergencia y usar fondos de salud?',['Sí, porque la emergencia estaba vigente','Sí, porque la condena se dictó en 2021','No, por la irretroactividad de la ley penal desfavorable: los hechos son de 2020','No, porque el IESS no maneja fondos públicos'],2,'La agravación solo se aplica a hechos posteriores a su vigencia (art. 76.3 CRE). El máximo de trece años tuvo que alcanzarse por otra vía.']],
+ fields:[['f3a','Para reflexionar: la pena de trece años coincide con el máximo del tipo. ¿Por qué otra vía pudo llegar el tribunal al máximo sin aplicar la regla de 2021?']]},
+{id:'chobo',caseKey:'chobo',title:'Peculado en los GAD municipales del Guayas',short:'Caso El Chobo',sign:'GAD',sub:'Caso El Chobo · Durán',accent:'#2f5d9e',
+ intro:'Caso El Chobo (GAD Municipal de Durán). Contratos del sistema de agua potable financiados con un préstamo y fideicomiso del Banco de Desarrollo del Ecuador; contrato principal de unos USD 23,78 millones y perjuicio sostenido por la Fiscalía superior a USD 41 millones. Llamamiento a juicio el 11 de septiembre de 2025. Sentencia del 6 de enero de 2026 contra dos exalcaldes y otros diez procesados.',
+ legal:'Art. 278 COIP; coautoría; inhabilitación para cargos públicos.',
+ questions:[
+  ['¿Qué pena impuso el tribunal a los doce procesados del caso El Chobo?',['Siete años y reparación integral','Trece años de prisión e inhabilitación permanente para cargos públicos','Diez años y multa','Seis años y seis meses como cómplices'],1,'La Corte Provincial del Guayas condenó a ambos exalcaldes, administradores de contrato, directores, fiscalizadores y un contratista a trece años por peculado.'],
+  ['¿Qué lógica permitió a la Fiscalía plantear coautoría entre tantos funcionarios?',['Todos pertenecían a la misma institución','La cadena de firmas: cada eslabón (adjudica, califica, recibe planillas, certifica, paga) tiene una porción de disponibilidad jurídica sobre los fondos','La responsabilidad objetiva del alcalde','El informe de Contraloría los nombraba a todos'],1,'Esa lógica obliga a cada defensa a reconstruir qué competencia tenía su cliente y qué sabía al firmar.'],
+  ['El 30 de octubre de 2026 la Fiscalía allanó oficinas del Municipio de Playas por presunto peculado. ¿Cuál es el estado de esa causa según el material?',['Hay sentencia condenatoria','Hay llamamiento a juicio','Es una investigación en fase inicial, sin cargos resueltos','Fue archivada'],2,'Al ser una investigación inicial, rige plenamente la presunción de inocencia.']],
+ fields:[['f4a','Asuman la defensa del fiscalizador de la obra. ¿Qué tendrían que reconstruir sobre su competencia y su conocimiento al firmar para discutir su coautoría?']]},
+{id:'glosas',title:'Desvanecimiento de glosas: tres delitos distintos',short:'Cohecho, concusión, tráfico',sign:'GLOSAS',sub:'Cohecho · Concusión · Tráfico',accent:'#8a2b3f',
+ intro:'La glosa es la responsabilidad civil que determina la Contraloría. En el cohecho el servidor vende su función a quien quiere comprarla; en la concusión exige un pago a quien no quiere darlo, valiéndose del temor que inspira su cargo; en el tráfico de influencias presiona a otro servidor para que decida a favor de alguien.',
+ legal:'Arts. 280 (cohecho), 281 (concusión), 285-286 (tráfico de influencias) COIP; art. 233 CRE (imprescriptibilidad y juicio en ausencia).',
+ questions:[
+  ['El excontralor Carlos Pólit exigió y recibió de Odebrecht unos USD 10,1 millones entre 2010 y 2015. ¿Por qué delito fue condenado en Ecuador?',['Cohecho','Concusión','Tráfico de influencias','Peculado'],1,'El 6 de junio de 2018 la Corte Nacional lo condenó como autor de concusión a seis años, con reparación integral de USD 40,4 millones. El juicio se realizó en su ausencia (art. 233 CRE).'],
+  ['En el caso Celu, el exdirector de Responsabilidades declaró que el excontralor le ordenó desvanecer en 24 horas una glosa de unos USD 111 millones a Conecel. ¿Por qué delito fue condenado en procedimiento abreviado?',['Concusión','Peculado','Tráfico de influencias','Cohecho pasivo'],2,'El 6 de abril de 2026 fue condenado por la Corte Nacional como autor directo de tráfico de influencias a doce meses y a pagar USD 55.953.257 de reparación integral.'],
+  ['¿Cuál de estos tres delitos NO es imprescriptible?',['Cohecho','Concusión','Tráfico de influencias','Todos son imprescriptibles'],2,'El art. 233 CRE declara imprescriptibles el peculado, el cohecho, la concusión y el enriquecimiento ilícito. El tráfico de influencias no está en esa lista.'],
+  ['En la concusión, ¿qué posición ocupa el particular que paga?',['Autor del delito','Sujeto pasivo','Cómplice necesario','Beneficiario de la influencia'],1,'En el cohecho, en cambio, el particular es autor del cohecho activo. Por eso la calificación cambia por completo la situación de quien pagó.']],
+ fields:[['f5a','Para reflexionar: ¿fue Odebrecht víctima de una exigencia o socio de un pacto? ¿De qué depende la calificación entre cohecho y concusión, y qué consecuencias tiene para quien pagó?']]},
+{id:'gobernanza',title:'Corrupción, transparencia y buena gobernanza',short:'Buena gobernanza',sign:'GOBERNANZA',sub:'Transparencia e integridad',accent:'#c79a3b',
+ intro:'El bien jurídico de estos delitos no es solo el dinero del Estado, sino el correcto funcionamiento de la administración pública como servicio sometido a los principios del art. 227 CRE. El derecho penal es la última línea de defensa: las primeras son la transparencia activa, el acceso a la información pública, la rendición de cuentas y los sistemas de integridad.',
+ legal:'Arts. 18, 227 y 233 CRE; Sentencia 5-13-IN/19 (párrs. 53-55); Convención de las Naciones Unidas contra la Corrupción (2003); Decretos Ejecutivos 4 (2021), 86 (2023) y 173 (2024).',
+ questions:[
+  ['¿Desde cuándo rige la imprescriptibilidad de la acción y la pena en peculado, cohecho, concusión y enriquecimiento ilícito, según la Corte Constitucional?',['Desde la reforma del COIP de 2021','Desde la Constitución de 2008','Desde la Constitución de 1998','Desde la Sentencia 5-13-IN/19'],2,'La Sentencia 5-13-IN/19 (párrs. 53-55) precisó que la imprescriptibilidad rige desde la Constitución de 1998.'],
+  ['¿Qué conductas obliga a tipificar la Convención de las Naciones Unidas contra la Corrupción?',['Soborno de funcionarios nacionales, malversación o peculado y blanqueo','Tráfico de influencias, abuso de funciones y enriquecimiento ilícito','Solo el soborno transnacional','Ninguna; es solo una recomendación'],0,'Arts. 15, 17 y 23 son obligatorios. El tráfico de influencias (18), el abuso de funciones (19) y el enriquecimiento ilícito (20) solo deben «considerarse».'],
+  ['¿Existen en Ecuador la malversación y el abuso de autoridad como delitos autónomos?',['Sí, ambos','Solo la malversación','No: el desvío se sanciona como peculado por distracción cuando beneficia a alguien, y los abusos se reparten entre figuras específicas','Solo el abuso de autoridad'],2,'Los abusos funcionales se reparten entre usurpación de funciones, prevaricato, abuso de facultades de servidores policiales y militares, y respuestas no penales.']],
+ fields:[['f7a','Propongan una medida de transparencia activa o de integridad (no penal) que habría dificultado alguno de los casos estudiados. ¿Por qué un código de ética que depende de un decreto es frágil?']]}
+];
+const npcsData=[
+ {name:'Fiscal Daniela Cevallos',role:'Fiscalía',label:'Mesa de la Fiscalía',x:-6,z:-4,color:0x2f5d9e,text:'En peculado no basta decir «hubo corrupción». Elijo con precisión el verbo rector, porque cada verbo tiene su momento de consumación y su prueba. Si el dinero salió con firma, resolución y orden de pago, normalmente hablo de disposición arbitraria.',clue:'Relaciona las pizarras de verbos rectores, de prueba y la de tu caso: un verbo por procesado y cada indicio conectado con un elemento del tipo.'},
+ {name:'Dr. Esteban Villacís',role:'Defensa técnica',label:'Mesa de la Defensa',x:6,z:-4,color:0x6b3a4a,text:'Una buena defensa no discute todo: busca el elemento que la Fiscalía no logró cerrar. ¿Mi cliente tenía disponibilidad jurídica sobre los fondos o solo hizo un trámite? ¿La prueba se obtuvo legalmente?',clue:'Apunta a la pizarra de prueba y defensa: disponibilidad jurídica, principio de confianza, ilicitud de la prueba (art. 76.4 CRE) y nexo causal (art. 455 COIP).'},
+ {name:'Jueza Rosa Alvarado',role:'Jueza de garantías penales',label:'Estrado',x:0,z:-12.8,color:0x1c2a4a,text:'Para condenar necesito convencimiento más allá de toda duda razonable; la duda favorece al reo. Y la ley penal desfavorable no se aplica hacia atrás: una agravación creada en 2021 no alcanza hechos de 2020.',clue:'Clave para las pizarras de estructura del art. 278 y de tu caso: art. 5.3 COIP, art. 76.2 y 76.3 CRE.'},
+ {name:'Ing. Lucía Benítez',role:'Perita de Contraloría',label:'Archivo de Contraloría',x:-17,z:13,color:0xc79a3b,text:'Mi informe es una noticia del delito y contiene indicios. No es requisito para que la Fiscalía actúe, y en juicio puede confirmarse o refutarse. Si hubo negligencia sin dolo, lo que corresponde es responsabilidad administrativa y civil, no peculado culposo.',clue:'Relaciona las pizarras de estructura y de prueba: Sentencia 5-13-IN/19 y art. 27 COIP. También sirve para la pizarra de glosas.'},
+ {name:'Abg. Tomás Carrera',role:'Analista de compras públicas',label:'Expedientes de contratación',x:13.2,z:5.6,color:0x1f7d74,text:'En compras públicas el dinero casi nunca sale «a escondidas». Sale con estudio de mercado, adjudicación, actas y planillas. Por eso comparo precios referenciales y cotizaciones, y reviso quién firmó cada paso de la cadena.',clue:'Útil para la pizarra de tu caso: sobreprecio frente a cotizaciones de otros proveedores (Fundas) o cadena de firmas y coautoría (El Chobo).'}
+];
+let mode='group',group='Grupo 1',members='',name='',caso='fundas',doneMap={},a={},active=-1,listOnly=false,boards=[],N=0,boardGroup=null;
+function setBoards(){boards=ALL.filter(b=>!b.caseKey||b.caseKey===caso);N=boards.length}setBoards();
+const D=i=>!!doneMap[boards[i].id],doneCount=()=>boards.filter((_,i)=>D(i)).length,qid=(i,j)=>'q_'+boards[i].id+'_'+j;
+let scene,camera,renderer,clock,avatar,avatarParts=[],keys={},yaw=0,pitch=.15,locked=false,freeMove=false,started=false,menuOpen=false,toastTimer,nearBoard=-1,currentNPC=null,dragging=null;
+const coarse=matchMedia('(pointer:coarse)').matches;
+const boardAnchors=[{x:-23.3,z:-8},{x:-23.3,z:8},{x:-11,z:-23.3},{x:11,z:-23.3},{x:23.3,z:-8},{x:23.3,z:8}];
+const boardWalls=[{x:-25.3,z:-8,ry:Math.PI/2},{x:-25.3,z:8,ry:Math.PI/2},{x:-11,z:-25.3,ry:0},{x:11,z:-25.3,ry:0},{x:25.3,z:-8,ry:-Math.PI/2},{x:25.3,z:8,ry:-Math.PI/2}];
+const npcObjects=[];
+function buildBoards(){if(window.buildBoards&&window.buildBoards!==buildBoards)window.buildBoards()}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function shortName(t){t=String(t||'').trim();if(!t)return'Investigador';return t.length>20?t.slice(0,19)+'…':t}
+function toast(s){$('toast').textContent=s;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2600)}
+function saveState(){if(!name)return;try{localStorage.setItem(KEY,JSON.stringify({mode,group,members,name,caso,doneMap,a,time:Date.now()}))}catch(e){}}
+function loadSaved(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){return null}}
+function restore(){const s=loadSaved();if(!s?.name)return false;mode=s.mode||'group';group=s.group||'Grupo 1';members=s.members||'';name=s.name;caso=s.caso||'fundas';doneMap=s.doneMap||{};a=s.a||{};setBoards();return true}
+function updateMode(){const ind=$('mode').value==='individual';$('groupFields').classList.toggle('hidden',ind);$('groupSel').classList.toggle('hidden',ind);$('individualFields').classList.toggle('hidden',!ind)}
+$('mode').addEventListener('change',updateMode);updateMode();
+const overlayOpen=()=>active>=0||menuOpen||$('reportCover').style.display==='block'||$('dialogOverlay').style.display==='grid';
+function start(resume,noWorld){
+ if(!resume){mode=$('mode').value;group=$('group').value;members=$('members').value.trim();name=mode==='individual'?$('student').value.trim():group;caso=$('caso').value;setBoards();
+  if(mode==='individual'&&name.split(/\s+/).filter(Boolean).length<2)return toast('Ingresa nombre y apellido para comenzar.');
+  if(mode==='group'&&members.split(/\n+/).filter(x=>x.trim()).length<2)return toast('Registra al menos dos integrantes, uno por línea.');
+  const s=loadSaved();if(s&&s.name===name){doneMap=s.doneMap||{};a=s.a||{}}else{doneMap={};a={}}}
+ buildBoards();
+ listOnly=!!noWorld;$('start').style.display='none';started=true;
+ $('studentHud').textContent=(mode==='group'?`${group} · ${members.split(/\n+/).filter(x=>x.trim()).length} integrantes`:'Participante: '+name)+' · '+(caso==='fundas'?'Caso Fundas':'Caso El Chobo');
+ $('menuButton').style.display='block';updateProgress();saveState();
+ if(listOnly||!window.THREE){$('fallback').style.display='block';$('hudWrap').style.display='none';setTouch(false);if(!window.THREE&&!listOnly)toast('El motor 3D no cargó: se abrió el modo sin 3D.');return}
+ $('fallback').style.display='none';$('hudWrap').style.display='block';
+ if(!renderer)init3D();if(renderer){updatePlayerLabel();setTouch(coarse);if(coarse){freeMove=true;showPause()}else capture()}}
+$('begin').onclick=()=>start(false,false);
+$('listMode').onclick=()=>{if(started){start(true,true);return}start(false,true)};
+$('continue').onclick=()=>{if(restore()){$('mode').value=mode;updateMode();$('group').value=group;$('members').value=members;$('student').value=mode==='individual'?name:'';$('caso').value=caso;start(true,false)}};
+(function(){const s=loadSaved();if(s?.name){$('continue').classList.remove('hidden');$('mode').value=s.mode||'group';updateMode();$('group').value=s.group||'Grupo 1';$('members').value=s.members||'';if((s.mode||'group')==='individual')$('student').value=s.name||'';$('caso').value=s.caso||'fundas'}})();
+function setTouch(on){$('touchPad').style.display=on?'grid':'none';$('touchAct').style.display=on?'block':'none'}
+function scoreOf(i){return boards[i].questions.filter((q,j)=>a[qid(i,j)]===String(q[2])).length}
+const totalQ=()=>boards.reduce((s,b)=>s+b.questions.length,0);
+function updateProgress(){const n=doneCount();$('percent').textContent=Math.round(n/N*100)+'%';$('bar').style.width=(n/N*100)+'%';$('completedCount').textContent=n+'/'+N+' pizarras';
+ const next=boards.findIndex((_,i)=>!D(i));$('mission').textContent=n===N?'Expediente completo · genera tu informe final':'Siguiente: '+boards[next].title;
+ $('menuStudent').textContent=(mode==='group'?group:name)+' · '+n+' de '+N+' pizarras completadas';
+ $('steps').innerHTML=boards.map((b,i)=>`<button class="step ${D(i)?'done':''} ${i===nearBoard?'now':''}" onclick="openBoard(${i})"><span>${D(i)?'✓':i+1}</span>${esc(b.short)}</button>`).join('');
+ $('menuBoards').innerHTML=boards.map((b,i)=>`<button class="card" onclick="openBoard(${i})"><b>${D(i)?'✓':'○'} Pizarra ${i+1} · ${esc(b.short)}</b><span>${D(i)?`Registrada · ${scoreOf(i)}/${b.questions.length} correctas · editable`:'Pendiente'}</span></button>`).join('');
+ $('fallbackBoards').innerHTML=boards.map((b,i)=>`<button onclick="openBoard(${i})"><span class="tag">${D(i)?'✓ Registrada':'Pizarra '+(i+1)}</span><br><br><b>${esc(b.title)}</b><br><span class="note">${esc(b.sub)}</span></button>`).join('')}
+function boardHTML(i,reveal){const b=boards[i];return `<div class="case"><b>Contexto</b><br>${esc(b.intro)}</div><div class="case law"><b>Base normativa:</b> ${esc(b.legal)}</div>`+
+ b.questions.map((q,j)=>{const id=qid(i,j),sel=a[id]??'';return `<div class="q"><strong>${j+1}. ${esc(q[0])}</strong><div class="opts">${order(id,q[1].length).map(k=>{const c=q[1][k];let cls='';if(reveal){if(k===q[2])cls='right';else if(sel===String(k))cls='wrong'}return `<label class="opt ${cls}"><input data-q="${id}" type="radio" name="${id}" value="${k}" ${sel===String(k)?'checked':''}><span>${esc(c)}</span></label>`}).join('')}</div>${reveal?`<div class="explain"><b>${sel===String(q[2])?'✓ Correcta.':'✕ Respuesta esperada: '+esc(q[1][q[2]])+'.'}</b> ${esc(q[3])}</div>`:''}</div>`}).join('')+
+ b.fields.map(([id,label])=>`<div class="case reflect" style="margin-bottom:0"><label for="${id}" style="margin:0">${esc(label)}</label></div><textarea id="${id}" data-field="${id}" style="margin-top:8px" placeholder="Escribe una respuesta breve y fundamentada (mínimo 40 caracteres).">${esc(a[id]||'')}</textarea>`).join('')}
+function order(id,n){const h=k=>{let v=2166136261;for(const ch of id+'#'+k){v^=ch.charCodeAt(0);v=Math.imul(v,16777619)}return v>>>0};return [...Array(n).keys()].sort((x,y)=>h(x)-h(y))}
+function readInputs(){if(active<0)return;document.querySelectorAll('#boardBody [data-q]').forEach(el=>{if(el.checked)a[el.dataset.q]=el.value});document.querySelectorAll('#boardBody [data-field]').forEach(el=>a[el.dataset.field]=el.value);saveState()}
+function feedbackHTML(i){const b=boards[i],h=scoreOf(i),all=h===b.questions.length;return `<div class="feedback ${all?'ok':''}"><b>Pizarra registrada · ${h}/${b.questions.length} respuestas objetivas correctas.</b> ${all?'Excelente dominio de esta sección.':'Revisa las explicaciones marcadas arriba; puedes cambiar tus respuestas y volver a validar.'} Las respuestas abiertas requieren revisión docente.</div>`}
+function openBoard(i){if(!started)return;closeMenu(false);closeDialog(true);release();active=i;$('pause').style.display='none';$('prompt').style.display='none';$('overlay').style.display='grid';$('boardTag').textContent='PIZARRA '+(i+1)+' DE '+N;$('boardTitle').textContent=boards[i].title;$('boardBody').innerHTML=boardHTML(i,D(i));$('boardFeedback').innerHTML=D(i)?feedbackHTML(i):'';$('overlay').querySelector('.work').scrollTop=0}
+function closeBoard(){readInputs();active=-1;$('overlay').style.display='none';showPause()}
+function checkBoard(){readInputs();if(active<0)return;const b=boards[active];const qs=b.questions.map((_,j)=>qid(active,j));
+ if(qs.some(k=>a[k]===undefined))return toast('Responde todas las preguntas de opción múltiple.');
+ if(b.fields.some(f=>(a[f[0]]||'').trim().length<40))return toast('Desarrolla la respuesta abierta (mínimo 40 caracteres).');
+ doneMap[boards[active].id]=true;$('boardBody').innerHTML=boardHTML(active,true);$('boardFeedback').innerHTML=feedbackHTML(active);updateProgress();saveState();
+ toast('Pizarra '+(active+1)+' incorporada al informe');$('boardFeedback').scrollIntoView({behavior:'smooth',block:'nearest'})}
+function grade(score){const p=score/totalQ();return p>=.9?['SOBRESALIENTE','Dominio sólido de verbos, prueba y casos.']:p>=.75?['MUY BUENO','Buen manejo; revisa las preguntas marcadas.']:p>=.6?['SUFICIENTE','Vuelve a las pizarras con más errores.']:['EN PROCESO','Repasa el material y vuelve a intentarlo.']}
+function reportText(){let t=`PECULADO 360° · INFORME\n${mode==='group'?'Grupo: '+group+'\nIntegrantes:\n'+members:'Participante: '+name}\nCaso elegido: ${CASES[caso]}\nFecha: ${new Date().toLocaleDateString('es-EC')}\n\n`;boards.forEach((b,i)=>{t+=`PIZARRA ${i+1}. ${b.title} (${scoreOf(i)}/${b.questions.length})\n`;b.questions.forEach((q,j)=>{const p=a[qid(i,j)];t+=`  ${j+1}. ${p===undefined?'Sin respuesta':q[1][+p]} ${p===String(q[2])?'✓':'✕'}\n`});b.fields.forEach(([id,l])=>t+=`  Respuesta abierta: ${a[id]||'Sin respuesta'}\n`);t+='\n'});t+='REFLEXIÓN FINAL\n'+(a.finalReflection||'');return t}
+function copyReport(){const t=reportText();const fb=()=>{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Informe copiado')}catch(e){toast('No se pudo copiar automáticamente')}ta.remove()};try{navigator.clipboard.writeText(t).then(()=>toast('Informe copiado al portapapeles'),fb)}catch(e){fb()}}
+function reportPrint(){const t=$('finalReflection')?.value.trim()||'';a.finalReflection=t;saveState();if(t.length<80){toast('Completa la reflexión final (mínimo 80 caracteres) antes de imprimir.');$('finalReflection')?.focus();return}$('printReflection').textContent=t;window.print()}
+const canPrint=(()=>{try{return window.self===window.top}catch(e){return false}})();
+function showReport(){if(!started)return;readInputs();closeMenu(false);closeDialog(true);if(active>=0){active=-1;$('overlay').style.display='none'}release();
+ const score=boards.reduce((s,_,i)=>s+scoreOf(i),0),count=doneCount(),[g,gt]=grade(score);
+ const sections=boards.map((b,i)=>`<h3>Pizarra ${i+1}. ${esc(b.title)}</h3><p class="note"><b>Base normativa:</b> ${esc(b.legal)}</p><div class="tablewrap"><table><thead><tr><th style="width:42%">Pregunta</th><th>Respuesta seleccionada</th><th style="width:15%">Evaluación</th></tr></thead><tbody>${b.questions.map((q,j)=>{const p=a[qid(i,j)],ok=p===String(q[2]);return `<tr><td><b>${j+1}.</b> ${esc(q[0])}</td><td>${esc(p===undefined?'Sin respuesta':q[1][+p])}${ok||p===undefined?'':`<div class="note"><b>Respuesta esperada:</b> ${esc(q[1][q[2]])}</div>`}</td><td style="font-weight:800;color:${ok?'var(--good)':'var(--bad)'}">${p===undefined?'Pendiente':ok?'✓ Correcta':'✕ Revisar'}</td></tr>`}).join('')}</tbody></table></div>${b.fields.map(([id,l])=>`<section><b>${esc(l)}</b><div class="response">${esc(a[id]||'Sin respuesta')}</div></section>`).join('')}`).join('');
+ $('report').innerHTML=`<div class="actions"><button class="secondary" onclick="hideReport()">← Volver a la sala</button><button class="secondary" onclick="copyReport()">⧉ Copiar informe</button>${canPrint?'<button class="primary" onclick="reportPrint()">GUARDAR COMO PDF / IMPRIMIR</button>':''}</div><div class="eyebrow">Laboratorio jurídico inmersivo · Tema 2</div><h1 style="font-size:32px">Informe del expediente: peculado y delitos contra la administración pública</h1><p><b>Modalidad:</b> ${mode==='group'?'Grupal':'Individual'}<br><b>${mode==='group'?'Grupo':'Participante'}:</b> ${esc(name)}<br>${mode==='group'?`<b>Integrantes:</b><br>${esc(members).replace(/\n/g,'<br>')}<br>`:''}<b>Caso elegido:</b> ${esc(CASES[caso])}<br><b>Fecha:</b> ${new Date().toLocaleDateString('es-EC')}</p><div class="case scorebox"><div class="seal"><span><b class="mono">${score}/${totalQ()}</b>${g}</span></div><div style="min-width:0;flex:1"><b>Preguntas objetivas: ${score} de ${totalQ()} correctas · ${count}/${N} pizarras registradas.</b><br>${gt} La calificación final requiere revisar la calidad jurídica de las respuestas abiertas y la reflexión final.</div></div>${sections}<section><h3>Reflexión final</h3><p>Explica qué aprendiste sobre la elección del verbo rector, la prueba del peculado, el caso que analizaste, la diferencia entre cohecho, concusión y tráfico de influencias, y el papel de la transparencia. Incluye una recomendación práctica para una entidad pública ecuatoriana.</p><label for="finalReflection" class="note">Reflexión final (mínimo 80 caracteres)</label><textarea id="finalReflection" style="width:100%;min-height:150px" placeholder="Escribe aquí tu reflexión final...">${esc(a.finalReflection||'')}</textarea><div id="printReflection" style="display:none;white-space:pre-wrap;overflow-wrap:anywhere;border:1px solid #d7dceb;padding:12px;margin-top:10px"></div><p class="note">Se guarda automáticamente en este navegador.</p></section><p class="note">Material con fines pedagógicos. Los casos se describen según las fuentes del material de estudio. Los personajes de la sala son ficticios.</p>`;
+ $('reportCover').style.display='block';$('reportCover').scrollTop=0;$('pause').style.display='none';$('prompt').style.display='none';$('finalReflection').addEventListener('input',e=>{a.finalReflection=e.target.value;saveState()})}
+function hideReport(){$('reportCover').style.display='none';showPause()}
+function release(){keys={};if(document.pointerLockElement)document.exitPointerLock?.()}
+function capture(){if(!renderer||!started||listOnly||overlayOpen())return;$('pause').style.display='none';if(coarse){freeMove=true;return}
+ try{const p=renderer.domElement.requestPointerLock();if(p&&p.catch)p.catch(()=>{freeMove=true;showPause()})}catch(e){freeMove=true}
+ setTimeout(()=>{if(!locked){freeMove=true;showPause()}},400)}
+function showPause(){if(!started||listOnly){ $('pause').style.display='none';return}$('pause').style.display=(!locked&&!freeMove&&!overlayOpen()&&renderer)?'block':'none'}
+function openMenu(){if(!started)return;readInputs();if(active>=0){active=-1;$('overlay').style.display='none'}closeDialog(true);release();menuOpen=true;$('menu').classList.add('open');$('menuShade').style.display='block';$('pause').style.display='none';updateProgress()}
+function closeMenu(resume){menuOpen=false;$('menu').classList.remove('open');$('menuShade').style.display='none';if(resume){if(listOnly)return;capture()}else showPause()}
+function home(){closeMenu(false);release();$('start').style.display='grid';$('pause').style.display='none';$('hudWrap').style.display='none';$('menuButton').style.display='none';$('fallback').style.display='none';$('prompt').style.display='none';setTouch(false);started=false;freeMove=false;saveState();$('continue').classList.remove('hidden')}
+function teleportCenter(){if(!avatar)return;avatar.position.set(0,0,17);yaw=0;closeMenu(true)}
+function interact(){if(!started||overlayOpen())return;if(currentNPC&&(nearBoard<0||dist(currentNPC.position)<dist(boardAnchors[nearBoard])))showDialog(currentNPC.userData.npc);else if(nearBoard>=0)openBoard(nearBoard)}
+function dist(p){return Math.hypot(avatar.position.x-p.x,avatar.position.z-p.z)}
+function showDialog(d){release();$('prompt').style.display='none';$('dialogOverlay').style.display='grid';$('dialogTag').textContent=d.role.toUpperCase();$('dialogTitle').textContent=d.name;
+ $('dialogBody').innerHTML=`<div class="npcname"><div class="avatarBadge">${esc(d.name.replace(/^(Fiscal|Dr\.|Jueza|Ing\.|Abg\.)\s*/,'').charAt(0))}</div><div><h2 style="margin:0">${esc(d.name)}</h2><span class="note">${esc(d.role)} · ${esc(d.label)}</span></div></div><div class="dialogue quote">“${esc(d.text)}”</div><div class="clue"><b>Pista para las pizarras:</b> ${esc(d.clue)}</div><p class="note">Personaje ficticio con fines pedagógicos.</p><div class="actions"><button class="primary" onclick="closeDialog()">CONTINUAR EN LA SALA</button></div>`}
+function closeDialog(silent){$('dialogOverlay').style.display='none';if(!silent)showPause()}
+/* ---------- 3D ---------- */
+function roundRect(x,X,Y,W,H,R){x.beginPath();if(x.roundRect)x.roundRect(X,Y,W,H,R);else x.rect(X,Y,W,H);x.fill()}
+function labelTexture(lines,bg,accent){const c=document.createElement('canvas');c.width=1024;c.height=256;const x=c.getContext('2d');x.fillStyle=bg;roundRect(x,8,8,1008,240,42);x.fillStyle=accent;x.fillRect(40,8,944,18);x.textAlign='center';x.fillStyle='#fff';x.font='bold 74px Arial';x.fillText(lines[0]||'',512,116);x.font='44px Arial';x.fillStyle='#e6e9f3';x.fillText(lines[1]||'',512,184);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
+function createLabelSprite(lines,sx,sy,bg,accent){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:labelTexture(lines,bg,accent),transparent:true,depthTest:false}));s.scale.set(sx,sy,1);return s}
+function createHumanoid(cfg){const g=new THREE.Group();const m=c=>new THREE.MeshStandardMaterial({color:c,roughness:.78});const skin=m(cfg.skin||0xd9ae8d),shirt=m(cfg.shirt),pants=m(cfg.pants||0x263248),hair=m(cfg.hair||0x2a2420);
+ function add(geo,mat,x,y,z){const o=new THREE.Mesh(geo,mat);o.position.set(x,y,z);o.castShadow=true;g.add(o);return o}
+ add(new THREE.CylinderGeometry(.35,.42,.78,12),shirt,0,1.15,0);add(new THREE.SphereGeometry(.25,16,12),skin,0,1.82,0);add(new THREE.SphereGeometry(.255,14,10,0,Math.PI*2,0,Math.PI*.45),hair,0,1.91,0);
+ if(cfg.toga){add(new THREE.CylinderGeometry(.42,.55,1.1,14),shirt,0,.9,0)}
+ const lA=add(new THREE.CylinderGeometry(.105,.11,.67,12),shirt,-.44,1.14,0),rA=add(new THREE.CylinderGeometry(.105,.11,.67,12),shirt,.44,1.14,0),lL=add(new THREE.CylinderGeometry(.13,.14,.78,12),pants,-.18,.4,0),rL=add(new THREE.CylinderGeometry(.13,.14,.78,12),pants,.18,.4,0);
+ if(cfg.player){const h=new THREE.Mesh(new THREE.RingGeometry(.52,.6,36),new THREE.MeshBasicMaterial({color:0xc79a3b,transparent:true,opacity:.85,side:THREE.DoubleSide}));h.rotation.x=-Math.PI/2;h.position.y=.03;g.add(h)}
+ const label=createLabelSprite([shortName(cfg.name),cfg.role||''],cfg.player?1.9:1.75,cfg.player?.45:.42,cfg.player?'#1c2a4a':'#3a2230',cfg.accent||'#c79a3b');label.position.set(0,2.55,0);g.add(label);g.userData.label=label;
+ g.position.set(cfg.x||0,cfg.y||0,cfg.z||0);g.rotation.y=cfg.ry||0;g.userData.parts=[lA,rA,lL,rL];scene.add(g);return g}
+function updatePlayerLabel(){if(!avatar)return;avatar.remove(avatar.userData.label);const l=createLabelSprite([shortName(mode==='group'?group:name),mode==='group'?'Equipo de litigio':'Litigante'],1.9,.45,'#1c2a4a','#c79a3b');l.position.set(0,2.55,0);avatar.userData.label=l;avatar.add(l)}
+function init3D(){try{
+ scene=new THREE.Scene();scene.background=new THREE.Color(0x1a2440);scene.fog=new THREE.Fog(0x1a2440,46,96);
+ camera=new THREE.PerspectiveCamera(66,innerWidth/innerHeight,.1,140);renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;$('world').appendChild(renderer.domElement);
+ scene.add(new THREE.HemisphereLight(0xfff8ee,0x3a3f55,2.3));const d=new THREE.DirectionalLight(0xffffff,2.1);d.position.set(-4,12,6);d.castShadow=true;d.shadow.mapSize.set(1024,1024);scene.add(d);
+ const mat=(c,r=.78,mt=.05)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:mt});
+ function box(w,h,dd,c,x,y,z,ry=0){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,dd),mat(c));o.position.set(x,y,z);o.rotation.y=ry;o.receiveShadow=true;o.castShadow=true;scene.add(o);return o}
+ function cyl(r,h,c,x,y,z){const o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,16),mat(c));o.position.set(x,y,z);o.castShadow=true;scene.add(o);return o}
+ // Piso de madera, techo y muros
+ box(52,.25,52,0xb48a62,0,-.14,0);for(let x=-24;x<=24;x+=2)box(.03,.01,52,0x9b7550,x,.0,0);
+ box(52,.18,52,0xf5f3ef,0,6.25,0);
+ box(52,6.2,.35,0xece8e1,0,3,-25.8);box(52,6.2,.35,0xece8e1,0,3,25.8);box(.35,6.2,52,0xe8e4dc,-25.8,3,0);box(.35,6.2,52,0xe8e4dc,25.8,3,0);
+ // Zócalo de madera
+ box(51.4,1.1,.14,0x6e4a32,0,.55,-25.55);box(51.4,1.1,.14,0x6e4a32,0,.55,25.55);box(.14,1.1,51.4,0x6e4a32,-25.55,.55,0);box(.14,1.1,51.4,0x6e4a32,25.55,.55,0);
+ // Alfombra central (pasillo)
+ box(4.2,.02,40,0x8a2b3f,0,.02,2);box(4.6,.015,40.4,0xc79a3b,0,.015,2);
+ // Estrado de la jueza
+ box(14,.6,5,0x6e4a32,0,.3,-16.5);box(10,1.25,1.1,0x5a3a26,0,1.2,-14.6);box(10.2,.12,1.4,0x7d5538,0,1.88,-14.6);box(10,.18,.05,0xc79a3b,0,1.5,-14.02);
+ box(1.1,1.6,1,0x2a2420,0,1.4,-17.4);
+ // Mesas de Fiscalía y Defensa
+ function desk(x,z,w,c){box(w,.12,1.4,c,x,.86,z);box(w,.8,.1,0x5a3a26,x,.45,z+.65);for(const sx of[-1,1])box(.12,.86,1.2,0x5a3a26,x+sx*(w/2-.1),.43,z)}
+ desk(-6,-6.2,5,0x7d5538);desk(6,-6.2,5,0x7d5538);
+ // Barandilla que separa el público
+ for(const sx of[-1,1]){box(9,.1,.12,0x6e4a32,sx*7.2,1.05,2.4);for(let k=0;k<6;k++)cyl(.05,1,0x6e4a32,sx*(3.2+k*1.6),.5,2.4)}
+ // Bancas del público
+ for(const z of[6.5,9.5])for(const sx of[-1,1]){box(7,.12,1,0x7d5538,sx*7,.55,z);box(7,.9,.12,0x7d5538,sx*7,1,z+.5);}
+ // Archivo de Contraloría y unidad financiera
+ for(let k=0;k<3;k++){box(1.2,2.2,.8,0x9aa3b5,-21+k*1.4,1.1,17);box(1.2,2.2,.8,0x9aa3b5,21-k*1.4,1.1,17)}
+ for(let k=0;k<8;k++)box(.32,.42,.5,[0xc79a3b,0xe8dcc2,0x8a2b3f][k%3],-20.4+((k%4)*.4),2.4,17+(k>3?.1:0));
+ // Pilas de cajas en la bodega del caso simulado
+ for(let k=0;k<5;k++)box(.9,.6,.9,0xc8a46a,15+k*0.95,.3,4.2);box(.9,.6,.9,0xc8a46a,15.5,.9,4.2);box(.9,.6,.9,0xc8a46a,17.4,.9,4.2);
+ // Lámparas
+ for(const x of[-14,0,14])for(const z of[-14,0,14]){const l=new THREE.PointLight(0xfff1dc,.55,18);l.position.set(x,5.4,z);scene.add(l);box(2,.05,.75,0xfffaf0,x,6.12,z)}
+ // Pizarras
+ function boardFace(t,s,ac){const c=document.createElement('canvas');c.width=1024;c.height=512;const x=c.getContext('2d');x.fillStyle='#fdfcf9';x.fillRect(0,0,1024,512);x.fillStyle=ac;x.fillRect(0,0,1024,26);x.textAlign='center';x.font='900 70px Georgia';x.fillStyle='#1c2a4a';x.fillText(t,512,206);x.font='36px Arial';x.fillStyle='#5d6880';x.fillText(s,512,282);x.fillStyle='#e3dccd';x.fillRect(90,350,844,3);x.font='bold 27px Arial';x.fillStyle='#8a2b3f';x.fillText('ACÉRCATE Y PRESIONA E',512,414);const tx=new THREE.CanvasTexture(c);tx.colorSpace=THREE.SRGBColorSpace;return tx}
+ window.buildBoards=function(){if(!scene)return;if(boardGroup)scene.remove(boardGroup);boardGroup=new THREE.Group();scene.add(boardGroup);boards.forEach((b,i)=>{const w=boardWalls[i],g=new THREE.Group();g.add(new THREE.Mesh(new THREE.BoxGeometry(5.35,3.15,.24),mat(0x3a2a22)));const f=new THREE.Mesh(new THREE.PlaneGeometry(5.08,2.88),new THREE.MeshBasicMaterial({map:boardFace(String(i+1).padStart(2,'0')+' · '+b.sign,b.sub,b.accent)}));f.position.z=.13;g.add(f);const st=new THREE.Mesh(new THREE.BoxGeometry(5.35,.1,.25),mat(parseInt(b.accent.slice(1),16)));st.position.y=-1.6;g.add(st);g.position.set(w.x,3.1,w.z);g.rotation.y=w.ry;boardGroup.add(g)})};buildBoards();
+ // Letreros
+ function signTex(t,s,bg,ac){const c=document.createElement('canvas');c.width=1400;c.height=420;const x=c.getContext('2d');x.fillStyle=bg;x.fillRect(0,0,1400,420);x.fillStyle=ac;x.fillRect(0,0,1400,16);
+  // balanza
+  x.strokeStyle='#fff';x.lineWidth=10;x.beginPath();x.moveTo(155,110);x.lineTo(155,300);x.moveTo(85,150);x.lineTo(225,150);x.moveTo(105,300);x.lineTo(205,300);x.stroke();x.fillStyle=ac;x.beginPath();x.arc(85,215,38,0,Math.PI);x.fill();x.beginPath();x.arc(225,215,38,0,Math.PI);x.fill();x.beginPath();x.moveTo(85,150);x.lineTo(50,215);x.moveTo(85,150);x.lineTo(120,215);x.moveTo(225,150);x.lineTo(190,215);x.moveTo(225,150);x.lineTo(260,215);x.lineWidth=4;x.stroke();
+  x.fillStyle='#fff';x.font='bold 70px Georgia';x.textAlign='left';x.fillText(t,300,180);x.font='38px Arial';x.fillStyle='#eadfcd';x.fillText(s,302,246);x.fillStyle=ac;x.fillRect(300,284,820,8);x.font='bold 28px Arial';x.fillStyle='#fff';x.fillText('LABORATORIO JURÍDICO · TEMA 2 · ART. 278 COIP',302,340);const tx=new THREE.CanvasTexture(c);tx.colorSpace=THREE.SRGBColorSpace;return tx}
+ function sign(x,y,z,t,s,bg,ac,ry,w,h){const p=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:signTex(t,s,bg,ac)}));p.position.set(x,y,z);p.rotation.y=ry;scene.add(p)}
+ sign(0,4.7,-25.55,'PECULADO 360°','Sala de audiencias · Unidad Judicial Penal','#1c2a4a','#c79a3b',0,10.4,2.6);
+ sign(0,4.7,25.55,'SALA DE AUDIENCIAS','Delitos contra la eficiencia de la administración pública','#5a1f2c','#c79a3b',Math.PI,10.4,2.6);
+ avatar=createHumanoid({name:mode==='group'?group:name,role:'',player:true,x:0,z:17,shirt:0x2f5d9e,pants:0x1c2a4a,accent:'#c79a3b'});avatarParts=avatar.userData.parts;
+ npcsData.forEach((n,i)=>{const o=createHumanoid({...n,shirt:n.color,toga:i<3,pants:0x2b2b38,accent:'#c79a3b',ry:n.z<-10?0:Math.PI*0}) ;o.userData.npc=n;npcObjects.push(o)});
+ clock=new THREE.Clock();
+ const tgt=new THREE.Vector3(),des=new THREE.Vector3();
+ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.045);let moving=false;
+  if((locked||freeMove)&&started&&!listOnly&&!overlayOpen()){const fw=(keys.KeyW||keys.ArrowUp?1:0)-(keys.KeyS||keys.ArrowDown?1:0),sd=(keys.KeyD||keys.ArrowRight?1:0)-(keys.KeyA||keys.ArrowLeft?1:0);
+   if(fw||sd){const dx=-Math.sin(yaw)*fw+Math.cos(yaw)*sd,dz=-Math.cos(yaw)*fw-Math.sin(yaw)*sd,nn=Math.hypot(dx,dz);let nx=Math.min(23.8,Math.max(-23.8,avatar.position.x+dx/nn*6.1*dt)),nz=Math.min(23.8,Math.max(-23.8,avatar.position.z+dz/nn*6.1*dt));
+    if(Math.abs(nx)<7.2&&nz<-13.6&&nz>-19.2)nz=avatar.position.z<=-19.2?-19.2:-13.6; // no atravesar el estrado
+    avatar.position.x=nx;avatar.position.z=nz;avatar.rotation.y=Math.atan2(-dx,-dz);moving=true}}
+  const ph=performance.now()*.009;for(let k=0;k<4;k++)avatarParts[k].rotation.x=Math.sin(ph+(k%2?Math.PI:0))*(moving?.55:0);avatar.position.y=moving?Math.abs(Math.sin(ph))*.045:0;
+  npcObjects.forEach((n,i)=>{n.rotation.y=Math.atan2(avatar.position.x-n.position.x,avatar.position.z-n.position.z)*.0+Math.sin(ph*.4+i)*.05+(dist(n.position)<6?Math.atan2(avatar.position.x-n.position.x,avatar.position.z-n.position.z):0)});
+  tgt.set(avatar.position.x,1.4,avatar.position.z);des.set(tgt.x+Math.sin(yaw)*4.4,3.1+Math.sin(pitch)*2.05,tgt.z+Math.cos(yaw)*4.4);des.x=Math.max(-24.4,Math.min(24.4,des.x));des.z=Math.max(-24.4,Math.min(24.4,des.z));camera.position.lerp(des,Math.min(1,dt*9));camera.lookAt(tgt);
+  const prevNear=nearBoard;nearBoard=-1;let bb=999;boardAnchors.forEach((b,i)=>{const dd=dist(b);if(dd<bb&&dd<3.4){bb=dd;nearBoard=i}});if(prevNear!==nearBoard)updateProgress();
+  currentNPC=null;let bn=999;npcObjects.forEach(n=>{const dd=dist(n.position);if(dd<bn&&dd<2.6){bn=dd;currentNPC=n}});
+  const pr=$('prompt');if(started&&!listOnly&&(locked||freeMove)&&!overlayOpen()&&(currentNPC||nearBoard>=0)){pr.style.display='block';pr.textContent=(currentNPC&&(nearBoard<0||bn<=bb))?(coarse?'Toca aquí':'E')+' · HABLAR CON '+currentNPC.userData.npc.role.toUpperCase():(coarse?'Toca aquí':'E')+' · ABRIR PIZARRA '+(nearBoard+1)+' · '+boards[nearBoard].short.toUpperCase()}else pr.style.display='none';
+  renderer.render(scene,camera)}
+ animate()}catch(err){console.error(err);renderer=null;$('fallback').style.display='block';$('hudWrap').style.display='none';toast('Se habilitó el modo sin 3D')}}
+addEventListener('mousemove',e=>{if(locked){yaw-=e.movementX*.0024;pitch=Math.max(-.35,Math.min(.5,pitch-e.movementY*.002))}});
+// arrastrar para mirar (ratón sin bloqueo o pantalla táctil)
+$('world').addEventListener('pointerdown',e=>{if(locked||!started||listOnly)return;if(!freeMove&&!coarse){capture();return}dragging={x:e.clientX,y:e.clientY,id:e.pointerId}});
+addEventListener('pointermove',e=>{if(!dragging||e.pointerId!==dragging.id)return;yaw-=(e.clientX-dragging.x)*.005;pitch=Math.max(-.35,Math.min(.5,pitch-(e.clientY-dragging.y)*.004));dragging.x=e.clientX;dragging.y=e.clientY});
+addEventListener('pointerup',()=>dragging=null);addEventListener('pointercancel',()=>dragging=null);
+document.querySelectorAll('#touchPad button').forEach(b=>{const k=b.dataset.k;b.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true});['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>keys[k]=false))});
+document.addEventListener('pointerlockchange',()=>{locked=!!renderer&&document.pointerLockElement===renderer.domElement;if(locked)freeMove=false;if(!locked)keys={};showPause()});
+addEventListener('keydown',e=>{const t=(e.target?.tagName||'').toLowerCase();if(t==='textarea'||t==='input'||t==='select')return;
+ if(e.code==='Escape'){if($('dialogOverlay').style.display==='grid'){closeDialog();return}if(active>=0){closeBoard();return}if(menuOpen){closeMenu(false);return}if(freeMove&&!coarse){freeMove=false;keys={};showPause();return}}
+ if(e.code==='KeyM'&&started){e.preventDefault();menuOpen?closeMenu(false):openMenu();return}
+ if(overlayOpen()||!started)return;if(e.code.startsWith('Arrow'))e.preventDefault();keys[e.code]=true;if(e.code==='KeyE'&&(locked||freeMove)){e.preventDefault();interact()}});
+addEventListener('keyup',e=>keys[e.code]=false);addEventListener('blur',()=>{keys={};saveState()});
+addEventListener('resize',()=>{if(camera&&renderer){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)}});
+addEventListener('beforeunload',saveState);$('boardBody').addEventListener('input',readInputs);$('boardBody').addEventListener('change',readInputs);
+updateProgress();
+</script>
+
+</html>
