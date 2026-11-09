@@ -1,67 +1,67 @@
 {
-  "actualizado": "2026-11-02T17:34:39.341711+00:00",
-  "semana_inicio": "2026-10-27",
-  "semana_fin": "2026-11-02",
+  "actualizado": "2026-11-09T17:59:18.698272+00:00",
+  "semana_inicio": "2026-11-03",
+  "semana_fin": "2026-11-09",
   "noticias": [
     {
-      "titulo": "La UBA reunió a especialistas argentinos y uruguayos para abordar el procedimiento aduanero en la era digital - Mercojuris",
-      "enlace": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNeVZzaFQtSXJXV0tpVWJhZnItNVVBLUcyR3Bmb3ZydHd2SzVUXzFmV0Y5X1ExVEQtdU50Zy1tWmVRR2VZZjdSMlY2cUZlNW9FcEdTci1sekVXX0l3Rl9uNVBfd29yOGJReHhiU0Jma2x5TFh2cksyeG5Vd3Y3SWpIcXJIbWhuRkw2Q1dRa0xObEw1Z1RIQXlLZXNGamhHQURISFA5NS1fTDczLWRHbEhKcUxGeUNsLWRRYjhNOWNlUjZVaE1SY0NXRHFPZ2ZzZw?oc=5",
-      "fuente": "Mercojuris",
-      "fecha": "2026-11-02T17:27:18+00:00"
+      "titulo": "380 millones de ataques y rostros robados en 3 segundos: el peligro oculto de la IA en Ecuador - Diario La Hora",
+      "enlace": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxNVGlEMWdDMXlrdlBJb3lNamI5MGZ0d242RHVCNTBhM0ZENk5PYnNiY0RKR1NWMk1YVGlfUUNmb0Q1TzkxODhDYTdFVXV3TE9pT2NXcU41eDdJN0ZEU2ZJRWhQaU9aRUZ2aGNMSjVKcDRacFJWY2ctWW11dXpKUUtoNWZ2SjVxVmxoWXJNLThocmRLMGh0WE01TVB2cXctdGdhMHJSN0FZYjByWFcwdG5XVHdvRkRzS3htb1hOeF9UMmJvTTd2QlhlWml6Z2lEVnRNeXoxRjJWMGg2dy1WLWJmbQ?oc=5",
+      "fuente": "Diario La Hora",
+      "fecha": "2026-11-09T17:18:22+00:00"
     },
     {
-      "titulo": "RD reunirá a 17 países para debatir el futuro del derecho de autor frente a la inteligencia artificial - DiarioDigitalRD",
-      "enlace": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxQb08tN3ZTc2VWeWtMd0EzYUVvR0JDdHNST213Qkw1Uk1CVTBLZmhKY1VWMlRYemY0TkF6UWhXSHpoU0g5dFg3cGRqazNIVC1kc2Rja2ZtcjFYb3U2RURkY0Zka3pDTUhPSldncTZISVpQZ2dMVVg0Yzh3YmNSSllIclBDMTBQYWJfN001WUg5OERneDBRcGtMUS1pMm9hanUzUGRQMDBrNGhFUUNtaXRYbTRDdGxtSXdPSjJMSHJReFRCVERQS19UeDg5S0lMZjQ0Mno3RktadThBSE5zUzRidA?oc=5",
-      "fuente": "DiarioDigitalRD",
-      "fecha": "2026-11-02T17:25:00+00:00"
+      "titulo": "Europa podría obligar a las IAs a pagar por el contenido informativo con el que se alimentan - Law & Trends",
+      "enlace": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNNmdEbTdaYlp6Y2pwYktTRmhzS04yR01pOVhYNWc2Tl9tMXZQRUM0NlVIOG9BUlY5aGN5bkJTWGFrWEx1eEVPVzQ4LXdzU1pwbjBqSDhydEhsWDg3cV96X3EtWW5kMVk4MEItNGprcnVNSFlSVTZ6T25SRlZ2LWdIbkpRSFg3OUd6empJNWJBOU9SMGtyOVNFTmlUbkhmaHlhald1bUFhVmt6WWZPQ3d3ZEdsajNGSzQwcUs5MGNkQVF1ZWl1VF9CbmhWSHI5YmVqa0l5R3lBZks?oc=5",
+      "fuente": "Law & Trends",
+      "fecha": "2026-11-09T17:13:00+00:00"
     },
     {
-      "titulo": "«Me daba la impresión de que tenía más derechos que el robot»: detienen a una profesora jubilada por bloquear el paso de un robot autónomo de reparto - La Razón",
-      "enlace": "https://news.google.com/rss/articles/CBMimgJBVV95cUxORDFHbU9ab0JWRFZ6SmlZbGEySEFJLWNKZXNvdURRVlhiNzRWT2JfWFE0NnpHRkIxTlhuNEJKQjR1ZmRLVDZCS29zd2ttTEMwWFNQTTlHdEx5WnlOdmxJTHQtc3dZNDM3YlFJLUhDRUN5U2g1ZW1wYWViUkV6STNfTkwydUFYSGc3Wm1Pek9DMThMZndDYTFGZWppYURlYkRqVzlEX0E4LVZhZHd5dTNFR2ZQd202TjFYUEFYT1VzZFF1WTBHZ0ItYzZNcXBQWkpmX25DaG11RXRPVVhVcUg4eDlid29vNGtQc3g1cjB4YjA2Q3duaWZVNnd4bWpnY2E3WGt4eHZaZWtNWnMxVkNhY19PN1ZMRHQ5WHc?oc=5",
-      "fuente": "La Razón",
-      "fecha": "2026-11-02T17:09:00+00:00"
+      "titulo": "Una IA al servicio de la ciudadanía - Perfil",
+      "enlace": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQbm04d2NUMXJWLWVINzRZWjhnVE04ekNWQ0gxN1B0VkRIQzdQRTNLVlBBRmgxbU9yd1lac3RnNWJqSmpLQXJ2RGEtZ2pXYTI2UlA4WjlJekI5ejB6QUNYRTBYeTBOWTl5YjFvdDJBRXoydXF5UENfWFRBcFlkTGp2RUdn?oc=5",
+      "fuente": "Perfil",
+      "fecha": "2026-11-09T17:06:18+00:00"
     },
     {
-      "titulo": "El BSC lidera un proyecto europeo para fortalecer la cooperación en IA con Latinoamérica - Infobae",
-      "enlace": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNWDhYcXhkbDAxbTJFT2ZZckZsajUtU0dUSktnSElkQ2JURDdrMnBMNjExbDc1WVJxbEVwVW9ZeDBTcmlib1JQWDFXSEpoYkg3SmRreHlGRE45S1FmQy1kbWZwblU5dDg4dXRRVmNIcERVeXZKTnZ4UHFPdFZBbFc1eEZZNnVWM1ZrdV9COHdYdnItRzZRM1JhYVBmM010QmZnX2lRNG1JbFpZNFdiWHBrVzZmdEgtRkxzMmM4OGllelFPQnd4NFdlQ0ktd0NxdHd2UWxUM0hhalLSAfMBQVVfeXFMTXNaWmE2MVpXZWt0OXVYZ3V5WmpQdl9EVG5JZGc4ajBXZmVLb3EyZVZoam5VTzF2WTY2UWVZU3FlYnNGbVpZRktXclg5ZjNsWEEtbV9EdXFDc0pycHljTXNCamdpdnhDODkxUllEOF9aM2xyRlFnR0JaaEppZl9HeUd5eVIwdldXWUk0ZmZ6WnlkOUNhNGZiM0ZtVFpVdlJGMGFTcmV4aFpDdWRTckk1cExEZzY3SHdsZGFJcGpnSlozR0dYY0p1NmlKWXdJb3oyOEpuaUZCeHdJVWxhdjhmQkhzblJlQVN6djd2MGxGbXRhZG9B?oc=5",
-      "fuente": "Infobae",
-      "fecha": "2026-11-02T17:01:00+00:00"
+      "titulo": "El presidente de Microsoft pide más regulación para la IA: \"Cada envase de leche\" está sujeto a más normas de seguridad - Genbeta",
+      "enlace": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxORzdRX3UyYlRJV3E2WlN2UVFfZXBJVkhTSEk2c2ZzUnZkcFhlT1hRUkZKS2NfU0FNeHhydkNIYWpQUjR5V0hhX3V4Ym82MS1yMnBmQlZCNXBIZ0xONzRIM3o1ZnNUWHVMMEQ4a1BhVGVIeHNoa1JYckV1cklVM0RmbFJIS0lhZFR5ZEd4dnFOVWFwVGxWMWx0bmstOW9MU25oM3hSVDQ5eHNCbE9FYW9NaDNEOGM3UWJfdmhRU1ZPX0txTjJHNkpINS1LNjlSQjQzQXpTczJTRXfSAd4BQVVfeXFMTjVJMHlCcUF4ZGVqemN6WmZ0dXpmSVh1cWNheUJpYjV6MXhsSDdUYnU0Y3RVSm9xd2hSalFlQlNXb1oyR3d1cTJQc1BFRy1rTTUzYzIzU1dEUHpUTkxWZ1FHNWFFcVlnRFV3VDZ4LTQtdWtESkZIMUlPaEVpRjNKemtySWptQ3k3NGZPUzFJWnhRRWtyQ1JGUkVSQmlxcF9RQm9ZNHJ4dEpvNFNOcmZwZjJtVDlqdHN3bnc3dGpiMTV0QWNqUzdaMDB6RzdjZVMzeF9wWmdUV21GSmhraHdR?oc=5",
+      "fuente": "Genbeta",
+      "fecha": "2026-11-09T17:01:08+00:00"
     },
     {
-      "titulo": "Representación propia y la inteligencia artificial: una advertencia a la comunidad en general - Microjuris al Día",
-      "enlace": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOd0RwTWNTdmdOaS1DeXdwVF9kMVlZN2VTRmpLbjBBTW1yc09PdkVxckZGa3Fjbm9DVWRtQUR6RGp1VE5vTGhncG1vOW1Vb3JFZGU0S2hiNmsxLWw3WkZDcWR6d3hvRVc1QW9FT3BpVzkxUGlEb3ZaUThiRUtWR0ZRTjAyenFDbHBkaFZJRmNGVkZpaTloOUw4UzZnZVd0NjhIWk5zd0IxekVPZ2liZnl0cGprQl9ESUllQnI2YUdzNktWenBwZUlLeXNKZWhjdw?oc=5",
-      "fuente": "Microjuris al Día",
-      "fecha": "2026-11-02T16:59:10+00:00"
+      "titulo": "Esther Algarra, catedrática de la UA: \"La ley debe adaptarse a retos como la implicación de la IA en el derecho al honor\" - Información",
+      "enlace": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQek14cS1heF9OVll5YThSLWU2bC16RFp1aUZzMTE3TVFEV0MxeWpubURtRFZETno1azhUcmE4UmdwcnlueDdwUDhRTFZYbERWSEFhNjlSamxkbjNGcWk2T1h5dFNaYnVhMEF5a1JfTjdfM2lYaDIxVjRaQjNSdmd2Tl9obGd5Qk1IeV9FNXBvMHlWOVppbTVCTzJmaDRkN0Exb2JfYkhKWmpaR2ZfaWdYN9IBtgFBVV95cUxNcW5WZURxRWlkaVZIWGstdlVTN2F6NmoybnZYc25YNGZJamVMRU5MYlBrUzhKUk5RR1pvdTdMRkRrN29TWVYtZDhBSTFKMFNnUlVNbWZUX0NMcEFYZ3FvS09fcWdYVVZ2SG9BQzJCSmFRQlFyc1BRWmtldmdmMXhRVkpTZ0c5UDBJblZFZVpLanNmQS1FdmVub19WLTR6X3lXMlFhbWJKNjFSeGpxdUY2LXA0NjJxZw?oc=5",
+      "fuente": "Información",
+      "fecha": "2026-11-09T16:56:42+00:00"
     },
     {
-      "titulo": "La primera sesión del ‘Forum sobre la IA en la abogacía’ aborda en el ICAB los cambios laborales y de facturación en la profesión - Ilustre Colegio de la Abogacía de Barcelona (ICAB)",
-      "enlace": "https://news.google.com/rss/articles/CBMiiwJBVV95cUxOMS1ieHJPYWM0bXpVOG10cnhRTmhCa3JnaDU1a3NQRFBKTmJ4RHZlSEdtcjdTZVFpenBUYXFyWEhYR182T3o3dGpDZVpkYVhheU9uNWFtRmZDYmx2REl3ZkNac1lyWWZvLUVXLVRINy1JaHM4dmhrTEtDV2tIcTNpMDNDWGgwTFlGNl9YN1RwQzY1UFM5MjVkbC0zenhMTC1kNGRGMTZ0M0F1aGRLN2w2TnlRRFNndU9TVVhfdDBUS0xwRE4yU1JlTDNEcWtHMU5EODVHNHJZRkRKb0VGeGJtbHZQV2FoQjU5a0cwbWF3X2JzRXFDTUszRnJZanBEM2gxSy00RjBOQjhTNGc?oc=5",
-      "fuente": "Ilustre Colegio de la Abogacía de Barcelona (ICAB)",
-      "fecha": "2026-11-02T16:32:39+00:00"
+      "titulo": "Google presenta las nuevas TPU 8tx y 8i Max: seguridad en el 'hardware' y contexto masivo para los agentes de IA - Notimérica",
+      "enlace": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxPUVRvWElTSEhjc0dWTlBuNlVkSDNvT2RNY055R21VZ19UaXduUEh2SXRmQkV5UkYtUkxqeDlSY2RFUGZtTmVibDduX3BkSHF5anY3VmUzWTEtR0wwNTNTRkpNVnp4cnFKd2lSYlBqanUzNUdHbV9qbTIzYUMwUUo4dEFmTkk5X1FhWWZkc2pMRzhleUJMTF9Ka3RQZEoxT2ZIX0NrQVBUWmpvMkRLMkIyQTV4d09RSzhsR3VTQjdiQmVfUUZRVkdHNFFYaldmVld6OWI5cXNOalhTc1I2NHFsODVmTDdqRFdMOFJ6NEZB?oc=5",
+      "fuente": "Notimérica",
+      "fecha": "2026-11-09T16:20:16+00:00"
     },
     {
-      "titulo": "Buscan regular el uso de inteligencia artificial en la administración pública de La Plata - 0221",
-      "enlace": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNRjRUbHhSTV9zdklsTzk1cmxEM21mMDFaWFRVU1VHSkxwN3o5TzJBUHRrY0hFWk5pVG1hYzIzZGJQNzJfZjVTdUh0bzhkQUxiWERUN0JBUnFXZGZmTkNMZlVVa3hMN1hXTHdBNUlpUFJRUU9XR2NVTjVYQzFQdjRJT2Y5WVY4RS14eVpPYzk1NU1fY0k1MS1feE5KX3pucnN0S3dZRVBveUU2WnhHLUlJOHpnTUplaTZybTFhTlZB0gHDAUFVX3lxTFBUZDBRd2stZG5yRFpWN2xlR0RsTWc0X2N2VGJnNDI3bVN6d1hZT0Uxek9saDZhRWFLZjhZMFdtMndoazBTLURQRGdzdkhxVEdmUkMxZlBGejZvSW5ocDBEak5hRHhMQ0tOSFV5ZmFFbVc0MFhMa0dNaGoyMG1Dc3FsMlRpcWo2VW16QWx3TE9SaTA0RTVnQ0d0YmpVRDRYQlZrbWktSTdTTGI3eUpXZExnTmJKUlUzcEpES2JYMER0UmpNQQ?oc=5",
-      "fuente": "0221",
-      "fecha": "2026-11-02T16:25:00+00:00"
+      "titulo": "TJUE: IA podría infringir derechos al reutilizar textos - veredictum.cl",
+      "enlace": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPMlVIQmJ0elNibVR0eEgxYkVHOWhFYmRrYkx6M3duR2F1SGRiUEdUVEZmaXRRN1BibEc4cDRSRWdLZ2taU09YbTd5Y2dicnVFWThBYmNNUV9RcjZpbmlyZWx1cDctRE9UN3U5dm9aNlVGemJLSmlHOFhLanpyNHY5REppTQ?oc=5",
+      "fuente": "veredictum.cl",
+      "fecha": "2026-11-09T16:16:42+00:00"
     },
     {
-      "titulo": "Iberoamérica define su agenda de IA: 22 países en Madrid - El Ecosistema Startup",
-      "enlace": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNdjhWZ2pzb0xHcV9BWTdHR1NHanRwVHJPUFNnWnFuR0ZuSndydmtOdHpVX0I3bWRBazRvYWN3eVlGaDRFeTIzeC1VU2JCbllJdVFnWUZXUFVBTVpOTXFUVXBvVUJsZFhNX0hMQkducjNVUnZwcjNpcVNIR3hRSXF6d3E4NzdicVpUUkFuTGU0QQ?oc=5",
-      "fuente": "El Ecosistema Startup",
-      "fecha": "2026-11-02T16:24:39+00:00"
+      "titulo": "Clientes esperan que despachos usen IA con criterio propio - veredictum.cl",
+      "enlace": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOY0NfMmlPcGJaLXR0R0Z5cWM3TVFUWm1nVnA5dHE2ellUQklub28xX01IVzRjRXdBWGZoS0pTemo4bGlrOG9LSzRnNkl6NG5SeXFLUzhiZW8xSGRVQ0Y2U0FnQVpuUE02ZEh6a2Z1T2ItYjItdGF2a19wY3FmUXYyZ2tsaGFFelNB?oc=5",
+      "fuente": "veredictum.cl",
+      "fecha": "2026-11-09T16:16:40+00:00"
     },
     {
-      "titulo": "Delegaciones de 17 países se reunirán en RD para analizar los desafíos del derecho de autor en la era de la inteligencia artificial - Últimas Noticias de la República Dominicana",
-      "enlace": "https://news.google.com/rss/articles/CBMihAJBVV95cUxNTlo1aVYzVnJWVWpRQWxvVlFzbjBqWGR4eEYtSVlhdTN6OHFZcEdXSlBMcFBObHdIT2pSaGdkOC1sd1hZaHNLOEVJTUFLZlBubngxRTkzV2Y3NWxOOWNHaVhRUl9vR3g2YkdLMGFWalRmcGhJUU53S0xwa3dMLVVwNXNBcFVhZHJwYjVBMWptcVE5YUs3NUVkZ3lUek5LRmFZZnFtM2QtajdHWEFtblR1NVFKd2hmMGhpdXFHcjJmcmRkXzVwQnh2WENuUG5BOUJQWWtZUDVZeE5tZkp6TW9wVUFTb1paRUlnc1Vaci1lZFdrVWx4YkNaMWFjaFJxVWtTQzJkbg?oc=5",
-      "fuente": "Últimas Noticias de la República Dominicana",
-      "fecha": "2026-11-02T15:45:00+00:00"
+      "titulo": "Dignatarios de la OMPI y 17 países de América Latina y el Caribe llegan a RD a debatir desde este martes sobre inteligencia artificial y derecho de autor - Bavarodigital.net",
+      "enlace": "https://news.google.com/rss/articles/CBMijAJBVV95cUxNYkx1aDN1NHZ3eXBRZGM0MEFPcjVRcDI2ai1Id2VMemQ2dG5tOFZmaHVHeEVETWd0YnlraW9BY2NjWFdSS0xiWGsxaFdhWVFnYlZ0ZEFta2FPMmVFY2tOVDFlZjd3SVhKR0hKbFFSTGJSYUNlaUNxMVZqRk9ub1ZORldjWERfcjRGSHkxamd5elB5Znl6cUpYZkZjZ3BNcFF2LUYwbVg4YV9GOWZsTVR5bFl5SkF0Zy1Ja3lKYnN6cnRXcjRwLTVxMFY5UWtGOGQzdkQxZ1YwMFgwd2pHTXNVWmgyR0ZIdWg3ZzNVY2ZjdWkyb0RNYkY3M0hBR2hVRWZibTNtcDhHM3d5enpL?oc=5",
+      "fuente": "Bavarodigital.net",
+      "fecha": "2026-11-09T14:28:15+00:00"
     },
     {
-      "titulo": "La comunidad iberoamericana pone el foco en las oportunidades y los desafíos de la IA - En Segundos Panama",
-      "enlace": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPRkFyMU93MWJldUxYbE5vUlVEUUNNOWhmOU03VE5IZ091aUd1UXZyRnNzZVZtdkZEaXpyeTlWSlZfVjB2UXhZSUQzTUlvUE5QOGM1ZDFqLUFnVEhhWllPOE00M0s1WExhYlFyTGhkUkZ4ZFh5MTh3RE14SjUzaDR6V2NCX1hpc1RGWGtTbWdqa3RHTUNvQTFacFpQb1VTckFhX1g3dkptcTlQWmQ4OWxpM2EydUUzdTdQd0JMcG1zLV8?oc=5",
-      "fuente": "En Segundos Panama",
-      "fecha": "2026-11-02T15:30:21+00:00"
+      "titulo": "Auditoría algorítmica de Inteligencia Artificial para blindar la Ciberseguridad - El Comercio",
+      "enlace": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPYmhXczViTHRtRWNNak1NQTlLOFN5VEdxUUgwS0VpQWRCd1lZVzZJYkNWVm9PcGVKOXM3bjFDUXFYMFpOZk9yN3JQSk1IRjFGMGxzempnMkwycTlwYXJ3c0wxWU9MeWdPZ3JXckI1b2VNaVhQOU1sTWU2MFZBeFlRX0Q0TkNOdko4b3hKN2ZqZ3hKWlk5bEJJSDZ2bmxSUkI5UkZZT0FIVVFwQ2c?oc=5",
+      "fuente": "El Comercio",
+      "fecha": "2026-11-09T14:25:48+00:00"
     }
   ]
 }
