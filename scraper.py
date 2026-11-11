@@ -115,17 +115,22 @@ def _parse_item(item: dict) -> "Sentencia":
                     ponente = str(val)
                 break
 
-    resumen = next((str(res[k])[:500] for k in [
-        "metadatasentencia", "extracto", "resumen", "contenido", "descripcion"
+    resumen = next((str(res[k])[:4000] for k in [
+        "motivo", "metadatasentencia", "extracto", "resumen", "contenido", "descripcion"
     ] if res.get(k)), "")
 
-    # PDF desde documento
+    # PDF desde documento (puede venir como objeto o como lista de objetos)
     pdf_url = ""
     doc = res.get("documento")
+    if isinstance(doc, list) and doc:
+        doc = doc[0]
     if isinstance(doc, dict):
-        pdf_url = doc.get("uuid", "")
-        if pdf_url:
-            pdf_url = f"{BASE_URL}/buscador-externo/api/documento/{pdf_url}"
+        uuid = doc.get("uuid", "")
+        carpeta = doc.get("carpeta", "tramite")
+        if uuid:
+            payload = f"{{carpeta:'{carpeta}', uuid:'{uuid}'}}"
+            token = base64.b64encode(payload.encode()).decode()
+            pdf_url = f"https://esacc.corteconstitucional.gob.ec/storage/api/v1/10_DWL_FL/{token}"
     if not pdf_url:
         pdf_url = next((str(res[k]) for k in [
             "urlPdf", "pdf_url", "urlDocumento", "linkPdf"
@@ -137,7 +142,7 @@ def _parse_item(item: dict) -> "Sentencia":
 
     return Sentencia(
         numero=numero.strip(), tipo=tipo.strip(), fecha=fecha.strip(),
-        ponente=ponente.strip(), resumen=resumen.strip()[:500],
+        ponente=ponente.strip(), resumen=resumen.strip()[:4000],
         pdf_url=pdf_url.strip(), ficha_url=ficha_url,
     )
 
