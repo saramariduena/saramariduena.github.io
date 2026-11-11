@@ -134,8 +134,10 @@ def main():
 
         print("\n" + "=" * 70)
         print(f"SENTENCIA: {s.numero} ({s.fecha})")
+        print(f"Ponente: {s.ponente}")
         print(f"PDF: {s.pdf_url}")
-        print(f"Texto extraído: {len(texto)} caracteres")
+        print(f"\n--- MOTIVO (API) ---\n{s.resumen}")
+        print(f"\nTexto extraído del PDF: {len(texto)} caracteres")
         print(f"\n--- Fragmentos sobre PRUEBAS ({len(pruebas)}) ---")
         for p in pruebas[:15]:
             print(f"[{p['palabra_clave']}] ...{p['fragmento']}...")
