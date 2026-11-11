@@ -1,0 +1,41 @@
+name: Extraer pruebas y derecho vulnerado de sentencias — Corte Constitucional Ecuador
+
+on:
+  workflow_dispatch:
+    inputs:
+      numeros:
+        description: "Números de causa exactos a buscar, separados por coma (vacío = 4 casos de e-justicia por defecto)"
+        required: false
+        default: ""
+
+jobs:
+  extraer:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Instalar dependencias
+        run: pip install requests==2.32.3 pypdf==4.3.1
+
+      - name: Extraer pruebas y derecho vulnerado (sin correos ni commits)
+        env:
+          NUMEROS_BUSQUEDA: ${{ github.event.inputs.numeros }}
+        run: python extraer_pdf_pruebas.py
+
+      - name: Subir resultados como artefacto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pruebas-extraidas
+          path: pruebas_extraidas.json
+          if-no-files-found: ignore
