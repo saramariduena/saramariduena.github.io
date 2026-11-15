@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rastro 317</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Recorrido por salas que siguen al dinero: verde billete, tinta de sello y ámbar de alerta. Única apariencia deliberada (juego). */
+:root{--ink:#0f2a24;--bill:#1d5c4a;--bill2:#2f7d63;--mint:#dff0e8;--amber:#e3a21a;--amberSoft:#fbefd2;--seal:#b03a2e;--sky:#2b6cb0;--paper:#fbfaf6;--line:#d9dfda;--text:#18241f;--muted:#5b6b64;--good:#1f7a55;--bad:#b03a2e;color-scheme:light}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:"Source Sans 3",Segoe UI,Arial,sans-serif;background:#0b1f1a;color:var(--text)}
+button,input,textarea,select{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-weight:700}
+button:focus-visible,input:focus-visible,select:focus-visible,label.opt:focus-within,.chip:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.primary{background:var(--bill);color:#fff}.primary:hover{background:var(--bill2)}.secondary{background:#eef3ef;color:var(--ink);border:1px solid #cbd7d0}.accent{background:var(--amber);color:#2d1d00}.danger{background:var(--seal);color:#fff}
+h1,h2,h3,.disp{font-family:"Bricolage Grotesque",Georgia,serif;letter-spacing:-.01em;text-wrap:balance}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
+.note{font-size:12.5px;color:var(--muted);line-height:1.55}
+.hidden{display:none!important}
+
+/* ---------- portada ---------- */
+#start{position:fixed;inset:0;z-index:40;overflow:auto;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));
+ background:radial-gradient(circle at 20% 15%,#2f7d6355 0,transparent 35%),radial-gradient(circle at 85% 85%,#e3a21a33 0,transparent 30%),
+ repeating-radial-gradient(circle at 50% 120%,#ffffff07 0 2px,transparent 2px 14px),#0b1f1a;display:grid;place-items:center}
+.intro{width:min(1080px,100%);display:grid;grid-template-columns:1.1fr .9fr;gap:0;border-radius:22px;overflow:hidden;box-shadow:0 30px 90px #0008}
+.introMain{background:var(--paper);padding:34px 36px;min-width:0}
+.introAside{background:#11352c;color:#e6f2ec;padding:30px 30px;min-width:0}
+.intro h1{font-size:clamp(40px,6vw,68px);line-height:.95;margin:10px 0 6px;color:var(--ink)}
+.intro h1 span{color:var(--seal)}
+.lead{font-size:16.5px;line-height:1.6;color:#3b4a44;max-width:60ch}
+label{display:block;font-size:13px;font-weight:700;margin:14px 0 6px}
+input[type=text],select,textarea{width:100%;border:1px solid #c6d2cb;background:#fff;border-radius:10px;padding:11px 12px;color:var(--text)}
+textarea{min-height:80px;resize:vertical}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.route{display:grid;gap:10px;margin-top:14px}
+.routeStep{display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:start;padding:12px;border:1px solid #ffffff1f;border-radius:12px;background:#ffffff08}
+.routeStep b{display:block;font-size:15px}.routeStep span{font-size:13px;color:#b9d3c7;line-height:1.45}
+.routeNum{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-family:"JetBrains Mono",monospace;font-weight:700;background:var(--amber);color:#2d1d00}
+
+/* ---------- mundo y HUD ---------- */
+#world{position:fixed;inset:0;background:#0b1f1a;touch-action:none}#world canvas{display:block}
+#hud{position:fixed;inset:0;z-index:10;pointer-events:none;display:none}
+.hud{position:absolute;background:#fbfaf6f2;border:1px solid #cfdad3;border-radius:12px;padding:10px 13px;box-shadow:0 8px 26px #0005;pointer-events:auto}
+.hud small{display:block;font-size:11px;color:var(--muted);letter-spacing:.07em;text-transform:uppercase}
+#hTop{top:calc(14px + env(safe-area-inset-top,0px));left:calc(132px + env(safe-area-inset-left,0px));max-width:min(520px,calc(100vw - 440px))}
+#hTop strong{display:block;font-family:"Bricolage Grotesque",Georgia,serif;font-size:18px;margin:2px 0}
+#hProg{top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));width:270px}
+.bar{height:8px;border-radius:999px;background:#e1e8e3;overflow:hidden;margin-top:7px}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--bill2));transition:width .3s}
+.scoreLine{font-size:13px;margin-top:6px}.hudBtn{width:100%;margin-top:8px;padding:8px 10px;font-size:13px}
+#hMap{top:calc(170px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));width:270px;max-height:calc(100vh - 250px);overflow:auto}
+.roomRow{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:13px;font-weight:600}
+.roomDot{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;font-size:11px;font-weight:800;flex:none;background:#e1e8e3;color:#56655e}
+.roomRow.open .roomDot{background:var(--amber);color:#2d1d00}.roomRow.done .roomDot{background:var(--good);color:#fff}.roomRow.here{color:var(--bill)}
+.roomRow small{display:inline;text-transform:none;letter-spacing:0;margin-left:auto}
+.stList{margin:2px 0 8px 30px;display:grid;gap:3px}
+.stBtn{background:none;border:0;padding:2px 0;text-align:left;font-size:12.5px;font-weight:600;color:var(--text);border-radius:4px}
+.stBtn.ok{color:var(--good)}.stBtn:disabled{color:#9aa8a1;cursor:default}
+#hKeys{left:calc(14px + env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));font-size:11.5px;color:var(--muted)}
+#prompt{position:fixed;bottom:calc(78px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);z-index:12;background:var(--amberSoft);border:1px solid #e9c46a;border-radius:12px;padding:11px 16px;box-shadow:0 8px 24px #0004;font-weight:700;display:none;color:#4a3200;max-width:calc(100vw - 32px)}
+#menuBtn{position:fixed;top:calc(15px + env(safe-area-inset-top,0px));left:calc(15px + env(safe-area-inset-left,0px));z-index:14;display:none;box-shadow:0 8px 24px #0004}
+#pause{position:fixed;z-index:13;left:50%;top:50%;transform:translate(-50%,-50%);width:420px;max-width:90vw;background:#fbfaf6fa;border-radius:16px;padding:22px;text-align:center;display:none;box-shadow:0 16px 48px #0006}
+#pause .actions{justify-content:center}
+#touchPad{position:fixed;z-index:11;left:calc(16px + env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:none;grid-template-columns:repeat(3,52px);grid-template-rows:repeat(2,52px);gap:6px}
+#touchPad button{padding:0;background:#fbfaf6e0;color:var(--ink);border:1px solid #cfdad3;font-size:20px;touch-action:none;user-select:none;-webkit-user-select:none}
+#touchAct{position:fixed;z-index:11;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:none;width:74px;height:74px;border-radius:50%;padding:0;font-size:22px}
+#toast{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom,0px));right:calc(18px + env(safe-area-inset-right,0px));z-index:60;background:var(--ink);color:#fff;padding:13px 18px;border-radius:11px;opacity:0;transform:translateY(15px);transition:.25s;pointer-events:none;max-width:min(440px,calc(100vw - 36px))}#toast.show{opacity:1;transform:none}
+
+/* ---------- modales ---------- */
+.shade{position:fixed;inset:0;z-index:20;background:#06140fcc;display:none;place-items:center;padding:16px}
+.work{width:min(980px,100%);max-height:94vh;overflow:auto;background:var(--paper);border-radius:18px;box-shadow:0 20px 80px #000a;padding:0}
+.workHead{position:sticky;top:0;z-index:2;background:var(--ink);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 24px}
+.workHead .title{font-family:"Bricolage Grotesque",Georgia,serif;font-size:23px;font-weight:800}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber)}
+.workBody{padding:18px 26px 26px}
+.sec{display:flex;align-items:center;gap:10px;margin:18px 0 8px;font-family:"Bricolage Grotesque",Georgia,serif;font-size:19px;font-weight:800;color:var(--ink)}
+.sec i{font-style:normal;font-family:"JetBrains Mono",monospace;font-size:12px;background:var(--amber);color:#2d1d00;border-radius:6px;padding:3px 7px}
+.lesson{font-size:15px;line-height:1.62;color:#24332d}
+.lesson p{margin:8px 0;max-width:75ch}
+.lesson ul{margin:6px 0;padding-left:20px}.lesson li{margin:4px 0}
+.callout{border-radius:10px;padding:12px 14px;margin:12px 0;font-size:14px;line-height:1.55}
+.callout.key{background:#e6f3ec;border:1px solid #bcdcca}.callout.warn{background:var(--amberSoft);border:1px solid #ecd28a}.callout.case{background:#f6ece9;border:1px solid #e3c5bd}.callout.hypo{background:#eef0f3;border:1px solid #d3d8e0}
+.callout b.lab{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.quote{font-family:"Bricolage Grotesque",Georgia,serif;font-size:17px;line-height:1.45}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin:10px 0}
+.flow>div{flex:1 1 150px;min-width:0;border-radius:10px;padding:10px 12px;background:#fff;border:1px solid var(--line);position:relative;font-size:13.5px;line-height:1.45}
+.flow>div b{display:block;font-family:"Bricolage Grotesque",Georgia,serif;font-size:15px;margin-bottom:3px}
+.flow>div .n{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted)}
+.flow.phases>div:nth-child(1){border-top:5px solid #2f9e6b}.flow.phases>div:nth-child(2){border-top:5px solid var(--amber)}.flow.phases>div:nth-child(3){border-top:5px solid var(--sky)}
+.tablewrap{overflow-x:auto;margin:10px 0}table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{border:1px solid var(--line);text-align:left;padding:8px 10px;vertical-align:top}th{background:#eef3ef}
+td.num{font-family:"JetBrains Mono",monospace;white-space:nowrap}
+.task{border:1px solid var(--line);background:#fff;border-radius:12px;padding:14px 16px;margin:12px 0}
+.task .q{font-weight:700;margin:0 0 10px;line-height:1.45}
+.task .kind{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--bill2);margin-bottom:4px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{display:flex;gap:9px;align-items:flex-start;border:1px solid #d2dbd5;border-radius:10px;padding:9px 11px;font-size:14px;cursor:pointer;margin:0;font-weight:500;line-height:1.4;background:#fff}
+.opt:has(input:checked){background:#eaf4ee;border-color:#6aa88a}.opt input{accent-color:var(--bill);margin:2px 0 0;flex:none}
+.opt.right,.opt.right:has(input:checked){background:#e3f4ea;border-color:#4f9f78}.opt.wrong,.opt.wrong:has(input:checked){background:#f8e6e3;border-color:#d58b80}
+.rows{display:grid;gap:8px}
+.row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid #e0e6e2;border-radius:10px;padding:8px 10px;background:#fcfdfc}
+.row .txt{font-size:14px;line-height:1.4;min-width:0}
+.seg{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end}
+.seg label{margin:0;font-size:12.5px;font-weight:700;border:1px solid #cbd7d0;border-radius:999px;padding:5px 10px;cursor:pointer;background:#fff;white-space:nowrap}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label:has(input:checked){background:var(--ink);color:#fff;border-color:var(--ink)}
+.seg label:focus-within{outline:3px solid var(--amber)}
+.row select{width:auto;max-width:330px;padding:7px 9px;font-size:13.5px}
+.row.right{border-color:#4f9f78;background:#eef8f2}.row.wrong{border-color:#d58b80;background:#fbefed}
+.fix{grid-column:1/-1;font-size:12.5px;color:var(--bad);font-weight:600}
+.explain{margin-top:10px;font-size:13.5px;line-height:1.55;padding:9px 12px;border-radius:8px;background:#f2f5f3;border:1px solid #dfe6e2}
+.explain b{color:var(--ink)}
+.result{margin-top:14px;padding:14px 16px;border-radius:12px;background:var(--amberSoft);border:1px solid #ecd28a;font-size:14px}.result.ok{background:#e3f4ea;border-color:#9bcfb2}
+.stickyActs{position:sticky;bottom:0;background:linear-gradient(180deg,#fbfaf600,#fbfaf6 35%);padding:14px 26px 18px;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.npcname{display:flex;align-items:center;gap:12px;margin-bottom:12px}.avatarBadge{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--amberSoft);color:#6b4a00;font-weight:800;font-size:20px;flex:none;font-family:"Bricolage Grotesque",Georgia,serif}
+.dialogue{font-size:16.5px;line-height:1.6;background:#f1f5f2;border:1px solid #d9e3dd;padding:16px;border-radius:12px;font-family:"Bricolage Grotesque",Georgia,serif}
+#menu{position:fixed;left:0;top:0;bottom:0;width:380px;max-width:92vw;background:var(--paper);z-index:16;transform:translateX(-105%);transition:transform .22s;box-shadow:10px 0 34px #0006;padding:calc(22px + env(safe-area-inset-top,0px)) 22px 22px calc(22px + env(safe-area-inset-left,0px));overflow:auto}
+#menu.open{transform:none}#menuShade{position:fixed;inset:0;background:#0009;display:none;z-index:15}
+#menu>button{width:100%;text-align:left;margin:5px 0}
+#gloss dl{margin:0}#gloss dt{font-weight:700;margin-top:10px}#gloss dd{margin:2px 0 0;color:#33433c;line-height:1.5}
+#fallback{display:none;position:fixed;inset:0;z-index:6;overflow:auto;background:#eef3ef;padding:78px max(16px,env(safe-area-inset-right,0px)) 28px max(16px,env(safe-area-inset-left,0px))}
+.fbRoom{max-width:980px;margin:0 auto 18px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.fbRoom h3{margin:0 0 4px}.fbGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:10px}
+.fbGrid button{background:#f6f9f7;border:1px solid #d5e0d9;text-align:left;font-weight:600;padding:14px;min-height:84px;color:var(--text)}
+.fbGrid button:disabled{opacity:.55;cursor:default}
+#report{display:none;position:fixed;inset:0;z-index:40;background:#e6ede9;overflow:auto;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px))}
+.rep{max-width:940px;margin:0 auto;background:#fff;border-radius:14px;padding:32px;box-shadow:0 12px 34px #0002}
+.rep .actions{position:sticky;top:0;background:#fff;padding:8px 0;z-index:2;justify-content:flex-end;margin-top:0}
+.scorebox{display:flex;gap:16px;flex-wrap:wrap;align-items:center;background:#f2f6f3;border:1px solid var(--line);border-radius:12px;padding:16px;margin:14px 0}
+.seal{width:104px;height:104px;border-radius:50%;border:3px double var(--seal);display:grid;place-items:center;text-align:center;color:var(--seal);font-weight:800;font-size:11.5px;line-height:1.15;transform:rotate(-8deg);flex:none;font-family:"Bricolage Grotesque",Georgia,serif}
+.seal b{display:block;font-size:22px;font-family:"JetBrains Mono",monospace}
+.ideas{counter-reset:i;list-style:none;padding:0;display:grid;gap:8px}.ideas li{counter-increment:i;padding:10px 12px 10px 46px;position:relative;background:#f6f9f7;border-radius:10px;border:1px solid var(--line);line-height:1.5}
+.ideas li::before{content:counter(i);position:absolute;left:12px;top:10px;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;font-family:"JetBrains Mono",monospace}
+@media (max-width:880px){.shade{padding:8px}.workHead{padding:10px 14px;flex-wrap:nowrap}.workHead .title{font-size:18px}.workHead .tag{font-size:10px}.workHead button{padding:8px 10px;font-size:13px;flex:none}.stickyActs{padding:10px 14px 12px}.intro{grid-template-columns:1fr}.introMain,.introAside{padding:22px}#hTop{left:calc(14px + env(safe-area-inset-left,0px));top:calc(66px + env(safe-area-inset-top,0px));max-width:calc(100vw - 28px)}#hMap,#hKeys{display:none!important}#hProg{width:180px}.opts,.grid2{grid-template-columns:1fr}.row{grid-template-columns:1fr}.seg{justify-content:flex-start}.row select{max-width:100%;width:100%}.workBody{padding:14px 16px 20px}.rep{padding:18px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{#world,#hud,#menuBtn,#menu,#menuShade,#pause,#prompt,.shade,#toast,#start,#fallback,#touchPad,#touchAct{display:none!important}html,body{overflow:visible;height:auto;background:#fff}#report{position:static;display:block!important;padding:0;background:#fff;overflow:visible}.rep{box-shadow:none;max-width:none;padding:0}.rep .actions{display:none!important}@page{size:A4;margin:14mm}}
+</style>
+
+<section id="start">
+ <div class="intro">
+  <div class="introMain">
+   <div class="eyebrow">Laboratorio inmersivo · Tema 3 · Régimen económico</div>
+   <h1>RASTRO <span>317</span></h1>
+   <p class="lead">Sigue el recorrido de un dólar sucio. Primero ves cómo se lava, después cómo el Estado lo detecta y lo prueba, luego cómo le quita los bienes al patrimonio ilícito y, al final, cómo coopera con otros países. Cada sala se abre cuando terminas la anterior.</p>
+   <div class="grid2">
+    <div><label for="mode">Modalidad</label><select id="mode"><option value="group">Grupal</option><option value="individual">Individual</option></select></div>
+    <div id="groupSel"><label for="group">Grupo</label><select id="group"><option>Grupo 1</option><option>Grupo 2</option><option>Grupo 3</option><option>Grupo 4</option><option>Grupo 5</option><option>Grupo 6</option></select></div>
+   </div>
+   <div id="groupFields"><label for="members">Integrantes (uno por línea)</label><textarea id="members" placeholder="1. Nombre Apellido&#10;2. Nombre Apellido"></textarea></div>
+   <div id="individualFields" class="hidden"><label for="student">Nombre y apellido</label><input id="student" type="text" maxlength="58" placeholder="Ej. Sara Maridueña" autocomplete="name"></div>
+   <label for="avatarSex">Tu avatar</label><select id="avatarSex"><option value="mujer">Mujer</option><option value="hombre">Hombre</option></select>
+   <div class="actions">
+    <button class="primary" id="begin">▶ ENTRAR AL RECORRIDO</button>
+    <button class="secondary hidden" id="continue">↻ RETOMAR AVANCE</button>
+    <button class="secondary" id="listMode">☷ JUGAR SIN 3D</button>
+   </div>
+   <p class="note">Controles: WASD o flechas para caminar, ratón para mirar, E para interactuar, M para el menú y Esc para liberar el puntero. En teléfono aparecen botones táctiles. El avance se guarda en este navegador. Contenido basado en el material de estudio y el guion del Tema 3 (datos verificados al 13 de noviembre de 2026). Los procesos sin sentencia se presentan según la tesis de la Fiscalía: rige la presunción de inocencia.</p>
+  </div>
+  <aside class="introAside">
+   <div class="eyebrow">La ruta del dinero</div>
+   <div class="route">
+    <div class="routeStep"><div class="routeNum">1</div><div><b>Cómo se lava el dinero</b><span>Colocación, estratificación e integración; las conductas del art. 317, las penas de 2024 y el debate sobre el dolo.</span></div></div>
+    <div class="routeStep"><div class="routeNum">2</div><div><b>Detectar, investigar y probar</b><span>UAFE y sujetos obligados, autonomía del lavado, Resolución 20-2024, prueba indiciaria y los casos Blanqueo Fito y Goleada.</span></div></div>
+    <div class="routeStep"><div class="routeNum">3</div><div><b>Extinción de dominio</b><span>Qué bienes alcanza, su naturaleza, la sentencia penal previa en tres etapas, el tercero de buena fe y el comiso.</span></div></div>
+    <div class="routeStep"><div class="routeNum">4</div><div><b>El dinero cruza fronteras</b><span>Convenciones, GAFI y GAFILAT, y la nueva Ley Orgánica de Extradición.</span></div></div>
+   </div>
+   <p class="note" style="color:#b9d3c7;margin-top:14px">En cada estación primero aprendes con una mini-lección y luego resuelves retos: clasificar, ordenar, unir y opción múltiple. Al final obtienes un informe con tu puntaje.</p>
+  </aside>
+ </div>
+</section>
+
+<div id="world"></div>
+<section id="fallback"></section>
+<button id="menuBtn" class="accent" onclick="openMenu()">☰ MENÚ</button>
+<div id="hud">
+ <div id="hTop" class="hud"><small id="hRoom">Recepción</small><strong id="hMission">Habla con la guía y resuelve la primera estación</strong><small id="hWho" style="text-transform:none;letter-spacing:0"></small></div>
+ <div id="hProg" class="hud"><small>Progreso · <b id="hPct">0%</b></small><div class="bar"><i id="hBar"></i></div><div class="scoreLine">Estaciones: <b id="hSt" class="mono">0/0</b> · Puntaje: <b id="hScore" class="mono">0/0</b></div><button class="danger hudBtn" onclick="showReport()">▤ Ver informe final</button></div>
+ <div id="hMap" class="hud"><small>Mapa del recorrido</small><div id="mapRows"></div></div>
+ <div id="hKeys" class="hud">WASD / flechas: caminar · Ratón: mirar · E: interactuar · M: menú · Esc: liberar puntero</div>
+</div>
+<button id="prompt" type="button" onclick="interact()"></button>
+<div id="touchPad"><span></span><button data-k="KeyW" aria-label="Avanzar">▲</button><span></span><button data-k="KeyA" aria-label="Izquierda">◀</button><button data-k="KeyS" aria-label="Retroceder">▼</button><button data-k="KeyD" aria-label="Derecha">▶</button></div>
+<button id="touchAct" class="accent" onclick="interact()" aria-label="Interactuar">E</button>
+<div id="pause"><h3 style="margin:0 0 6px">Recorrido en pausa</h3><p class="note">Tu avatar sigue en la sala. Continúa para caminar, abre el menú para ir a una estación o revisa tu informe.</p><div class="actions"><button class="primary" onclick="capture()">▶ CONTINUAR</button><button class="secondary" onclick="openMenu()">☰ MENÚ</button><button class="danger" onclick="showReport()">▤ INFORME</button></div></div>
+<div id="menuShade" onclick="closeMenu(false)"></div>
+<nav id="menu">
+ <div class="eyebrow">Centro de navegación</div><h2 style="margin:6px 0">Mi recorrido</h2><p class="note" id="menuWho"></p>
+ <button class="primary" onclick="closeMenu(true)">▶ Volver al recorrido</button>
+ <button class="secondary" onclick="openGloss()">📖 Glosario</button>
+ <button class="secondary" onclick="goRoom(currentRoom())">↶ Ir a la entrada de esta sala</button>
+ <button class="secondary" onclick="home()">⌂ Ir a la portada</button>
+ <div id="menuRooms" style="margin-top:10px"></div>
+ <button class="danger" onclick="showReport()">▤ Ver informe final</button>
+</nav>
+<div id="stShade" class="shade"><article class="work" role="dialog" aria-modal="true" aria-labelledby="stTitle"><div class="workHead"><div><span class="tag" id="stTag">Estación</span><div class="title" id="stTitle">Estación</div></div><button class="secondary" onclick="closeStation()">✕ Volver</button></div><div class="workBody" id="stBody"></div><div class="stickyActs" id="stActs"></div></article></div>
+<div id="dlgShade" class="shade"><article class="work" role="dialog" aria-modal="true" aria-labelledby="dlgTitle" style="width:min(720px,96vw)"><div class="workHead"><div><span class="tag" id="dlgTag">Personaje</span><div class="title" id="dlgTitle">Entrevista</div></div><button class="secondary" onclick="closeDialog()">✕ Cerrar</button></div><div class="workBody" id="dlgBody"></div></article></div>
+<div id="glossShade" class="shade"><article class="work" role="dialog" aria-modal="true" aria-labelledby="glTitle" style="width:min(760px,96vw)"><div class="workHead"><div><span class="tag">Consulta rápida</span><div class="title" id="glTitle">Glosario del Tema 3</div></div><button class="secondary" onclick="closeGloss()">✕ Cerrar</button></div><div class="workBody" id="gloss"></div></article></div>
+<div id="report"><div class="rep" id="rep"></div></div>
+<div id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script>
+'use strict';
+const $=id=>document.getElementById(id),KEY='rastro317_v1';
+/* ================= CONTENIDO ================= */
+const ROOMS=[
+ {id:'lobby',n:0,title:'Recepción',short:'Recepción',z:0,floor:0xd9d2c1,stripe:'#e3a21a'},
+ {id:'r1',n:1,title:'Sala 1 · Cómo se lava el dinero',short:'Cómo se lava',z:-28,floor:0x2e5a4c,stripe:'#2f9e6b'},
+ {id:'r2',n:2,title:'Sala 2 · Detectar, investigar y probar',short:'Detectar y probar',z:-56,floor:0x3b4a5e,stripe:'#2b6cb0'},
+ {id:'r3',n:3,title:'Sala 3 · Extinción de dominio',short:'Extinción de dominio',z:-84,floor:0x6b4535,stripe:'#b03a2e'},
+ {id:'r4',n:4,title:'Sala 4 · El dinero cruza fronteras',short:'Cooperación',z:-112,floor:0x1f3a5c,stripe:'#e3a21a'}];
+const BOUND=[-14,-42,-70,-98];
+const L=(t)=>t; // marcador de texto de lección
+const ST=[
+/* ---------- RECEPCIÓN ---------- */
+{id:'L0',room:0,slot:'L1',title:'La pregunta de entrada',short:'Pregunta de entrada',
+lesson:L(`<p>Si una organización criminal gana cien millones de dólares vendiendo droga, ¿cuál es su problema más difícil? No es conseguir la droga ni venderla. Es <b>explicar de dónde salió ese dinero</b> cuando quiera comprar una casa, una flota de camiones o un equipo de fútbol.</p>
+<div class="callout key"><b class="lab">Idea central</b>Lavar activos es dar apariencia de origen lícito a bienes que provienen de un delito. El dinero que no puede explicarse no puede usarse sin delatar a quien lo tiene: lo preguntarán el banco, el SRI, el registrador de la propiedad o la Fiscalía.</div>
+<p>En este recorrido vas a seguir ese dinero: cómo se lava (Sala 1), cómo se detecta y se prueba (Sala 2), cómo el Estado recupera los bienes (Sala 3) y cómo coopera con otros países (Sala 4).</p>`),
+tasks:[
+ {t:'mc',q:'Una organización gana USD 100 millones vendiendo droga. ¿Cuál es su problema más difícil, según el planteamiento de la clase?',o:['Conseguir la droga','Transportarla sin ser detectada','Explicar de dónde salió el dinero cuando quiera usarlo','Encontrar compradores'],a:2,ex:'Sin una historia lícita, cualquier compra significativa deja un rastro que delata el origen. Lavar es fabricar esa historia.'},
+ {t:'tf',q:'Lavar activos es dar apariencia de origen lícito a bienes que provienen de un delito.',a:true,ex:'Es la definición de trabajo del material: introducir el dinero en la economía formal y fabricarle una historia que resista preguntas.'}]},
+/* ---------- SALA 1 ---------- */
+{id:'S1a',room:1,slot:'L1',title:'Las tres fases del lavado',short:'Las tres fases',
+lesson:L(`<p>La doctrina y los organismos internacionales describen el lavado, con fines didácticos, en tres fases. Sigue un mismo dinero (ejemplo hipotético de USD 900.000) de principio a fin:</p>
+<div class="flow phases"><div><span class="n">FASE 1</span><b>Colocación</b>El efectivo entra por primera vez al sistema financiero. Es la fase más riesgosa: el efectivo abulta y llama la atención.</div><div><span class="n">FASE 2</span><b>Estratificación</b>Muchas operaciones sucesivas alejan el dinero de su origen y dificultan el rastreo.</div><div><span class="n">FASE 3</span><b>Integración</b>El dinero regresa con apariencia legítima y se invierte en bienes o negocios lícitos.</div></div>
+<div class="callout warn"><b class="lab">Ojo</b>Las fases son un <b>modelo explicativo</b>, no elementos del tipo penal. El art. 317 no exige que la conducta recorra las tres; una sola fase puede encajar en alguno de sus numerales.</div>
+<div class="callout key"><b class="lab">Lo que sorprende</b>En la integración quien lava <b>paga impuestos</b>, porque la declaración tributaria es la prueba documental de que el dinero es legítimo. Por eso el lavado no es un delito tributario, y un contribuyente puntual puede ser un gran lavador.</div>
+<p><b>¿Qué protege el delito?</b> Tres respuestas que conviven: el <b>orden económico</b> (el dinero ilícito compite deslealmente con el lícito), la <b>administración de justicia</b> (lavar borra las huellas y frustra el comiso) y la <b>eficacia</b> contra las organizaciones (si se les quita el patrimonio pierden su razón de ser). El COIP ubica el lavado entre los delitos contra el régimen de desarrollo, en la sección del sistema económico y financiero.</p>`),
+tasks:[
+ {t:'sort',q:'El mismo dinero recorre las tres fases. Ubica cada operación del ejemplo hipotético en su fase.',b:['Colocación','Estratificación','Integración'],items:[
+  ['Veinte personas depositan montos pequeños en distintas cooperativas, por debajo del umbral de reporte automático',0],
+  ['Parte del efectivo se mezcla con la caja de una distribuidora de víveres que vende al contado',0],
+  ['Tres compañías recién constituidas se pagan «servicios de consultoría» entre sí',1],
+  ['Se envía una parte a una sociedad en Panamá que factura «asesoría logística»',1],
+  ['La sociedad panameña «presta» el dinero a una inmobiliaria que construye un edificio en Manta',2],
+  ['Los departamentos se venden y las utilidades se declaran al SRI',2]],ex:'Colocación: el efectivo entra al sistema. Estratificación: capas de operaciones que alejan el dinero del origen. Integración: vuelve como inversión aparentemente legítima.'},
+ {t:'mc',q:'La Fiscalía prueba la colocación y la estratificación, pero no la integración. ¿Qué consecuencia tiene?',o:['No hay delito: el lavado exige recorrer las tres fases','Puede haber delito: las fases son un modelo explicativo y una sola puede encajar en el art. 317','Solo hay tentativa de lavado','El hecho se convierte en defraudación tributaria'],a:1,ex:'Las fases no son elementos del tipo. Conviene recordarlo para no pensar que, sin integración probada, no hay delito.'},
+ {t:'mc',q:'¿Por qué, en la fase de integración, a quien lava le conviene pagar impuestos?',o:['Porque la ley le obliga a pagar el doble','Porque la declaración tributaria es la prueba documental de que el dinero parece legítimo','Porque así evita la extinción de dominio','Porque el SRI no puede informar a la UAFE'],a:1,ex:'La declaración al SRI «limpia» la historia del dinero. Por eso el lavado no es, en esencia, un delito tributario.'},
+ {t:'mc',q:'El COIP ubica el lavado entre los delitos contra el régimen de desarrollo (sistema económico y financiero). ¿Qué tesis sobre el bien jurídico refleja esa ubicación?',o:['Protege la administración de justicia','Protege el orden económico: el dinero ilícito compite deslealmente con el lícito','Protege la salud pública','Protege la fe pública documental'],a:1,ex:'El legislador se inclinó por el orden económico, aunque en la práctica conviven las tres razones (orden económico, administración de justicia y eficacia contra las organizaciones).'}]},
+{id:'S1b',room:1,slot:'R1',title:'Las conductas del art. 317 COIP',short:'Conductas del art. 317',
+lesson:L(`<p>El art. 317 es uno de los tipos más largos del COIP: el legislador quiso cubrir todas las formas de «tocar» el dinero sucio. Agrupadas por su lógica:</p>
+<div class="tablewrap"><table><tr><th>Grupo</th><th>Qué describe</th><th>Fase asociada</th></tr>
+<tr><td>Tenencia y circulación</td><td>Tener, adquirir, transferir, poseer, administrar, utilizar, mantener, resguardar, entregar, transportar, convertir o beneficiarse de activos de origen ilícito.</td><td>Todas</td></tr>
+<tr><td>Ocultamiento</td><td>Ocultar, disimular o impedir que se determine su naturaleza, origen, procedencia o vinculación.</td><td>Estratificación</td></tr>
+<tr><td>Prestar el nombre</td><td>Prestar su nombre o el de su empresa para cometer el delito: el <b>testaferro</b>.</td><td>Estratificación e integración</td></tr>
+<tr><td>Organización y apoyo</td><td>Organizar, gestionar, asesorar, participar o financiar el delito.</td><td>Todas</td></tr>
+<tr><td>Simulación de operaciones</td><td>Realizar operaciones para dar apariencia de licitud a los activos.</td><td>Integración</td></tr>
+<tr><td>Movimiento transfronterizo</td><td>Ingresar o sacar del país dinero de procedencia ilícita.</td><td>Colocación</td></tr></table></div>
+<div class="callout key"><b class="lab">Elementos del tipo</b><b>Sujeto activo:</b> cualquier persona; las personas jurídicas también responden (art. 49 COIP). <b>Objeto:</b> activos de origen ilícito (dinero, muebles, inmuebles, derechos, valores, activos virtuales); cualquier delito que genere activos sirve: es un modelo de «todos los delitos». <b>Conducta:</b> un mismo hecho puede encajar en varios numerales y sigue siendo <b>un solo delito</b>.</div>
+<p><b>Debate abierto: el autolavado.</b> Si el narcotraficante lava su propio dinero, ¿comete dos delitos? El texto del 317 no lo excluye, pero parte de la doctrina advierte un riesgo de doble sanción por el mismo provecho.</p>`),
+tasks:[
+ {t:'sort',q:'Clasifica cada conducta en el grupo del art. 317 al que pertenece.',b:['Tenencia y circulación','Ocultamiento','Testaferro','Simulación de operaciones','Transfronterizo'],items:[
+  ['Transportar y entregar a un tercero dinero que se sabe proveniente de extorsión',0],
+  ['Alterar registros para impedir que se determine la procedencia de los fondos',1],
+  ['Figurar como dueño de un inmueble para que no aparezca el verdadero propietario',2],
+  ['Registrar ventas ficticias para dar apariencia de licitud al dinero',3],
+  ['Sacar del país maletas con efectivo de procedencia ilícita por un paso fronterizo',4]],ex:'Cada grupo responde a una forma distinta de tratar el dinero sucio. Fíjate en el testaferro: presta su nombre; si sabía o no podía dejar de saber, comete lavado.'},
+ {t:'mc',q:'¿Quién puede ser sujeto activo del lavado de activos?',o:['Solo servidores públicos','Solo quien cometió el delito fuente','Cualquier persona, y también las personas jurídicas (art. 49 COIP)','Solo los sujetos obligados, como bancos y notarios'],a:2,ex:'Es un sujeto activo indeterminado. Por eso los familiares de un cabecilla pueden ser autores de lavado aunque no hayan cometido el delito fuente.'},
+ {t:'mc',q:'¿De qué delitos puede provenir el dinero que se lava?',o:['Solo del narcotráfico','Solo del narcotráfico y de la corrupción','De cualquier delito que genere activos, cometido dentro o fuera del país','Solo de delitos ya sentenciados en Ecuador'],a:2,ex:'El COIP no limita el delito fuente a una lista y el art. 317 habla de delitos cometidos dentro o fuera del país.'},
+ {t:'tf',q:'Si un mismo hecho encaja en varios numerales del art. 317, hay tantos delitos como numerales.',a:false,ex:'No hay concurso entre los numerales: es un solo delito.'},
+ {t:'mc',q:'Sobre el autolavado (el autor del delito fuente que lava su propio dinero), ¿qué afirmación es correcta?',o:['Nunca constituye lavado','Es un punto discutido: el art. 317 no lo excluye, pero parte de la doctrina advierte riesgo de doble sanción','Solo es lavado si usa personas jurídicas','Siempre se absorbe en el delito fuente'],a:1,ex:'La acumulación que menciona el segundo inciso del 317 apunta a admitirlo, pero el debate sigue abierto.'}]},
+{id:'S1c',room:1,slot:'L2',title:'Cómo se lava el dinero del narcotráfico',short:'Dinero del narcotráfico',
+lesson:L(`<p>El narcotráfico genera mucho efectivo en poco tiempo, así que su principal problema es la <b>colocación</b>. Contra lo que suele imaginarse, la mayor parte de ese dinero <b>no</b> se lava con criptoactivos ni con cuentas en paraísos fiscales, sino con métodos locales y simples:</p>
+<ul><li><b>Negocios que manejan efectivo</b>: transporte, construcción, ferreterías, comercio de vehículos, restaurantes, camaroneras, importaciones.</li><li><b>Familiares y allegados</b> como titulares de cuentas, empresas e inmuebles.</li><li><b>Compraventa de inmuebles y vehículos</b>, a menudo subvaluados en la escritura y pagados en parte en efectivo.</li><li><b>Comercio exterior</b> con facturas de valores alterados.</li><li><b>Empresas sin actividad real</b> que facturan servicios inexistentes.</li></ul>
+<div class="callout case"><b class="lab">Caso con sentencia de primera instancia · Blanqueo Fito</b>La Fiscalía procesó a 17 personas naturales y 4 jurídicas del entorno de José Adolfo Macías Villamar, alias «Fito», por presunto lavado de más de USD 25 millones provenientes, según la acusación, del narcotráfico. Según la Fiscalía, la red usaba cuentas de familiares, empresas de transporte de carga y de ferretería, inmuebles a nombre de terceros y donaciones entre parientes; se incautaron vehículos y 46 inmuebles. El 28 de mayo de 2026 un tribunal condenó a seis personas naturales y dos jurídicas a penas de entre siete y diez años, según la prensa.</div>
+<p class="note">Dato de las diapositivas corregido: los casinos están prohibidos en Ecuador desde la consulta popular de 2011.</p>`),
+tasks:[
+ {t:'sort',q:'Según el material, ¿cuáles son vías frecuentes para lavar dinero del narcotráfico y cuáles son ideas equivocadas?',b:['Vía frecuente','Idea equivocada'],items:[
+  ['Negocios que manejan efectivo: transporte, ferreterías, camaroneras',0],
+  ['Familiares y allegados como titulares de cuentas, empresas e inmuebles',0],
+  ['Inmuebles subvaluados en la escritura y pagados en parte en efectivo',0],
+  ['Facturas de importación o exportación con valores alterados',0],
+  ['La mayor parte se lava con criptoactivos y cuentas en paraísos fiscales',1],
+  ['Casinos que operan legalmente en Ecuador como sujetos obligados',1]],ex:'Lo inquietante es que no hay nada sofisticado: negocios locales de efectivo donde un ingreso adicional no llama la atención. Y los casinos están prohibidos desde 2011.'},
+ {t:'mc',q:'¿Cuál es la fase más difícil para el dinero del narcotráfico?',o:['La estratificación','La colocación, porque genera mucho efectivo en poco tiempo','La integración','La extradición'],a:1,ex:'El efectivo abundante es voluminoso y llama la atención: meterlo al sistema es el cuello de botella.'},
+ {t:'mc',q:'Según la acusación en el caso Blanqueo Fito, ¿qué patrón usaba la red?',o:['Criptoactivos en plataformas extranjeras','Cuentas de familiares, empresas de transporte de carga y ferretería, inmuebles a nombre de terceros y donaciones entre parientes','Fideicomisos en el mercado de valores','Apuestas en casinos'],a:1,ex:'Es el patrón clásico de una organización de base familiar. Recuerda: es la tesis de la acusación; la sentencia de primera instancia alcanzó a seis personas naturales y dos jurídicas.'}]},
+{id:'S1d',room:1,slot:'R2',title:'Penas vigentes y el debate sobre el dolo',short:'Penas y dolo',
+lesson:L(`<p>La escala del art. 317 fue elevada por la Ley Orgánica para la Aplicación de la Consulta Popular y Referéndum del 21 de abril de 2024 (R.O. Supl. 599, 12 de julio de 2024). Muchas fuentes siguen citando la escala anterior.</p>
+<div class="tablewrap"><table><tr><th>Tramo</th><th>Pena vigente</th><th>Antes de julio de 2024</th></tr>
+<tr><td>Primero (montos menores a 100 SBU)</td><td class="num">5 a 7 años</td><td class="num">1 a 3 años</td></tr><tr><td>Segundo</td><td class="num">7 a 10 años</td><td class="num">5 a 7 años</td></tr><tr><td>Tercero</td><td class="num">10 a 13 años</td><td class="num">7 a 10 años</td></tr><tr><td>Más grave</td><td class="num">19 a 22 años</td><td class="num">10 a 13 años</td></tr><tr><td>Accesorias</td><td>Multa de cinco veces el monto, comiso y disolución de la persona jurídica</td><td>Multa del duplo</td></tr></table></div>
+<div class="callout warn"><b class="lab">Irretroactividad</b>La ley penal más grave no se aplica hacia atrás (art. 76.5 CRE): a hechos anteriores a julio de 2024 se les aplica la escala anterior. Por eso en Blanqueo Fito las penas fueron de siete a diez años.</div>
+<p><b>El elemento subjetivo.</b> El lavado exige dolo: saber que los bienes tienen origen ilícito. <b>No existe lavado culposo.</b> Lo discutido es cuánto conocimiento hace falta:</p>
+<div class="flow"><div><b>Dolo directo</b>Sabe con certeza que el dinero viene de un delito. Nadie discute que es lavado.</div><div><b>Dolo eventual</b>No lo sabe con certeza, pero lo considera muy probable y aun así actúa.</div><div><b>Ignorancia deliberada</b>Evita enterarse a propósito, para decir después que no sabía.</div></div>
+<p>Si el segundo y el tercer caso son lavado es un <b>debate abierto</b>, decisivo para testaferros, contadores y notarios. Por eso no conviene afirmar sin más que el lavado exige «dolo directo».</p>`),
+tasks:[
+ {t:'match',q:'Une cada tramo del art. 317 con su pena vigente desde julio de 2024.',pairs:[['Primer tramo (montos menores a 100 SBU)','5 a 7 años'],['Segundo tramo','7 a 10 años'],['Tercer tramo','10 a 13 años'],['Tramo más grave','19 a 22 años'],['Multa accesoria','Cinco veces el monto de los activos']],ex:'La reforma subió todos los tramos y cambió la multa del duplo al quíntuplo, además del comiso y la disolución de la persona jurídica.'},
+ {t:'mc',q:'Hechos de lavado cometidos en 2023 se juzgan en 2026. ¿Qué escala se aplica?',o:['La vigente, porque el juicio es en 2026','La anterior a julio de 2024: la ley penal más grave no es retroactiva (art. 76.5 CRE)','La que elija el tribunal según el monto','La más alta de ambas'],a:1,ex:'Por eso todavía se ven penas de hasta 13 años en procesos por hechos antiguos.'},
+ {t:'sort',q:'Clasifica el grado de conocimiento de cada persona.',b:['Dolo directo','Dolo eventual','Ignorancia deliberada'],items:[
+  ['Sabe con certeza que el dinero que recibe viene de la venta de cocaína',0],
+  ['Le pagan en fajos de efectivo una comisión desproporcionada; ve muy probable el origen ilícito y acepta',1],
+  ['No pregunta, no mira los papeles y firma rápido para poder decir después «yo no sabía»',2]],ex:'Entre el dolo directo y la imprudencia hay una zona gris donde se juegan muchos casos de testaferros y profesionales.'},
+ {t:'tf',q:'El COIP castiga el lavado de activos cometido por imprudencia (lavado culposo).',a:false,ex:'No hay lavado culposo: la imprudencia queda fuera. El debate está en si basta el dolo eventual o la ignorancia deliberada.'},
+ {t:'mc',q:'¿Cuál afirmación sobre el elemento subjetivo es correcta?',o:['El lavado exige siempre dolo directo: es un dato cerrado','Si bastan el dolo eventual o la ignorancia deliberada es un debate abierto, decisivo para testaferros, contadores y notarios','Basta la negligencia grave','No hace falta conocer el origen ilícito'],a:1,ex:'La diapositiva decía «dolo directo»; el guion lo corrige: es un debate vivo del derecho penal económico.'}]},
+/* ---------- SALA 2 ---------- */
+{id:'S2a',room:2,slot:'L1',title:'El circuito de prevención: UAFE y sujetos obligados',short:'Circuito UAFE',
+lesson:L(`<p>El derecho penal llega tarde: actúa cuando el dinero ya se lavó. Por eso existe un sistema administrativo que intenta detectar el dinero mientras se mueve. Hoy lo regula la <b>Ley Orgánica de Prevención, Detección y Combate del Delito de Lavado de Activos y de la Financiación de Otros Delitos</b> (R.O. 4.º Supl. 610, 29 de julio de 2024), que derogó la ley de 2016; su Reglamento General es de enero de 2026.</p>
+<div class="flow"><div><span class="n">1</span><b>Sujetos obligados</b>Bancos, cooperativas, aseguradoras, casas de valores, notarios, registradores, comerciantes de bienes de alto valor. Conocen a su cliente.</div><div><span class="n">2</span><b>Reporte</b>Informan operaciones sobre umbral y, sobre todo, las inusuales e injustificadas, aunque no superen umbral alguno.</div><div><span class="n">3</span><b>UAFE</b>Unidad de inteligencia financiera: cruza datos (SRI, registros, migración). No investiga delitos ni acusa.</div><div><span class="n">4</span><b>ROII → Fiscalía</b>Si confirma la anomalía, envía un Reporte de Operaciones Inusuales e Injustificadas. La Fiscalía decide si investiga.</div></div>
+<div class="callout key"><b class="lab">El ROII</b>Es noticia del delito e indicio, <b>no prueba de culpabilidad</b>.</div>
+<div class="callout warn"><b class="lab">La brecha</b>GAFILAT (informe publicado en enero de 2023, datos 2017-2021): la UAFE remitió <b class="mono">102</b> ROII y <b class="mono">11</b> llegaron a sentencia ejecutoriada; de <b class="mono">343</b> investigaciones por lavado, <b class="mono">29</b> terminaron en sentencia (16 ejecutoriadas), con 38 personas condenadas. La debilidad no está en los reportes sino en convertir inteligencia financiera en prueba penal.</div>
+<p><b>Art. 319 COIP.</b> El empleado del sujeto obligado que omite sus deberes de control comete <b>omisión de control del lavado de activos</b>, un delito distinto y con menor pena. Si sabía y dejó pasar el dinero a cambio de algo, ya es participación en el lavado del art. 317.</p>`),
+tasks:[
+ {t:'order',q:'Ordena el recorrido de una operación sospechosa, desde el banco hasta la Fiscalía.',items:['El sujeto obligado conoce a su cliente y monitorea sus operaciones','Reporta a la UAFE la operación inusual e injustificada','La UAFE cruza la información con otras bases y confirma la anomalía','La UAFE remite un ROII a la Fiscalía','La Fiscalía decide si abre una investigación previa'],ex:'Detectar (sujeto obligado) → analizar (UAFE) → investigar (Fiscalía). La UAFE no acusa.'},
+ {t:'tf',q:'El ROII que la UAFE envía a la Fiscalía es prueba de culpabilidad.',a:false,ex:'Es noticia del delito e indicio. La culpabilidad se prueba en el proceso penal.'},
+ {t:'tf',q:'Una operación inusual e injustificada debe reportarse aunque no supere ningún umbral.',a:true,ex:'Los umbrales activan reportes automáticos, pero lo inusual e injustificado se reporta siempre.'},
+ {t:'mc',q:'¿Qué ley rige hoy la prevención del lavado en Ecuador?',o:['La Ley de Prevención, Detección y Erradicación de 2016','La Ley Orgánica de Prevención, Detección y Combate del Delito de Lavado de Activos y de la Financiación de Otros Delitos (29 de julio de 2024)','Solo el COIP','Una «Ley de Cooperación Penal Internacional»'],a:1,ex:'La ley de 2016 que citan muchas diapositivas está derogada.'},
+ {t:'mc',q:'Un oficial de cumplimiento omite sus deberes de control frente a una operación sospechosa, sin acuerdo con quien lava. ¿Qué delito puede cometer?',o:['Lavado de activos (art. 317)','Omisión de control del lavado de activos (art. 319)','Ninguno: solo responde administrativamente','Defraudación tributaria'],a:1,ex:'El 319 castiga no vigilar. Si se prueba que sabía y dejó pasar el dinero a cambio de algo, ya es participación en el 317.'},
+ {t:'mc',q:'Según la evaluación de GAFILAT (datos 2017-2021), ¿cuál es la principal debilidad del sistema ecuatoriano?',o:['Faltan reportes de los sujetos obligados','La brecha entre detección y condena: de 102 ROII, 11 llegaron a sentencia ejecutoriada','Hay demasiadas condenas sin pruebas','Los casinos no reportan'],a:1,ex:'La Resolución 20-2024, que verás en la siguiente estación, intenta reducir esa brecha.'}]},
+{id:'S2b',room:2,slot:'R1',title:'La autonomía del lavado y la Resolución 20-2024',short:'Autonomía y Res. 20-2024',
+lesson:L(`<p>El segundo inciso del art. 317 declara que el lavado es <b>autónomo</b> de otros delitos cometidos dentro o fuera del país. Para juzgar a alguien por lavado no hace falta que antes alguien haya sido condenado por el delito de donde salió el dinero.</p>
+<p>La Corte Nacional de Justicia lo convirtió en <b>precedente obligatorio</b>, por triple reiteración, en la <b>Resolución No. 20-2024</b> (firmada el 23 de octubre de 2024; R.O. 2.º Supl. 689, 22 de noviembre de 2024):</p>
+<div class="callout key quote">«Debido al carácter autónomo del delito de lavado de activos, bastará prueba indiciaria para demostrar el origen ilícito de los activos objeto del delito, sin que se requiera sentencia condenatoria respecto a los delitos previos».</div>
+<div class="callout warn"><b class="lab">Lo que la autonomía NO significa</b><ul><li>No elimina la obligación de <b>probar</b> el origen ilícito: solo permite probarlo sin sentencia previa, con indicios.</li><li>No <b>invierte la carga de la prueba</b>: el procesado no tiene que demostrar que su dinero es limpio.</li><li>El <b>conocimiento</b> del origen ilícito también debe probarse más allá de toda duda razonable.</li></ul></div>
+<p>¿Por qué importa? Si el cabecilla está prófugo, muerto o extraditado y nunca será juzgado aquí, exigir la sentencia previa dejaría impune a la red que administró su dinero.</p>`),
+tasks:[
+ {t:'mc',q:'La Fiscalía acusa por lavado a familiares de un cabecilla cuyo dinero, según la acusación, proviene del narcotráfico; ese cabecilla nunca fue condenado en Ecuador por narcotráfico. ¿Puede el tribunal condenar a los familiares por lavado?',o:['No: primero debe existir una sentencia ejecutoriada por narcotráfico','Sí, siempre que la prueba, incluida la indiciaria seria y concordante, acredite el origen ilícito de los bienes y que los procesados sabían de ese origen','Sí: basta con que no justifiquen sus ingresos, porque en el lavado se invierte la carga de la prueba','No, porque parte del delito fuente pudo cometerse fuera del Ecuador'],a:1,ex:'Es la pregunta 1 de Mentimeter. La C es la trampa: la autonomía no invierte la carga de la prueba. La D falla: el 317 habla de delitos dentro o fuera del país.'},
+ {t:'sort',q:'¿Verdadero o falso? Clasifica cada afirmación sobre la autonomía.',b:['Verdadero','Falso'],items:[
+  ['La autonomía permite condenar sin probar el origen ilícito de los bienes',1],
+  ['El procesado debe demostrar que su dinero es limpio',1],
+  ['El conocimiento del origen ilícito debe probarse más allá de toda duda razonable',0],
+  ['El delito fuente puede haberse cometido fuera del Ecuador',0],
+  ['La Resolución 20-2024 vincula a todos los jueces del país',0]],ex:'Autonomía es «probar de otra manera», no «no probar». Y como precedente obligatorio, la Resolución 20-2024 vincula incluso a la propia Corte Nacional.'}]},
+{id:'S2c',room:2,slot:'L2',title:'Tablero de indicios',short:'Tablero de indicios',
+lesson:L(`<p>La prueba indiciaria <b>es prueba</b>: exige varios hechos indicadores <b>plenamente probados</b>, <b>concordantes</b> entre sí, y un <b>razonamiento expreso</b> del tribunal que los conecte con la conclusión. Si el tribunal no explica ese razonamiento, la sentencia carece de motivación.</p>
+<p>Indicios que con más frecuencia se usan para acreditar el origen ilícito:</p>
+<ul><li>Incremento patrimonial que no se explica con ingresos lícitos.</li><li>Operaciones anómalas: efectivo, depósitos fraccionados, transferencias circulares, precios fuera de mercado.</li><li>Empresas sin actividad real.</li><li>Vínculo con actividades o personas delictivas.</li><li>Falta de una explicación alternativa razonable: el procesado <b>no está obligado</b> a darla, pero si la da y resulta falsa, puede reforzar los demás indicios.</li></ul>
+<div class="callout hypo"><b class="lab">Ejemplo hipotético · El contador que no quiso preguntar</b>Un contador lleva la contabilidad de una camaronera que en dos años pasa de facturar USD 200.000 a USD 6 millones, sin aumentar piscinas ni trabajadores. Los clientes pagan en efectivo y el dueño le pide registrar los ingresos como «ventas de exportación» sin facturas de exportación. El contador no pregunta y registra.</div>`),
+tasks:[
+ {t:'sort',q:'Eres el tribunal. ¿Cuáles de estos hechos sirven como indicio de cargo y cuáles no?',b:['Indicio de cargo','No sirve como indicio de cargo'],items:[
+  ['La facturación pasa de USD 200.000 a 6 millones sin más piscinas ni trabajadores',0],
+  ['Los clientes pagan en efectivo y en montos fraccionados',0],
+  ['Se registran «ventas de exportación» sin facturas de exportación',0],
+  ['La explicación que dio el dueño resultó falsa',0],
+  ['El procesado ejerció su derecho al silencio',1],
+  ['El procesado no presentó pruebas de que su dinero es limpio',1],
+  ['La empresa declaró y pagó puntualmente sus impuestos',1]],ex:'El silencio y la falta de prueba de descargo no son indicios: usarlos invertiría la carga de la prueba. Pagar impuestos tampoco descarta ni prueba nada: en la integración, quien lava paga impuestos.'},
+ {t:'mc',q:'¿Qué exige la prueba indiciaria para sostener una condena?',o:['Una sospecha razonable del fiscal','Varios hechos indicadores plenamente probados, concordantes, y un razonamiento expreso del tribunal','Un ROII de la UAFE','La confesión del procesado'],a:1,ex:'Sin el razonamiento que conecte los indicios con la conclusión, la sentencia no está motivada.'},
+ {t:'mc',q:'Con esos indicios, ¿qué tesis podría sostener la Fiscalía sobre el conocimiento del contador?',o:['Dolo directo, sin necesidad de más prueba','Dolo eventual: se representó como probable el origen ilícito y lo aceptó','Lavado culposo','Ninguna, porque el contador no recibió el dinero'],a:1,ex:'Crecimiento imposible, efectivo y registros sin respaldo permiten sostener que vio el origen ilícito como probable. Si eso basta es el debate del dolo que viste en la Sala 1.'}]},
+{id:'S2d',room:2,slot:'R2',title:'Dos casos: Blanqueo Fito y Goleada',short:'Casos Fito y Goleada',
+lesson:L(`<div class="callout case"><b class="lab">Caso con sentencia de primera instancia · Blanqueo Fito</b>Fito nunca fue condenado en Ecuador por narcotráfico: fue extraditado a Estados Unidos en julio de 2025. Aun así, sus familiares fueron condenados aquí por lavado. Los demás procesados no pudieron ser juzgados, entre otras razones porque algunos están prófugos y <b>el lavado no admite juicio en ausencia</b> (el art. 233 CRE lo permite solo para peculado, cohecho, concusión y enriquecimiento ilícito). La sentencia escrita confirmó el decomiso de los bienes con una salvedad.</div>
+<div class="callout warn"><b class="lab">Proceso en curso · Goleada (rige la presunción de inocencia)</b><div class="tablewrap"><table>
+<tr><td class="num">8 oct 2025</td><td>Allanamientos en inmuebles relacionados con el alcalde de Guayaquil, en una causa por presunto lavado.</td></tr>
+<tr><td class="num">26 dic 2025</td><td>Un procesado del caso Triple A (combustible) se ofrece como cooperador eficaz; se abre un nuevo expediente.</td></tr>
+<tr><td class="num">10 feb 2026</td><td>Operativos y detenciones; cargos por delincuencia organizada con fines de lavado y defraudación tributaria.</td></tr>
+<tr><td class="num">13 may 2026</td><td>La Fiscalía reformula los cargos a lavado de activos: según la acusación, un entramado de empresas habría desviado combustible y reinvertido ganancias en bienes por unos USD 6,2 millones.</td></tr>
+<tr><td class="num">29 may 2026</td><td>Vinculación de familiares del alcalde; la UAFE presenta acusación particular.</td></tr></table></div></div>
+<p><b>Lo que enseña.</b> La delincuencia organizada exige probar una estructura permanente con reparto de funciones; el lavado se concentra en el tratamiento del dinero. La defensa sostiene que comprar acciones, aumentar capital o transferir fondos son actos normales de comercio. Es el argumento más fuerte de cualquier defensa: cada acto, por separado, es lícito. Lo que los convierte en lavado es que el dinero tenga origen ilícito y que quien lo mueve lo sepa.</p>`),
+tasks:[
+ {t:'mc',q:'Fito nunca fue condenado en Ecuador por narcotráfico. ¿Por qué pudieron condenarse aquí sus familiares por lavado?',o:['Porque se los juzgó en ausencia','Por la autonomía del lavado (art. 317) y la Resolución 20-2024','Porque Estados Unidos lo condenó primero','Porque las personas jurídicas no tienen presunción de inocencia'],a:1,ex:'Es la autonomía en la práctica: el delito fuente se juzga en otro país y el lavado aquí.'},
+ {t:'mc',q:'¿Por qué no se juzgó a los procesados prófugos en Blanqueo Fito?',o:['Porque el lavado no admite juicio en ausencia','Porque la acción había prescrito','Porque la UAFE no los reportó','Porque eran familiares del cabecilla'],a:0,ex:'El art. 233 CRE admite juicio en ausencia solo para peculado, cohecho, concusión y enriquecimiento ilícito.'},
+ {t:'mc',q:'En Goleada, la Fiscalía cambió los cargos de delincuencia organizada a lavado. ¿Qué hipótesis razonable explica ese cambio?',o:['La delincuencia organizada exige probar una estructura permanente con reparto de funciones; el lavado se concentra en el tratamiento del dinero','El lavado tiene penas más bajas','El lavado admite juicio en ausencia','La delincuencia organizada había prescrito'],a:0,ex:'Si la prueba muestra empresas que existían y operaban, la acusación por lavado puede ser más sostenible.'},
+ {t:'mc',q:'Si cada acto (comprar acciones, aumentar capital, transferir fondos) es lícito por separado, ¿dónde estará el centro del debate en Goleada?',o:['En si los movimientos ocurrieron','En la prueba del origen ilícito del dinero y del conocimiento de cada procesado','En el monto exacto de las transferencias','En la nacionalidad de la compañía registrada en Panamá'],a:1,ex:'Es la Resolución 20-2024 aplicada a un caso concreto; el origen del dinero se vincula con lo que se resuelva sobre el combustible en el caso Triple A.'},
+ {t:'tf',q:'En el caso Goleada ya hay personas condenadas por lavado.',a:false,ex:'Es un proceso en curso: nadie ha sido condenado y todos se presumen inocentes.'}]},
+/* ---------- SALA 3 ---------- */
+{id:'S3a',room:3,slot:'L1',title:'¿Qué es y sobre qué bienes recae?',short:'Qué bienes alcanza',
+lesson:L(`<p><b>El lavado castiga a las personas; la extinción de dominio persigue los bienes.</b> El proceso penal puede tardar años, el procesado puede estar prófugo o haber muerto y los bienes pueden estar a nombre de terceros. Para esos casos existe la <b>Ley Orgánica de Extinción de Dominio</b> (LOED, R.O. 5.º Supl. 452, 14 de mayo de 2021), que se aplica a bienes en el Ecuador y en el extranjero.</p>
+<div class="callout key"><b class="lab">La idea que la sostiene</b>La Constitución protege la propiedad adquirida lícitamente. Sobre un bien obtenido con dinero del delito <b>nunca llegó a consolidarse</b> un derecho de propiedad digno de protección. La sentencia no «quita» un derecho válido: declara que ese derecho no existió y transfiere el bien al Estado.</div>
+<div class="flow"><div><b>Origen ilícito</b>Adquiridos con el producto de una actividad delictiva, directa o indirectamente, incluidos los bienes en que ese producto se transformó.</div><div><b>Origen injustificado</b>Integran un incremento patrimonial que su titular no puede explicar con ingresos lícitos.</div><div><b>Destino ilícito</b>Bienes de origen lícito usados o destinados a actividades ilícitas.</div></div>`),
+tasks:[
+ {t:'sort',q:'Clasifica cada bien en el grupo de la LOED que le corresponde.',b:['Origen ilícito','Origen injustificado','Destino ilícito'],items:[
+  ['Un departamento comprado con el dinero de coimas',0],
+  ['Un vehículo comprado con el dinero obtenido al vender bienes robados',0],
+  ['Inmuebles que integran un incremento patrimonial que su titular no puede explicar con ingresos lícitos',1],
+  ['Una cuenta con fondos muy superiores al sueldo declarado, sin explicación lícita',1],
+  ['Una bodega de origen lícito usada para almacenar droga',2],
+  ['Un camión comprado lícitamente y acondicionado para transportar droga',2]],ex:'Lo decisivo en el destino ilícito es el uso: el bien pudo comprarse con dinero limpio.'},
+ {t:'mc',q:'¿Cuál es la diferencia de enfoque entre el lavado de activos y la extinción de dominio?',o:['Ambos castigan a las personas','El lavado castiga a las personas; la extinción de dominio persigue los bienes','La extinción castiga a las personas y el lavado persigue los bienes','Son la misma figura con distinto nombre'],a:1,ex:'Se complementan: donde el derecho penal no alcanza el patrimonio ilícito, actúa la extinción de dominio.'},
+ {t:'tf',q:'La LOED se aplica también a bienes que se encuentran en el extranjero.',a:true,ex:'Su objeto abarca bienes en el Ecuador y en el exterior; ahí entra la cooperación internacional de la Sala 4.'}]},
+{id:'S3b',room:3,slot:'R1',title:'Su naturaleza: no es un proceso civil ni una pena',short:'Naturaleza',
+lesson:L(`<p>Las diapositivas la describen como un proceso «de naturaleza civil». <b>La ley no la califica así.</b> Según la LOED, es de naturaleza <b>jurisdiccional</b> y de carácter <b>real</b>, y su acción es <b>patrimonial</b> y <b>autónoma</b>.</p>
+<div class="tablewrap"><table><tr><th>Rasgo</th><th>Qué significa</th><th>Consecuencia</th></tr>
+<tr><td><b>Jurisdiccional</b></td><td>La declara un juez, mediante sentencia, tras un proceso contradictorio.</td><td>No es confiscación administrativa: hay notificación, defensa y prueba.</td></tr>
+<tr><td><b>Real</b></td><td>Se dirige contra los bienes, no contra las personas.</td><td>Alcanza bienes a nombre de testaferros, familiares o sociedades, aunque el autor haya muerto o esté prófugo.</td></tr>
+<tr><td><b>Patrimonial</b></td><td>Su resultado es la pérdida del dominio, no una pena.</td><td>No declara a nadie culpable ni genera antecedentes penales.</td></tr>
+<tr><td><b>Autónoma</b></td><td>No depende del resultado del proceso penal.</td><td>Puede tramitarse aunque no exista proceso penal o este termine sin condena.</td></tr></table></div>`),
+tasks:[
+ {t:'match',q:'Une cada rasgo de la extinción de dominio con su consecuencia práctica.',pairs:[['Jurisdiccional','No es confiscación administrativa: hay notificación, defensa y prueba'],['Real','Alcanza bienes a nombre de testaferros aunque el autor haya muerto o esté prófugo'],['Patrimonial','No declara a nadie culpable ni genera antecedentes penales'],['Autónoma','Puede tramitarse aunque el proceso penal termine sin condena']],ex:'Cada rasgo responde a una objeción típica: ¿es una confiscación?, ¿y si el bien está a nombre de otro?, ¿es una pena?, ¿y si no hay condena?'},
+ {t:'mc',q:'¿Cómo califica la LOED a la extinción de dominio?',o:['Proceso de naturaleza civil','Pena accesoria del proceso penal','Acción jurisdiccional, real, patrimonial y autónoma','Confiscación administrativa'],a:2,ex:'La calificación de «civil» de las diapositivas es inexacta.'},
+ {t:'mc',q:'Alguien sostiene que la sentencia de extinción de dominio «quita» un derecho de propiedad válido. ¿Qué responde la lógica de la ley?',o:['Que es una expropiación con indemnización','Que sobre un bien obtenido con dinero del delito nunca se consolidó un derecho de propiedad digno de protección','Que es una multa por el valor del bien','Que es un comiso anticipado'],a:1,ex:'La sentencia declara que el derecho no existió y transfiere el bien al Estado: es una declaración de titularidad a favor del Estado.'}]},
+{id:'S3c',room:3,slot:'L2',title:'¿Hace falta sentencia penal? Tres etapas',short:'Sentencia previa: 3 etapas',
+lesson:L(`<p>La respuesta cambió tres veces en tres años. Conocer la secuencia explica por qué distintas fuentes dicen cosas distintas.</p>
+<div class="flow"><div><span class="n">MAYO 2021</span><b>Texto original</b>Se exigía sentencia penal ejecutoriada. La Fiscalía la llamó una «camisa de fuerza»; la ley casi no se aplicó.</div><div><span class="n">FEBRERO 2024</span><b>Ley para el Ahorro</b>La sentencia sigue como regla, con tres excepciones. La investigación patrimonial baja de doce a seis meses.</div><div><span class="n">JULIO 2024</span><b>Ley de la Consulta Popular</b>No se necesita sentencia penal condenatoria para iniciar la investigación ni la fase jurisdiccional. Catálogo de delitos: concusión, cohecho, peculado, enriquecimiento ilícito, lavado, delincuencia organizada, entre otros.</div></div>
+<p><b>El procedimiento</b> tiene dos fases:</p>
+<ul><li><b>Investigación patrimonial</b>, a cargo de la Fiscalía (Unidad para la Investigación Patrimonial sobre Extinción de Dominio). No investiga personas ni delitos, sino <b>patrimonios</b>; puede pedir medidas cautelares sobre los bienes.</li><li><b>Fase jurisdiccional</b>, ante los Jueces Especializados en Casos de Corrupción y Crimen Organizado (sede en Quito, posesionados el 10 de diciembre de 2022): notificación a los afectados, contestación, prueba, alegatos y sentencia impugnable.</li></ul>
+<div class="callout case"><b class="lab">Corte Constitucional · Sentencia 8-22-IN/26 (26 de marzo de 2026)</b>Desestimó la acción contra los arts. 30 letra e) y 37 de la LOED y concluyó que en el procedimiento se garantiza el derecho a la defensa de los afectados. No cierra todas las dudas: la constitucionalidad de prescindir de la sentencia previa puede seguir discutiéndose.</div>`),
+tasks:[
+ {t:'match',q:'Une cada etapa con la regla que estableció sobre la sentencia penal previa.',pairs:[['Mayo de 2021 · texto original de la LOED','Se exigía sentencia penal ejecutoriada'],['Febrero de 2024 · Ley para el Ahorro','Sentencia como regla, con tres excepciones; investigación de 12 a 6 meses'],['Julio de 2024 · Ley de la Consulta Popular','No se requiere sentencia condenatoria para investigar ni para la fase jurisdiccional']],ex:'Decir «sin necesidad de sentencia penal» es correcto hoy, pero no lo era en 2021 ni, como regla, en el primer semestre de 2024.'},
+ {t:'order',q:'Ordena los pasos del procedimiento de extinción de dominio.',items:['La Fiscalía rastrea bienes en el Ecuador y en el exterior','La Fiscalía pide medidas cautelares para que los bienes no desaparezcan','La Fiscalía presenta su pretensión ante los jueces especializados','El juez notifica a los afectados, que contestan, prueban y alegan','El juez dicta sentencia, que puede impugnarse'],ex:'Primero la investigación patrimonial (Fiscalía), después la fase jurisdiccional (juez especializado).'},
+ {t:'tf',q:'En la investigación patrimonial, la Fiscalía investiga personas y delitos.',a:false,ex:'Investiga patrimonios: rastrea bienes y determina si su adquisición se relaciona con una actividad ilícita.'},
+ {t:'mc',q:'¿Qué resolvió la Corte Constitucional en la Sentencia 8-22-IN/26?',o:['Declaró inconstitucional toda la LOED','Desestimó la acción contra los arts. 30 e) y 37 y concluyó que se garantiza el derecho a la defensa de los afectados','Restableció la exigencia de sentencia penal previa','Declaró que la extinción de dominio es una pena'],a:1,ex:'Es el pronunciamiento más reciente sobre la LOED; publicada en la Edición Constitucional No. 221 del R.O., 16 de abril de 2026.'}]},
+{id:'S3d',room:3,slot:'C',title:'Un departamento, tres personas',short:'Un departamento, 3 personas',
+lesson:L(`<div class="callout hypo"><b class="lab">Ejemplo hipotético</b>Un exfuncionario prófugo, investigado por peculado, compró en 2019 un departamento en Samborondón por <b class="mono">USD 380.000</b>, aunque su sueldo anual era de <b class="mono">USD 30.000</b>, y lo puso a nombre de su cuñado. En 2023 el cuñado lo vendió a una pareja de médicos por un precio de mercado, pagado con un crédito hipotecario.</div>
+<div class="flow"><div><span class="n">2019</span><b>Exfuncionario</b>Paga el departamento con dinero que no puede justificar.</div><div><span class="n">2019</span><b>Cuñado</b>Figura como titular sin haber pagado nada.</div><div><span class="n">2023</span><b>Médicos</b>Compran a precio de mercado, con crédito bancario y registros limpios.</div></div>
+<p><b>El tercero de buena fe.</b> La extinción no afecta a quien adquirió un bien de buena fe: por ejemplo, el comprador que pagó precio de mercado, revisó registros, obtuvo un certificado de gravámenes limpio y no tenía razón para sospechar. Puede presentar su prueba ante el juez especializado y, si la acredita, conserva el bien.</p>
+<div class="callout warn"><b class="lab">La exigencia de la ley</b>La extinción procede, salvo que tanto el titular como el beneficiario final demuestren que <b>estaban impedidos de conocer</b> el origen ilícito. No basta alegar que no se sabía si las circunstancias permitían sospechar: hay que actuar con diligencia.</div>`),
+tasks:[
+ {t:'mc',q:'El exfuncionario no figura como titular del departamento. ¿Lo protege eso?',o:['Sí: la acción solo alcanza al titular registral','No: la acción es real y sigue al bien; además, su patrimonio puede investigarse como incremento injustificado','Sí, porque está prófugo y no puede defenderse','Sí, porque no hay sentencia penal'],a:1,ex:'Por ser real, la acción se dirige contra el bien, esté a nombre de quien esté.'},
+ {t:'mc',q:'¿Puede el cuñado alegar buena fe?',o:['Sí, porque figura como dueño en el registro','No, si nunca pagó por el bien ni puede explicar cómo lo adquirió; el dinero de la venta puede ser objeto de la acción','Sí, porque ya vendió el departamento','Solo si demuestra que es pariente por afinidad'],a:1,ex:'El dinero que recibió por la venta sustituye al bien y también puede perseguirse.'},
+ {t:'mc',q:'¿Qué pasa con los médicos, que pagaron precio de mercado con crédito y verificaron los registros?',o:['Pierden el departamento, porque su origen es ilícito','Si acreditan que estaban impedidos de conocer el origen, son terceros de buena fe y conservan el departamento','Deben pagar una multa del quíntuplo','Conservan la mitad del departamento'],a:1,ex:'Precio de mercado, crédito bancario y registros limpios son la prueba típica de la buena fe diligente.'},
+ {t:'tf',q:'Para conservar un bien basta alegar que no se sabía su origen, aunque las circunstancias permitieran sospechar.',a:false,ex:'La ley exige demostrar que se estaba impedido de conocerlo; quien recibe un bien debe actuar con diligencia.'},
+ {t:'mc',q:'Un exfuncionario está prófugo; a nombre de su cuñado figura un departamento que ninguno puede justificar, y no existe sentencia penal. ¿Qué vía permite al Estado declarar la pérdida del bien a su favor?',o:['El comiso penal, dentro de un juicio en ausencia por lavado','La extinción de dominio, acción jurisdiccional, real, patrimonial y autónoma del proceso penal','Ninguna: hay que esperar a que sea capturado y condenado','Un embargo administrativo dispuesto por la Contraloría'],a:1,ex:'Es la pregunta 2 de Mentimeter. La A falla dos veces: el comiso requiere condena y el lavado no admite juicio en ausencia.'}]},
+{id:'S3e',room:3,slot:'R2',title:'Comiso penal y extinción de dominio',short:'Comiso vs. extinción',
+lesson:L(`<div class="tablewrap"><table><tr><th></th><th>Comiso penal</th><th>Extinción de dominio</th></tr>
+<tr><td><b>Naturaleza</b></td><td>Pena accesoria</td><td>Acción jurisdiccional, real, patrimonial y autónoma</td></tr>
+<tr><td><b>Requisito</b></td><td>Sentencia penal condenatoria</td><td>No requiere condena penal desde julio de 2024</td></tr>
+<tr><td><b>Dónde se decide</b></td><td>En la sentencia del proceso penal</td><td>En un proceso independiente ante jueces especializados</td></tr>
+<tr><td><b>Sobre qué recae</b></td><td>Instrumentos, objetos y productos del delito juzgado</td><td>Bienes de origen ilícito o injustificado o de destino ilícito, aunque no se vinculen con un delito ya juzgado</td></tr>
+<tr><td><b>Si el procesado muere o huye</b></td><td>Muerto el procesado se extingue la acción penal; el lavado no admite juicio en ausencia</td><td>La acción continúa, porque se dirige contra los bienes</td></tr></table></div>
+<p><b>El debate constitucional.</b> A favor: la presunción de inocencia rige para la responsabilidad penal, y la extinción no declara culpable a nadie; solo constata que un bien no tiene origen lícito. En contra: en la práctica, una persona pierde su patrimonio por la sospecha de un delito por el que nunca fue condenada.</p>`),
+tasks:[
+ {t:'sort',q:'Clasifica cada característica: ¿comiso penal o extinción de dominio?',b:['Comiso penal','Extinción de dominio'],items:[
+  ['Es una pena accesoria',0],['Requiere sentencia penal condenatoria',0],['Se decide en la sentencia del proceso penal',0],['Recae sobre instrumentos, objetos y productos del delito juzgado',0],
+  ['Se tramita en un proceso independiente ante jueces especializados',1],['No requiere condena penal desde julio de 2024',1],['Continúa aunque el titular muera o huya',1],['Alcanza bienes de origen injustificado no vinculados a un delito ya juzgado',1]],ex:'La clave: el comiso vive dentro de la condena penal; la extinción de dominio vive fuera de ella.'},
+ {t:'mc',q:'¿Cuál es el argumento a favor de prescindir de la sentencia penal previa?',o:['La presunción de inocencia rige para la responsabilidad penal y la extinción no declara a nadie culpable: solo constata que el bien no tiene origen lícito','La propiedad no es un derecho fundamental','Así se evita el debido proceso','La Fiscalía no puede equivocarse'],a:0,ex:'El argumento en contra es que, en la práctica, alguien pierde su patrimonio por la sospecha de un delito por el que nunca fue condenado.'}]},
+/* ---------- SALA 4 ---------- */
+{id:'S4a',room:4,slot:'L1',title:'Los tratados',short:'Los tratados',
+lesson:L(`<p>El dinero ilícito cruza fronteras con un clic; la justicia no. Un fiscal ecuatoriano no puede pedir directamente un extracto bancario en Panamá ni embargar un inmueble en Miami: necesita la cooperación de otro Estado.</p>
+<div class="tablewrap"><table><tr><th>Instrumento</th><th>Aporte principal</th></tr>
+<tr><td>Convención de Viena (1988)</td><td>Primer tratado que obligó a tipificar el blanqueo del producto del narcotráfico y a prever el decomiso. De aquí nace el lavado tal como lo conocemos.</td></tr>
+<tr><td>Convención Interamericana contra la Corrupción (Caracas, 1996)</td><td>Primer tratado internacional sobre corrupción: soborno transnacional, enriquecimiento ilícito, asistencia judicial entre Estados americanos.</td></tr>
+<tr><td>Convención de Palermo (2000)</td><td>Extiende el blanqueo a los productos de todos los delitos graves; decomiso, asistencia judicial recíproca, extradición.</td></tr>
+<tr><td>Convención de Mérida (2003)</td><td>Declara la recuperación de activos principio fundamental y regula la restitución de bienes al Estado de origen.</td></tr></table></div>
+<div class="callout warn"><b class="lab">Corrección de las diapositivas</b>No existe en Ecuador una «Ley de Cooperación Penal Internacional». La cooperación se rige por los tratados, las normas del COIP sobre asistencia penal internacional, el Instructivo de Cooperación Penal Internacional de la Fiscalía y, en extradición, la Ley Orgánica de Extradición.</div>`),
+tasks:[
+ {t:'match',q:'Une cada convención con su aporte principal.',pairs:[['Viena, 1988','Primera obligación de tipificar el blanqueo del producto del narcotráfico'],['Caracas, 1996','Primer tratado internacional sobre corrupción'],['Palermo, 2000','Blanqueo de los productos de todos los delitos graves'],['Mérida, 2003','La recuperación de activos como principio fundamental']],ex:'La obligación de tipificar el lavado nació con el narcotráfico (1988) y se amplió a todos los delitos graves (2000).'},
+ {t:'tf',q:'Ecuador tiene una ley llamada «Ley de Cooperación Penal Internacional».',a:false,ex:'No existe con ese nombre; es uno de los datos corregidos de las diapositivas.'}]},
+{id:'S4b',room:4,slot:'R1',title:'GAFI y GAFILAT',short:'GAFI y GAFILAT',
+lesson:L(`<p>El <b>GAFI</b> fue creado en 1989 por el G7. Sus <b>40 Recomendaciones</b>, adoptadas en su versión vigente en <b>2012</b> y actualizadas periódicamente, son el estándar mundial contra el lavado. No son un tratado (son derecho blando), pero su cumplimiento se evalúa país por país, y quedar en la <b>lista gris</b> encarece el crédito, complica las transferencias y ahuyenta la inversión. Ecuador estuvo en esa lista a comienzos de la década pasada y salió en 2015.</p>
+<p>En la región evalúa el <b>GAFILAT</b>, creado como <b>GAFISUD</b> en Cartagena de Indias el 8 de diciembre de 2000 y renombrado en 2014. Ecuador es miembro y fue evaluado en la cuarta ronda (informe publicado en enero de 2023).</p>
+<div class="callout warn"><b class="lab">Correcciones de las diapositivas</b>Las Recomendaciones son de 2012 (no de «2022»), y GAFILAT no nació «por mandato de la Cumbre de las Américas».</div>`),
+tasks:[
+ {t:'mc',q:'¿Qué son las 40 Recomendaciones del GAFI?',o:['Un tratado internacional vinculante','Un estándar (derecho blando) adoptado en 2012 y actualizado periódicamente, cuyo cumplimiento se evalúa país por país','Una ley ecuatoriana de 2024','Sentencias de la Corte Interamericana'],a:1,ex:'Formalmente no obligan como un tratado, pero la evaluación y las listas les dan fuerza práctica.'},
+ {t:'mc',q:'Si no son un tratado, ¿por qué los países cumplen las Recomendaciones?',o:['Porque el GAFI impone penas de prisión','Porque quedar en la «lista gris» encarece el crédito y complica las transferencias internacionales','Porque lo ordena el Consejo de Seguridad','En realidad casi ningún país las cumple'],a:1,ex:'Ecuador lo vivió: estuvo en la lista gris y salió en 2015.'},
+ {t:'mc',q:'¿Cuál es el origen de GAFILAT?',o:['Un mandato de la Cumbre de las Américas','Se creó como GAFISUD en Cartagena de Indias el 8 de diciembre de 2000 y cambió de nombre en 2014','Lo creó el G7 en 1989','Lo creó Ecuador en 2023'],a:1,ex:'El G7 creó el GAFI (1989); GAFILAT es su equivalente regional.'},
+ {t:'tf',q:'El GAFI fue creado en 1989 por el G7.',a:true,ex:'Publicó sus primeras cuarenta Recomendaciones en 1990.'}]},
+{id:'S4c',room:4,slot:'R2',title:'Extradición: un dinero, dos jurisdicciones',short:'Extradición',
+lesson:L(`<p>Hasta 2024 el art. 79 de la Constitución prohibía extraditar a ecuatorianos. El referéndum del <b>21 de abril de 2024</b> lo permitió. En julio de 2025 Fito fue extraditado a Estados Unidos, donde enfrenta cargos por narcotráfico y armas.</p>
+<div class="callout case"><b class="lab">Ley Orgánica de Extradición (R.O. 5.º Supl. 343, 7 de agosto de 2026)</b><ul><li>Autoridad central: la <b>Presidencia de la Corte Nacional de Justicia</b>.</li><li><b class="mono">60 días</b> para la solicitud formal tras la detención por notificación roja de Interpol.</li><li><b class="mono">30 días</b> para el traslado una vez concedida la entrega.</li><li>No se extradita a ecuatorianos por hechos anteriores al <b>9 de mayo de 2024</b>.</li><li>Derogó la Ley de Extradición de 2000.</li></ul></div>
+<p><b>Un dinero, dos jurisdicciones.</b> Fito es juzgado en Estados Unidos por el delito fuente y sus familiares fueron juzgados en Ecuador por el lavado. Eso solo es posible por la autonomía del lavado y la cooperación internacional.</p>
+<p><b>Jurisprudencia interamericana pertinente.</b> Andrade Salmón vs. Bolivia (2016): medidas cautelares patrimoniales que se prolongaron en exceso en un proceso por corrupción violaron derechos. La lucha contra el lavado también tiene límites convencionales. (Goiburú vs. Paraguay trata desapariciones forzadas y López Lone vs. Honduras, independencia judicial: no son casos de delitos económicos.)</p>`),
+tasks:[
+ {t:'match',q:'Completa los datos de la nueva Ley Orgánica de Extradición.',pairs:[['Autoridad central','Presidencia de la Corte Nacional de Justicia'],['Plazo para la solicitud formal tras la notificación roja','60 días'],['Plazo para el traslado una vez concedida la entrega','30 días'],['No se extradita a ecuatorianos por hechos anteriores al','9 de mayo de 2024']],ex:'La última regla aplica la irretroactividad, igual que con las penas del lavado.'},
+ {t:'mc',q:'¿Qué muestra el caso Fito sobre la cooperación internacional?',o:['Que el lavado y el delito fuente deben juzgarse en el mismo país','Una división de trabajo: el delito fuente se juzga en un país y el lavado en otro, sobre el mismo dinero','Que la extradición extingue la acción por lavado','Que Ecuador no puede juzgar lavado si hay extradición'],a:1,ex:'Dos jurisdicciones, dos delitos, un mismo dinero.'},
+ {t:'mc',q:'¿Qué caso interamericano trata límites a las medidas cautelares patrimoniales en procesos por corrupción?',o:['López Lone vs. Honduras','Andrade Salmón vs. Bolivia (2016)','Goiburú vs. Paraguay','Ninguno: la Corte IDH no ha tratado el tema'],a:1,ex:'Las diapositivas citaban Goiburú y López Lone, que tratan otros temas.'}]}
+];
+const NPCS=[
+ {room:0,x:3.5,z:4,name:'Dra. Valeria Andrade',role:'Docente guía',sex:'mujer',color:0x1d5c4a,text:'Bienvenidos. Hoy vamos a seguir un dólar sucio de principio a fin. En cada sala hay estaciones: primero lean la mini-lección y después resuelvan los retos. La puerta a la siguiente sala se abre cuando terminan todas las estaciones de la sala donde están.',clue:'Si te pierdes, abre el menú (tecla M): ahí está el mapa del recorrido y el glosario.'},
+ {room:1,x:5,z:-22,name:'Lic. Karla Mena',role:'Cajera de cooperativa',sex:'mujer',color:0x2f9e6b,text:'Esta semana vinieron muchas personas distintas a depositar montos pequeños, siempre un poco por debajo del umbral. Por separado nada llama la atención, pero juntos dibujan un patrón.',clue:'Así se ve la colocación: depósitos fraccionados. Y una operación inusual e injustificada se reporta aunque no supere el umbral.'},
+ {room:1,x:-5,z:-33,name:'Sr. Ramiro Ponce',role:'Contador (hipotético)',sex:'hombre',color:0x7a6a4a,text:'Yo solo registré lo que me dieron. La camaronera creció muchísimo, sí, y los clientes pagaban en efectivo… pero no era mi trabajo preguntar.',clue:'¿Dolo eventual o ignorancia deliberada? Es el debate del elemento subjetivo de la estación «Penas y dolo».'},
+ {room:2,x:5,z:-50,name:'Ing. Diego Salas',role:'Analista de la UAFE',sex:'hombre',color:0x2b6cb0,text:'Yo no investigo delitos ni acuso a nadie. Recibo reportes, cruzo bases de datos y, si la anomalía se confirma, envío un ROII a la Fiscalía. Lo difícil viene después: convertir esa información en prueba.',clue:'El ROII es noticia del delito e indicio, no prueba de culpabilidad.'},
+ {room:2,x:-5,z:-58,name:'Fiscal Andrea Cordero',role:'Unidad Antilavado',sex:'mujer',color:0x1c2a4a,text:'No necesito una sentencia por el delito fuente. Pero sí tengo que probar el origen ilícito y que el procesado lo sabía, con indicios varios, concordantes y bien razonados.',clue:'Es la Resolución 20-2024: autonomía no es inversión de la carga de la prueba.'},
+ {room:2,x:5,z:-63,name:'Dr. Pablo Rivas',role:'Defensa técnica',sex:'hombre',color:0x6b3a4a,text:'Comprar acciones es lícito. Aumentar capital es lícito. Transferir fondos entre empresas del mismo grupo es lícito. Que me demuestren de dónde salió el dinero y qué sabía mi cliente.',clue:'El argumento más fuerte de cualquier defensa en lavado: cada acto, por separado, es lícito.'},
+ {room:3,x:-5,z:-90,name:'Jueza Mónica Paredes',role:'Jueza especializada (Quito)',sex:'mujer',color:0x1c2a4a,toga:true,text:'En extinción de dominio no juzgo personas, juzgo bienes. Notifico a los afectados, escucho su prueba y resuelvo. Quien demuestre que estaba impedido de conocer el origen ilícito conserva su bien.',clue:'Tercero de buena fe: precio de mercado, registros verificados y ninguna razón para sospechar.'},
+ {room:3,x:5,z:-78,name:'Dra. Lucía Herrera',role:'Compradora (hipotética)',sex:'mujer',color:0xb03a2e,text:'Mi esposo y yo pagamos el precio de mercado con un crédito del banco y revisamos el certificado de gravámenes. ¿Cómo íbamos a saber de dónde salió el dinero del primer dueño?',clue:'Es la estación «Un departamento, tres personas»: ¿conservan el bien los médicos?'},
+ {room:4,x:4,z:-106,name:'Abg. Sofía Larrea',role:'Cooperación internacional',sex:'mujer',color:0xe3a21a,text:'Muchas veces el dinero no se pierde por falta de tratados, sino porque la solicitud de asistencia llega mal formulada, sin la doble incriminación justificada, y vuelve meses después sin respuesta útil.',clue:'La cooperación internacional es un oficio: hay que conocer el derecho del país al que se pide ayuda.'}
+];
+const GLOSS=[['Delito fuente o precedente','El delito que generó los bienes que luego se lavan.'],['Testaferro','Persona que figura como titular de bienes que en realidad pertenecen a otro.'],['Sujeto obligado','Persona o entidad que, por ley, debe aplicar medidas de prevención y reportar a la UAFE.'],['ROII','Reporte de Operaciones Inusuales e Injustificadas que la UAFE envía a la Fiscalía.'],['Comiso','Pena accesoria que, en la sentencia condenatoria, priva al condenado de los instrumentos y productos del delito.'],['Extinción de dominio','Acción autónoma por la que un juez declara la pérdida, a favor del Estado, de bienes de origen ilícito o injustificado, sin necesidad de condena penal.'],['Tercero de buena fe','Quien adquirió un bien sin poder conocer su origen ilícito, actuando con diligencia; la extinción de dominio no lo afecta.'],['Investigación patrimonial','Primera fase de la extinción de dominio: la Fiscalía rastrea bienes, no personas ni delitos.'],['GAFI / GAFILAT','Organismo internacional que fija los estándares contra el lavado, y su equivalente regional, del que Ecuador es miembro.'],['Prueba indiciaria','Varios hechos indicadores plenamente probados, concordantes entre sí, conectados por un razonamiento expreso con la conclusión.']];
+const IDEAS=['El lavado es autónomo, pero el origen ilícito se prueba: basta prueba indiciaria seria, concordante y motivada (Resolución 20-2024). Autonomía no es inversión de la carga de la prueba.','Las penas del art. 317 cambiaron en julio de 2024 (5–7, 7–10, 10–13 y 19–22 años; multa del quíntuplo); a hechos anteriores se aplica la escala anterior.','La prevención importa tanto como la sanción: sujetos obligados → UAFE → ROII → Fiscalía. La debilidad está en convertir los reportes en prueba.','El lavado castiga personas; la extinción de dominio persigue bienes. Es jurisdiccional, real, patrimonial y autónoma, y desde julio de 2024 no requiere condena penal; el tercero de buena fe diligente conserva su bien.','El dinero cruza fronteras y la justicia necesita cooperar: convenciones, GAFI y GAFILAT, y la Ley Orgánica de Extradición de 2026. El caso Fito muestra un mismo dinero juzgado en dos países.'];
+
+/* ================= ESTADO ================= */
+let mode='group',group='Grupo 1',members='',name='',sex='mujer',done={},ans={},active=-1,listOnly=false,started=false,menuOpen=false,toastT;
+const coarse=matchMedia('(pointer:coarse)').matches;
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function shortName(t){t=String(t||'').trim();if(!t)return'Investigador';return t.length>20?t.slice(0,19)+'…':t}
+function toast(s){$('toast').textContent=s;$('toast').classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>$('toast').classList.remove('show'),3200)}
+let warned=false;
+function save(){if(!name)return;try{localStorage.setItem(KEY,JSON.stringify({mode,group,members,name,sex,done,ans,t:Date.now()}))}catch(e){if(!warned){warned=true;toast('Este navegador no permite guardar el avance: no cierres la página hasta copiar o imprimir tu informe.')}}}
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){return null}}
+const taskMax=t=>t.t==='sort'?t.items.length:t.t==='order'?t.items.length:t.t==='match'?t.pairs.length:1;
+const stMax=s=>s.tasks.reduce((a,t)=>a+taskMax(t),0);
+const TOTAL=ST.reduce((a,s)=>a+stMax(s),0);
+const roomSt=r=>ST.filter(s=>s.room===r);
+const roomDone=r=>roomSt(r).every(s=>done[s.id]);
+const roomOpen=r=>r===0||roomDone(r-1)&&roomOpen(r-1);
+const doneCount=()=>ST.filter(s=>done[s.id]).length;
+const totalScore=()=>ST.reduce((a,s)=>a+(done[s.id]?done[s.id].score:0),0);
+
+/* ================= PORTADA ================= */
+function updMode(){const ind=$('mode').value==='individual';$('groupFields').classList.toggle('hidden',ind);$('groupSel').classList.toggle('hidden',ind);$('individualFields').classList.toggle('hidden',!ind)}
+$('mode').addEventListener('change',updMode);updMode();
+(function(){const s=load();if(s?.name){$('continue').classList.remove('hidden');$('mode').value=s.mode||'group';updMode();$('group').value=s.group||'Grupo 1';$('members').value=s.members||'';if(s.mode==='individual')$('student').value=s.name;$('avatarSex').value=s.sex||'mujer'}})();
+function start(resume,noWorld){
+ if(!resume){mode=$('mode').value;group=$('group').value;members=$('members').value.trim();sex=$('avatarSex').value;name=mode==='individual'?$('student').value.trim():group;
+  if(mode==='individual'&&name.split(/\s+/).filter(Boolean).length<2)return toast('Ingresa nombre y apellido para comenzar.');
+  if(mode==='group'&&members.split(/\n+/).filter(x=>x.trim()).length<2)return toast('Registra al menos dos integrantes, uno por línea.');
+  const s=load();if(s&&s.name===name){done=s.done||{};ans=s.ans||{}}else{done={};ans={}}}
+ else{const s=load();mode=s.mode;group=s.group;members=s.members||'';name=s.name;sex=s.sex||'mujer';done=s.done||{};ans=s.ans||{}}
+ started=true;listOnly=!!noWorld;$('start').style.display='none';$('menuBtn').style.display='block';
+ $('hWho').textContent=mode==='group'?`${group} · ${members.split(/\n+/).filter(x=>x.trim()).length} integrantes`:name;
+ save();refresh();
+ if(listOnly||!window.THREE){showFallback();if(!window.THREE&&!listOnly)toast('El motor 3D no cargó: se abrió el modo sin 3D.');return}
+ $('fallback').style.display='none';$('hud').style.display='block';
+ if(!renderer)init3D();if(renderer){makeAvatar();syncWorld(true);setTouch(coarse);if(coarse){freeMove=true;showPause()}else capture()}}
+$('begin').onclick=()=>start(false,false);
+$('continue').onclick=()=>start(true,false);
+$('listMode').onclick=()=>start(false,true);
+function setTouch(on){$('touchPad').style.display=on?'grid':'none';$('touchAct').style.display=on?'block':'none'}
+
+/* ================= HUD, MENÚ, MAPA ================= */
+function refresh(){
+ const n=doneCount();$('hPct').textContent=Math.round(n/ST.length*100)+'%';$('hBar').style.width=(n/ST.length*100)+'%';$('hSt').textContent=n+'/'+ST.length;$('hScore').textContent=totalScore()+'/'+TOTAL;
+ const r=currentRoom();$('hRoom').textContent=ROOMS[r].title;
+ const pend=roomSt(r).filter(s=>!done[s.id]);
+ $('hMission').textContent=n===ST.length?'Recorrido completo · abre tu informe final':pend.length?`Pendiente aquí: ${pend.map(s=>s.short).join(' · ')}`:(r<4?`Sala completa · cruza la puerta hacia la ${ROOMS[r+1].title.split(' · ')[0]}`:'Sala completa');
+ $('menuWho').textContent=(mode==='group'?group:name)+' · '+n+' de '+ST.length+' estaciones · '+totalScore()+'/'+TOTAL+' puntos';
+ const rows=ROOMS.map(R=>{const open=roomOpen(R.n),dn=roomDone(R.n);const sts=roomSt(R.n).map(s=>`<button class="stBtn ${done[s.id]?'ok':''}" ${open?'':'disabled'} onclick="openStation('${s.id}')">${done[s.id]?'✓':'○'} ${esc(s.short)}</button>`).join('');
+  return `<div class="roomRow ${dn?'done':open?'open':''} ${R.n===r?'here':''}"><span class="roomDot">${dn?'✓':R.n}</span>${esc(R.short)}<small>${dn?'Completa':open?'Abierta':'Bloqueada'}</small></div><div class="stList">${sts}</div>`}).join('');
+ $('mapRows').innerHTML=rows;$('menuRooms').innerHTML=rows;
+ if(listOnly)renderFallback();}
+function showFallback(){$('hud').style.display='none';setTouch(false);$('fallback').style.display='block';renderFallback()}
+function renderFallback(){$('fallback').innerHTML=`<div class="fbRoom" style="background:var(--ink);color:#fff;border:0"><div class="eyebrow">Modo sin 3D</div><h2 style="margin:4px 0">Rastro 317</h2><p class="note" style="color:#cfe3d9">Resuelve las estaciones en orden: cada sala se abre al completar la anterior. ${doneCount()}/${ST.length} estaciones · ${totalScore()}/${TOTAL} puntos.</p><div class="actions"><button class="accent" onclick="openGloss()">📖 Glosario</button><button class="danger" onclick="showReport()">▤ Ver informe</button><button class="secondary" onclick="home()">⌂ Portada</button></div></div>`+
+ ROOMS.map(R=>{const open=roomOpen(R.n);return `<div class="fbRoom"><h3>${esc(R.title)}</h3><p class="note">${roomDone(R.n)?'Sala completa.':open?'Sala abierta.':'Bloqueada: completa la sala anterior.'}</p><div class="fbGrid">${roomSt(R.n).map(s=>`<button ${open?'':'disabled'} onclick="openStation('${s.id}')">${done[s.id]?`<span style="color:var(--good)">✓ ${done[s.id].score}/${stMax(s)}</span>`:'○ Pendiente'}<br>${esc(s.title)}</button>`).join('')}</div></div>`}).join('')}
+function openMenu(){if(!started)return;closeStation(true);closeDialog(true);closeGloss(true);release();menuOpen=true;$('menu').classList.add('open');$('menuShade').style.display='block';$('pause').style.display='none';refresh()}
+function closeMenu(resume){menuOpen=false;$('menu').classList.remove('open');$('menuShade').style.display='none';if(resume&&!listOnly)capture();else showPause()}
+function home(){closeMenu(false);release();$('report').style.display='none';$('start').style.display='grid';$('hud').style.display='none';$('menuBtn').style.display='none';$('fallback').style.display='none';$('prompt').style.display='none';$('pause').style.display='none';setTouch(false);started=false;freeMove=false;save();$('continue').classList.remove('hidden')}
+function openGloss(){$('gloss').innerHTML='<dl>'+GLOSS.map(([t,d])=>`<dt>${esc(t)}</dt><dd>${esc(d)}</dd>`).join('')+'</dl>';closeMenu(false);release();$('glossShade').style.display='grid';$('pause').style.display='none'}
+function closeGloss(silent){$('glossShade').style.display='none';if(!silent)showPause()}
+
+/* ================= ESTACIONES ================= */
+function hashOrder(id,n){const h=k=>{let v=2166136261;for(const ch of id+'#'+k){v^=ch.charCodeAt(0);v=Math.imul(v,16777619)}return v>>>0};return [...Array(n).keys()].sort((x,y)=>h(x)-h(y))}
+const KIND={mc:'Opción múltiple',tf:'Verdadero o falso',sort:'Clasifica',order:'Ordena',match:'Une'};
+function taskHTML(s,ti,t,rev){const A=(ans[s.id]||{})[ti];const id=s.id+'_'+ti;let h=`<div class="task"><div class="kind">${KIND[t.t]}</div><p class="q">${ti+1}. ${esc(t.q)}</p>`;
+ if(t.t==='mc'){h+=`<div class="opts">${hashOrder(id,t.o.length).map(k=>{let c='';if(rev){if(k===t.a)c='right';else if(A===k)c='wrong'}return `<label class="opt ${c}"><input type="radio" name="${id}" data-t="${ti}" value="${k}" ${A===k?'checked':''}><span>${esc(t.o[k])}</span></label>`}).join('')}</div>`}
+ else if(t.t==='tf'){h+=`<div class="opts">${[true,false].map(v=>{let c='';if(rev){if(v===t.a)c='right';else if(A===v)c='wrong'}return `<label class="opt ${c}"><input type="radio" name="${id}" data-t="${ti}" value="${v}" ${A===v?'checked':''}><span>${v?'Verdadero':'Falso'}</span></label>`}).join('')}</div>`}
+ else if(t.t==='sort'){h+=`<div class="rows">${hashOrder(id,t.items.length).map(k=>{const [txt,b]=t.items[k];const v=A?A[k]:undefined;let c='';if(rev)c=v===b?'right':'wrong';return `<div class="row ${c}"><div class="txt">${esc(txt)}</div><div class="seg" role="radiogroup" aria-label="${esc(txt)}">${t.b.map((bn,bi)=>`<label><input type="radio" name="${id}_${k}" data-t="${ti}" data-k="${k}" value="${bi}" ${v===bi?'checked':''}>${esc(bn)}</label>`).join('')}</div>${rev&&v!==b?`<div class="fix">Correcto: ${esc(t.b[b])}</div>`:''}</div>`}).join('')}</div>`}
+ else if(t.t==='order'){const sh=hashOrder(id,t.items.length);h+=`<p class="note" style="margin-top:-4px">Asigna a cada paso su número de orden (1 = primero).</p><div class="rows">${sh.map(k=>{const v=A?A[k]:undefined;let c='';if(rev)c=v===k?'right':'wrong';return `<div class="row ${c}"><div class="txt">${esc(t.items[k])}</div><select data-t="${ti}" data-k="${k}" aria-label="Orden"><option value="">—</option>${t.items.map((_,p)=>`<option value="${p}" ${v===p?'selected':''}>${p+1}</option>`).join('')}</select>${rev&&v!==k?`<div class="fix">Va en la posición ${k+1}</div>`:''}</div>`}).join('')}</div>`}
+ else if(t.t==='match'){const rs=hashOrder(id+'r',t.pairs.length);h+=`<div class="rows">${t.pairs.map(([l,r],k)=>{const v=A?A[k]:undefined;let c='';if(rev)c=v===k?'right':'wrong';return `<div class="row ${c}"><div class="txt"><b>${esc(l)}</b></div><select data-t="${ti}" data-k="${k}" aria-label="${esc(l)}"><option value="">Elige…</option>${rs.map(j=>`<option value="${j}" ${v===j?'selected':''}>${esc(t.pairs[j][1])}</option>`).join('')}</select>${rev&&v!==k?`<div class="fix">Correcto: ${esc(r)}</div>`:''}</div>`}).join('')}</div>`}
+ if(rev)h+=`<div class="explain"><b>${taskScore(t,A)===taskMax(t)?'✓ Bien.':'Explicación.'}</b> ${esc(t.ex)}</div>`;
+ return h+'</div>'}
+function taskScore(t,A){if(A===undefined)return 0;if(t.t==='mc'||t.t==='tf')return A===t.a?1:0;
+ if(t.t==='sort')return t.items.reduce((a,[_,b],k)=>a+(A[k]===b?1:0),0);if(t.t==='order'||t.t==='match')return (t.t==='order'?t.items:t.pairs).reduce((a,_,k)=>a+(A[k]===k?1:0),0);return 0}
+function complete(t,A){if(A===undefined)return false;if(t.t==='mc'||t.t==='tf')return true;const n=taskMax(t);for(let k=0;k<n;k++)if(A[k]===undefined)return false;return true}
+function readTasks(){if(active<0)return;const s=ST[active];const a=ans[s.id]||(ans[s.id]={});
+ document.querySelectorAll('#stBody input[type=radio]:checked').forEach(el=>{const ti=+el.dataset.t,t=s.tasks[ti];if(t.t==='mc')a[ti]=+el.value;else if(t.t==='tf')a[ti]=el.value==='true';else{(a[ti]=a[ti]||{})[+el.dataset.k]=+el.value}});
+ document.querySelectorAll('#stBody select').forEach(el=>{const ti=+el.dataset.t;a[ti]=a[ti]||{};if(el.value==='')delete a[ti][+el.dataset.k];else a[ti][+el.dataset.k]=+el.value});save()}
+function renderStation(rev){const s=ST[active];const R=ROOMS[s.room];
+ $('stTag').textContent=R.title+' · Estación '+(roomSt(s.room).indexOf(s)+1)+' de '+roomSt(s.room).length;$('stTitle').textContent=s.title;
+ $('stBody').innerHTML=`<div class="sec"><i>1</i>Aprende</div><div class="lesson">${s.lesson}</div><div class="sec"><i>2</i>Reto · ${stMax(s)} puntos</div>`+s.tasks.map((t,ti)=>taskHTML(s,ti,t,rev)).join('')+(rev?resultHTML(s):'');
+ $('stActs').innerHTML=rev?`<button class="secondary" onclick="retry()">↻ Reintentar</button><button class="primary" onclick="closeStation()">✓ Volver al recorrido</button>`:`<button class="secondary" onclick="closeStation()">Guardar y salir</button><button class="primary" onclick="checkStation()">✓ Comprobar respuestas</button>`}
+function resultHTML(s){const d=done[s.id],m=stMax(s);return `<div class="result ${d.score===m?'ok':''}"><b>Estación registrada: ${d.score} de ${m} puntos.</b> ${d.score===m?'Dominas esta estación.':'Revisa las explicaciones; puedes reintentar y se guardará tu último resultado.'}</div>`}
+function openStation(id){const i=ST.findIndex(s=>s.id===id);if(i<0||!started)return;const s=ST[i];if(!roomOpen(s.room))return toast('Esa sala sigue bloqueada: completa la sala anterior.');
+ closeMenu(false);closeDialog(true);release();active=i;$('pause').style.display='none';$('prompt').style.display='none';$('stShade').style.display='grid';renderStation(!!done[s.id]&&s.tasks.every((t,ti)=>complete(t,(ans[s.id]||{})[ti])));$('stShade').querySelector('.work').scrollTop=0}
+function closeStation(silent){if(active>=0)readTasks();active=-1;$('stShade').style.display='none';refresh();if(!silent)showPause()}
+function checkStation(){readTasks();const s=ST[active];const a=ans[s.id]||{};const miss=s.tasks.filter((t,ti)=>!complete(t,a[ti])).length;if(miss)return toast(`Te falta completar ${miss} ${miss===1?'reto':'retos'}.`);
+ const wasOpen=ROOMS.map(R=>roomOpen(R.n));const score=s.tasks.reduce((x,t,ti)=>x+taskScore(t,a[ti]),0);done[s.id]={score,max:stMax(s)};save();renderStation(true);refresh();syncWorld(false);
+ $('stBody').querySelector('.result').scrollIntoView({behavior:'smooth',block:'center'});
+ const newly=ROOMS.find(R=>roomOpen(R.n)&&!wasOpen[R.n]);
+ if(doneCount()===ST.length){toast('¡Recorrido completo! Abriendo tu informe final…');setTimeout(()=>{closeStation(true);showReport()},2200)}
+ else if(newly)toast(`Se abrió la puerta: ${newly.title}`);else toast(`${s.short}: ${score}/${stMax(s)} · Total ${totalScore()}/${TOTAL}`)}
+function retry(){const s=ST[active];delete ans[s.id];save();renderStation(false);$('stShade').querySelector('.work').scrollTop=0}
+$('stBody').addEventListener('change',()=>readTasks());
+
+/* ================= INFORME ================= */
+function grade(sc){const p=sc/TOTAL;return p>=.9?['SOBRESALIENTE','Dominio sólido de lavado, prueba y extinción de dominio.']:p>=.75?['MUY BUENO','Buen manejo; revisa los retos marcados.']:p>=.6?['SUFICIENTE','Vuelve a las estaciones con más errores.']:['EN PROCESO','Repasa las mini-lecciones y reintenta las estaciones.']}
+function ansText(t,A){if(A===undefined)return'Sin respuesta';if(t.t==='mc')return t.o[A];if(t.t==='tf')return A?'Verdadero':'Falso';return taskScore(t,A)+'/'+taskMax(t)+' elementos correctos'}
+function rightText(t){if(t.t==='mc')return t.o[t.a];if(t.t==='tf')return t.a?'Verdadero':'Falso';return''}
+function reportText(){let x=`RASTRO 317 · INFORME\n${mode==='group'?'Grupo: '+group+'\nIntegrantes:\n'+members:'Participante: '+name}\nFecha: ${new Date().toLocaleDateString('es-EC')}\nPuntaje: ${totalScore()}/${TOTAL} · Estaciones: ${doneCount()}/${ST.length}\n\n`;
+ ROOMS.forEach(R=>{x+=R.title.toUpperCase()+'\n';roomSt(R.n).forEach(s=>{x+=`  ${s.title}: ${done[s.id]?done[s.id].score+'/'+stMax(s):'pendiente'}\n`;s.tasks.forEach((t,ti)=>{const A=(ans[s.id]||{})[ti];x+=`    ${ti+1}. ${ansText(t,A)} ${done[s.id]?(taskScore(t,A)===taskMax(t)?'✓':'✕'):''}\n`})});x+='\n'});return x}
+function copyReport(){const t=reportText();const fb=()=>{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Informe copiado')}catch(e){toast('No se pudo copiar automáticamente')}ta.remove()};try{navigator.clipboard.writeText(t).then(()=>toast('Informe copiado al portapapeles'),fb)}catch(e){fb()}}
+const canPrint=(()=>{try{return window.self===window.top}catch(e){return false}})();
+function showReport(){if(!started)return;closeStation(true);closeMenu(false);closeDialog(true);closeGloss(true);release();
+ const sc=totalScore(),[g,gt]=grade(sc);
+ const secs=ROOMS.map(R=>`<h3>${esc(R.title)}</h3>`+roomSt(R.n).map(s=>{const d=done[s.id];return `<p style="margin:10px 0 4px"><b>${esc(s.title)}</b> · ${d?`<span class="mono">${d.score}/${stMax(s)}</span>`:'<i>pendiente</i>'}</p><div class="tablewrap"><table><tr><th style="width:52%">Reto</th><th>Tu respuesta</th><th style="width:14%">Resultado</th></tr>${s.tasks.map((t,ti)=>{const A=(ans[s.id]||{})[ti],ok=taskScore(t,A)===taskMax(t);return `<tr><td>${ti+1}. ${esc(t.q)}</td><td>${esc(ansText(t,A))}${d&&!ok&&rightText(t)?`<div class="note"><b>Esperada:</b> ${esc(rightText(t))}</div>`:''}</td><td style="font-weight:700;color:${!d?'var(--muted)':ok?'var(--good)':'var(--bad)'}">${!d?'—':ok?'✓ Correcto':'✕ Revisar'}</td></tr>`}).join('')}</table></div>`}).join('')).join('');
+ $('rep').innerHTML=`<div class="actions"><button class="secondary" onclick="hideReport()">← Volver</button><button class="secondary" onclick="copyReport()">⧉ Copiar informe</button>${canPrint?'<button class="primary" onclick="window.print()">Guardar como PDF / imprimir</button>':''}</div>
+ <div class="eyebrow" style="color:var(--seal)">Laboratorio inmersivo · Tema 3</div><h1 style="font-size:34px;margin:6px 0">Informe del recorrido: lavado de activos y extinción de dominio</h1>
+ <p><b>Modalidad:</b> ${mode==='group'?'Grupal':'Individual'}<br><b>${mode==='group'?'Grupo':'Participante'}:</b> ${esc(name)}<br>${mode==='group'?`<b>Integrantes:</b><br>${esc(members).replace(/\n/g,'<br>')}<br>`:''}<b>Fecha:</b> ${new Date().toLocaleDateString('es-EC')}</p>
+ <div class="scorebox"><div class="seal"><span><b>${sc}/${TOTAL}</b>${g}</span></div><div style="flex:1;min-width:0"><b>${sc} de ${TOTAL} puntos · ${doneCount()}/${ST.length} estaciones registradas.</b><br>${gt}</div></div>
+ <h3>Cinco ideas para recordar</h3><ol class="ideas">${IDEAS.map(i=>`<li>${esc(i)}</li>`).join('')}</ol>${secs}
+ <p class="note" style="margin-top:18px">Material con fines pedagógicos, basado en el material de estudio y el guion docente del Tema 3 (datos verificados al 13 de noviembre de 2026). Goleada es un proceso en curso y todos sus procesados se presumen inocentes; en Blanqueo Fito existe sentencia de primera instancia para algunos procesados. Los personajes de las salas y los ejemplos marcados como hipotéticos son ficticios.</p>`;
+ $('report').style.display='block';$('report').scrollTop=0;$('pause').style.display='none';$('prompt').style.display='none'}
+function hideReport(){$('report').style.display='none';if(listOnly)renderFallback();else showPause()}
+
+/* ================= DIÁLOGOS ================= */
+function showDialog(d){release();$('prompt').style.display='none';$('dlgShade').style.display='grid';$('dlgTag').textContent=d.role;$('dlgTitle').textContent=d.name;
+ $('dlgBody').innerHTML=`<div class="npcname"><div class="avatarBadge">${esc(d.name.replace(/^(Dra?\.|Lic\.|Sr\.|Ing\.|Fiscal|Jueza|Abg\.)\s*/,'').charAt(0))}</div><div><h2 style="margin:0">${esc(d.name)}</h2><span class="note">${esc(d.role)} · ${esc(ROOMS[d.room].title)}</span></div></div><div class="dialogue">“${esc(d.text)}”</div><div class="callout warn" style="margin-top:12px"><b class="lab">Pista</b>${esc(d.clue)}</div><p class="note">Personaje ficticio con fines pedagógicos.</p><div class="actions" style="justify-content:flex-end"><button class="primary" onclick="closeDialog()">Seguir el recorrido</button></div>`}
+function closeDialog(silent){$('dlgShade').style.display='none';if(!silent)showPause()}
+
+/* ================= 3D ================= */
+let scene,camera,renderer,clock,avatar,avatarParts=[],keys={},yaw=0,pitch=.18,locked=false,freeMove=false,dragging=null,nearSt=-1,nearNpc=null,sun;
+const npcObjs=[],boardObjs={},doors=[],anim={bag:null,bagT:-1,houseFlag:null};
+const overlayOpen=()=>active>=0||menuOpen||$('report').style.display==='block'||$('dlgShade').style.display==='grid'||$('glossShade').style.display==='grid';
+function currentRoom(){if(!avatar)return Math.max(0,ROOMS.filter(R=>roomOpen(R.n)).length-1);const z=avatar.position.z;let r=0;BOUND.forEach((b,i)=>{if(z<b)r=i+1});return r}
+function slotPos(s){const c=ROOMS[s.room].z;const m={L1:{x:-13.6,z:c-6,ry:Math.PI/2,ax:-11.4},L2:{x:-13.6,z:c+6,ry:Math.PI/2,ax:-11.4},R1:{x:13.6,z:c-6,ry:-Math.PI/2,ax:11.4},R2:{x:13.6,z:c+6,ry:-Math.PI/2,ax:11.4},C:{x:0,z:c-10,ry:0,ax:0}}[s.slot];return {...m,az:s.slot==='C'?c-8.3:m.z}}
+function release(){keys={};if(document.pointerLockElement)document.exitPointerLock?.()}
+function capture(){if(!renderer||!started||listOnly||overlayOpen())return;$('pause').style.display='none';if(coarse){freeMove=true;return}
+ try{const p=renderer.domElement.requestPointerLock();if(p&&p.catch)p.catch(()=>{freeMove=true;showPause()})}catch(e){freeMove=true}
+ setTimeout(()=>{if(!locked){freeMove=true;showPause()}},400)}
+function showPause(){if(!started||listOnly){$('pause').style.display='none';return}$('pause').style.display=(!locked&&!freeMove&&!overlayOpen()&&renderer)?'block':'none'}
+function goRoom(r){if(!avatar)return;avatar.position.set(0,0,ROOMS[r].z+11);yaw=0;closeMenu(true)}
+function interact(){if(!started||overlayOpen())return;const sd=nearSt>=0?Math.hypot(avatar.position.x-slotPos(ST[nearSt]).ax,avatar.position.z-slotPos(ST[nearSt]).az):99,nd=nearNpc?dist(nearNpc.position):99;
+ if(nearNpc&&nd<sd)showDialog(nearNpc.userData.npc);else if(nearSt>=0)openStation(ST[nearSt].id)}
+function dist(p){return Math.hypot(avatar.position.x-p.x,avatar.position.z-p.z)}
+function roundRect(x,X,Y,W,H,R){x.beginPath();if(x.roundRect)x.roundRect(X,Y,W,H,R);else x.rect(X,Y,W,H);x.fill()}
+function labelTexture(lines,bg,accent){const c=document.createElement('canvas');c.width=1024;c.height=256;const x=c.getContext('2d');x.fillStyle=bg;roundRect(x,8,8,1008,240,42);x.fillStyle=accent;x.fillRect(40,8,944,18);x.textAlign='center';x.fillStyle='#fff';x.font='bold 74px Arial';x.fillText(lines[0]||'',512,116);x.font='44px Arial';x.fillStyle='#e6e9f3';x.fillText(lines[1]||'',512,184);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
+function createLabelSprite(lines,sx,sy,bg,accent){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:labelTexture(lines,bg,accent),transparent:true,depthTest:false}));s.scale.set(sx,sy,1);return s}
+function createHumanoid(cfg){const g=new THREE.Group();const m=(c,r=.78)=>new THREE.MeshStandardMaterial({color:c,roughness:r});
+ const skin=m(cfg.skin||0xe0b48f,.7),shirt=m(cfg.shirt),pants=m(cfg.pants||0x263248),hair=m(cfg.hair||0x2a2420,.9),dark=m(0x1d1a1a,.4),white=m(0xffffff,.3),shoe=m(0x241c18,.5),blush=new THREE.MeshStandardMaterial({color:0xe88f8f,roughness:.9,transparent:true,opacity:.55}),lip=m(0x9c4a4a,.6);
+ function add(geo,mat,x,y,z,parent){const o=new THREE.Mesh(geo,mat);o.position.set(x,y,z);o.castShadow=true;(parent||g).add(o);return o}
+ // cuerpo (el frente del personaje mira hacia -z)
+ add(new THREE.CylinderGeometry(.33,.4,.8,16),shirt,0,1.16,0);
+ if(cfg.toga){add(new THREE.CylinderGeometry(.4,.56,1.15,16),shirt,0,.9,0);add(new THREE.BoxGeometry(.16,.34,.03),white,0,1.38,-.33)}
+ else{add(new THREE.BoxGeometry(.2,.3,.03),white,0,1.4,-.335);add(new THREE.BoxGeometry(.07,.26,.03),m(cfg.tie||0x8a2b3f,.6),0,1.36,-.35)}
+ add(new THREE.CylinderGeometry(.1,.11,.12,12),skin,0,1.6,0);
+ // cabeza y cara
+ const head=new THREE.Group();head.position.set(0,1.84,0);g.add(head);
+ add(new THREE.SphereGeometry(.26,24,18),skin,0,0,0,head);
+ for(const sx of[-1,1]){add(new THREE.SphereGeometry(.06,10,8),skin,sx*.255,-.01,0,head);
+  add(new THREE.SphereGeometry(.052,14,10),white,sx*.09,.03,-.218,head);
+  add(new THREE.SphereGeometry(.03,12,10),m(cfg.eyes||0x3b2a1e,.3),sx*.09,.03,-.258,head);
+  add(new THREE.SphereGeometry(.011,8,6),white,sx*.09+.012,.045,-.284,head);
+  const brow=add(new THREE.BoxGeometry(.085,.017,.02),hair,sx*.092,.105,-.228,head);brow.rotation.z=sx*-.12;
+  const ch=add(new THREE.SphereGeometry(.04,10,8),blush,sx*.15,-.06,-.19,head);ch.scale.set(1,.6,.4);
+  if(cfg.glasses){const r=add(new THREE.TorusGeometry(.062,.009,8,20),dark,sx*.09,.03,-.262,head)}}
+ if(cfg.glasses){add(new THREE.BoxGeometry(.06,.01,.01),dark,0,.04,-.265,head)}
+ const nose=add(new THREE.SphereGeometry(.032,10,8),m(cfg.skin||0xe0b48f,.6),0,-.035,-.255,head);nose.scale.set(1,1.15,1);
+ const mouth=add(new THREE.TorusGeometry(.06,.013,8,18,Math.PI),cfg.lips?lip:m(0x7a3b30,.6),0,-.095,-.228,head);mouth.rotation.z=Math.PI;mouth.rotation.x=.2;
+ if(cfg.beard){const bd=add(new THREE.SphereGeometry(.262,20,12,Math.PI*.15,Math.PI*.7,Math.PI*.6,Math.PI*.3),hair,0,-.005,-.012,head);bd.rotation.y=Math.PI;const ms=add(new THREE.BoxGeometry(.13,.028,.03),hair,0,-.068,-.248,head)}
+ // cabello
+ add(new THREE.SphereGeometry(.272,22,14,0,Math.PI*2,0,Math.PI*.42),hair,0,.035,.02,head);
+ const back=add(new THREE.SphereGeometry(.268,18,14,0,Math.PI,0,Math.PI*.62),hair,0,.01,.02,head);back.rotation.y=0;
+ if(cfg.longHair){add(new THREE.CylinderGeometry(.25,.22,.5,16,1,false,-Math.PI/2,Math.PI),hair,0,-.24,.03,head);for(const sx of[-1,1]){const st=add(new THREE.BoxGeometry(.075,.46,.2),hair,sx*.245,-.15,-.03,head);st.rotation.z=sx*.08}add(new THREE.SphereGeometry(.275,20,10,Math.PI*.6,Math.PI*.8,0,Math.PI*.2),hair,0,.04,-.015,head)}
+ if(cfg.lips){for(const sx of[-1,1])for(const t of[-1,0,1]){const l=add(new THREE.BoxGeometry(.012,.03,.008),dark,sx*.09+t*.025+sx*.012,.093,-.252,head);l.rotation.z=t*-.4}}
+ if(cfg.earrings){for(const sx of[-1,1])add(new THREE.SphereGeometry(.022,8,6),m(0xc79a3b,.3),sx*.26,-.08,-.01,head)}
+ if(cfg.bun){add(new THREE.SphereGeometry(.1,12,10),hair,0,.16,.2,head)}
+ if(cfg.gray){/* canas en las sienes */for(const sx of[-1,1])add(new THREE.SphereGeometry(.05,8,6),m(0xcfcfcf,.9),sx*.24,.08,.03,head)}
+ // brazos con manos y piernas con zapatos
+ function limb(len,r,mat,x,y,end,endMat,endY,endZ){const piv=new THREE.Group();piv.position.set(x,y,0);g.add(piv);add(new THREE.CylinderGeometry(r,r*1.05,len,12),mat,0,-len/2,0,piv);add(end,endMat,0,-len+endY,endZ||0,piv);return piv}
+ const lA=limb(.66,.1,shirt,-.44,1.48,new THREE.SphereGeometry(.085,12,10),skin,-.02),rA=limb(.66,.1,shirt,.44,1.48,new THREE.SphereGeometry(.085,12,10),skin,-.02);
+ const lL=limb(.76,.13,pants,-.17,.8,new THREE.BoxGeometry(.2,.12,.32),shoe,-.02,-.06),rL=limb(.76,.13,pants,.17,.8,new THREE.BoxGeometry(.2,.12,.32),shoe,-.02,-.06);
+ if(cfg.player){const h=new THREE.Mesh(new THREE.RingGeometry(.52,.6,36),new THREE.MeshBasicMaterial({color:0xc79a3b,transparent:true,opacity:.85,side:THREE.DoubleSide}));h.rotation.x=-Math.PI/2;h.position.y=.03;g.add(h)}
+ const label=createLabelSprite([shortName(cfg.name),cfg.role||''],cfg.player?1.9:1.75,cfg.player?.45:.42,cfg.player?'#1c2a4a':'#3a2230',cfg.accent||'#c79a3b');label.position.set(0,2.6,0);g.add(label);g.userData.label=label;
+ g.position.set(cfg.x||0,cfg.y||0,cfg.z||0);g.rotation.y=cfg.ry||0;g.userData.parts=[lA,rA,lL,rL];g.userData.head=head;scene.add(g);return g}
+
+function makeAvatar(){let x=0,z=9,ry=0;if(avatar){x=avatar.position.x;z=avatar.position.z;ry=avatar.rotation.y;scene.remove(avatar)}const W=sex==='mujer';
+ avatar=createHumanoid({name:mode==='group'?group:name,role:mode==='group'?'Equipo investigador':'Investigador/a',player:true,x,z,ry,shirt:W?0x1d5c4a:0x2b4f7a,pants:0x1f2a2a,accent:'#e3a21a',hair:W?0x4a2a18:0x2e2018,tie:0xe3a21a,longHair:W,lips:W,earrings:W,skin:0xe3b48e});avatarParts=avatar.userData.parts}
+function canvasTex(w,h,draw){const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
+function wrapText(x,text,cx,y,maxW,lh){const words=text.split(' ');let line='',lines=[];for(const w of words){const t=line?line+' '+w:w;if(x.measureText(t).width>maxW&&line){lines.push(line);line=w}else line=t}lines.push(line);lines.forEach((l,i)=>x.fillText(l,cx,y+i*lh));return lines.length}
+function boardTex(s){const d=done[s.id],open=roomOpen(s.room);const idx=roomSt(s.room).indexOf(s)+1;return canvasTex(1024,576,(x,w,h)=>{
+ x.fillStyle='#fbfaf6';x.fillRect(0,0,w,h);x.fillStyle=ROOMS[s.room].stripe;x.fillRect(0,0,w,30);
+ x.fillStyle='#0f2a24';x.textAlign='center';x.font='bold 30px Arial';x.fillText(('ESTACIÓN '+idx).toUpperCase(),w/2,90);
+ x.font='800 62px Georgia';wrapText(x,s.title,w/2,180,900,70);
+ x.fillStyle=d?'#1f7a55':'#b03a2e';x.font='bold 34px Arial';x.fillText(d?`✓ REGISTRADA · ${d.score}/${stMax(s)}`:open?'ACÉRCATE Y PRESIONA E':'SALA BLOQUEADA',w/2,500)})}
+function signTex(t1,t2,bg,ac){return canvasTex(1400,380,(x,w,h)=>{x.fillStyle=bg;x.fillRect(0,0,w,h);x.fillStyle=ac;x.fillRect(0,0,w,16);x.fillRect(0,h-10,w,10);x.fillStyle='#fff';x.textAlign='center';x.font='800 78px Georgia';x.fillText(t1,w/2,170);x.font='40px Arial';x.fillStyle='#e9f2ee';x.fillText(t2,w/2,250)})}
+function floorLabel(text,color,x0,z0,w,h,rot){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:canvasTex(1024,256,(x,W,H)=>{x.clearRect(0,0,W,H);x.fillStyle=color;x.textAlign='center';x.font='900 120px Arial';x.fillText(text,W/2,170)}),transparent:true}));m.rotation.x=-Math.PI/2;m.rotation.z=rot||0;m.position.set(x0,.03,z0);scene.add(m);return m}
+function init3D(){try{
+ scene=new THREE.Scene();scene.background=new THREE.Color(0x0b1f1a);scene.fog=new THREE.Fog(0x0b1f1a,30,62);
+ camera=new THREE.PerspectiveCamera(66,innerWidth/innerHeight,.1,120);renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;$('world').appendChild(renderer.domElement);
+ scene.add(new THREE.HemisphereLight(0xfffaf0,0x2a3a35,2.2));sun=new THREE.DirectionalLight(0xffffff,1.9);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-22,right:22,top:22,bottom:-22,near:1,far:60});scene.add(sun);scene.add(sun.target);
+ const mat=(c,r=.8,m=.05,e)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m,emissive:e||0x000000});
+ function box(w,h,d,c,x,y,z,o={}){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),o.mat||mat(c,o.r,o.m,o.e));m.position.set(x,y,z);if(o.ry)m.rotation.y=o.ry;m.castShadow=o.cast!==false;m.receiveShadow=true;scene.add(m);return m}
+ function cyl(rt,rb,h,c,x,y,z,o={}){const m=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,o.seg||18),o.mat||mat(c,o.r,o.m,o.e));m.position.set(x,y,z);m.castShadow=true;scene.add(m);return m}
+ function sprite(text,sub,x,y,z,sx,bg){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:canvasTex(1024,256,(c,w,h)=>{c.fillStyle=bg||'#0f2a24';c.beginPath();c.roundRect?c.roundRect(8,8,w-16,h-16,40):c.rect(8,8,w-16,h-16);c.fill();c.fillStyle='#fff';c.textAlign='center';c.font='bold 74px Arial';c.fillText(text,w/2,sub?118:150);if(sub){c.font='44px Arial';c.fillStyle='#d8eae2';c.fillText(sub,w/2,190)}}),transparent:true,depthTest:true}));s.scale.set(sx||3,(sx||3)/4,1);s.position.set(x,y,z);scene.add(s);return s}
+ // ---- salas: pisos, techos y muros
+ ROOMS.forEach(R=>{const c=R.z;box(28,.2,28,R.floor,0,-.1,c,{cast:false});box(28,.15,28,0xf3f1ea,0,6.25,c,{cast:false});
+  for(const sx of[-1,1]){box(.35,6.3,28,0xe9e6dd,sx*14.15,3.1,c,{cast:false});box(.12,.22,27.6,parseInt(R.stripe.slice(1),16),sx*13.95,2.2,c,{cast:false})}
+  for(const x of[-7,7])for(const z of[c-7,c+7]){const l=new THREE.PointLight(0xfff4e0,.5,16);l.position.set(x,5.5,z);scene.add(l);box(2,.05,.6,0xfffbef,x,6.15,z,{cast:false,e:0x666655})}});
+ box(28,6.3,.35,0xe9e6dd,0,3.1,14.15,{cast:false});box(28,6.3,.35,0xe9e6dd,0,3.1,-126.15,{cast:false});
+ // ---- muros divisorios con puerta
+ BOUND.forEach((b,i)=>{box(11.8,6.3,.4,0xe2ded3,-8.1,3.1,b,{cast:false});box(11.8,6.3,.4,0xe2ded3,8.1,3.1,b,{cast:false});box(4.4,3.0,.4,0xe2ded3,0,4.75,b,{cast:false});
+  box(.25,3.3,.5,0x2a2a2a,-2.3,1.6,b);box(.25,3.3,.5,0x2a2a2a,2.3,1.6,b);
+  const door=box(4.3,3.2,.22,0xb03a2e,0,1.6,b,{r:.5,m:.3});door.userData={b,i,y:1.6};doors.push(door);
+  const nx=ROOMS[i+1];const sg=new THREE.Mesh(new THREE.PlaneGeometry(7,1.9),new THREE.MeshBasicMaterial({map:signTex(nx.title.split(' · ')[0].toUpperCase(),nx.title.split(' · ')[1],'#0f2a24',nx.stripe)}));sg.position.set(0,4.95,b+.22);scene.add(sg);
+  const sg2=sg.clone();sg2.position.z=b-.22;sg2.rotation.y=Math.PI;sg2.material=new THREE.MeshBasicMaterial({map:signTex(ROOMS[i].title.split(' · ')[0].toUpperCase(),'Volver',('#0f2a24'),ROOMS[i].stripe)});scene.add(sg2)});
+ // ---- RECEPCIÓN
+ {const c=0;const s=new THREE.Mesh(new THREE.PlaneGeometry(11,3),new THREE.MeshBasicMaterial({map:signTex('RASTRO 317','Lavado de activos y extinción de dominio','#0f2a24','#e3a21a')}));s.position.set(0,4.4,13.9);s.rotation.y=Math.PI;scene.add(s);
+  box(6,1.1,1.4,0x7a5a3c,0,.55,6,{});box(6.2,.1,1.6,0x9a7652,0,1.12,6);
+  floorLabel('SIGUE AL DÓLAR','#e3a21a',0,0,10,2.5,0);for(let k=0;k<4;k++){const ar=new THREE.Mesh(new THREE.ConeGeometry(.5,1.1,3),new THREE.MeshBasicMaterial({color:0xe3a21a}));ar.rotation.x=-Math.PI/2;ar.position.set(0,.04,-4-k*2.2);scene.add(ar)}
+  for(const sx of[-1,1]){cyl(.45,.55,.7,0x8a5a3c,sx*11,.35,11);const pl=new THREE.Mesh(new THREE.SphereGeometry(.7,12,10),mat(0x2f7d63));pl.position.set(sx*11,1.3,11);pl.scale.y=1.4;scene.add(pl)}}
+ // ---- SALA 1: fases
+ {const c=ROOMS[1].z;
+  floorLabel('COLOCACIÓN','#7fe0b0',0,c+9.5,9,2.2);floorLabel('ESTRATIFICACIÓN','#f2c25a',0,c+1.5,10,2.2);floorLabel('INTEGRACIÓN','#8cc4ff',0,c-6.5,9,2.2);
+  for(const x of[-6,0,6]){box(3,1.1,1,0x2f7d63,x,.55,c+7,{});for(let k=0;k<3;k++)box(.5,.18,.28,0x7fbf6a,x-.7+k*.7,1.2,c+7,{})}
+  sprite('Cooperativas','Colocación',0,3.6,c+7,4.2,'#1f6b4c');
+  const comp=[[-7,c-1,'Empresa A'],[-2.5,c-1,'Empresa B'],[2.5,c-1,'Empresa C'],[7,c-1,'Panamá S.A.']];
+  comp.forEach(([x,z,t])=>{box(2.2,1.6,1.6,0x9c8a6a,x,.8,z,{});sprite(t,null,x,2.4,z,2.4,'#7a5a14')});
+  for(let k=0;k<3;k++){const l=box(2.3,.06,.06,0xf2c25a,comp[k][0]+2.25,1.1,c-1,{e:0xb08020,cast:false});}
+  const bld=box(4,4.6,4,0x8fb3d9,0,2.3,c-10,{});for(let fy=0;fy<4;fy++)for(let fx=0;fx<3;fx++){box(.7,.6,.05,0xfff1b0,-1.2+fx*1.2,.9+fy*1.05,c-7.97,{e:0x887733,cast:false})}
+  sprite('Edificio en Manta','Integración',0,5.5,c-10,4.2,'#2b5c8f');
+  const bag=new THREE.Group();const bb=new THREE.Mesh(new THREE.SphereGeometry(.45,16,12),mat(0x5d7a3a,.6));bb.scale.set(1,1.1,1);bag.add(bb);const kn=new THREE.Mesh(new THREE.CylinderGeometry(.12,.2,.3,10),mat(0x4a6230));kn.position.y=.55;bag.add(kn);
+  const dl=new THREE.Sprite(new THREE.SpriteMaterial({map:canvasTex(256,256,(x,w,h)=>{x.fillStyle='#e3a21a';x.beginPath();x.arc(128,128,110,0,7);x.fill();x.fillStyle='#2d1d00';x.font='bold 150px Arial';x.textAlign='center';x.fillText('$',128,182)}),transparent:true}));dl.scale.set(.7,.7,1);dl.position.y=1.2;bag.add(dl);
+  box(1.2,.8,1.2,0x7a5a3c,-10,.4,c+11,{});bag.position.set(-10,1.3,c+11);scene.add(bag);anim.bag=bag;anim.path=[[-10,c+11],[-6,c+7.6],[0,c+7.6],[6,c+7.6],[-7,c],[-2.5,c],[2.5,c],[7,c],[2,c-5],[0,c-7.3]]}
+ // ---- SALA 2: circuito
+ {const c=ROOMS[2].z;const st=[[-8,c+5,'Sujeto obligado','Banco / cooperativa',0x2f7d63],[-3,c+1,'UAFE','Inteligencia financiera',0x2b6cb0],[3,c-3,'Fiscalía','Investigación',0x1c2a4a],[8,c-8,'Tribunal','Prueba y sentencia',0x6b3a4a]];
+  st.forEach(([x,z,t,sb,col],k)=>{box(2.6,1.1,1.4,col,x,.55,z,{});if(t==='UAFE'){for(const dx of[-.6,.6]){box(.9,.6,.06,0x111111,x+dx,1.5,z-.3,{});box(.8,.5,.02,0x6fd3ff,x+dx,1.5,z-.34,{e:0x2a8fbf,cast:false})}}
+   sprite(t,sb,x,3.1,z,2.8,'#'+col.toString(16).padStart(6,'0'));if(k<3){const nx=st[k+1];const ang=Math.atan2(nx[0]-x,nx[1]-z);for(let q=1;q<3;q++){const ar=new THREE.Mesh(new THREE.ConeGeometry(.35,.8,3),new THREE.MeshBasicMaterial({color:0xe3a21a}));ar.rotation.x=-Math.PI/2;ar.rotation.z=-ang+Math.PI;ar.position.set(x+(nx[0]-x)*q/3,.05,z+(nx[1]-z)*q/3);scene.add(ar)}}});
+  box(6,.5,2.4,0x5a3a26,8,.25,c-11,{});floorLabel('ROII','#8cc4ff',0,c-1,4,1.6,.7)}
+ // ---- SALA 3: departamento y tribunal
+ {const c=ROOMS[3].z;box(5,3,4,0xe8dcc4,0,1.5,c+1,{});const roof=new THREE.Mesh(new THREE.ConeGeometry(3.9,1.8,4),mat(0x8a3a2a));roof.position.set(0,3.9,c+1);roof.rotation.y=Math.PI/4;roof.castShadow=true;scene.add(roof);
+  box(1,1.8,.06,0x5a3a26,0,.9,c+3.02,{cast:false});for(const sx of[-1,1])box(1,.9,.06,0xbfe0ff,sx*1.6,1.8,c+3.02,{e:0x334455,cast:false});
+  sprite('Departamento (hipotético)','USD 380.000 · Samborondón',0,5.6,c+1,4.6,'#7a2a20');
+  const flag=sprite('ESTADO','Extinción declarada',0,7.2,c+1,3.6,'#1f7a55');flag.visible=false;anim.houseFlag=flag;anim.house=roof;
+  const tl=[[-9,c+9,'2021','Sentencia ejecutoriada'],[-9,c+4,'FEB 2024','3 excepciones'],[-9,c-1,'JUL 2024','Sin condena previa']];tl.forEach(([x,z,a,b])=>{cyl(.15,.15,2,0xe3a21a,x,1,z);sprite(a,b,x,2.6,z,3,'#7a2a20')});
+  box(9,.6,3,0x5a3a26,0,.3,c-12.4,{});box(7,1.2,.9,0x4a2e1e,0,1.2,c-11.2,{})}
+ // ---- SALA 4: el mundo
+ {const c=ROOMS[4].z;const gl=new THREE.Mesh(new THREE.SphereGeometry(2.2,32,24),mat(0x2b6cb0,.5,.1));gl.position.set(0,2.6,c);gl.castShadow=true;scene.add(gl);anim.globe=gl;
+  const wire=new THREE.Mesh(new THREE.SphereGeometry(2.23,16,12),new THREE.MeshBasicMaterial({color:0x9fd0ff,wireframe:true,transparent:true,opacity:.35}));gl.add(wire);cyl(.4,.8,.5,0x333333,0,.25,c);
+  floorLabel('ECUADOR','#e3a21a',-6,c+7,6,1.5);floorLabel('PANAMÁ','#ffffff',6,c+6,6,1.5);floorLabel('EE. UU.','#ffffff',6,c-6,6,1.5);
+  const curve=new THREE.QuadraticBezierCurve3(new THREE.Vector3(-6,.1,c+7),new THREE.Vector3(0,6,c),new THREE.Vector3(6,.1,c-6));const tube=new THREE.Mesh(new THREE.TubeGeometry(curve,40,.06,8),new THREE.MeshBasicMaterial({color:0xe3a21a}));scene.add(tube);
+  const ex=new THREE.Mesh(new THREE.PlaneGeometry(9,2.5),new THREE.MeshBasicMaterial({map:signTex('FIN DEL RECORRIDO','Abre tu informe final desde el menú','#7a2a20','#e3a21a')}));ex.position.set(0,4.2,-125.9);scene.add(ex)}
+ // ---- estaciones
+ ST.forEach(s=>{const p=slotPos(s);const g=new THREE.Group();g.add(new THREE.Mesh(new THREE.BoxGeometry(5.2,3,.2),mat(0x203a33)));const face=new THREE.Mesh(new THREE.PlaneGeometry(4.95,2.78),new THREE.MeshBasicMaterial({map:boardTex(s)}));face.position.z=.11;g.add(face);g.position.set(p.x,p.slot==='C'?2.1:3.05,p.z);g.rotation.y=p.ry;scene.add(g);
+  if(s.slot==='C'){const leg=new THREE.Mesh(new THREE.BoxGeometry(.3,1.2,.3),mat(0x203a33));leg.position.y=-2;g.add(leg)}boardObjs[s.id]=face});
+ // ---- personajes
+ NPCS.forEach((n,i)=>{const W=n.sex==='mujer';const o=createHumanoid({name:n.name,role:n.role,x:n.x,z:n.z,ry:Math.PI*0,shirt:n.color,toga:n.toga,pants:0x2b2b38,accent:'#e3a21a',longHair:W,lips:W,earrings:W&&i%2===0,glasses:i%3===1,beard:!W&&i%2===1,hair:[0x3a2416,0x1f1a17,0x6b3e1f,0x2b2b2b][i%4],skin:[0xd9a27a,0xc98d66,0xf0c8a5,0xb87c55,0xe6bb98][i%5]});o.userData.npc=n;npcObjs.push(o)});
+ clock=new THREE.Clock();animate()}catch(err){console.error(err);renderer=null;listOnly=true;showFallback();toast('Se habilitó el modo sin 3D')}}
+function syncWorld(first){if(!renderer)return;ST.forEach(s=>{const f=boardObjs[s.id];if(f){f.material.map.dispose();f.material.map=boardTex(s);f.material.needsUpdate=true}});
+ doors.forEach(d=>{const open=roomOpen(d.userData.i+1);d.material.color.set(open?0x1f7a55:0xb03a2e);d.userData.open=open;if(first&&open)d.position.y=4.9});
+ if(done.S1a&&anim.bagT<0){anim.bagT=first?anim.path.length-1:0}
+ if(anim.houseFlag)anim.houseFlag.visible=!!done.S3d}
+const tgt=window.THREE?new THREE.Vector3():null,des=window.THREE?new THREE.Vector3():null;
+function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.045);let moving=false;const ph=performance.now()*.009;
+ if(avatar&&(locked||freeMove)&&started&&!listOnly&&!overlayOpen()){const fw=(keys.KeyW||keys.ArrowUp?1:0)-(keys.KeyS||keys.ArrowDown?1:0),sd=(keys.KeyD||keys.ArrowRight?1:0)-(keys.KeyA||keys.ArrowLeft?1:0);
+  if(fw||sd){const dx=-Math.sin(yaw)*fw+Math.cos(yaw)*sd,dz=-Math.cos(yaw)*fw-Math.sin(yaw)*sd,nn=Math.hypot(dx,dz);let nx=avatar.position.x+dx/nn*6.4*dt,nz=avatar.position.z+dz/nn*6.4*dt;
+   nx=Math.max(-13.3,Math.min(13.3,nx));nz=Math.max(-125.3,Math.min(13.3,nz));
+   for(const d of doors){const b=d.userData.b,oz=avatar.position.z,inBand=Math.abs(nz-b)<.45,cross=(oz>b)!==(nz>b);
+    if(inBand||cross){if(d.userData.open&&Math.abs(oz-b)<.45){nx=Math.max(-1.75,Math.min(1.75,nx))}else if(!d.userData.open||Math.abs(nx)>1.75){nz=oz}}}
+   avatar.position.x=nx;avatar.position.z=nz;avatar.rotation.y=Math.atan2(-dx,-dz);moving=true}}
+ if(avatar){for(let k=0;k<4;k++)avatarParts[k].rotation.x=Math.sin(ph+((k===0||k===3)?0:Math.PI))*(moving?.55:0);avatar.position.y=moving?Math.abs(Math.sin(ph))*.045:0;
+  tgt.set(avatar.position.x,1.45,avatar.position.z);des.set(tgt.x+Math.sin(yaw)*4.6,3.2+Math.sin(pitch)*2.1,tgt.z+Math.cos(yaw)*4.6);
+  des.x=Math.max(-13.4,Math.min(13.4,des.x));for(const b of[...BOUND,14,-126]){const az=avatar.position.z;if((az>b)!==(des.z>b)&&Math.abs(az-b)<4.7){des.z=az>b?b+.5:b-.5;des.y=Math.max(des.y,4.4)}}
+  camera.position.lerp(des,Math.min(1,dt*8));camera.lookAt(tgt);sun.position.set(avatar.position.x-8,16,avatar.position.z+10);sun.target.position.copy(avatar.position);
+  npcObjs.forEach((n,i)=>{const near=dist(n.position)<6,want=near?Math.atan2(avatar.position.x-n.position.x,avatar.position.z-n.position.z)+Math.PI:Math.PI;let d=((want-n.rotation.y+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;n.rotation.y+=d*Math.min(1,dt*5);n.userData.head.rotation.y=Math.sin(ph*.25+i)*.12});
+  nearSt=-1;let bs=3.2;ST.forEach((s,i)=>{const p=slotPos(s);const d=Math.hypot(avatar.position.x-p.ax,avatar.position.z-p.az);if(d<bs){bs=d;nearSt=i}});
+  nearNpc=null;let bn=2.6;npcObjs.forEach(n=>{const d=dist(n.position);if(d<bn){bn=d;nearNpc=n}});
+  const pr=$('prompt'),K=coarse?'Toca aquí':'E';if(started&&!listOnly&&(locked||freeMove)&&!overlayOpen()&&(nearNpc||nearSt>=0)){pr.style.display='block';pr.textContent=nearNpc&&bn<bs?`${K} · HABLAR CON ${nearNpc.userData.npc.role.toUpperCase()}`:`${K} · ${roomOpen(ST[nearSt].room)?'ABRIR':'VER'} ESTACIÓN · ${ST[nearSt].short.toUpperCase()}`}else pr.style.display='none';
+  const r=currentRoom();if(r!==animate.lastRoom){animate.lastRoom=r;refresh()}}
+ doors.forEach(d=>{const ty=d.userData.open?4.9:1.6;d.position.y+=(ty-d.position.y)*Math.min(1,dt*2.5)});
+ if(anim.bag&&anim.bagT>=0){const P=anim.path,seg=Math.min(P.length-1,anim.bagT);const i0=Math.floor(seg),i1=Math.min(P.length-1,i0+1),f=seg-i0;anim.bag.position.x=P[i0][0]+(P[i1][0]-P[i0][0])*f;anim.bag.position.z=P[i0][1]+(P[i1][1]-P[i0][1])*f;anim.bag.position.y=1.3+Math.abs(Math.sin(ph*.4))*.25;if(anim.bagT<P.length-1)anim.bagT+=dt*.9}
+ else if(anim.bag)anim.bag.position.y=1.3+Math.sin(ph*.3)*.12;
+ if(anim.globe)anim.globe.rotation.y+=dt*.25;
+ renderer.render(scene,camera)}
+addEventListener('mousemove',e=>{if(locked){yaw-=e.movementX*.0024;pitch=Math.max(-.35,Math.min(.55,pitch-e.movementY*.002))}});
+$('world').addEventListener('pointerdown',e=>{if(locked||!started||listOnly)return;if(!freeMove&&!coarse){capture();return}dragging={x:e.clientX,y:e.clientY,id:e.pointerId}});
+addEventListener('pointermove',e=>{if(!dragging||e.pointerId!==dragging.id)return;yaw-=(e.clientX-dragging.x)*.005;pitch=Math.max(-.35,Math.min(.55,pitch-(e.clientY-dragging.y)*.004));dragging.x=e.clientX;dragging.y=e.clientY});
+addEventListener('pointerup',()=>dragging=null);addEventListener('pointercancel',()=>dragging=null);
+document.querySelectorAll('#touchPad button').forEach(b=>{const k=b.dataset.k;b.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true});['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>keys[k]=false))});
+document.addEventListener('pointerlockchange',()=>{locked=!!renderer&&document.pointerLockElement===renderer.domElement;if(locked)freeMove=false;else keys={};showPause()});
+addEventListener('keydown',e=>{const tg=(e.target?.tagName||'').toLowerCase();if(tg==='input'||tg==='select'||tg==='textarea'){if(e.code!=='Escape')return}
+ if(e.code==='Escape'){if($('dlgShade').style.display==='grid'){closeDialog();return}if($('glossShade').style.display==='grid'){closeGloss();return}if(active>=0){closeStation();return}if(menuOpen){closeMenu(false);return}if($('report').style.display==='block'){hideReport();return}if(freeMove&&!coarse){freeMove=false;keys={};showPause();return}}
+ if(e.code==='KeyM'&&started&&!overlayOpen()){e.preventDefault();openMenu();return}
+ if(overlayOpen()||!started)return;if(e.code.startsWith('Arrow'))e.preventDefault();keys[e.code]=true;if(e.code==='KeyE'&&(locked||freeMove)){e.preventDefault();interact()}});
+addEventListener('keyup',e=>keys[e.code]=false);addEventListener('blur',()=>{keys={};save()});
+addEventListener('resize',()=>{if(camera&&renderer){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)}});
+addEventListener('beforeunload',save);
+</script>
+
+</html>
