@@ -152,6 +152,7 @@ td.num{font-family:"JetBrains Mono",monospace;white-space:nowrap}
    <div class="eyebrow">Laboratorio inmersivo · Tema 3 · Régimen económico</div>
    <h1>RASTRO <span>317</span></h1>
    <p class="lead">Sigue el recorrido de un dólar sucio. Primero ves cómo se lava, después cómo el Estado lo detecta y lo prueba, luego cómo le quita los bienes al patrimonio ilícito y, al final, cómo coopera con otros países. Cada sala se abre cuando terminas la anterior.</p>
+   <div id="mobileNote" class="callout warn hidden"><b class="lab">Ábrelo en una computadora</b>Este juego está diseñado para computadora, con teclado y ratón. En el celular no se puede jugar: abre este archivo en una computadora.</div>
    <div class="grid2">
     <div><label for="mode">Modalidad</label><select id="mode"><option value="group">Grupal</option><option value="individual">Individual</option></select></div>
     <div id="groupSel"><label for="group">Grupo</label><select id="group"><option>Grupo 1</option><option>Grupo 2</option><option>Grupo 3</option><option>Grupo 4</option><option>Grupo 5</option><option>Grupo 6</option></select></div>
@@ -164,7 +165,7 @@ td.num{font-family:"JetBrains Mono",monospace;white-space:nowrap}
     <button class="secondary hidden" id="continue">↻ RETOMAR AVANCE</button>
     <button class="secondary" id="listMode">☷ JUGAR SIN 3D</button>
    </div>
-   <p class="note">Controles en computadora: WASD o flechas para caminar, ratón para mirar, E para interactuar, M para el menú y Esc para liberar el puntero. En celular: joystick para caminar, desliza el dedo para mirar y toca el botón amarillo para interactuar. El avance se guarda en este navegador. Contenido basado en el material de estudio y el guion del Tema 3 (datos verificados al 13 de noviembre de 2026). Los procesos sin sentencia se presentan según la tesis de la Fiscalía: rige la presunción de inocencia.</p>
+   <p class="note">Juego para computadora con teclado y ratón. Controles: WASD o flechas para caminar, ratón para mirar, E para hablar o examinar, M para el menú y Esc para liberar el puntero. El avance se guarda en este navegador. Contenido basado en el material de estudio y el guion del Tema 3 (datos verificados al 13 de noviembre de 2026). Los procesos sin sentencia se presentan según la tesis de la Fiscalía: rige la presunción de inocencia.</p>
   </div>
   <aside class="introAside">
    <div class="eyebrow">La ruta del dinero</div>
@@ -501,6 +502,7 @@ const totalScore=()=>ST.reduce((a,s)=>a+(done[s.id]?done[s.id].score:0),0);
 /* ================= PORTADA ================= */
 function updMode(){const ind=$('mode').value==='individual';$('groupFields').classList.toggle('hidden',ind);$('groupSel').classList.toggle('hidden',ind);$('individualFields').classList.toggle('hidden',!ind)}
 $('mode').addEventListener('change',updMode);updMode();
+if(coarse&&innerWidth<1024){$('mobileNote').classList.remove('hidden');document.querySelector('#start .actions').classList.add('hidden')}
 (function(){const s=load();if(s?.name){$('continue').classList.remove('hidden');$('mode').value=s.mode||'group';updMode();$('group').value=s.group||'Grupo 1';$('members').value=s.members||'';if(s.mode==='individual')$('student').value=s.name;$('avatarSex').value=s.sex||'mujer'}})();
 function start(resume,noWorld){
  if(!resume){mode=$('mode').value;group=$('group').value;members=$('members').value.trim();sex=$('avatarSex').value;name=mode==='individual'?$('student').value.trim():group;
@@ -513,7 +515,7 @@ function start(resume,noWorld){
  save();refresh();
  if(listOnly||!window.THREE){showFallback();if(!window.THREE&&!listOnly)toast('El motor 3D no cargó: se abrió el modo sin 3D.');return}
  $('fallback').style.display='none';$('hud').style.display='block';
- if(!renderer)init3D();if(renderer){makeAvatar();syncWorld(true);setTouch(coarse);if(coarse){freeMove=true;showPause()}else capture()}}
+ if(!renderer)init3D();if(renderer){makeAvatar();syncWorld(true);setTouch(false);capture()}}
 $('begin').onclick=()=>start(false,false);
 $('continue').onclick=()=>start(true,false);
 $('listMode').onclick=()=>start(false,true);
