@@ -57,6 +57,8 @@ textarea{min-height:80px;resize:vertical}
 #menuBtn{position:fixed;top:calc(15px + env(safe-area-inset-top,0px));left:calc(15px + env(safe-area-inset-left,0px));z-index:14;display:none;box-shadow:0 8px 24px #0004}
 #pause{position:fixed;z-index:13;left:50%;top:50%;transform:translate(-50%,-50%);width:420px;max-width:90vw;background:#fbfaf6fa;border-radius:16px;padding:22px;text-align:center;display:none;box-shadow:0 16px 48px #0006}
 #pause .actions{justify-content:center}
+#joy{position:fixed;z-index:11;left:calc(18px + env(safe-area-inset-left,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));width:124px;height:124px;border-radius:50%;background:#fbfaf633;border:2px solid #fbfaf6aa;display:none;touch-action:none}
+#joyKnob{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;background:#e3a21ae6;box-shadow:0 4px 14px #0006;pointer-events:none}
 #touchPad{position:fixed;z-index:11;left:calc(16px + env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:none;grid-template-columns:repeat(3,52px);grid-template-rows:repeat(2,52px);gap:6px}
 #touchPad button{padding:0;background:#fbfaf6e0;color:var(--ink);border:1px solid #cfdad3;font-size:20px;touch-action:none;user-select:none;-webkit-user-select:none}
 #touchAct{position:fixed;z-index:11;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:none;width:74px;height:74px;border-radius:50%;padding:0;font-size:22px}
@@ -106,6 +108,14 @@ td.num{font-family:"JetBrains Mono",monospace;white-space:nowrap}
 .explain{margin-top:10px;font-size:13.5px;line-height:1.55;padding:9px 12px;border-radius:8px;background:#f2f5f3;border:1px solid #dfe6e2}
 .explain b{color:var(--ink)}
 .result{margin-top:14px;padding:14px 16px;border-radius:12px;background:var(--amberSoft);border:1px solid #ecd28a;font-size:14px}.result.ok{background:#e3f4ea;border-color:#9bcfb2}
+.encHead{display:flex;align-items:center;gap:12px;min-width:0}.encHead .avatarBadge{width:46px;height:46px;font-size:18px}
+.dots{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}.dots i{width:9px;height:9px;border-radius:50%;background:#ffffff33}.dots i.on{background:var(--amber)}.dots i.ok{background:#4fc08d}
+.bubble{position:relative;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:6px 0 14px;font-family:"Bricolage Grotesque",Georgia,serif;font-size:17px;line-height:1.5;box-shadow:0 4px 14px #0000000f}
+.bubble small{display:block;font-family:"Source Sans 3",sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--bill2);margin-bottom:4px}
+.coins{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.coin{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-family:"JetBrains Mono",monospace;font-size:14px;background:#e3e8e5;color:#9aa8a1}.coin.got{background:var(--amber);color:#2d1d00;box-shadow:inset 0 -3px 0 #b07b0a}
+.recap{list-style:none;padding:0;margin:8px 0;display:grid;gap:6px}.recap li{padding:8px 10px;border-radius:8px;background:#fff;border:1px solid var(--line);font-size:14px}.recap li b{margin-right:6px}
+.verdict{font-weight:800;font-size:15px;margin-top:10px}.verdict.ok{color:var(--good)}.verdict.no{color:var(--bad)}
+.pdfBtn{background:var(--seal);color:#fff;font-size:15px}
 .stickyActs{position:sticky;bottom:0;background:linear-gradient(180deg,#fbfaf600,#fbfaf6 35%);padding:14px 26px 18px;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
 .npcname{display:flex;align-items:center;gap:12px;margin-bottom:12px}.avatarBadge{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--amberSoft);color:#6b4a00;font-weight:800;font-size:20px;flex:none;font-family:"Bricolage Grotesque",Georgia,serif}
 .dialogue{font-size:16.5px;line-height:1.6;background:#f1f5f2;border:1px solid #d9e3dd;padding:16px;border-radius:12px;font-family:"Bricolage Grotesque",Georgia,serif}
@@ -126,9 +136,9 @@ td.num{font-family:"JetBrains Mono",monospace;white-space:nowrap}
 .seal b{display:block;font-size:22px;font-family:"JetBrains Mono",monospace}
 .ideas{counter-reset:i;list-style:none;padding:0;display:grid;gap:8px}.ideas li{counter-increment:i;padding:10px 12px 10px 46px;position:relative;background:#f6f9f7;border-radius:10px;border:1px solid var(--line);line-height:1.5}
 .ideas li::before{content:counter(i);position:absolute;left:12px;top:10px;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;font-family:"JetBrains Mono",monospace}
-@media (max-width:880px){.shade{padding:8px}.workHead{padding:10px 14px;flex-wrap:nowrap}.workHead .title{font-size:18px}.workHead .tag{font-size:10px}.workHead button{padding:8px 10px;font-size:13px;flex:none}.stickyActs{padding:10px 14px 12px}.intro{grid-template-columns:1fr}.introMain,.introAside{padding:22px}#hTop{left:calc(14px + env(safe-area-inset-left,0px));top:calc(66px + env(safe-area-inset-top,0px));max-width:calc(100vw - 28px)}#hMap,#hKeys{display:none!important}#hProg{width:180px}.opts,.grid2{grid-template-columns:1fr}.row{grid-template-columns:1fr}.seg{justify-content:flex-start}.row select{max-width:100%;width:100%}.workBody{padding:14px 16px 20px}.rep{padding:18px}}
+@media (max-width:880px){#hProg{width:158px;padding:8px 10px}#hProg .scoreLine{font-size:11.5px;line-height:1.35}#hProg .hudBtn{font-size:11.5px;padding:6px 8px}#hTop strong{font-size:14px}#hTop small{font-size:10px}.shade{padding:8px}.workHead{padding:10px 14px;flex-wrap:nowrap}.workHead .title{font-size:18px}.workHead .tag{font-size:10px}.workHead button{padding:8px 10px;font-size:13px;flex:none}.stickyActs{padding:10px 14px 12px}.intro{grid-template-columns:1fr}.introMain,.introAside{padding:22px}#hTop{left:calc(14px + env(safe-area-inset-left,0px));top:calc(66px + env(safe-area-inset-top,0px));max-width:calc(100vw - 200px);padding:8px 10px}#hMap,#hKeys{display:none!important}#hProg{width:180px}.opts,.grid2{grid-template-columns:1fr}.row{grid-template-columns:1fr}.seg{justify-content:flex-start}.row select{max-width:100%;width:100%}.workBody{padding:14px 16px 20px}.rep{padding:18px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
-@media print{#world,#hud,#menuBtn,#menu,#menuShade,#pause,#prompt,.shade,#toast,#start,#fallback,#touchPad,#touchAct{display:none!important}html,body{overflow:visible;height:auto;background:#fff}#report{position:static;display:block!important;padding:0;background:#fff;overflow:visible}.rep{box-shadow:none;max-width:none;padding:0}.rep .actions{display:none!important}@page{size:A4;margin:14mm}}
+@media print{#world,#hud,#menuBtn,#menu,#menuShade,#pause,#prompt,.shade,#toast,#start,#fallback,#touchPad,#touchAct,#joy{display:none!important}html,body{overflow:visible;height:auto;background:#fff}#report{position:static;display:block!important;padding:0;background:#fff;overflow:visible}.rep{box-shadow:none;max-width:none;padding:0}.rep .actions{display:none!important}@page{size:A4;margin:14mm}}
 </style>
 
 <section id="start">
@@ -149,7 +159,7 @@ td.num{font-family:"JetBrains Mono",monospace;white-space:nowrap}
     <button class="secondary hidden" id="continue">↻ RETOMAR AVANCE</button>
     <button class="secondary" id="listMode">☷ JUGAR SIN 3D</button>
    </div>
-   <p class="note">Controles: WASD o flechas para caminar, ratón para mirar, E para interactuar, M para el menú y Esc para liberar el puntero. En teléfono aparecen botones táctiles. El avance se guarda en este navegador. Contenido basado en el material de estudio y el guion del Tema 3 (datos verificados al 13 de noviembre de 2026). Los procesos sin sentencia se presentan según la tesis de la Fiscalía: rige la presunción de inocencia.</p>
+   <p class="note">Controles en computadora: WASD o flechas para caminar, ratón para mirar, E para interactuar, M para el menú y Esc para liberar el puntero. En celular: joystick para caminar, desliza el dedo para mirar y toca el botón amarillo para interactuar. El avance se guarda en este navegador. Contenido basado en el material de estudio y el guion del Tema 3 (datos verificados al 13 de noviembre de 2026). Los procesos sin sentencia se presentan según la tesis de la Fiscalía: rige la presunción de inocencia.</p>
   </div>
   <aside class="introAside">
    <div class="eyebrow">La ruta del dinero</div>
@@ -159,7 +169,7 @@ td.num{font-family:"JetBrains Mono",monospace;white-space:nowrap}
     <div class="routeStep"><div class="routeNum">3</div><div><b>Extinción de dominio</b><span>Qué bienes alcanza, su naturaleza, la sentencia penal previa en tres etapas, el tercero de buena fe y el comiso.</span></div></div>
     <div class="routeStep"><div class="routeNum">4</div><div><b>El dinero cruza fronteras</b><span>Convenciones, GAFI y GAFILAT, y la nueva Ley Orgánica de Extradición.</span></div></div>
    </div>
-   <p class="note" style="color:#b9d3c7;margin-top:14px">En cada estación primero aprendes con una mini-lección y luego resuelves retos: clasificar, ordenar, unir y opción múltiple. Al final obtienes un informe con tu puntaje.</p>
+   <p class="note" style="color:#b9d3c7;margin-top:14px">En cada sala buscas a los personajes y los objetos marcados con <b style="color:#e3a21a">!</b>: te cuentan su parte de la historia y te ponen retos, uno a la vez (clasificar, ordenar, unir y opción múltiple). Ganas monedas por cada acierto y, al final, descargas tu informe en PDF.</p>
   </aside>
  </div>
 </section>
@@ -169,12 +179,12 @@ td.num{font-family:"JetBrains Mono",monospace;white-space:nowrap}
 <button id="menuBtn" class="accent" onclick="openMenu()">☰ MENÚ</button>
 <div id="hud">
  <div id="hTop" class="hud"><small id="hRoom">Recepción</small><strong id="hMission">Habla con la guía y resuelve la primera estación</strong><small id="hWho" style="text-transform:none;letter-spacing:0"></small></div>
- <div id="hProg" class="hud"><small>Progreso · <b id="hPct">0%</b></small><div class="bar"><i id="hBar"></i></div><div class="scoreLine">Estaciones: <b id="hSt" class="mono">0/0</b> · Puntaje: <b id="hScore" class="mono">0/0</b></div><button class="danger hudBtn" onclick="showReport()">▤ Ver informe final</button></div>
+ <div id="hProg" class="hud"><small>Progreso · <b id="hPct">0%</b></small><div class="bar"><i id="hBar"></i></div><div class="scoreLine">Encuentros: <b id="hSt" class="mono">0/0</b> · Monedas: <b id="hScore" class="mono">0/0</b></div><button class="danger hudBtn" onclick="showReport()">▤ Informe y PDF</button></div>
  <div id="hMap" class="hud"><small>Mapa del recorrido</small><div id="mapRows"></div></div>
- <div id="hKeys" class="hud">WASD / flechas: caminar · Ratón: mirar · E: interactuar · M: menú · Esc: liberar puntero</div>
+ <div id="hKeys" class="hud">WASD / flechas: caminar · Ratón: mirar · E: hablar o examinar los <b>!</b> · M: menú · Esc: liberar puntero</div>
 </div>
 <button id="prompt" type="button" onclick="interact()"></button>
-<div id="touchPad"><span></span><button data-k="KeyW" aria-label="Avanzar">▲</button><span></span><button data-k="KeyA" aria-label="Izquierda">◀</button><button data-k="KeyS" aria-label="Retroceder">▼</button><button data-k="KeyD" aria-label="Derecha">▶</button></div>
+<div id="joy" aria-label="Joystick para caminar"><div id="joyKnob"></div></div>
 <button id="touchAct" class="accent" onclick="interact()" aria-label="Interactuar">E</button>
 <div id="pause"><h3 style="margin:0 0 6px">Recorrido en pausa</h3><p class="note">Tu avatar sigue en la sala. Continúa para caminar, abre el menú para ir a una estación o revisa tu informe.</p><div class="actions"><button class="primary" onclick="capture()">▶ CONTINUAR</button><button class="secondary" onclick="openMenu()">☰ MENÚ</button><button class="danger" onclick="showReport()">▤ INFORME</button></div></div>
 <div id="menuShade" onclick="closeMenu(false)"></div>
@@ -194,6 +204,7 @@ td.num{font-family:"JetBrains Mono",monospace;white-space:nowrap}
 <div id="toast" role="status"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 'use strict';
 const $=id=>document.getElementById(id),KEY='rastro317_v1';
@@ -440,15 +451,27 @@ tasks:[
 ];
 const NPCS=[
  {room:0,x:3.5,z:4,name:'Dra. Valeria Andrade',role:'Docente guía',sex:'mujer',color:0x1d5c4a,text:'Bienvenidos. Hoy vamos a seguir un dólar sucio de principio a fin. En cada sala hay estaciones: primero lean la mini-lección y después resuelvan los retos. La puerta a la siguiente sala se abre cuando terminan todas las estaciones de la sala donde están.',clue:'Si te pierdes, abre el menú (tecla M): ahí está el mapa del recorrido y el glosario.'},
- {room:1,x:5,z:-22,name:'Lic. Karla Mena',role:'Cajera de cooperativa',sex:'mujer',color:0x2f9e6b,text:'Esta semana vinieron muchas personas distintas a depositar montos pequeños, siempre un poco por debajo del umbral. Por separado nada llama la atención, pero juntos dibujan un patrón.',clue:'Así se ve la colocación: depósitos fraccionados. Y una operación inusual e injustificada se reporta aunque no supere el umbral.'},
+ {room:1,x:9.5,z:-20.5,name:'Lic. Karla Mena',role:'Cajera de cooperativa',sex:'mujer',color:0x2f9e6b,text:'Esta semana vinieron muchas personas distintas a depositar montos pequeños, siempre un poco por debajo del umbral. Por separado nada llama la atención, pero juntos dibujan un patrón.',clue:'Así se ve la colocación: depósitos fraccionados. Y una operación inusual e injustificada se reporta aunque no supere el umbral.'},
  {room:1,x:-5,z:-33,name:'Sr. Ramiro Ponce',role:'Contador (hipotético)',sex:'hombre',color:0x7a6a4a,text:'Yo solo registré lo que me dieron. La camaronera creció muchísimo, sí, y los clientes pagaban en efectivo… pero no era mi trabajo preguntar.',clue:'¿Dolo eventual o ignorancia deliberada? Es el debate del elemento subjetivo de la estación «Penas y dolo».'},
- {room:2,x:5,z:-50,name:'Ing. Diego Salas',role:'Analista de la UAFE',sex:'hombre',color:0x2b6cb0,text:'Yo no investigo delitos ni acuso a nadie. Recibo reportes, cruzo bases de datos y, si la anomalía se confirma, envío un ROII a la Fiscalía. Lo difícil viene después: convertir esa información en prueba.',clue:'El ROII es noticia del delito e indicio, no prueba de culpabilidad.'},
- {room:2,x:-5,z:-58,name:'Fiscal Andrea Cordero',role:'Unidad Antilavado',sex:'mujer',color:0x1c2a4a,text:'No necesito una sentencia por el delito fuente. Pero sí tengo que probar el origen ilícito y que el procesado lo sabía, con indicios varios, concordantes y bien razonados.',clue:'Es la Resolución 20-2024: autonomía no es inversión de la carga de la prueba.'},
- {room:2,x:5,z:-63,name:'Dr. Pablo Rivas',role:'Defensa técnica',sex:'hombre',color:0x6b3a4a,text:'Comprar acciones es lícito. Aumentar capital es lícito. Transferir fondos entre empresas del mismo grupo es lícito. Que me demuestren de dónde salió el dinero y qué sabía mi cliente.',clue:'El argumento más fuerte de cualquier defensa en lavado: cada acto, por separado, es lícito.'},
+ {room:2,x:-1,z:-52.6,name:'Ing. Diego Salas',role:'Analista de la UAFE',sex:'hombre',color:0x2b6cb0,text:'Yo no investigo delitos ni acuso a nadie. Recibo reportes, cruzo bases de datos y, si la anomalía se confirma, envío un ROII a la Fiscalía. Lo difícil viene después: convertir esa información en prueba.',clue:'El ROII es noticia del delito e indicio, no prueba de culpabilidad.'},
+ {room:2,x:5.2,z:-57.6,name:'Fiscal Andrea Cordero',role:'Unidad Antilavado',sex:'mujer',color:0x1c2a4a,text:'No necesito una sentencia por el delito fuente. Pero sí tengo que probar el origen ilícito y que el procesado lo sabía, con indicios varios, concordantes y bien razonados.',clue:'Es la Resolución 20-2024: autonomía no es inversión de la carga de la prueba.'},
+ {room:2,x:11,z:-61,name:'Dr. Pablo Rivas',role:'Defensa técnica',sex:'hombre',color:0x6b3a4a,text:'Comprar acciones es lícito. Aumentar capital es lícito. Transferir fondos entre empresas del mismo grupo es lícito. Que me demuestren de dónde salió el dinero y qué sabía mi cliente.',clue:'El argumento más fuerte de cualquier defensa en lavado: cada acto, por separado, es lícito.'},
  {room:3,x:-5,z:-90,name:'Jueza Mónica Paredes',role:'Jueza especializada (Quito)',sex:'mujer',color:0x1c2a4a,toga:true,text:'En extinción de dominio no juzgo personas, juzgo bienes. Notifico a los afectados, escucho su prueba y resuelvo. Quien demuestre que estaba impedido de conocer el origen ilícito conserva su bien.',clue:'Tercero de buena fe: precio de mercado, registros verificados y ninguna razón para sospechar.'},
  {room:3,x:5,z:-78,name:'Dra. Lucía Herrera',role:'Compradora (hipotética)',sex:'mujer',color:0xb03a2e,text:'Mi esposo y yo pagamos el precio de mercado con un crédito del banco y revisamos el certificado de gravámenes. ¿Cómo íbamos a saber de dónde salió el dinero del primer dueño?',clue:'Es la estación «Un departamento, tres personas»: ¿conservan el bien los médicos?'},
  {room:4,x:4,z:-106,name:'Abg. Sofía Larrea',role:'Cooperación internacional',sex:'mujer',color:0xe3a21a,text:'Muchas veces el dinero no se pierde por falta de tratados, sino porque la solicitud de asistencia llega mal formulada, sin la doble incriminación justificada, y vuelve meses después sin respuesta útil.',clue:'La cooperación internacional es un oficio: hay que conocer el derecho del país al que se pide ayuda.'}
 ];
+const NPC_ST=['L0','S1c','S1d','S2a','S2b','S2d','S3b','S3d','S4c'];NPCS.forEach((n,i)=>n.st=NPC_ST[i]);
+NPCS[0].text='Bienvenidos. Hoy vamos a seguir un dólar sucio de principio a fin. En cada sala busquen a las personas y los objetos marcados con «!»: les cuentan su parte de la historia y les ponen retos. La puerta a la siguiente sala se abre cuando completen todo lo de la sala.';
+const OBJS={
+ S1a:{x:0,z:-19.4,label:'El mostrador de las cooperativas',role:'Objeto · Colocación',icon:'$',say:'Sobre el mostrador hay fajos de billetes y comprobantes de depósito por montos pequeños, todos por debajo del umbral. Este es el comienzo del recorrido de un dinero de USD 900.000. ¿Por qué fases pasará?'},
+ S1b:{x:0,z:-27.3,label:'Las empresas de papel',role:'Objeto · Estratificación',icon:'▦',say:'Cuatro compañías se transfieren dinero entre sí y una está registrada en Panamá. Ninguna tiene trabajadores ni oficinas reales. ¿Qué conductas del art. 317 aparecen aquí?'},
+ S2c:{x:-8,z:-61.4,label:'La mesa de evidencias',role:'Objeto · Prueba indiciaria',icon:'⌕',say:'Sobre la mesa hay estados de cuenta, facturas de «exportación» sin respaldo y el expediente de una camaronera. Eres el tribunal: decide qué sirve como indicio.'},
+ S3a:{x:9,z:-89.3,label:'La bodega de bienes',role:'Objeto · Qué bienes alcanza',icon:'▣',say:'En esta bodega hay un camión acondicionado, documentos de un departamento y estados de cuenta. No todos los bienes llegaron aquí por la misma razón.'},
+ S3c:{x:-7.4,z:-80,label:'La línea de tiempo de la LOED',role:'Objeto · Sentencia previa',icon:'⏱',say:'Tres postes marcan tres momentos: 2021, febrero de 2024 y julio de 2024. En cada uno la ley respondió distinto a la misma pregunta: ¿hace falta una sentencia penal previa?'},
+ S3e:{x:-10,z:-92.4,label:'La balanza',role:'Objeto · Comiso o extinción',icon:'⚖',say:'En un plato de la balanza dice «comiso penal» y en el otro «extinción de dominio». Se parecen, pero no son lo mismo.'},
+ S4a:{x:0,z:-108.6,label:'El globo de las convenciones',role:'Objeto · Tratados',icon:'◍',say:'El dinero cruza fronteras con un clic; la justicia no. Un fiscal ecuatoriano no puede pedir directamente un extracto bancario en Panamá. Para eso existen los tratados.'},
+ S4b:{x:-8,z:-116.6,label:'El podio del GAFI',role:'Objeto · Estándares',icon:'★',say:'En el podio están las 40 Recomendaciones del GAFI y una lista con un borde gris. Quedar en esa lista tiene consecuencias muy concretas para un país.'}};
+function hostOf(s){const n=NPCS.find(x=>x.st===s.id);if(n)return {name:n.name,role:n.role,say:n.text,npc:true,x:n.x,z:n.z,icon:n.name.replace(/^(Dra?\.|Lic\.|Sr\.|Ing\.|Fiscal|Jueza|Abg\.)\s*/,'').charAt(0)};const o=OBJS[s.id];return {name:o.label,role:o.role,say:o.say,npc:false,x:o.x,z:o.z,icon:o.icon}}
 const GLOSS=[['Delito fuente o precedente','El delito que generó los bienes que luego se lavan.'],['Testaferro','Persona que figura como titular de bienes que en realidad pertenecen a otro.'],['Sujeto obligado','Persona o entidad que, por ley, debe aplicar medidas de prevención y reportar a la UAFE.'],['ROII','Reporte de Operaciones Inusuales e Injustificadas que la UAFE envía a la Fiscalía.'],['Comiso','Pena accesoria que, en la sentencia condenatoria, priva al condenado de los instrumentos y productos del delito.'],['Extinción de dominio','Acción autónoma por la que un juez declara la pérdida, a favor del Estado, de bienes de origen ilícito o injustificado, sin necesidad de condena penal.'],['Tercero de buena fe','Quien adquirió un bien sin poder conocer su origen ilícito, actuando con diligencia; la extinción de dominio no lo afecta.'],['Investigación patrimonial','Primera fase de la extinción de dominio: la Fiscalía rastrea bienes, no personas ni delitos.'],['GAFI / GAFILAT','Organismo internacional que fija los estándares contra el lavado, y su equivalente regional, del que Ecuador es miembro.'],['Prueba indiciaria','Varios hechos indicadores plenamente probados, concordantes entre sí, conectados por un razonamiento expreso con la conclusión.']];
 const IDEAS=['El lavado es autónomo, pero el origen ilícito se prueba: basta prueba indiciaria seria, concordante y motivada (Resolución 20-2024). Autonomía no es inversión de la carga de la prueba.','Las penas del art. 317 cambiaron en julio de 2024 (5–7, 7–10, 10–13 y 19–22 años; multa del quíntuplo); a hechos anteriores se aplica la escala anterior.','La prevención importa tanto como la sanción: sujetos obligados → UAFE → ROII → Fiscalía. La debilidad está en convertir los reportes en prueba.','El lavado castiga personas; la extinción de dominio persigue bienes. Es jurisdiccional, real, patrimonial y autónoma, y desde julio de 2024 no requiere condena penal; el tercero de buena fe diligente conserva su bien.','El dinero cruza fronteras y la justicia necesita cooperar: convenciones, GAFI y GAFILAT, y la Ley Orgánica de Extradición de 2026. El caso Fito muestra un mismo dinero juzgado en dos países.'];
 
@@ -489,7 +512,7 @@ function start(resume,noWorld){
 $('begin').onclick=()=>start(false,false);
 $('continue').onclick=()=>start(true,false);
 $('listMode').onclick=()=>start(false,true);
-function setTouch(on){$('touchPad').style.display=on?'grid':'none';$('touchAct').style.display=on?'block':'none'}
+function setTouch(on){$('joy').style.display=on?'block':'none';$('touchAct').style.display=on?'block':'none'}
 
 /* ================= HUD, MENÚ, MAPA ================= */
 function refresh(){
@@ -503,8 +526,8 @@ function refresh(){
  $('mapRows').innerHTML=rows;$('menuRooms').innerHTML=rows;
  if(listOnly)renderFallback();}
 function showFallback(){$('hud').style.display='none';setTouch(false);$('fallback').style.display='block';renderFallback()}
-function renderFallback(){$('fallback').innerHTML=`<div class="fbRoom" style="background:var(--ink);color:#fff;border:0"><div class="eyebrow">Modo sin 3D</div><h2 style="margin:4px 0">Rastro 317</h2><p class="note" style="color:#cfe3d9">Resuelve las estaciones en orden: cada sala se abre al completar la anterior. ${doneCount()}/${ST.length} estaciones · ${totalScore()}/${TOTAL} puntos.</p><div class="actions"><button class="accent" onclick="openGloss()">📖 Glosario</button><button class="danger" onclick="showReport()">▤ Ver informe</button><button class="secondary" onclick="home()">⌂ Portada</button></div></div>`+
- ROOMS.map(R=>{const open=roomOpen(R.n);return `<div class="fbRoom"><h3>${esc(R.title)}</h3><p class="note">${roomDone(R.n)?'Sala completa.':open?'Sala abierta.':'Bloqueada: completa la sala anterior.'}</p><div class="fbGrid">${roomSt(R.n).map(s=>`<button ${open?'':'disabled'} onclick="openStation('${s.id}')">${done[s.id]?`<span style="color:var(--good)">✓ ${done[s.id].score}/${stMax(s)}</span>`:'○ Pendiente'}<br>${esc(s.title)}</button>`).join('')}</div></div>`}).join('')}
+function renderFallback(){$('fallback').innerHTML=`<div class="fbRoom" style="background:var(--ink);color:#fff;border:0"><div class="eyebrow">Modo sin 3D</div><h2 style="margin:4px 0">Rastro 317</h2><p class="note" style="color:#cfe3d9">Resuelve los encuentros en orden: cada sala se abre al completar la anterior. ${doneCount()}/${ST.length} encuentros · ${totalScore()}/${TOTAL} monedas.</p><div class="actions"><button class="accent" onclick="openGloss()">📖 Glosario</button><button class="danger" onclick="showReport()">▤ Ver informe</button><button class="secondary" onclick="home()">⌂ Portada</button></div></div>`+
+ ROOMS.map(R=>{const open=roomOpen(R.n);return `<div class="fbRoom"><h3>${esc(R.title)}</h3><p class="note">${roomDone(R.n)?'Sala completa.':open?'Sala abierta.':'Bloqueada: completa la sala anterior.'}</p><div class="fbGrid">${roomSt(R.n).map(s=>`<button ${open?'':'disabled'} onclick="openStation('${s.id}')">${done[s.id]?`<span style="color:var(--good)">✓ ${done[s.id].score}/${stMax(s)}</span>`:'○ Pendiente'}<br><span class="note">${esc(hostOf(s).name)}</span><br>${esc(s.title)}</button>`).join('')}</div></div>`}).join('')}
 function openMenu(){if(!started)return;closeStation(true);closeDialog(true);closeGloss(true);release();menuOpen=true;$('menu').classList.add('open');$('menuShade').style.display='block';$('pause').style.display='none';refresh()}
 function closeMenu(resume){menuOpen=false;$('menu').classList.remove('open');$('menuShade').style.display='none';if(resume&&!listOnly)capture();else showPause()}
 function home(){closeMenu(false);release();$('report').style.display='none';$('start').style.display='grid';$('hud').style.display='none';$('menuBtn').style.display='none';$('fallback').style.display='none';$('prompt').style.display='none';$('pause').style.display='none';setTouch(false);started=false;freeMove=false;save();$('continue').classList.remove('hidden')}
@@ -528,21 +551,34 @@ function complete(t,A){if(A===undefined)return false;if(t.t==='mc'||t.t==='tf')r
 function readTasks(){if(active<0)return;const s=ST[active];const a=ans[s.id]||(ans[s.id]={});
  document.querySelectorAll('#stBody input[type=radio]:checked').forEach(el=>{const ti=+el.dataset.t,t=s.tasks[ti];if(t.t==='mc')a[ti]=+el.value;else if(t.t==='tf')a[ti]=el.value==='true';else{(a[ti]=a[ti]||{})[+el.dataset.k]=+el.value}});
  document.querySelectorAll('#stBody select').forEach(el=>{const ti=+el.dataset.t;a[ti]=a[ti]||{};if(el.value==='')delete a[ti][+el.dataset.k];else a[ti][+el.dataset.k]=+el.value});save()}
-function renderStation(rev){const s=ST[active];const R=ROOMS[s.room];
- $('stTag').textContent=R.title+' · Estación '+(roomSt(s.room).indexOf(s)+1)+' de '+roomSt(s.room).length;$('stTitle').textContent=s.title;
- $('stBody').innerHTML=`<div class="sec"><i>1</i>Aprende</div><div class="lesson">${s.lesson}</div><div class="sec"><i>2</i>Reto · ${stMax(s)} puntos</div>`+s.tasks.map((t,ti)=>taskHTML(s,ti,t,rev)).join('')+(rev?resultHTML(s):'');
- $('stActs').innerHTML=rev?`<button class="secondary" onclick="retry()">↻ Reintentar</button><button class="primary" onclick="closeStation()">✓ Volver al recorrido</button>`:`<button class="secondary" onclick="closeStation()">Guardar y salir</button><button class="primary" onclick="checkStation()">✓ Comprobar respuestas</button>`}
-function resultHTML(s){const d=done[s.id],m=stMax(s);return `<div class="result ${d.score===m?'ok':''}"><b>Estación registrada: ${d.score} de ${m} puntos.</b> ${d.score===m?'Dominas esta estación.':'Revisa las explicaciones; puedes reintentar y se guardará tu último resultado.'}</div>`}
+let encStep=0,encRev=false,encNewly=null;
+function allAnswered(s){return s.tasks.every((t,ti)=>complete(t,(ans[s.id]||{})[ti]))}
+function renderEnc(){const s=ST[active],h=hostOf(s),n=s.tasks.length,R=ROOMS[s.room],a=ans[s.id]||{},d=done[s.id];
+ $('stShade').querySelector('.workHead>div').innerHTML=`<div class="encHead"><div class="avatarBadge">${esc(h.icon)}</div><div style="min-width:0"><span class="tag">${esc(h.role)} · ${esc(R.title.split(' · ')[0])}</span><div class="title" id="stTitle">${esc(h.name)}</div><div class="dots" aria-hidden="true">${Array.from({length:n+2},(_,k)=>`<i class="${k<encStep?'ok':k===encStep?'on':''}"></i>`).join('')}</div></div></div>`;
+ let body='',acts='';
+ if(encStep===0){body=`<div class="bubble"><small>${h.npc?esc(h.name.split(' ').slice(0,2).join(' '))+' dice':'Lo que ves'}</small>${esc(h.say)}</div><div class="sec"><i>1</i>${esc(s.title)}</div><div class="lesson">${s.lesson}</div>`;
+  acts=`<button class="secondary" onclick="closeStation()">Salir</button><button class="primary" onclick="encGo(1)">${d?'Repasar retos':'Empezar reto'} ▶ <span class="mono">${n} ${n===1?'reto':'retos'} · ${stMax(s)} monedas</span></button>`}
+ else if(encStep<=n){const ti=encStep-1,t=s.tasks[ti];body=`<div class="sec"><i>${encStep}/${n}</i>Reto</div>`+taskHTML(s,ti,t,encRev);
+  if(encRev){const sc=taskScore(t,a[ti]),mx=taskMax(t);body+=`<p class="verdict ${sc===mx?'ok':'no'}">${sc===mx?`✓ ¡Correcto! +${sc} ${sc===1?'moneda':'monedas'}`:sc>0?`Parcial: ${sc} de ${mx} · +${sc} ${sc===1?'moneda':'monedas'}`:'✕ Esta vez no. Lee la explicación.'}</p>`;
+   acts=`<button class="secondary" onclick="encGo(0)">← Lección</button><button class="primary" onclick="encGo(${encStep+1})">${encStep<n?'Siguiente reto ▶':'Ver resultado ▶'}</button>`}
+  else acts=`<button class="secondary" onclick="encGo(0)">← Lección</button><button class="primary" onclick="checkTask()">✓ Comprobar</button>`}
+ else{const sc=d?d.score:0,mx=stMax(s);body=`<div class="bubble"><small>Resultado</small>${sc===mx?'¡Excelente! Resolviste todo.':sc/mx>=.6?'Buen trabajo. Revisa los retos marcados.':'Te conviene repasar la lección y reintentar.'}</div>
+  <p><b class="mono">${sc} de ${mx}</b> monedas en «${esc(s.title)}».</p><div class="coins">${Array.from({length:mx},(_,k)=>`<span class="coin ${k<sc?'got':''}">$</span>`).join('')}</div>
+  <ul class="recap">${s.tasks.map((t,ti)=>{const x=taskScore(t,a[ti]),m=taskMax(t);return `<li><b style="color:${x===m?'var(--good)':'var(--bad)'}">${x===m?'✓':x>0?'◐':'✕'}</b>${esc(t.q)}</li>`}).join('')}</ul>
+  ${encNewly?`<div class="callout key"><b class="lab">Puerta abierta</b>Ya puedes pasar a la ${esc(encNewly.title)}.</div>`:''}${doneCount()===ST.length?`<div class="callout key"><b class="lab">Recorrido completo</b>Terminaste todas las salas. Al salir se abrirá tu informe para descargarlo en PDF.</div>`:''}`;
+  acts=`<button class="secondary" onclick="encGo(0)">Repasar lección</button><button class="secondary" onclick="retry()">↻ Reintentar</button><button class="primary" onclick="encDone()">✓ Volver a la sala</button>`}
+ $('stBody').innerHTML=body;$('stActs').innerHTML=acts}
+function encScrollTop(){$('stShade').querySelector('.work').scrollTop=0}
+function encGo(k){readTasks();const s=ST[active];encStep=k;encRev=k>=1&&k<=s.tasks.length&&!!done[s.id]&&complete(s.tasks[k-1],(ans[s.id]||{})[k-1]);renderEnc();encScrollTop()}
+function checkTask(){readTasks();const s=ST[active],ti=encStep-1,t=s.tasks[ti];if(!complete(t,(ans[s.id]||{})[ti]))return toast(t.t==='mc'||t.t==='tf'?'Elige una respuesta.':'Completa todos los elementos antes de comprobar.');
+ encRev=true;if(ti===s.tasks.length-1)finishStation();renderEnc();const ex=$('stBody').querySelector('.verdict');if(ex)ex.scrollIntoView({behavior:'smooth',block:'center'})}
+function finishStation(){const s=ST[active],a=ans[s.id]||{};const wasOpen=ROOMS.map(R=>roomOpen(R.n));const score=s.tasks.reduce((x,t,ti)=>x+taskScore(t,a[ti]),0);done[s.id]={score,max:stMax(s)};save();refresh();syncWorld(false);encNewly=ROOMS.find(R=>roomOpen(R.n)&&!wasOpen[R.n])||null;
+ toast(encNewly?`Se abrió la puerta: ${encNewly.title}`:`${s.short}: ${score}/${stMax(s)} monedas · Total ${totalScore()}/${TOTAL}`)}
+function encDone(){const all=doneCount()===ST.length;closeStation(all);if(all)showReport()}
 function openStation(id){const i=ST.findIndex(s=>s.id===id);if(i<0||!started)return;const s=ST[i];if(!roomOpen(s.room))return toast('Esa sala sigue bloqueada: completa la sala anterior.');
- closeMenu(false);closeDialog(true);release();active=i;$('pause').style.display='none';$('prompt').style.display='none';$('stShade').style.display='grid';renderStation(!!done[s.id]&&s.tasks.every((t,ti)=>complete(t,(ans[s.id]||{})[ti])));$('stShade').querySelector('.work').scrollTop=0}
+ closeMenu(false);closeDialog(true);release();active=i;encNewly=null;encStep=done[s.id]&&allAnswered(s)?s.tasks.length+1:0;encRev=false;$('pause').style.display='none';$('prompt').style.display='none';$('stShade').style.display='grid';renderEnc();encScrollTop()}
 function closeStation(silent){if(active>=0)readTasks();active=-1;$('stShade').style.display='none';refresh();if(!silent)showPause()}
-function checkStation(){readTasks();const s=ST[active];const a=ans[s.id]||{};const miss=s.tasks.filter((t,ti)=>!complete(t,a[ti])).length;if(miss)return toast(`Te falta completar ${miss} ${miss===1?'reto':'retos'}.`);
- const wasOpen=ROOMS.map(R=>roomOpen(R.n));const score=s.tasks.reduce((x,t,ti)=>x+taskScore(t,a[ti]),0);done[s.id]={score,max:stMax(s)};save();renderStation(true);refresh();syncWorld(false);
- $('stBody').querySelector('.result').scrollIntoView({behavior:'smooth',block:'center'});
- const newly=ROOMS.find(R=>roomOpen(R.n)&&!wasOpen[R.n]);
- if(doneCount()===ST.length){toast('¡Recorrido completo! Abriendo tu informe final…');setTimeout(()=>{closeStation(true);showReport()},2200)}
- else if(newly)toast(`Se abrió la puerta: ${newly.title}`);else toast(`${s.short}: ${score}/${stMax(s)} · Total ${totalScore()}/${TOTAL}`)}
-function retry(){const s=ST[active];delete ans[s.id];save();renderStation(false);$('stShade').querySelector('.work').scrollTop=0}
+function retry(){const s=ST[active];delete ans[s.id];save();encStep=1;encRev=false;renderEnc();encScrollTop()}
 $('stBody').addEventListener('change',()=>readTasks());
 
 /* ================= INFORME ================= */
@@ -553,13 +589,32 @@ function reportText(){let x=`RASTRO 317 · INFORME\n${mode==='group'?'Grupo: '+g
  ROOMS.forEach(R=>{x+=R.title.toUpperCase()+'\n';roomSt(R.n).forEach(s=>{x+=`  ${s.title}: ${done[s.id]?done[s.id].score+'/'+stMax(s):'pendiente'}\n`;s.tasks.forEach((t,ti)=>{const A=(ans[s.id]||{})[ti];x+=`    ${ti+1}. ${ansText(t,A)} ${done[s.id]?(taskScore(t,A)===taskMax(t)?'✓':'✕'):''}\n`})});x+='\n'});return x}
 function copyReport(){const t=reportText();const fb=()=>{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Informe copiado')}catch(e){toast('No se pudo copiar automáticamente')}ta.remove()};try{navigator.clipboard.writeText(t).then(()=>toast('Informe copiado al portapapeles'),fb)}catch(e){fb()}}
 const canPrint=(()=>{try{return window.self===window.top}catch(e){return false}})();
+function pdfSafe(t){return String(t??'').replace(/→/g,'->').replace(/[✓✔]/g,'').replace(/[✕✗◐]/g,'').replace(/≈/g,'aprox.').replace(/[^\x00-\xFF–—‘’“”•…]/g,'').trim()}
+function downloadPDF(){const J=window.jspdf&&window.jspdf.jsPDF;if(!J)return toast('No se pudo cargar el generador de PDF. Revisa la conexión a internet y vuelve a intentarlo.');
+ const doc=new J({unit:'mm',format:'a4'}),W=210,M=16,CW=W-2*M;let y=0;const sc=totalScore(),[g,gt]=grade(sc);
+ const ensure=h=>{if(y+h>282){doc.addPage();y=18}};
+ const txt=(t,o={})=>{const sz=o.size||10.5;doc.setFont('helvetica',o.bold?'bold':'normal');doc.setFontSize(sz);doc.setTextColor(...(o.color||[24,36,31]));const lines=doc.splitTextToSize(pdfSafe(t),o.w||CW);for(const l of lines){ensure(sz*.42);doc.text(l,o.x||M,y);y+=sz*.42}y+=o.gap??1.6};
+ doc.setFillColor(15,42,36);doc.rect(0,0,W,32,'F');doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(227,162,26);doc.text('LABORATORIO INMERSIVO · TEMA 3 · LAVADO DE ACTIVOS Y EXTINCIÓN DE DOMINIO',M,11);doc.setFontSize(21);doc.setTextColor(255,255,255);doc.text('Rastro 317 · Informe del recorrido',M,23);y=42;
+ txt(`Modalidad: ${mode==='group'?'Grupal':'Individual'}`,{gap:.4});txt(`${mode==='group'?'Grupo':'Participante'}: ${name}`,{gap:.4});if(mode==='group')txt('Integrantes: '+members.split(/\n+/).filter(x=>x.trim()).map(x=>x.trim()).join('; '),{gap:.4});txt('Fecha: '+new Date().toLocaleDateString('es-EC'),{gap:4});
+ ensure(30);doc.setFillColor(242,246,243);doc.setDrawColor(217,223,218);doc.roundedRect(M,y,CW,26,3,3,'FD');doc.setDrawColor(176,58,46);doc.setLineWidth(.8);doc.circle(M+14,y+13,10);doc.setLineWidth(.2);doc.setTextColor(176,58,46);doc.setFont('helvetica','bold');doc.setFontSize(11);doc.text(`${sc}/${TOTAL}`,M+14,y+13,{align:'center'});doc.setFontSize(g.length>10?4.6:6);doc.text(g,M+14,y+17.5,{align:'center'});
+ doc.setTextColor(24,36,31);doc.setFontSize(12);doc.text(pdfSafe(`${sc} de ${TOTAL} monedas · ${doneCount()}/${ST.length} encuentros completados`),M+30,y+11);doc.setFont('helvetica','normal');doc.setFontSize(10);doc.text(doc.splitTextToSize(pdfSafe(gt),CW-34),M+30,y+17);y+=33;
+ txt('Cinco ideas para recordar',{bold:true,size:13,gap:2});IDEAS.forEach((i,k)=>txt(`${k+1}. ${i}`,{gap:1.8}));y+=2;
+ ROOMS.forEach(R=>{ensure(16);y+=2;doc.setFillColor(15,42,36);doc.rect(M,y-5,CW,8,'F');doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(255,255,255);doc.text(pdfSafe(R.title),M+3,y);y+=7;
+  roomSt(R.n).forEach(s=>{const d=done[s.id],h=hostOf(s);ensure(12);txt(`${s.title} · ${h.name} · ${d?d.score+'/'+stMax(s)+' monedas':'pendiente'}`,{bold:true,size:11,gap:1});
+   s.tasks.forEach((t,ti)=>{const A=(ans[s.id]||{})[ti],ok=taskScore(t,A)===taskMax(t);txt(`${ti+1}. ${t.q}`,{size:9.5,gap:.6,x:M+3,w:CW-3});
+    txt(`Tu respuesta: ${ansText(t,A)}   ·   ${!d?'Pendiente':ok?'Correcto':'Revisar'}`,{size:9,gap:.6,x:M+6,w:CW-6,color:!d?[91,107,100]:ok?[31,122,85]:[176,58,46]});
+    if(d&&!ok&&rightText(t))txt(`Respuesta esperada: ${rightText(t)}`,{size:9,gap:.6,x:M+6,w:CW-6,color:[91,107,100]});y+=.8});y+=1.5})});
+ y+=3;txt('Material con fines pedagógicos, basado en el material de estudio y el guion docente del Tema 3 (datos verificados al 13 de noviembre de 2026). Goleada es un proceso en curso y sus procesados se presumen inocentes; en Blanqueo Fito existe sentencia de primera instancia para algunos procesados. Los personajes y los ejemplos marcados como hipotéticos son ficticios.',{size:8.5,color:[91,107,100]});
+ const n=doc.getNumberOfPages();for(let k=1;k<=n;k++){doc.setPage(k);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(120,130,125);doc.text(pdfSafe(`Rastro 317 · ${name} · página ${k} de ${n}`),W/2,290,{align:'center'})}
+ const fn='Rastro317_Informe_'+(name||'participante').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9]+/g,'_')+'.pdf';
+ try{doc.save(fn);toast(canPrint?'Listo: se descargó '+fn:'Si la descarga no empieza, abre el archivo HTML del juego en tu navegador: en esta vista previa las descargas están bloqueadas. Mientras tanto puedes usar «Copiar informe».')}catch(e){toast('No se pudo descargar el PDF en esta vista. Abre el archivo HTML del juego en tu navegador.')}}
 function showReport(){if(!started)return;closeStation(true);closeMenu(false);closeDialog(true);closeGloss(true);release();
  const sc=totalScore(),[g,gt]=grade(sc);
  const secs=ROOMS.map(R=>`<h3>${esc(R.title)}</h3>`+roomSt(R.n).map(s=>{const d=done[s.id];return `<p style="margin:10px 0 4px"><b>${esc(s.title)}</b> · ${d?`<span class="mono">${d.score}/${stMax(s)}</span>`:'<i>pendiente</i>'}</p><div class="tablewrap"><table><tr><th style="width:52%">Reto</th><th>Tu respuesta</th><th style="width:14%">Resultado</th></tr>${s.tasks.map((t,ti)=>{const A=(ans[s.id]||{})[ti],ok=taskScore(t,A)===taskMax(t);return `<tr><td>${ti+1}. ${esc(t.q)}</td><td>${esc(ansText(t,A))}${d&&!ok&&rightText(t)?`<div class="note"><b>Esperada:</b> ${esc(rightText(t))}</div>`:''}</td><td style="font-weight:700;color:${!d?'var(--muted)':ok?'var(--good)':'var(--bad)'}">${!d?'—':ok?'✓ Correcto':'✕ Revisar'}</td></tr>`}).join('')}</table></div>`}).join('')).join('');
- $('rep').innerHTML=`<div class="actions"><button class="secondary" onclick="hideReport()">← Volver</button><button class="secondary" onclick="copyReport()">⧉ Copiar informe</button>${canPrint?'<button class="primary" onclick="window.print()">Guardar como PDF / imprimir</button>':''}</div>
+ $('rep').innerHTML=`<div class="actions"><button class="secondary" onclick="hideReport()">← Volver</button><button class="secondary" onclick="copyReport()">⧉ Copiar informe</button><button class="pdfBtn" onclick="downloadPDF()">⬇ Descargar informe en PDF</button></div>
  <div class="eyebrow" style="color:var(--seal)">Laboratorio inmersivo · Tema 3</div><h1 style="font-size:34px;margin:6px 0">Informe del recorrido: lavado de activos y extinción de dominio</h1>
  <p><b>Modalidad:</b> ${mode==='group'?'Grupal':'Individual'}<br><b>${mode==='group'?'Grupo':'Participante'}:</b> ${esc(name)}<br>${mode==='group'?`<b>Integrantes:</b><br>${esc(members).replace(/\n/g,'<br>')}<br>`:''}<b>Fecha:</b> ${new Date().toLocaleDateString('es-EC')}</p>
- <div class="scorebox"><div class="seal"><span><b>${sc}/${TOTAL}</b>${g}</span></div><div style="flex:1;min-width:0"><b>${sc} de ${TOTAL} puntos · ${doneCount()}/${ST.length} estaciones registradas.</b><br>${gt}</div></div>
+ <div class="scorebox"><div class="seal"><span><b>${sc}/${TOTAL}</b>${g}</span></div><div style="flex:1;min-width:0"><b>${sc} de ${TOTAL} monedas · ${doneCount()}/${ST.length} encuentros completados.</b><br>${gt}<div style="margin-top:10px"><button class="pdfBtn" onclick="downloadPDF()">⬇ Descargar informe en PDF</button></div></div></div>
  <h3>Cinco ideas para recordar</h3><ol class="ideas">${IDEAS.map(i=>`<li>${esc(i)}</li>`).join('')}</ol>${secs}
  <p class="note" style="margin-top:18px">Material con fines pedagógicos, basado en el material de estudio y el guion docente del Tema 3 (datos verificados al 13 de noviembre de 2026). Goleada es un proceso en curso y todos sus procesados se presumen inocentes; en Blanqueo Fito existe sentencia de primera instancia para algunos procesados. Los personajes de las salas y los ejemplos marcados como hipotéticos son ficticios.</p>`;
  $('report').style.display='block';$('report').scrollTop=0;$('pause').style.display='none';$('prompt').style.display='none'}
@@ -572,18 +627,17 @@ function closeDialog(silent){$('dlgShade').style.display='none';if(!silent)showP
 
 /* ================= 3D ================= */
 let scene,camera,renderer,clock,avatar,avatarParts=[],keys={},yaw=0,pitch=.18,locked=false,freeMove=false,dragging=null,nearSt=-1,nearNpc=null,sun;
-const npcObjs=[],boardObjs={},doors=[],anim={bag:null,bagT:-1,houseFlag:null};
+const npcObjs=[],markers={},doors=[],anim={bag:null,bagT:-1,houseFlag:null};
 const overlayOpen=()=>active>=0||menuOpen||$('report').style.display==='block'||$('dlgShade').style.display==='grid'||$('glossShade').style.display==='grid';
 function currentRoom(){if(!avatar)return Math.max(0,ROOMS.filter(R=>roomOpen(R.n)).length-1);const z=avatar.position.z;let r=0;BOUND.forEach((b,i)=>{if(z<b)r=i+1});return r}
-function slotPos(s){const c=ROOMS[s.room].z;const m={L1:{x:-13.6,z:c-6,ry:Math.PI/2,ax:-11.4},L2:{x:-13.6,z:c+6,ry:Math.PI/2,ax:-11.4},R1:{x:13.6,z:c-6,ry:-Math.PI/2,ax:11.4},R2:{x:13.6,z:c+6,ry:-Math.PI/2,ax:11.4},C:{x:0,z:c-10,ry:0,ax:0}}[s.slot];return {...m,az:s.slot==='C'?c-8.3:m.z}}
+function hostPt(s){const h=hostOf(s);return h}
 function release(){keys={};if(document.pointerLockElement)document.exitPointerLock?.()}
 function capture(){if(!renderer||!started||listOnly||overlayOpen())return;$('pause').style.display='none';if(coarse){freeMove=true;return}
  try{const p=renderer.domElement.requestPointerLock();if(p&&p.catch)p.catch(()=>{freeMove=true;showPause()})}catch(e){freeMove=true}
  setTimeout(()=>{if(!locked){freeMove=true;showPause()}},400)}
 function showPause(){if(!started||listOnly){$('pause').style.display='none';return}$('pause').style.display=(!locked&&!freeMove&&!overlayOpen()&&renderer)?'block':'none'}
 function goRoom(r){if(!avatar)return;avatar.position.set(0,0,ROOMS[r].z+11);yaw=0;closeMenu(true)}
-function interact(){if(!started||overlayOpen())return;const sd=nearSt>=0?Math.hypot(avatar.position.x-slotPos(ST[nearSt]).ax,avatar.position.z-slotPos(ST[nearSt]).az):99,nd=nearNpc?dist(nearNpc.position):99;
- if(nearNpc&&nd<sd)showDialog(nearNpc.userData.npc);else if(nearSt>=0)openStation(ST[nearSt].id)}
+function interact(){if(!started||overlayOpen()||nearSt<0)return;openStation(ST[nearSt].id)}
 function dist(p){return Math.hypot(avatar.position.x-p.x,avatar.position.z-p.z)}
 function roundRect(x,X,Y,W,H,R){x.beginPath();if(x.roundRect)x.roundRect(X,Y,W,H,R);else x.rect(X,Y,W,H);x.fill()}
 function labelTexture(lines,bg,accent){const c=document.createElement('canvas');c.width=1024;c.height=256;const x=c.getContext('2d');x.fillStyle=bg;roundRect(x,8,8,1008,240,42);x.fillStyle=accent;x.fillRect(40,8,944,18);x.textAlign='center';x.fillStyle='#fff';x.font='bold 74px Arial';x.fillText(lines[0]||'',512,116);x.font='44px Arial';x.fillStyle='#e6e9f3';x.fillText(lines[1]||'',512,184);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
@@ -626,21 +680,17 @@ function createHumanoid(cfg){const g=new THREE.Group();const m=(c,r=.78)=>new TH
  const label=createLabelSprite([shortName(cfg.name),cfg.role||''],cfg.player?1.9:1.75,cfg.player?.45:.42,cfg.player?'#1c2a4a':'#3a2230',cfg.accent||'#c79a3b');label.position.set(0,2.6,0);g.add(label);g.userData.label=label;
  g.position.set(cfg.x||0,cfg.y||0,cfg.z||0);g.rotation.y=cfg.ry||0;g.userData.parts=[lA,rA,lL,rL];g.userData.head=head;scene.add(g);return g}
 
-function makeAvatar(){let x=0,z=9,ry=0;if(avatar){x=avatar.position.x;z=avatar.position.z;ry=avatar.rotation.y;scene.remove(avatar)}const W=sex==='mujer';
+function makeAvatar(){let x=0,z=11,ry=0;if(avatar){x=avatar.position.x;z=avatar.position.z;ry=avatar.rotation.y;scene.remove(avatar)}const W=sex==='mujer';
  avatar=createHumanoid({name:mode==='group'?group:name,role:mode==='group'?'Equipo investigador':'Investigador/a',player:true,x,z,ry,shirt:W?0x1d5c4a:0x2b4f7a,pants:0x1f2a2a,accent:'#e3a21a',hair:W?0x4a2a18:0x2e2018,tie:0xe3a21a,longHair:W,lips:W,earrings:W,skin:0xe3b48e});avatarParts=avatar.userData.parts}
 function canvasTex(w,h,draw){const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
 function wrapText(x,text,cx,y,maxW,lh){const words=text.split(' ');let line='',lines=[];for(const w of words){const t=line?line+' '+w:w;if(x.measureText(t).width>maxW&&line){lines.push(line);line=w}else line=t}lines.push(line);lines.forEach((l,i)=>x.fillText(l,cx,y+i*lh));return lines.length}
-function boardTex(s){const d=done[s.id],open=roomOpen(s.room);const idx=roomSt(s.room).indexOf(s)+1;return canvasTex(1024,576,(x,w,h)=>{
- x.fillStyle='#fbfaf6';x.fillRect(0,0,w,h);x.fillStyle=ROOMS[s.room].stripe;x.fillRect(0,0,w,30);
- x.fillStyle='#0f2a24';x.textAlign='center';x.font='bold 30px Arial';x.fillText(('ESTACIÓN '+idx).toUpperCase(),w/2,90);
- x.font='800 62px Georgia';wrapText(x,s.title,w/2,180,900,70);
- x.fillStyle=d?'#1f7a55':'#b03a2e';x.font='bold 34px Arial';x.fillText(d?`✓ REGISTRADA · ${d.score}/${stMax(s)}`:open?'ACÉRCATE Y PRESIONA E':'SALA BLOQUEADA',w/2,500)})}
+function markerTex(s){const d=done[s.id];return canvasTex(256,256,(x,w,h)=>{x.fillStyle=d?'#1f7a55':'#e3a21a';x.beginPath();x.arc(128,128,112,0,7);x.fill();x.lineWidth=10;x.strokeStyle='#ffffff';x.stroke();x.fillStyle=d?'#ffffff':'#2d1d00';x.textAlign='center';x.font='bold 160px Arial';x.fillText(d?'✓':'!',128,186)})}
 function signTex(t1,t2,bg,ac){return canvasTex(1400,380,(x,w,h)=>{x.fillStyle=bg;x.fillRect(0,0,w,h);x.fillStyle=ac;x.fillRect(0,0,w,16);x.fillRect(0,h-10,w,10);x.fillStyle='#fff';x.textAlign='center';x.font='800 78px Georgia';x.fillText(t1,w/2,170);x.font='40px Arial';x.fillStyle='#e9f2ee';x.fillText(t2,w/2,250)})}
 function floorLabel(text,color,x0,z0,w,h,rot){const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:canvasTex(1024,256,(x,W,H)=>{x.clearRect(0,0,W,H);x.fillStyle=color;x.textAlign='center';x.font='900 120px Arial';x.fillText(text,W/2,170)}),transparent:true}));m.rotation.x=-Math.PI/2;m.rotation.z=rot||0;m.position.set(x0,.03,z0);scene.add(m);return m}
 function init3D(){try{
  scene=new THREE.Scene();scene.background=new THREE.Color(0x0b1f1a);scene.fog=new THREE.Fog(0x0b1f1a,30,62);
- camera=new THREE.PerspectiveCamera(66,innerWidth/innerHeight,.1,120);renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;$('world').appendChild(renderer.domElement);
- scene.add(new THREE.HemisphereLight(0xfffaf0,0x2a3a35,2.2));sun=new THREE.DirectionalLight(0xffffff,1.9);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-22,right:22,top:22,bottom:-22,near:1,far:60});scene.add(sun);scene.add(sun.target);
+ camera=new THREE.PerspectiveCamera(66,innerWidth/innerHeight,.1,120);renderer=new THREE.WebGLRenderer({antialias:!coarse,powerPreference:'high-performance'});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,coarse?1.25:1.6));renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.shadowMap.enabled=!coarse;renderer.shadowMap.type=THREE.PCFSoftShadowMap;$('world').appendChild(renderer.domElement);
+ scene.add(new THREE.HemisphereLight(0xfffaf0,0x2a3a35,2.8));sun=new THREE.DirectionalLight(0xffffff,2.1);sun.castShadow=!coarse;sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-22,right:22,top:22,bottom:-22,near:1,far:60});scene.add(sun);scene.add(sun.target);
  const mat=(c,r=.8,m=.05,e)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m,emissive:e||0x000000});
  function box(w,h,d,c,x,y,z,o={}){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),o.mat||mat(c,o.r,o.m,o.e));m.position.set(x,y,z);if(o.ry)m.rotation.y=o.ry;m.castShadow=o.cast!==false;m.receiveShadow=true;scene.add(m);return m}
  function cyl(rt,rb,h,c,x,y,z,o={}){const m=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,o.seg||18),o.mat||mat(c,o.r,o.m,o.e));m.position.set(x,y,z);m.castShadow=true;scene.add(m);return m}
@@ -648,7 +698,7 @@ function init3D(){try{
  // ---- salas: pisos, techos y muros
  ROOMS.forEach(R=>{const c=R.z;box(28,.2,28,R.floor,0,-.1,c,{cast:false});box(28,.15,28,0xf3f1ea,0,6.25,c,{cast:false});
   for(const sx of[-1,1]){box(.35,6.3,28,0xe9e6dd,sx*14.15,3.1,c,{cast:false});box(.12,.22,27.6,parseInt(R.stripe.slice(1),16),sx*13.95,2.2,c,{cast:false})}
-  for(const x of[-7,7])for(const z of[c-7,c+7]){const l=new THREE.PointLight(0xfff4e0,.5,16);l.position.set(x,5.5,z);scene.add(l);box(2,.05,.6,0xfffbef,x,6.15,z,{cast:false,e:0x666655})}});
+  for(const x of[-7,7])for(const z of[c-7,c+7]){box(2,.05,.6,0xfffbef,x,6.15,z,{cast:false,e:0x666655})}});
  box(28,6.3,.35,0xe9e6dd,0,3.1,14.15,{cast:false});box(28,6.3,.35,0xe9e6dd,0,3.1,-126.15,{cast:false});
  // ---- muros divisorios con puerta
  BOUND.forEach((b,i)=>{box(11.8,6.3,.4,0xe2ded3,-8.1,3.1,b,{cast:false});box(11.8,6.3,.4,0xe2ded3,8.1,3.1,b,{cast:false});box(4.4,3.0,.4,0xe2ded3,0,4.75,b,{cast:false});
@@ -658,7 +708,7 @@ function init3D(){try{
   const sg2=sg.clone();sg2.position.z=b-.22;sg2.rotation.y=Math.PI;sg2.material=new THREE.MeshBasicMaterial({map:signTex(ROOMS[i].title.split(' · ')[0].toUpperCase(),'Volver',('#0f2a24'),ROOMS[i].stripe)});scene.add(sg2)});
  // ---- RECEPCIÓN
  {const c=0;const s=new THREE.Mesh(new THREE.PlaneGeometry(11,3),new THREE.MeshBasicMaterial({map:signTex('RASTRO 317','Lavado de activos y extinción de dominio','#0f2a24','#e3a21a')}));s.position.set(0,4.4,13.9);s.rotation.y=Math.PI;scene.add(s);
-  box(6,1.1,1.4,0x7a5a3c,0,.55,6,{});box(6.2,.1,1.6,0x9a7652,0,1.12,6);
+  box(4,1.1,1.4,0x7a5a3c,-8,.55,6,{});box(4.2,.1,1.6,0x9a7652,-8,1.12,6);
   floorLabel('SIGUE AL DÓLAR','#e3a21a',0,0,10,2.5,0);for(let k=0;k<4;k++){const ar=new THREE.Mesh(new THREE.ConeGeometry(.5,1.1,3),new THREE.MeshBasicMaterial({color:0xe3a21a}));ar.rotation.x=-Math.PI/2;ar.position.set(0,.04,-4-k*2.2);scene.add(ar)}
   for(const sx of[-1,1]){cyl(.45,.55,.7,0x8a5a3c,sx*11,.35,11);const pl=new THREE.Mesh(new THREE.SphereGeometry(.7,12,10),mat(0x2f7d63));pl.position.set(sx*11,1.3,11);pl.scale.y=1.4;scene.add(pl)}}
  // ---- SALA 1: fases
@@ -693,19 +743,28 @@ function init3D(){try{
   const curve=new THREE.QuadraticBezierCurve3(new THREE.Vector3(-6,.1,c+7),new THREE.Vector3(0,6,c),new THREE.Vector3(6,.1,c-6));const tube=new THREE.Mesh(new THREE.TubeGeometry(curve,40,.06,8),new THREE.MeshBasicMaterial({color:0xe3a21a}));scene.add(tube);
   const ex=new THREE.Mesh(new THREE.PlaneGeometry(9,2.5),new THREE.MeshBasicMaterial({map:signTex('FIN DEL RECORRIDO','Abre tu informe final desde el menú','#7a2a20','#e3a21a')}));ex.position.set(0,4.2,-125.9);scene.add(ex)}
  // ---- estaciones
- ST.forEach(s=>{const p=slotPos(s);const g=new THREE.Group();g.add(new THREE.Mesh(new THREE.BoxGeometry(5.2,3,.2),mat(0x203a33)));const face=new THREE.Mesh(new THREE.PlaneGeometry(4.95,2.78),new THREE.MeshBasicMaterial({map:boardTex(s)}));face.position.z=.11;g.add(face);g.position.set(p.x,p.slot==='C'?2.1:3.05,p.z);g.rotation.y=p.ry;scene.add(g);
-  if(s.slot==='C'){const leg=new THREE.Mesh(new THREE.BoxGeometry(.3,1.2,.3),mat(0x203a33));leg.position.y=-2;g.add(leg)}boardObjs[s.id]=face});
+ // ---- objetos interactivos nuevos
+ {const c=ROOMS[2].z;box(3,.9,1.6,0x5a4630,-8,.45,c-7,{});[0xf3efe2,0xe3a21a,0xffffff,0xd9cfb8].forEach((col,k)=>box(.6,.05,.8,col,-9+k*.65,.93,c-7+(k%2?.2:-.2),{cast:false}));const lens=new THREE.Mesh(new THREE.TorusGeometry(.2,.04,8,20),mat(0x333333));lens.rotation.x=-Math.PI/2;lens.position.set(-7,.98,c-6.7);scene.add(lens);sprite('Evidencias',null,-8,2.1,c-7,2.2,'#5a4630')}
+ {const c=ROOMS[3].z;box(3.4,2.6,3,0x8a8f96,10,1.3,c-8,{});box(1.6,2,.06,0x4a4f55,10,1,c-6.47,{cast:false});sprite('Bodega',null,10,3.2,c-8,2.2,'#4a4f55');
+  box(2.2,1.2,1.1,0xb03a2e,7.4,.8,c-10.6,{});box(.9,1,1.05,0xd04a3e,6,.7,c-10.6,{});for(const wx of[6.2,7.9])for(const wz of[-.56,.56]){const wh=cyl(.25,.25,.15,0x111111,wx,.25,c-10.6+wz,{seg:12});wh.rotation.x=Math.PI/2}
+  cyl(.08,.08,2.4,0x9a7a2a,-10,1.2,c-10,{});box(2.8,.08,.08,0x9a7a2a,-10,2.35,c-10,{});for(const sx of[-1,1]){cyl(.02,.02,.6,0x9a7a2a,-10+sx*1.3,2.05,c-10,{});cyl(.45,.45,.06,0xc9a227,-10+sx*1.3,1.75,c-10,{})}sprite('Comiso',null,-11.3,2.6,c-10,1.6,'#7a2a20');sprite('Extinción',null,-8.7,2.6,c-10,1.6,'#1f7a55')}
+ {const c=ROOMS[4].z;box(1.6,1.2,1,0x203a33,-8,.6,c-6,{});box(1.2,.05,.8,0x9aa3a0,-8,1.23,c-6,{cast:false});sprite('GAFI','40 Recomendaciones',-8,2.4,c-6,2.6,'#203a33');
+  const pl=new THREE.Group();const fus=new THREE.Mesh(new THREE.CylinderGeometry(.35,.28,3,12),mat(0xf2f2f2));fus.rotation.x=Math.PI/2;pl.add(fus);pl.add(new THREE.Mesh(new THREE.BoxGeometry(3.2,.06,.7),mat(0xdddddd)));const tail=new THREE.Mesh(new THREE.BoxGeometry(.06,.7,.5),mat(0xb03a2e));tail.position.set(0,.35,1.3);pl.add(tail);pl.position.set(7,4.4,c-4);pl.rotation.y=.6;scene.add(pl);anim.plane=pl}
+ // ---- marcadores «!» sobre personajes y objetos
+ ST.forEach(s=>{const h=hostOf(s);const y=h.npc?3.4:2.7;const m=new THREE.Sprite(new THREE.SpriteMaterial({map:markerTex(s),transparent:true,depthTest:false}));m.scale.set(.8,.8,1);m.position.set(h.x,y,h.z);m.renderOrder=5;scene.add(m);
+  let ring=null;if(!h.npc){ring=new THREE.Mesh(new THREE.RingGeometry(.75,.92,36),new THREE.MeshBasicMaterial({color:0xe3a21a,side:THREE.DoubleSide,transparent:true,opacity:.85}));ring.rotation.x=-Math.PI/2;ring.position.set(h.x,.05,h.z);scene.add(ring)}
+  markers[s.id]={m,ring,y}});
  // ---- personajes
  NPCS.forEach((n,i)=>{const W=n.sex==='mujer';const o=createHumanoid({name:n.name,role:n.role,x:n.x,z:n.z,ry:Math.PI*0,shirt:n.color,toga:n.toga,pants:0x2b2b38,accent:'#e3a21a',longHair:W,lips:W,earrings:W&&i%2===0,glasses:i%3===1,beard:!W&&i%2===1,hair:[0x3a2416,0x1f1a17,0x6b3e1f,0x2b2b2b][i%4],skin:[0xd9a27a,0xc98d66,0xf0c8a5,0xb87c55,0xe6bb98][i%5]});o.userData.npc=n;npcObjs.push(o)});
  clock=new THREE.Clock();animate()}catch(err){console.error(err);renderer=null;listOnly=true;showFallback();toast('Se habilitó el modo sin 3D')}}
-function syncWorld(first){if(!renderer)return;ST.forEach(s=>{const f=boardObjs[s.id];if(f){f.material.map.dispose();f.material.map=boardTex(s);f.material.needsUpdate=true}});
+function syncWorld(first){if(!renderer)return;ST.forEach(s=>{const k=markers[s.id];if(!k)return;k.m.material.map.dispose();k.m.material.map=markerTex(s);k.m.material.needsUpdate=true;const vis=roomOpen(s.room);k.m.visible=vis;if(k.ring){k.ring.visible=vis;k.ring.material.color.set(done[s.id]?0x4fc08d:0xe3a21a)}});
  doors.forEach(d=>{const open=roomOpen(d.userData.i+1);d.material.color.set(open?0x1f7a55:0xb03a2e);d.userData.open=open;if(first&&open)d.position.y=4.9});
  if(done.S1a&&anim.bagT<0){anim.bagT=first?anim.path.length-1:0}
  if(anim.houseFlag)anim.houseFlag.visible=!!done.S3d}
 const tgt=window.THREE?new THREE.Vector3():null,des=window.THREE?new THREE.Vector3():null;
 function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.045);let moving=false;const ph=performance.now()*.009;
- if(avatar&&(locked||freeMove)&&started&&!listOnly&&!overlayOpen()){const fw=(keys.KeyW||keys.ArrowUp?1:0)-(keys.KeyS||keys.ArrowDown?1:0),sd=(keys.KeyD||keys.ArrowRight?1:0)-(keys.KeyA||keys.ArrowLeft?1:0);
-  if(fw||sd){const dx=-Math.sin(yaw)*fw+Math.cos(yaw)*sd,dz=-Math.cos(yaw)*fw-Math.sin(yaw)*sd,nn=Math.hypot(dx,dz);let nx=avatar.position.x+dx/nn*6.4*dt,nz=avatar.position.z+dz/nn*6.4*dt;
+ if(avatar&&(locked||freeMove)&&started&&!listOnly&&!overlayOpen()){const fw=(keys.KeyW||keys.ArrowUp?1:0)-(keys.KeyS||keys.ArrowDown?1:0)-jy,sd=(keys.KeyD||keys.ArrowRight?1:0)-(keys.KeyA||keys.ArrowLeft?1:0)+jx,mag=Math.min(1,Math.hypot(fw,sd));
+  if(mag>.15){const dx=-Math.sin(yaw)*fw+Math.cos(yaw)*sd,dz=-Math.cos(yaw)*fw-Math.sin(yaw)*sd,nn=Math.hypot(dx,dz);let nx=avatar.position.x+dx/nn*6.4*mag*dt,nz=avatar.position.z+dz/nn*6.4*mag*dt;
    nx=Math.max(-13.3,Math.min(13.3,nx));nz=Math.max(-125.3,Math.min(13.3,nz));
    for(const d of doors){const b=d.userData.b,oz=avatar.position.z,inBand=Math.abs(nz-b)<.45,cross=(oz>b)!==(nz>b);
     if(inBand||cross){if(d.userData.open&&Math.abs(oz-b)<.45){nx=Math.max(-1.75,Math.min(1.75,nx))}else if(!d.userData.open||Math.abs(nx)>1.75){nz=oz}}}
@@ -715,20 +774,23 @@ function animate(){requestAnimationFrame(animate);const dt=Math.min(clock.getDel
   des.x=Math.max(-13.4,Math.min(13.4,des.x));for(const b of[...BOUND,14,-126]){const az=avatar.position.z;if((az>b)!==(des.z>b)&&Math.abs(az-b)<4.7){des.z=az>b?b+.5:b-.5;des.y=Math.max(des.y,4.4)}}
   camera.position.lerp(des,Math.min(1,dt*8));camera.lookAt(tgt);sun.position.set(avatar.position.x-8,16,avatar.position.z+10);sun.target.position.copy(avatar.position);
   npcObjs.forEach((n,i)=>{const near=dist(n.position)<6,want=near?Math.atan2(avatar.position.x-n.position.x,avatar.position.z-n.position.z)+Math.PI:Math.PI;let d=((want-n.rotation.y+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;n.rotation.y+=d*Math.min(1,dt*5);n.userData.head.rotation.y=Math.sin(ph*.25+i)*.12});
-  nearSt=-1;let bs=3.2;ST.forEach((s,i)=>{const p=slotPos(s);const d=Math.hypot(avatar.position.x-p.ax,avatar.position.z-p.az);if(d<bs){bs=d;nearSt=i}});
-  nearNpc=null;let bn=2.6;npcObjs.forEach(n=>{const d=dist(n.position);if(d<bn){bn=d;nearNpc=n}});
-  const pr=$('prompt'),K=coarse?'Toca aquí':'E';if(started&&!listOnly&&(locked||freeMove)&&!overlayOpen()&&(nearNpc||nearSt>=0)){pr.style.display='block';pr.textContent=nearNpc&&bn<bs?`${K} · HABLAR CON ${nearNpc.userData.npc.role.toUpperCase()}`:`${K} · ${roomOpen(ST[nearSt].room)?'ABRIR':'VER'} ESTACIÓN · ${ST[nearSt].short.toUpperCase()}`}else pr.style.display='none';
+  nearSt=-1;let bs=2.9;ST.forEach((s,i)=>{if(s.room!==currentRoom())return;const h=hostOf(s);const d=Math.hypot(avatar.position.x-h.x,avatar.position.z-h.z);if(d<bs){bs=d;nearSt=i}});
+  ST.forEach(s=>{const k=markers[s.id];if(!k)return;k.m.position.y=k.y+Math.sin(ph*.35+k.y)*.12;const h=hostOf(s);k.m.visible=roomOpen(s.room)&&Math.hypot(avatar.position.x-h.x,avatar.position.z-h.z)>2.4});
+  const pr=$('prompt'),K=coarse?'Toca aquí':'E';if(started&&!listOnly&&(locked||freeMove)&&!overlayOpen()&&nearSt>=0){const s=ST[nearSt],h=hostOf(s);pr.style.display='block';pr.textContent=`${K} · ${h.npc?'HABLAR CON '+h.name.toUpperCase():'EXAMINAR: '+h.name.toUpperCase()}${done[s.id]?' ✓':''}`}else pr.style.display='none';
   const r=currentRoom();if(r!==animate.lastRoom){animate.lastRoom=r;refresh()}}
  doors.forEach(d=>{const ty=d.userData.open?4.9:1.6;d.position.y+=(ty-d.position.y)*Math.min(1,dt*2.5)});
  if(anim.bag&&anim.bagT>=0){const P=anim.path,seg=Math.min(P.length-1,anim.bagT);const i0=Math.floor(seg),i1=Math.min(P.length-1,i0+1),f=seg-i0;anim.bag.position.x=P[i0][0]+(P[i1][0]-P[i0][0])*f;anim.bag.position.z=P[i0][1]+(P[i1][1]-P[i0][1])*f;anim.bag.position.y=1.3+Math.abs(Math.sin(ph*.4))*.25;if(anim.bagT<P.length-1)anim.bagT+=dt*.9}
  else if(anim.bag)anim.bag.position.y=1.3+Math.sin(ph*.3)*.12;
- if(anim.globe)anim.globe.rotation.y+=dt*.25;
+ if(anim.globe)anim.globe.rotation.y+=dt*.25;if(anim.plane){anim.plane.position.y=4.4+Math.sin(ph*.2)*.2}
  renderer.render(scene,camera)}
 addEventListener('mousemove',e=>{if(locked){yaw-=e.movementX*.0024;pitch=Math.max(-.35,Math.min(.55,pitch-e.movementY*.002))}});
 $('world').addEventListener('pointerdown',e=>{if(locked||!started||listOnly)return;if(!freeMove&&!coarse){capture();return}dragging={x:e.clientX,y:e.clientY,id:e.pointerId}});
 addEventListener('pointermove',e=>{if(!dragging||e.pointerId!==dragging.id)return;yaw-=(e.clientX-dragging.x)*.005;pitch=Math.max(-.35,Math.min(.55,pitch-(e.clientY-dragging.y)*.004));dragging.x=e.clientX;dragging.y=e.clientY});
 addEventListener('pointerup',()=>dragging=null);addEventListener('pointercancel',()=>dragging=null);
-document.querySelectorAll('#touchPad button').forEach(b=>{const k=b.dataset.k;b.addEventListener('pointerdown',e=>{e.preventDefault();keys[k]=true});['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>keys[k]=false))});
+let jx=0,jy=0,joyId=null;
+(function(){const joy=$('joy'),knob=$('joyKnob');const mv=e=>{const r=joy.getBoundingClientRect();let dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);const m=Math.hypot(dx,dy),RR=46;if(m>RR){dx*=RR/m;dy*=RR/m}jx=dx/RR;jy=dy/RR;knob.style.transform=`translate(${dx}px,${dy}px)`};
+ joy.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();joyId=e.pointerId;try{joy.setPointerCapture(e.pointerId)}catch(_){}mv(e)});joy.addEventListener('pointermove',e=>{if(e.pointerId===joyId)mv(e)});
+ const end=e=>{if(e.pointerId!==joyId)return;joyId=null;jx=jy=0;knob.style.transform=''};joy.addEventListener('pointerup',end);joy.addEventListener('pointercancel',end)})();
 document.addEventListener('pointerlockchange',()=>{locked=!!renderer&&document.pointerLockElement===renderer.domElement;if(locked)freeMove=false;else keys={};showPause()});
 addEventListener('keydown',e=>{const tg=(e.target?.tagName||'').toLowerCase();if(tg==='input'||tg==='select'||tg==='textarea'){if(e.code!=='Escape')return}
  if(e.code==='Escape'){if($('dlgShade').style.display==='grid'){closeDialog();return}if($('glossShade').style.display==='grid'){closeGloss();return}if(active>=0){closeStation();return}if(menuOpen){closeMenu(false);return}if($('report').style.display==='block'){hideReport();return}if(freeMove&&!coarse){freeMove=false;keys={};showPause();return}}
