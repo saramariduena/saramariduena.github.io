@@ -154,7 +154,7 @@ td.num{font-family:"JetBrains Mono",monospace;white-space:nowrap}
    <p class="lead">Sigue el recorrido de un dólar sucio. Primero ves cómo se lava, después cómo el Estado lo detecta y lo prueba, luego cómo le quita los bienes al patrimonio ilícito y, al final, cómo coopera con otros países. Cada sala se abre cuando terminas la anterior.</p>
    <div id="mobileNote" class="callout warn hidden"><b class="lab">Ábrelo en una computadora</b>Este juego está diseñado para computadora, con teclado y ratón. En el celular no se puede jugar: abre este archivo en una computadora.</div>
    <div class="grid2">
-    <div><label for="mode">Modalidad</label><select id="mode"><option value="group">Grupal</option><option value="individual">Individual</option></select></div>
+    <div><label for="mode">Modalidad</label><select id="mode"><option value="individual">Individual</option><option value="group">Grupal</option></select></div>
     <div id="groupSel"><label for="group">Grupo</label><select id="group"><option>Grupo 1</option><option>Grupo 2</option><option>Grupo 3</option><option>Grupo 4</option><option>Grupo 5</option><option>Grupo 6</option></select></div>
    </div>
    <div id="groupFields"><label for="members">Integrantes (uno por línea)</label><textarea id="members" placeholder="1. Nombre Apellido&#10;2. Nombre Apellido"></textarea></div>
@@ -197,6 +197,7 @@ td.num{font-family:"JetBrains Mono",monospace;white-space:nowrap}
 <nav id="menu">
  <div class="eyebrow">Centro de navegación</div><h2 style="margin:6px 0">Mi recorrido</h2><p class="note" id="menuWho"></p>
  <button class="primary" onclick="closeMenu(true)">▶ Volver al recorrido</button>
+ <div style="border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;background:#fff"><b>Tu nombre y tu avatar</b><label for="mName" id="mNameLab">Nombre y apellido</label><input id="mName" type="text" maxlength="58" autocomplete="name"><label for="mSex">Avatar</label><select id="mSex"><option value="mujer">Mujer</option><option value="hombre">Hombre</option></select><button class="primary" style="width:100%;margin-top:10px" onclick="applyProfile()">Guardar cambios</button><p class="note" style="margin:6px 0 0">Tu avance se conserva.</p></div>
  <button class="secondary" onclick="openGloss()">📖 Glosario</button>
  <button class="secondary" onclick="goRoom(currentRoom())">↶ Ir a la entrada de esta sala</button>
  <button class="secondary" onclick="home()">⌂ Ir a la portada</button>
@@ -485,7 +486,7 @@ const IDEAS=['El lavado es autónomo, pero el origen ilícito se prueba: basta p
 let mode='group',group='Grupo 1',members='',name='',sex='mujer',done={},ans={},active=-1,listOnly=false,started=false,menuOpen=false,toastT;
 const coarse=matchMedia('(pointer:coarse)').matches;
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function shortName(t){t=String(t||'').trim();if(!t)return'Investigador';return t.length>20?t.slice(0,19)+'…':t}
+function shortName(t){t=String(t||'').trim();if(!t)return'Investigador';return t.length>32?t.slice(0,31)+'…':t}
 function toast(s){$('toast').textContent=s;$('toast').classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>$('toast').classList.remove('show'),3200)}
 let warned=false;
 function save(){if(!name)return;try{localStorage.setItem(KEY,JSON.stringify({mode,group,members,name,sex,done,ans,t:Date.now()}))}catch(e){if(!warned){warned=true;toast('Este navegador no permite guardar el avance: no cierres la página hasta copiar o imprimir tu informe.')}}}
@@ -505,11 +506,10 @@ $('mode').addEventListener('change',updMode);updMode();
 if(coarse&&innerWidth<1024){$('mobileNote').classList.remove('hidden');document.querySelector('#start .actions').classList.add('hidden')}
 (function(){const s=load();if(s?.name){$('continue').classList.remove('hidden');$('mode').value=s.mode||'group';updMode();$('group').value=s.group||'Grupo 1';$('members').value=s.members||'';if(s.mode==='individual')$('student').value=s.name;$('avatarSex').value=s.sex||'mujer'}})();
 function start(resume,noWorld){
- if(!resume){mode=$('mode').value;group=$('group').value;members=$('members').value.trim();sex=$('avatarSex').value;name=mode==='individual'?$('student').value.trim():group;
+ {mode=$('mode').value;group=$('group').value;members=$('members').value.trim();sex=$('avatarSex').value;name=mode==='individual'?$('student').value.trim():group;
   if(mode==='individual'&&name.split(/\s+/).filter(Boolean).length<2)return toast('Ingresa nombre y apellido para comenzar.');
   if(mode==='group'&&members.split(/\n+/).filter(x=>x.trim()).length<2)return toast('Registra al menos dos integrantes, uno por línea.');
-  const s=load();if(s&&s.name===name){done=s.done||{};ans=s.ans||{}}else{done={};ans={}}}
- else{const s=load();mode=s.mode;group=s.group;members=s.members||'';name=s.name;sex=s.sex||'mujer';done=s.done||{};ans=s.ans||{}}
+  const s=load();if(s&&(resume||s.name===name)){done=s.done||{};ans=s.ans||{}}else{done={};ans={}}}
  started=true;listOnly=!!noWorld;$('start').style.display='none';$('menuBtn').style.display='block';
  $('hWho').textContent=mode==='group'?`${group} · ${members.split(/\n+/).filter(x=>x.trim()).length} integrantes`:name;
  save();refresh();
@@ -535,7 +535,10 @@ function refresh(){
 function showFallback(){$('hud').style.display='none';setTouch(false);$('fallback').style.display='block';renderFallback()}
 function renderFallback(){$('fallback').innerHTML=`<div class="fbRoom" style="background:var(--ink);color:#fff;border:0"><div class="eyebrow">Modo sin 3D</div><h2 style="margin:4px 0">Rastro 317</h2><p class="note" style="color:#cfe3d9">Resuelve los encuentros en orden: cada sala se abre al completar la anterior. ${doneCount()}/${ST.length} encuentros · ${totalScore()}/${TOTAL} monedas.</p><div class="actions"><button class="accent" onclick="openGloss()">📖 Glosario</button><button class="danger" onclick="showReport()">▤ Ver informe</button><button class="secondary" onclick="home()">⌂ Portada</button></div></div>`+
  ROOMS.map(R=>{const open=roomOpen(R.n);return `<div class="fbRoom"><h3>${esc(R.title)}</h3><p class="note">${roomDone(R.n)?'Sala completa.':open?'Sala abierta.':'Bloqueada: completa la sala anterior.'}</p><div class="fbGrid">${roomSt(R.n).map(s=>`<button ${open?'':'disabled'} onclick="openStation('${s.id}')">${done[s.id]?`<span style="color:var(--good)">✓ ${done[s.id].score}/${stMax(s)}</span>`:'○ Pendiente'}<br><span class="note">${esc(hostOf(s).name)}</span><br>${esc(s.title)}</button>`).join('')}</div></div>`}).join('')}
-function openMenu(){if(!started)return;closeStation(true);closeDialog(true);closeGloss(true);release();menuOpen=true;$('menu').classList.add('open');$('menuShade').style.display='block';$('pause').style.display='none';refresh()}
+function openMenu(){if(!started)return;$('mName').value=name;$('mSex').value=sex;$('mNameLab').textContent=mode==='group'?'Nombre del grupo':'Nombre y apellido';closeStation(true);closeDialog(true);closeGloss(true);release();menuOpen=true;$('menu').classList.add('open');$('menuShade').style.display='block';$('pause').style.display='none';refresh()}
+function applyProfile(){const nn=$('mName').value.trim();if(mode==='individual'&&nn.split(/\s+/).filter(Boolean).length<2)return toast('Escribe nombre y apellido.');if(!nn)return toast('Escribe un nombre.');
+ name=nn;if(mode==='group')group=nn;sex=$('mSex').value;if(mode==='individual')$('student').value=name;$('avatarSex').value=sex;
+ $('hWho').textContent=mode==='group'?`${group} · ${members.split(/\n+/).filter(x=>x.trim()).length} integrantes`:name;if(renderer&&avatar)makeAvatar();save();refresh();toast('Listo: nombre y avatar actualizados.')}
 function closeMenu(resume){menuOpen=false;$('menu').classList.remove('open');$('menuShade').style.display='none';if(resume&&!listOnly)capture();else showPause()}
 function home(){closeMenu(false);release();$('report').style.display='none';$('start').style.display='grid';$('hud').style.display='none';$('menuBtn').style.display='none';$('fallback').style.display='none';$('prompt').style.display='none';$('pause').style.display='none';setTouch(false);started=false;freeMove=false;save();$('continue').classList.remove('hidden')}
 function openGloss(){$('gloss').innerHTML='<dl>'+GLOSS.map(([t,d])=>`<dt>${esc(t)}</dt><dd>${esc(d)}</dd>`).join('')+'</dl>';closeMenu(false);release();$('glossShade').style.display='grid';$('pause').style.display='none'}
@@ -647,7 +650,7 @@ function goRoom(r){if(!avatar)return;avatar.position.set(0,0,ROOMS[r].z+11);yaw=
 function interact(){if(!started||overlayOpen()||nearSt<0)return;openStation(ST[nearSt].id)}
 function dist(p){return Math.hypot(avatar.position.x-p.x,avatar.position.z-p.z)}
 function roundRect(x,X,Y,W,H,R){x.beginPath();if(x.roundRect)x.roundRect(X,Y,W,H,R);else x.rect(X,Y,W,H);x.fill()}
-function labelTexture(lines,bg,accent){const c=document.createElement('canvas');c.width=1024;c.height=256;const x=c.getContext('2d');x.fillStyle=bg;roundRect(x,8,8,1008,240,42);x.fillStyle=accent;x.fillRect(40,8,944,18);x.textAlign='center';x.fillStyle='#fff';x.font='bold 74px Arial';x.fillText(lines[0]||'',512,116);x.font='44px Arial';x.fillStyle='#e6e9f3';x.fillText(lines[1]||'',512,184);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
+function labelTexture(lines,bg,accent){const c=document.createElement('canvas');c.width=1024;c.height=256;const x=c.getContext('2d');x.fillStyle=bg;roundRect(x,8,8,1008,240,42);x.fillStyle=accent;x.fillRect(40,8,944,18);x.textAlign='center';x.fillStyle='#fff';let fs=74;x.font='bold '+fs+'px Arial';while(fs>40&&x.measureText(lines[0]||'').width>940){fs-=2;x.font='bold '+fs+'px Arial'}x.fillText(lines[0]||'',512,116);x.font='44px Arial';x.fillStyle='#e6e9f3';x.fillText(lines[1]||'',512,184);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t}
 function createLabelSprite(lines,sx,sy,bg,accent){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:labelTexture(lines,bg,accent),transparent:true,depthTest:false}));s.scale.set(sx,sy,1);return s}
 function createHumanoid(cfg){const g=new THREE.Group();const m=(c,r=.78)=>new THREE.MeshStandardMaterial({color:c,roughness:r});
  const skin=m(cfg.skin||0xe0b48f,.7),shirt=m(cfg.shirt),pants=m(cfg.pants||0x263248),hair=m(cfg.hair||0x2a2420,.9),dark=m(0x1d1a1a,.4),white=m(0xffffff,.3),shoe=m(0x241c18,.5),blush=new THREE.MeshStandardMaterial({color:0xe88f8f,roughness:.9,transparent:true,opacity:.55}),lip=m(0x9c4a4a,.6);
