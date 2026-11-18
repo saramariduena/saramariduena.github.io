@@ -76,14 +76,10 @@ de **Colombia** (uso de ChatGPT por un juez).
 | 27 | [4-23-IN/26](https://buscador.corteconstitucional.gob.ec/buscador-externo/principal/fichaSentencia?numero=4-23-IN%2F26) | 27/08/2026 | Protección de datos personales — discapacidad oculta por código QR | La cédula de identidad exigía mostrar la discapacidad y su porcentaje (art. 110 Ley de Personas con Discapacidad, art. 94.17 LOGIDAC). La Corte aceptó la acción pública de inconstitucionalidad: declaró **inconstitucionalidad aditiva con efectos diferidos** por vulnerar la protección de datos personales (art. 66.19) y la intimidad (art. 66.20) — viola la **autodeterminación informativa**. Ordenó que las personas con discapacidad puedan pedir que ese dato se oculte en el documento físico y se acredite mediante un mecanismo tecnológico (**código QR**) bajo su propio control. Es el caso más directamente relacionado con tecnología y protección de datos encontrado hasta ahora. |
 | 28 | [28-23-IN/26](https://www.corteconstitucional.gob.ec/sentencia-28-23-in-26/) (acumulada con 33-23-IN/26) | 27/08/2026 | Conservación de datos informáticos por la Fiscalía sin orden judicial previa | Acción de inconstitucionalidad contra la Ley de Fortalecimiento de Capacidades Institucionales y Seguridad Integral. Sobre el artículo que permite a la Fiscalía ordenar la **conservación de datos informáticos específicos sin autorización judicial previa**: la Corte determinó que, al ser una medida temporal que no da acceso al contenido, **no vulnera** la protección de datos personales ni la intimidad — es compatible con la Constitución. También revisó la identificación pública de personas aprehendidas en flagrancia ante medios (no vulnera por sí sola la presunción de inocencia) y declaró constitucionalidad condicionada de la intervención de las FFAA en tareas de seguridad (art. 158). |
 | 29 | [27-24-JD/26](https://www.fielweb.com/App_Themes/InformacionInteres/27-24-JD26.pdf) | 04/06/2026 | Hábeas data — acta de matrimonio negada por el Registro Civil | Una mujer de 89 años pidió acceder a su acta de matrimonio para tramitar una pensión de montepío; el Registro Civil negó que el acta existiera, pese a haberle emitido antes otros documentos oficiales que certificaban el matrimonio. La Corte aceptó la acción de hábeas data y declaró la vulneración del derecho a la **protección de datos personales** (art. 66.19) en relación con el **derecho a la identidad** (art. 66.28). |
+| 30 | [171-21-JD/26](https://buscador.corteconstitucional.gob.ec/buscador-externo/principal/fichaSentencia?numero=171-21-JD%2F26) | 27/08/2026 | Hábeas data — ocultamiento de datos en el sistema EXPEL | La Corte conoció dos acciones de hábeas data sobre la difusión pública, en el sistema EXPEL (consulta de procesos judiciales), de los datos identificativos de personas cuyos procesos penales concluyeron **sin sentencia condenatoria**. Determinó que el hábeas data es la vía idónea para pedir la restricción, ocultamiento, anonimización o seudonimización de esos datos, y fijó el estándar: procede cuando (i) el proceso concluyó sin condena, (ii) el titular pidió el ocultamiento por el procedimiento aplicable, y (iii) esa solicitud fue negada expresa o tácitamente — salvo que exista un interés público prevalente que justifique mantener la difusión. En los casos revisados, declaró vulnerado el derecho a la protección de datos personales. **Confirmado ahora con el resumen oficial completo de la API** (antes solo se había encontrado un amicus curiae de la misma causa, no la sentencia). |
 
 ## Pendiente de verificar con más detalle
 
-- **171-21-JD/26** (27/08/2026) — el resumen oficial de la API menciona
-  "Protección de datos personales; EXPEL; Ocultamiento de datos"; solo
-  encontré un escrito de amicus curiae de la misma causa (sobre plazos de
-  conservación de datos en registros públicos), no la sentencia misma.
-  No se incluye hasta confirmar el sentido del fallo.
 - **2287-23-EP/25** (04/12/2025) — resumen oficial: "desnaturalización;
   hábeas data; rectificar cargos; remuneración de servidores públicos".
   Parece seguir el mismo patrón que la fila 23/24 (hábeas data no sirve
@@ -113,6 +109,13 @@ de **Colombia** (uso de ChatGPT por un juez).
 
 ## Pistas descartadas (verificadas pero no aplicables)
 
+- **580-23-EP/26** (04/06/2026) — hizo match con el término "reconocimiento
+  facial", pero el resumen oficial completo confirma que no tiene ninguna
+  relación: es sobre una descarga eléctrica sufrida por un cable de alta
+  tensión mal mantenido por la Empresa Eléctrica Quito (EEQ); la Corte
+  declaró vulnerado el derecho a una vida digna y a servicios públicos de
+  calidad. Coincidencia de palabras sueltas en el texto completo, no un
+  caso de biometría.
 - Las sentencias de **telefonía móvil** de tipo "SIN-CC" (017-16, 020-16,
   004-16, 032-16, 052-15, 007-15, 008-15) son disputas tributarias/de
   espectro radioeléctrico entre operadoras (OTECEL, CONECEL) y municipios —
