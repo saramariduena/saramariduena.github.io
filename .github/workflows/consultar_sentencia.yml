@@ -1,0 +1,32 @@
+name: Consultar sentencia puntual — Corte Constitucional Ecuador
+
+on:
+  workflow_dispatch:
+    inputs:
+      numeros:
+        description: "Números de causa exactos a consultar, separados por coma"
+        required: true
+
+jobs:
+  consultar:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Instalar dependencias
+        run: pip install requests==2.32.3
+
+      - name: Consultar sentencia(s) por número exacto
+        env:
+          NUMEROS: ${{ github.event.inputs.numeros }}
+        run: python consultar_sentencia.py
