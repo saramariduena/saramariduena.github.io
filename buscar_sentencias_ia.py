@@ -88,7 +88,7 @@ def main():
         print(f"Fecha: {s.fecha}")
         print(f"Ponente: {s.ponente}")
         print(f"Términos que la encontraron: {', '.join(terminos)}")
-        print(f"Resumen: {s.resumen[:300]}")
+        print(f"Resumen: {s.resumen[:2000]}")
         print(f"Ficha: {s.ficha_url}")
         salida.append({**sentencias_to_dicts([s])[0], "terminos_encontrados": terminos})
 
