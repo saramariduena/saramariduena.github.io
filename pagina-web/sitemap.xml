@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://saramariduena.github.io/</loc>
+    <loc>https://saramariduena.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://saramariduena.github.io/casos-proteccion-datos.html</loc>
+    <loc>https://saramariduena.com/casos-proteccion-datos.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
