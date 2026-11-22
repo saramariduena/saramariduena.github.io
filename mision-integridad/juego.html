@@ -1,0 +1,479 @@
+<title>Misión Integridad</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;700;800;900&display=swap">
+<style>
+/* Plataformas 2D por mundos. Apariencia única deliberada (juego nocturno): tinta azul noche, oro de moneda, rojo de alerta, verde de acierto. */
+:root{--bg:#0b0e1f;--ink:#f6f1e7;--muted:#b9bfdc;--gold:#ffc93c;--red:#ff5a6a;--green:#3ddc97;--blue:#58c4ff;--panel:#161a36;--panel2:#1f2550;--line:#323a78;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;overflow:hidden}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0;border-radius:10px;padding:11px 16px;font-weight:800}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.px{font-family:"Press Start 2P",ui-monospace,monospace;letter-spacing:.02em}
+.btn{background:var(--gold);color:#2a1a00;box-shadow:0 4px 0 #b37e00}.btn:active{transform:translateY(2px);box-shadow:0 2px 0 #b37e00}
+.btn2{background:var(--panel2);color:var(--ink);border:2px solid var(--line)}
+.btnR{background:var(--red);color:#fff;box-shadow:0 4px 0 #a52a37}
+.hidden{display:none!important}
+#stage{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);display:none}
+#cv{display:block;width:100%;height:100%;image-rendering:pixelated;border-radius:8px;box-shadow:0 0 0 4px #000,0 24px 70px #000c;background:#000}
+.screen{position:fixed;inset:0;z-index:30;overflow:auto;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));
+ background:radial-gradient(circle at 15% 10%,#3b2a8a66 0,transparent 35%),radial-gradient(circle at 85% 90%,#ff5a6a33 0,transparent 30%),repeating-linear-gradient(0deg,#ffffff06 0 2px,transparent 2px 6px),var(--bg);display:none}
+.screen.on{display:block}
+.wrapIn{max-width:1000px;margin:0 auto}
+.panel{background:var(--panel);border:3px solid var(--line);border-radius:16px;box-shadow:0 0 0 3px #000,0 30px 80px #000b;padding:26px}
+h1,h2,h3{margin:0}
+.title{font-size:clamp(26px,5vw,48px);line-height:1.2;color:var(--gold);text-shadow:4px 4px 0 #000;margin:12px 0 10px}
+.title span{color:var(--red)}
+.eyebrow{font-size:11px;color:var(--blue);letter-spacing:.14em;text-transform:uppercase;font-weight:900}
+.lead{font-size:17px;line-height:1.6;color:#dfe3f6;max-width:66ch}
+label{display:block;font-weight:800;font-size:14px;margin:14px 0 6px}
+input[type=text],select,textarea{width:100%;background:#0e1230;border:2px solid var(--line);color:var(--ink);border-radius:10px;padding:11px 12px}
+textarea{min-height:76px;resize:vertical}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.note{font-size:13px;color:var(--muted);line-height:1.55}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.key{background:#0e1230;border:2px solid var(--line);border-radius:12px;padding:12px;text-align:center;font-size:13px;line-height:1.4}
+.key b{display:block;font-family:"Press Start 2P",monospace;font-size:11px;color:var(--gold);margin-bottom:6px}
+.introGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px}
+.worlds{display:grid;gap:10px}
+.wmini{display:flex;gap:12px;align-items:center;background:#0e1230;border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+.wmini i{font-style:normal;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;font-family:"Press Start 2P",monospace;font-size:13px;color:#000;flex:none}
+.wmini b{display:block;font-size:15px}.wmini span{font-size:13px;color:var(--muted)}
+/* mapa */
+.map{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px;position:relative}
+.node{position:relative;background:var(--panel2);border:3px solid var(--line);border-radius:16px;padding:16px;text-align:left;color:var(--ink);font-weight:600;min-height:210px;display:flex;flex-direction:column;gap:8px}
+.node:not(:disabled):hover{border-color:var(--gold);transform:translateY(-3px)}
+.node:disabled{opacity:.5;cursor:not-allowed}
+.node .num{font-family:"Press Start 2P",monospace;font-size:22px}
+.node .nm{font-size:16px;font-weight:900;line-height:1.25}
+.node .st{font-size:13px;color:var(--muted);margin-top:auto}
+.stars{font-size:18px;letter-spacing:2px;color:var(--gold)}
+.node .scene{height:54px;border-radius:10px;margin:-4px -4px 2px}
+/* banner y cartas dentro del escenario */
+#banner{position:absolute;left:50%;top:7.5%;transform:translateX(-50%);width:88%;z-index:5;background:#0b0e1fe8;border:3px solid var(--gold);border-radius:14px;padding:12px 16px;box-shadow:0 0 0 3px #000;display:none}
+#banner .tag{font-family:"Press Start 2P",monospace;font-size:10px;color:var(--gold);margin-bottom:8px;line-height:1.5}
+#banner .q{font-weight:900;font-size:clamp(13px,1.55vw,18px);line-height:1.35;margin:0 0 8px}
+#banner .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+#banner .opts div{background:#1b2150;border:2px solid var(--line);border-radius:10px;padding:7px 9px;font-size:clamp(11px,1.2vw,14px);line-height:1.35}
+#banner .opts b{font-family:"Press Start 2P",monospace;color:var(--gold);margin-right:6px}
+#card{position:absolute;inset:0;z-index:8;display:none;place-items:center;background:#000a;padding:4%}
+#card .panel{width:min(720px,100%);max-height:100%;overflow:auto;padding:22px 24px}
+#card .ctag{font-family:"Press Start 2P",monospace;font-size:11px;line-height:1.6;margin-bottom:10px}
+#card h2{font-size:clamp(18px,2.2vw,26px);font-weight:900;margin:0 0 10px;line-height:1.25}
+#card p{font-size:clamp(14px,1.45vw,17px);line-height:1.55;margin:8px 0}
+#card .ans{background:#0e1230;border:2px solid var(--line);border-radius:10px;padding:10px 12px;margin:10px 0;font-size:15px;line-height:1.5}
+#card .cont{margin-top:14px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+#card .hint{font-size:12px;color:var(--muted);margin-right:auto;align-self:center}
+.ok{color:var(--green)}.bad{color:var(--red)}
+.stat{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.stat div{background:#0e1230;border:2px solid var(--line);border-radius:10px;padding:10px;text-align:center;font-size:12px;color:var(--muted)}.stat b{display:block;font-family:"Press Start 2P",monospace;font-size:15px;color:var(--gold);margin-bottom:6px}
+#pauseBtn{position:absolute;right:1.2%;bottom:2%;z-index:6;padding:6px 10px;font-size:12px;background:#0b0e1fcc;color:var(--ink);border:2px solid var(--line)}
+/* informe */
+.rep{background:#fbfaf6;color:#18203a;border-radius:16px;padding:30px;max-width:960px;margin:0 auto}
+.rep h1{font-family:"Press Start 2P",monospace;font-size:20px;line-height:1.5;color:#18203a;margin:6px 0}
+.rep h3{margin:18px 0 6px;font-size:18px}
+.rep table{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0}.rep th,.rep td{border:1px solid #d7dbe8;padding:8px 10px;text-align:left;vertical-align:top}.rep th{background:#eef0f7}
+.rep .acts{position:sticky;top:0;background:#fbfaf6;padding:8px 0;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;z-index:2}
+.rep .note{color:#5a6280}
+.sealBox{display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:#eef0f7;border-radius:12px;padding:16px;margin:14px 0}
+.seal{width:108px;height:108px;border-radius:50%;border:4px double #c0392b;color:#c0392b;display:grid;place-items:center;text-align:center;transform:rotate(-8deg);font-weight:900;font-size:11px;line-height:1.2;flex:none}.seal b{display:block;font-family:"Press Start 2P",monospace;font-size:15px;margin-bottom:4px}
+.ideas{padding-left:20px;line-height:1.55}.ideas li{margin:6px 0}
+.tw{overflow-x:auto}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);z-index:60;background:#000;color:#fff;border:2px solid var(--gold);padding:12px 18px;border-radius:12px;opacity:0;transition:.25s;pointer-events:none;max-width:min(560px,calc(100vw - 32px));font-weight:700}#toast.show{opacity:1;transform:translateX(-50%)}
+.mobileNote{background:#3a1520;border:2px solid var(--red);border-radius:12px;padding:14px;margin-top:14px;line-height:1.5}
+@media (max-width:860px){.introGrid,.grid2{grid-template-columns:1fr}.map{grid-template-columns:1fr 1fr}.keys{grid-template-columns:1fr 1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{.screen:not(#repScreen),#stage,#toast{display:none!important}html,body{overflow:visible;height:auto;background:#fff}#repScreen{position:static;display:block!important;background:#fff;padding:0}.rep .acts{display:none}}
+</style>
+
+<!-- ================= PORTADA ================= -->
+<section id="startScreen" class="screen on">
+ <div class="wrapIn"><div class="panel">
+  <div class="eyebrow">Tema 4 · Retos y propuestas en la lucha contra los delitos públicos y económicos</div>
+  <h1 class="title px">MISIÓN <span>INTEGRIDAD</span></h1>
+  <div class="introGrid">
+   <div>
+    <p class="lead">Corre, salta y atraviesa cuatro mundos. Golpea los bloques <b style="color:var(--gold)">?</b> para descubrir datos, salta sobre los enemigos, entra por la puerta de la respuesta correcta y vence al jefe de cada mundo. Al final descargas tu informe en PDF.</p>
+    <div class="grid2">
+     <div><label for="mode">Modalidad</label><select id="mode"><option value="individual">Individual</option><option value="group">Grupal</option></select></div>
+     <div><label for="sex">Tu personaje</label><select id="sex"><option value="mujer">Mujer</option><option value="hombre">Hombre</option></select></div>
+    </div>
+    <div id="indF"><label for="pname">Nombre y apellido</label><input id="pname" type="text" maxlength="40" placeholder="Ej. Sara Maridueña" autocomplete="name"></div>
+    <div id="grpF" class="hidden"><label for="gname">Nombre del grupo</label><input id="gname" type="text" maxlength="30" value="Grupo 1"><label for="members">Integrantes (uno por línea)</label><textarea id="members" placeholder="1. Nombre Apellido&#10;2. Nombre Apellido"></textarea></div>
+    <div class="row" id="startActs"><button class="btn px" id="go" style="font-size:13px">▶ JUGAR</button><button class="btn2 hidden" id="resume">↻ Continuar mi partida</button></div>
+    <div id="mobileNote" class="mobileNote hidden"><b>Ábrelo en una computadora.</b> Este juego se controla con el teclado y no funciona en el celular.</div>
+   </div>
+   <div class="worlds">
+    <div class="wmini"><i style="background:#8f7bff">1</i><div><b>La red de la corrupción</b><span>Klitgaard, captura del Estado, Odebrecht, Sobornos y Metástasis</span></div></div>
+    <div class="wmini"><i style="background:#3ddc97">2</i><div><b>Ciberespacio</b><span>Arts. 229 a 234.1, Ola Bini, evidencia digital y Convenio de Budapest</span></div></div>
+    <div class="wmini"><i style="background:#58c4ff">3</i><div><b>Estonia digital</b><span>X-Road, Data Tracker, KSI, ProZorro, Alice y protección de datos</span></div></div>
+    <div class="wmini"><i style="background:#ff9f43">4</i><div><b>La reforma</b><span>UNCAC, compliance, Sentencia 5-13-IN/19 y Ley de Integridad Pública</span></div></div>
+   </div>
+  </div>
+  <div class="keys">
+   <div class="key"><b>← →</b>o A / D para correr</div>
+   <div class="key"><b>ESPACIO</b>o ↑ / W para saltar (mantén para saltar más alto)</div>
+   <div class="key"><b>↓ / E</b>para entrar por una puerta</div>
+   <div class="key"><b>ENTER</b>para continuar · <b style="display:inline">P</b> para pausa</div>
+  </div>
+  <p class="note" style="margin-top:14px">Contenido basado en el guion docente del Tema 4 (versión verificada al 20 de noviembre de 2026). Los ejemplos hipotéticos y los enemigos son ficticios. Tu avance se guarda en este navegador.</p>
+ </div></div>
+</section>
+
+<!-- ================= MAPA ================= -->
+<section id="mapScreen" class="screen">
+ <div class="wrapIn"><div class="panel">
+  <div class="eyebrow">Mapa de mundos</div>
+  <h2 class="px" style="font-size:18px;line-height:1.5;color:var(--gold);margin:8px 0" id="mapWho">Hola</h2>
+  <p class="note" id="mapSum"></p>
+  <div class="map" id="mapNodes"></div>
+  <div class="row">
+   <button class="btnR" onclick="showReport()">▤ Informe y PDF</button>
+   <button class="btn2" onclick="openProfile()">✎ Cambiar nombre o personaje</button>
+   <button class="btn2" onclick="toggleSound()" id="sndBtn">🔊 Sonido: sí</button>
+   <button class="btn2" onclick="goStart()">⌂ Portada</button>
+  </div>
+  <div id="profileBox" class="hidden" style="margin-top:14px;background:#0e1230;border:2px solid var(--line);border-radius:12px;padding:14px">
+   <div class="grid2"><div><label for="pfName" id="pfLab">Nombre y apellido</label><input id="pfName" type="text" maxlength="40"></div><div><label for="pfSex">Personaje</label><select id="pfSex"><option value="mujer">Mujer</option><option value="hombre">Hombre</option></select></div></div>
+   <div class="row"><button class="btn" onclick="applyProfile()">Guardar cambios</button></div>
+  </div>
+ </div></div>
+</section>
+
+<!-- ================= JUEGO ================= -->
+<div id="stage"><canvas id="cv" width="960" height="540" aria-label="Escenario del juego"></canvas><div id="banner"></div><div id="card"></div><button id="pauseBtn" onclick="pauseMenu()">II Pausa</button></div>
+
+<!-- ================= INFORME ================= -->
+<section id="repScreen" class="screen"><div class="rep" id="rep"></div></section>
+<div id="toast" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+'use strict';
+const $=id=>document.getElementById(id),KEY='mision_integridad_v1',TS=36,VW=960,VH=540;
+/* ===================== CONTENIDO ===================== */
+const LEVELS=[
+{id:'L1',name:'Mundo 1 · La red de la corrupción',short:'La red de la corrupción',theme:'city',col:'#8f7bff',foe:'Soborno',boss:'El Gran Cesto Podrido',
+ brief:'La corrupción ya no es una manzana podrida: es el cesto entero. Recorre la ciudad, descubre cómo se analiza la corrupción sistémica y atraviesa las puertas del conocimiento. Cuidado con los sobornos que caminan por la calle.',
+ facts:[
+  'Transparencia Internacional define la corrupción como el abuso del poder encomendado para beneficio privado. Es más amplia que cualquier tipo penal: por eso la política anticorrupción nunca puede ser solo penal.',
+  'Fórmula de Klitgaard (1988): Corrupción = Monopolio + Discrecionalidad − Rendición de cuentas. Un contrato por emergencia reúne las tres: decide una sola entidad, se omite el concurso y el control llega tarde.',
+  'Captura del Estado (Hellman, Jones y Kaufmann, Banco Mundial, 2000): no es pagar para que se aplique mal una norma, sino para que la norma, la política o la decisión se diseñen a la medida de alguien.',
+  'Índice de Percepción de la Corrupción 2025 (publicado el 10 de febrero de 2026): Ecuador obtuvo 33/100 y quedó en el puesto 116 de 182. Uruguay, 73/100 y puesto 17. Mide percepción de expertos, no casos probados.',
+  'Odebrecht: según los acuerdos con el Departamento de Justicia de EE. UU. (21 de diciembre de 2016), pagó USD 33,5 millones en sobornos en Ecuador entre 2007 y 2016, mediante su División de Operaciones Estructuradas, un verdadero «departamento de sobornos».',
+  'Metástasis: nació de los chats del narcotraficante Leandro Norero. El 25 de noviembre de 2024 un tribunal de la Corte Nacional condenó a 20 de los 21 procesados por delincuencia organizada. Es la captura de la justicia por el crimen organizado.',
+  'Sobornos 2012-2016 empezó con una investigación periodística («Arroz Verde»). El 7 de abril de 2020 la Corte Nacional condenó por cohecho a un expresidente, un exvicepresidente y otros procesados a 8 años; la casación se resolvió el 7 de septiembre de 2020.',
+  'Art. 233 de la Constitución: son imprescriptibles las acciones y penas por peculado, cohecho, concusión y enriquecimiento ilícito. La Sentencia 5-13-IN/19 precisó que esa imprescriptibilidad rige desde 1998.'],
+ qs:[
+  {q:'Según la fórmula de Klitgaard, ¿qué combinación hace florecer la corrupción?',o:['Competencia + reglas claras + controles','Monopolio + discrecionalidad − rendición de cuentas','Salarios bajos, y nada más'],a:1,ex:'La corrupción florece donde un funcionario decide solo, con amplio margen y sin que nadie lo controle.'},
+  {q:'Un particular paga para que un reglamento se escriba a su medida. ¿Qué fenómeno es?',o:['Captura del Estado','Corrupción administrativa común','Lobby siempre lícito'],a:0,ex:'En la captura el resultado parece legal porque la norma misma se diseña para favorecer a alguien; por eso es más difícil de tipificar.'},
+  {q:'¿Qué figura permitió juzgar el caso Metástasis como una estructura y no como una suma de cohechos?',o:['Peculado','Tráfico de influencias','Delincuencia organizada'],a:2,ex:'La delincuencia organizada como tipo autónomo captura la estructura: en la corrupción sistémica lo que revela el delito es el patrón, no el acto aislado.'},
+  {q:'JEFE · ¿Qué debate dogmático abrió la condena en el caso Sobornos 2012-2016?',o:['Si cabe el lavado culposo','La autoría mediata por instigación o «influjo psíquico» de quien está en la cúspide','Si la extinción de dominio requiere sentencia'],a:1,ex:'El problema común de los tres casos es cómo alcanzar a quien no ejecuta el acto con sus manos: autoría mediata, dominio de un aparato organizado de poder, responsabilidad del superior.'}],
+ tfs:[
+  {q:'El Índice de Percepción de la Corrupción mide cuántos casos de corrupción fueron probados en cada país.',a:false,ex:'Mide la percepción de expertos y empresarios sobre el sector público. Sirve para comparar tendencias, no para afirmar cuánta corrupción hay.'},
+  {q:'Según la Sentencia 5-13-IN/19, la imprescriptibilidad del peculado, el cohecho, la concusión y el enriquecimiento ilícito rige desde la Constitución de 1998.',a:true,ex:'Así lo precisó la Corte Constitucional en julio de 2019.'}],
+ map:'S10 F0 K7 F1 E10 Q0 G2 S3 F2 P10 Q1 E10 F3 H8 S3 T0 K7 F4 U3 E10 F5 G3 S4 Q2 E9 F7 K6 T1 E10 F6 U2 J3 Z0'},
+{id:'L2',name:'Mundo 2 · Ciberespacio',short:'Ciberespacio',theme:'cyber',col:'#3ddc97',foe:'Malware',boss:'El Troyano Mayor',
+ brief:'Entras a los circuitos del cibercrimen. Aquí la prueba es digital: volátil, alterable y muchas veces está en otro país. Esquiva el malware, recoge los datos y demuestra que distingues conservar datos de acceder a su contenido.',
+ facts:[
+  'Entre enero de 2022 y mayo de 2025 la Fiscalía registró 20.602 denuncias por ciberdelitos. El 57 % (11.833) fue apropiación fraudulenta por medios electrónicos, que está en el art. 190 COIP, entre los delitos contra la propiedad.',
+  'Los delitos contra la seguridad de los activos de los sistemas de información están en los arts. 229 a 234.1 del COIP: revelación ilegal de base de datos (229), interceptación (230), transferencia electrónica (231), ataque a la integridad (232), información reservada (233), acceso no consentido (234) y falsificación informática (234.1).',
+  'Caso Ola Bini (art. 234): en enero de 2023 fue declarado inocente; el 5 de abril de 2024 la Corte Provincial de Pichincha lo declaró culpable de tentativa de acceso no consentido, con un año de prisión. Pregunta abierta: ¿qué es «acceder»?',
+  'La evidencia digital es volátil, fácilmente alterable y suele estar en otro país. Por eso exige copia forense, función hash para demostrar que el archivo analizado es idéntico al incautado y registro de cada persona que lo manipuló.',
+  'Convenio de Budapest: Ecuador fue invitado el 30 de marzo de 2022, depositó su instrumento de ADHESIÓN el 12 de diciembre de 2024 (Parte número 77) y está en vigor para el país desde el 1 de abril de 2025. La Fiscalía es el punto de contacto 24/7.',
+  'Art. 477.1 COIP (reforma de marzo de 2023): el fiscal puede ordenar, sin autorización judicial, la conservación expedita de datos informáticos por hasta 90 días prorrogables. La Sentencia 28-23-IN/26 la avaló: preservar no es acceder al contenido.',
+  'REBEFICS: el SRI exige a las sociedades reportar su beneficiario final y su composición societaria nivel por nivel, hasta llegar a las personas naturales. Ataca el problema de las empresas de papel en cadena.'],
+ qs:[
+  {q:'¿Dónde están los delitos contra la seguridad de los activos de los sistemas de información?',o:['Arts. 232 a 235 del COIP','Art. 190 del COIP','Arts. 229 a 234.1 del COIP'],a:2,ex:'La diapositiva decía 232 a 235; lo correcto es 229 a 234.1. El art. 235 pertenece a otra materia.'},
+  {q:'Sin juez, el fiscal ordena conservar 90 días los datos de tráfico de una línea; después, también sin juez, pide el contenido de los mensajes. ¿Qué es correcto?',o:['La conservación es válida; el acceso al contenido requiere autorización judicial','Ambas son válidas porque el fiscal dirige la investigación','Ninguna es válida: todo lo digital exige juez'],a:0,ex:'Art. 477.1 y Sentencia 28-23-IN/26: preservar no da acceso al contenido. La interceptación y el contenido siguen sujetos a autorización judicial (art. 476).'},
+  {q:'¿Qué permite demostrar que el archivo analizado es idéntico al que se incautó?',o:['Una captura de pantalla','La función hash calculada en la copia forense','La declaración del policía'],a:1,ex:'Si la defensa no puede verificar la integridad de la evidencia, la evidencia no vale. El hash permite compararla bit a bit.'},
+  {q:'JEFE · ¿Qué decidió la Corte Provincial de Pichincha en el caso Ola Bini, en abril de 2024?',o:['Confirmó su inocencia','Lo declaró culpable de tentativa de acceso no consentido, con un año de prisión','Lo condenó por espionaje a diez años'],a:1,ex:'Días después aceptó la suspensión condicional de la pena. El caso llegó a la Corte Constitucional (2470-25-EP, en trámite según las fuentes).'}],
+ tfs:[
+  {q:'El ciberdelito más denunciado en Ecuador es el ataque a la integridad de sistemas informáticos.',a:false,ex:'Es la apropiación fraudulenta por medios electrónicos (57 %): delincuencia patrimonial clásica con un medio nuevo.'},
+  {q:'Ecuador ratificó el Convenio de Budapest porque participó en su elaboración.',a:false,ex:'Ecuador se ADHIRIÓ (12 de diciembre de 2024): no participó en la elaboración del convenio, aprobado en 2001.'}],
+ map:'S10 F0 K7 F1 E10 Q0 G2 S3 F2 P10 T0 E10 F3 H8 S3 Q2 K7 F4 U3 E10 T1 G3 S4 F5 E9 Q1 K6 F6 E10 U2 J3 Z0'},
+{id:'L3',name:'Mundo 3 · Estonia digital',short:'Estonia digital',theme:'estonia',col:'#58c4ff',foe:'Filtración',boss:'La Gran Filtración',
+ brief:'Llegas a Estonia, el país donde el ciudadano puede ver qué funcionario consultó sus datos. Aprende sus tres piezas (X-Road, Data Tracker y KSI), conoce ProZorro, Alice y Uruguay, y no dejes que las filtraciones te alcancen.',
+ facts:[
+  'Abril de 2007: tras el traslado del monumento del Soldado de Bronce, Estonia sufrió tres semanas de ciberataques de denegación de servicio contra el parlamento, ministerios, bancos y medios. Desde entonces la integridad de los datos es un principio de diseño.',
+  'X-Road (2001) conecta las bases de datos de las instituciones sin centralizarlas. Cada intercambio queda cifrado, firmado digitalmente y registrado. Conecta sin concentrar.',
+  'Data Tracker (desde marzo de 2017): cualquier persona entra al portal eesti.ee y ve qué institución consultó sus datos, cuándo y con qué finalidad. En sus primeras semanas reveló consultas sin razón legal en varias entidades.',
+  'KSI (con la empresa Guardtime): guarda una huella matemática de cada registro, con tecnología de cadena de bloques, para que ninguna alteración pase desapercibida. Blockchain para la integridad, no para criptomonedas.',
+  'Límites: en diciembre de 2024 Estonia sufrió una filtración que expuso datos de unas 750.000 personas. Ningún sistema es invulnerable.',
+  'ProZorro (Ucrania) abrió la contratación pública a la vigilancia ciudadana: según la OCDE ahorró unos USD 1.900 millones. Alice (Brasil, CGU y TCU) analizó en 2024 más de 118.000 compras públicas y emite alertas que revisa un auditor.',
+  'Uruguay es el referente latinoamericano: líder regional en gobierno digital, 73/100 en el IPC 2025 y una autoridad de datos personales consolidada (AGESIC y URCDP; Convenio 108+ en 2021).',
+  'Art. 2 de la LOPDP: excluye los datos tratados para investigar y enjuiciar infracciones penales. Europa llena ese espacio con la Directiva (UE) 2016/680; Ecuador no tiene una norma equivalente.'],
+ qs:[
+  {q:'¿Qué puede hacer un ciudadano estonio con el Data Tracker?',o:['Ver qué institución consultó sus datos, cuándo y para qué','Borrar sus datos de los registros públicos','Votar en línea en las elecciones'],a:0,ex:'La mejor manera de evitar el abuso es que el abusador sepa que quedará registrado y que la víctima puede verlo.'},
+  {q:'¿Para qué usa Estonia la tecnología KSI basada en cadena de bloques?',o:['Para emitir una criptomoneda estatal','Para garantizar que ningún registro se altere sin que se note','Para reemplazar a los jueces'],a:1,ex:'Si un registro está sellado criptográficamente, saber si fue alterado deja de depender de testigos y pasa a ser una verificación matemática.'},
+  {q:'¿Qué enseña la experiencia de Alice en Brasil sobre la inteligencia artificial?',o:['La IA debe decidir automáticamente a quién se sanciona','La IA reemplaza a los auditores','La IA más útil prioriza alertas explicables para que una persona investigue'],a:2,ex:'Escalar no es generar millones de alertas, sino entregar al auditor pocas señales relevantes, explicables y priorizadas.'},
+  {q:'JEFE · ¿Qué frase resume la lección de Estonia?',o:['Interoperabilidad sin trazabilidad es vigilancia; con trazabilidad es control del poder','Más datos centralizados significan menos corrupción','La tecnología hace innecesarias las leyes'],a:0,ex:'Una sola regla haría mucho: todo funcionario que consulte datos debe dejar constancia de quién es y para qué, y el ciudadano debe poder verlo.'}],
+ tfs:[
+  {q:'X-Road funciona reuniendo todas las bases de datos del Estado en un solo servidor central.',a:false,ex:'X-Road conecta sin centralizar: cada institución sigue siendo responsable de sus datos.'},
+  {q:'Cuando la Fiscalía cruza bases de datos en una investigación penal, se rige por la LOPDP.',a:false,ex:'El art. 2 de la LOPDP excluye ese tratamiento: se rige por el COIP, aunque sigue sujeto a la Constitución (art. 66.19). Ahí está el vacío normativo.'}],
+ map:'S10 F0 K7 F1 E10 T0 G2 S3 F2 P10 Q0 E10 F3 H8 S3 Q1 K7 F4 U3 E10 F5 G3 S4 Q2 E9 F6 K6 F7 E10 T1 U2 J3 Z0'},
+{id:'L4',name:'Mundo 4 · La reforma',short:'La reforma',theme:'reform',col:'#ff9f43',foe:'Vicio de forma',boss:'La Ley Mal Tramitada',
+ brief:'Último mundo: llegaste a la Asamblea y a la Corte. Antes de reformar hay que saber qué existe y respetar la forma. Salta sobre los vicios de forma y demuestra qué ya está en el derecho ecuatoriano y qué de verdad falta.',
+ facts:[
+  'La Convención de las Naciones Unidas contra la Corrupción distingue lo que los Estados DEBEN hacer de lo que deben CONSIDERAR: obliga a establecer la responsabilidad de las personas jurídicas (art. 26) y pide considerar el enriquecimiento ilícito (art. 20) y la protección de denunciantes (art. 33).',
+  'Sentencia 5-13-IN/19 (2 de julio de 2019): la Corte declaró inconstitucional exigir un informe previo de la Contraloría para la acción penal por peculado y enriquecimiento ilícito. La Fiscalía es la titular de la acción penal pública.',
+  'Las personas jurídicas responden penalmente en Ecuador desde el 10 de agosto de 2014 (art. 49 COIP). La reforma del 17 de febrero de 2021 incorporó los programas de cumplimiento como ATENUANTE (art. 45.7.d).',
+  'Derecho comparado: en España (art. 31 bis del Código Penal) un modelo de cumplimiento idóneo puede EXIMIR. En Argentina (Ley 27.401, 2017) el programa de integridad es uno de los requisitos de la exención, junto con la autodenuncia y la devolución del beneficio.',
+  'Enriquecimiento ilícito (art. 279): ¿quién prueba que el incremento no está justificado? Una salida intermedia es contrastar la declaración patrimonial jurada del funcionario con lo que tiene.',
+  'La Ley Orgánica de Integridad Pública (26 de junio de 2025) incluía protección a denunciantes, pero la Sentencia 52-25-IN/25 la declaró inconstitucional en su totalidad, por la forma: unidad de materia, publicidad y deliberación democrática.',
+  'Los jueces especializados en corrupción y crimen organizado ya existen: se posesionaron el 10 de diciembre de 2022 en Quito. El reto no es crearlos, sino dotarlos y evaluarlos.',
+  'Técnicas especiales: la interceptación está en el art. 476 (Sentencia 77-16-IN/22) y las operaciones encubiertas desde el art. 483. La cooperación eficaz fue decisiva en Metástasis: regularla bien evita la impunidad negociada.'],
+ qs:[
+  {q:'Una constructora tenía desde 2019 un programa de cumplimiento, pero su gerente pagó sobornos. Según el COIP vigente, ¿qué efecto tiene ese programa?',o:['Ninguno: las personas jurídicas no responden penalmente','Puede atenuar la responsabilidad de la empresa, pero no la excluye','La exime de responsabilidad, como en España'],a:1,ex:'Es la pregunta 2 de Mentimeter: art. 49 (desde 2014) y art. 45.7.d (atenuante desde 2021). Lo discutible es si debería eximir.'},
+  {q:'¿Por qué cayó la Ley Orgánica de Integridad Pública?',o:['Por la forma: violó la unidad de materia, la publicidad y la deliberación democrática','Porque protegía a los denunciantes','Porque nunca se publicó en el Registro Oficial'],a:0,ex:'Sentencia 52-25-IN/25: una reforma con buenos fines puede caer por la forma. Una ley de alertadores debería tramitarse por la vía ordinaria y con objeto propio.'},
+  {q:'¿Qué declaró la Sentencia 5-13-IN/19 sobre el informe previo de la Contraloría?',o:['Que es obligatorio para iniciar cualquier investigación','Que reemplaza la investigación de la Fiscalía','Que es inconstitucional exigirlo para la acción penal por peculado y enriquecimiento ilícito'],a:2,ex:'Fue una de las reformas más importantes de la década y no vino del legislador, sino de la Corte.'},
+  {q:'JEFE · ¿Cuál es la gran lección del mundo de la reforma?',o:['Crear tipos penales nuevos para cada problema','Antes de reformar, conocer lo que ya existe; y las reformas también deben respetar la forma','Invertir la carga de la prueba en todos los delitos'],a:1,ex:'Varias propuestas de las diapositivas ya existen en el derecho ecuatoriano; el problema suele ser su aplicación.'}],
+ tfs:[
+  {q:'Ecuador todavía debe introducir la responsabilidad penal de las personas jurídicas, porque no existe.',a:false,ex:'Existe desde el 10 de agosto de 2014 (art. 49 COIP). La diapositiva que propone «introducirla» debe corregirse.'},
+  {q:'La UNCAC obliga a establecer la responsabilidad de las personas jurídicas por delitos de corrupción (art. 26).',a:true,ex:'Puede ser penal, civil o administrativa, con sanciones eficaces, proporcionadas y disuasivas.'}],
+ map:'S10 F0 K7 F1 E10 Q2 G2 S3 F2 P10 T0 E10 F3 H8 S3 Q0 K7 F4 U3 E10 F5 G3 S4 Q1 E9 F6 K6 F7 E10 T1 U2 J3 Z0'}];
+const IDEAS=['La corrupción ya no es individual, sino sistémica, y se mezcla con el crimen organizado: Odebrecht, Sobornos y Metástasis se investigan por patrones y estructuras.','El cibercrimen exige herramientas procesales nuevas con garantías: Ecuador es parte del Convenio de Budapest desde 2025 y la conservación expedita de datos sin orden judicial es válida porque no da acceso al contenido.','La tecnología debe vigilar también al Estado: Estonia enseña que la interoperabilidad necesita trazabilidad; ProZorro y Alice, que la inteligencia artificial prioriza, pero no decide.','Antes de reformar, hay que conocer lo que existe: la responsabilidad penal de las personas jurídicas, los jueces anticorrupción, la extinción de dominio sin sentencia y la acción penal sin informe previo de la Contraloría ya están en nuestro derecho.','Las reformas también deben respetar la forma: la Ley de Integridad Pública cayó por completo por vicios de trámite.'];
+const THEMES={
+ city:{sky:['#0f1033','#3b1d5e'],top:'#f2b134',body:'#3b2f4f',brick:'#7a4a8c',line:'#4c2c5c',acc:'#8f7bff'},
+ cyber:{sky:['#020b08','#06261d'],top:'#3ddc97',body:'#0c2b22',brick:'#1d6b53',line:'#0a3c2e',acc:'#3ddc97'},
+ estonia:{sky:['#0b1a3a','#1d5c7a'],top:'#f4fbff',body:'#3b6b9c',brick:'#5a8fc4',line:'#2c5580',acc:'#58c4ff'},
+ reform:{sky:['#ff9f6b','#7b3f8c'],top:'#f6e7cf',body:'#a9927a',brick:'#d8c3a5',line:'#8f7a63',acc:'#ff9f43'}};
+
+/* ===================== ESTADO Y GUARDADO ===================== */
+let P={mode:'individual',name:'',group:'',members:'',sex:'mujer',unlocked:1,res:{}},sound=true,G=null;
+const coarse=matchMedia('(pointer:coarse)').matches;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(P))}catch(e){}}
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){return null}}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+let toastT;function toast(s){$('toast').textContent=s;$('toast').classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>$('toast').classList.remove('show'),3200)}
+const who=()=>P.mode==='group'?P.group:P.name;
+const QTOTAL=LEVELS.reduce((a,L)=>a+L.qs.length+L.tfs.length,0);
+function lvRes(L){return P.res[L.id]||{ans:{},facts:{},coins:0,enemies:0,done:false}}
+function correctCount(L){const r=lvRes(L);return Object.values(r.ans).filter(x=>x.ok).length}
+function totalCorrect(){return LEVELS.reduce((a,L)=>a+correctCount(L),0)}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));$('stage').style.display=id==='stage'?'block':'none';if(id==='stage')fit()}
+
+/* ===================== PORTADA ===================== */
+function updMode(){const g=$('mode').value==='group';$('indF').classList.toggle('hidden',g);$('grpF').classList.toggle('hidden',!g)}
+$('mode').addEventListener('change',updMode);
+(function(){const s=load();if(s&&(s.name||s.group)){P=Object.assign(P,s);$('resume').classList.remove('hidden');$('mode').value=P.mode;$('sex').value=P.sex;$('pname').value=P.name||'';$('gname').value=P.group||'Grupo 1';$('members').value=P.members||''}updMode();
+ if(coarse&&innerWidth<1024){$('mobileNote').classList.remove('hidden');$('startActs').classList.add('hidden')}})();
+function readStart(){const mode=$('mode').value,sex=$('sex').value;if(mode==='individual'){const n=$('pname').value.trim();if(n.split(/\s+/).filter(Boolean).length<2){toast('Escribe tu nombre y apellido.');return false}P.name=n}else{const g=$('gname').value.trim()||'Grupo 1',m=$('members').value.trim();if(m.split(/\n+/).filter(x=>x.trim()).length<2){toast('Registra al menos dos integrantes, uno por línea.');return false}P.group=g;P.members=m}P.mode=mode;P.sex=sex;return true}
+$('go').onclick=()=>{const prevWho=who();if(!readStart())return;const s=load();if(!(s&&(s.mode==='group'?s.group:s.name)===who())){P.unlocked=1;P.res={}}save();audioInit();showMap()};
+$('resume').onclick=()=>{if(!readStart())return;save();audioInit();showMap()};
+function goStart(){show('startScreen');$('resume').classList.remove('hidden')}
+
+/* ===================== MAPA ===================== */
+const scenes={city:'linear-gradient(180deg,#0f1033,#3b1d5e)',cyber:'repeating-linear-gradient(90deg,#06261d 0 10px,#0a3c2e 10px 12px),#06261d',estonia:'linear-gradient(180deg,#0b1a3a,#1d5c7a 70%,#f4fbff 70%)',reform:'linear-gradient(180deg,#ff9f6b,#7b3f8c)'};
+function showMap(){show('mapScreen');$('mapWho').textContent='¡Hola, '+who()+'!';
+ const dn=LEVELS.filter(L=>lvRes(L).done).length;$('mapSum').textContent=`Mundos completados: ${dn} de 4 · Respuestas correctas: ${totalCorrect()} de ${QTOTAL}. Elige un mundo desbloqueado para jugar.`;
+ $('mapNodes').innerHTML=LEVELS.map((L,i)=>{const r=lvRes(L),open=i<P.unlocked,c=correctCount(L),m=L.qs.length+L.tfs.length;const stars=r.done?('★'.repeat(Math.round(c/m*3))+'☆'.repeat(3-Math.round(c/m*3))):'☆☆☆';
+  return `<button class="node" ${open?'':'disabled'} onclick="startLevel(${i})"><div class="scene" style="background:${scenes[L.theme]}"></div><span class="num" style="color:${L.col}">${i+1}</span><span class="nm">${esc(L.short)}</span><span class="stars">${stars}</span><span class="st">${r.done?`Completado · ${c}/${m} correctas · ${r.coins} monedas`:open?'▶ Listo para jugar':'🔒 Completa el mundo anterior'}</span></button>`}).join('');
+ $('sndBtn').textContent=sound?'🔊 Sonido: sí':'🔈 Sonido: no'}
+function openProfile(){$('profileBox').classList.toggle('hidden');$('pfName').value=who();$('pfSex').value=P.sex;$('pfLab').textContent=P.mode==='group'?'Nombre del grupo':'Nombre y apellido'}
+function applyProfile(){const n=$('pfName').value.trim();if(P.mode==='individual'&&n.split(/\s+/).filter(Boolean).length<2)return toast('Escribe nombre y apellido.');if(!n)return toast('Escribe un nombre.');if(P.mode==='group')P.group=n;else P.name=n;P.sex=$('pfSex').value;$('pname').value=P.name;$('gname').value=P.group;$('sex').value=P.sex;save();$('profileBox').classList.add('hidden');showMap();toast('Listo: nombre y personaje actualizados.')}
+function toggleSound(){sound=!sound;$('sndBtn').textContent=sound?'🔊 Sonido: sí':'🔈 Sonido: no'}
+
+/* ===================== SONIDO ===================== */
+let AC=null;function audioInit(){try{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume()}catch(e){}}
+function tone(f,d,type,vol,slide,delay){if(!sound||!AC)return;try{const t=AC.currentTime+(delay||0),o=AC.createOscillator(),g=AC.createGain();o.type=type||'square';o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);g.gain.setValueAtTime(vol||.06,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+d+.02)}catch(e){}}
+const sfx={jump:()=>tone(330,.16,'square',.05,660),coin:()=>{tone(988,.07,'square',.05);tone(1319,.18,'square',.05,0,.07)},stomp:()=>tone(220,.15,'triangle',.08,90),hurt:()=>tone(300,.35,'sawtooth',.06,80),
+ ok:()=>{[523,659,784,1047].forEach((f,i)=>tone(f,.14,'square',.05,0,i*.09))},bad:()=>{tone(311,.25,'sawtooth',.06,0);tone(233,.4,'sawtooth',.06,0,.22)},block:()=>tone(520,.08,'square',.05,780),win:()=>{[523,659,784,659,784,1047].forEach((f,i)=>tone(f,.16,'square',.05,0,i*.12))},open:()=>tone(200,.4,'triangle',.07,600)};
+
+/* ===================== CONSTRUCCIÓN DE NIVELES ===================== */
+function build(L){const T={},ents=[],meta={},cps=[0],gates=[];let x=0;const set=(c,r,v)=>{T[c+','+r]=v};const ground=(a,n)=>{for(let c=a;c<a+n;c++){set(c,13,'G');set(c,14,'g')}};
+ const enemy=(cx,boss)=>ents.push(boss?{t:'boss',x:cx*TS,y:13*TS-58,w:64,h:58,vx:-95,hp:3,alive:true,hurtT:0}:{t:'enemy',x:cx*TS,y:13*TS-30,w:32,h:30,vx:-62,alive:true});
+ let flagX=0;
+ for(const tok of L.map.split(/\s+/)){const k=tok[0],n=+tok.slice(1);
+  if(k==='S'){ground(x,n);x+=n}
+  else if(k==='G'){x+=n}
+  else if(k==='E'){ground(x,n);enemy(x+Math.floor(n/2));x+=n}
+  else if(k==='K'){ground(x,n);for(let i=1;i<n-1;i++)ents.push({t:'coin',x:(x+i)*TS+10,y:(11-Math.round(Math.sin(i/(n-1)*Math.PI)*2.4))*TS,w:16,h:16});x+=n}
+  else if(k==='P'){ground(x,n);for(let c=x+2;c<x+n-2;c++){set(c,9,'B');ents.push({t:'coin',x:c*TS+10,y:8*TS+8,w:16,h:16})}x+=n}
+  else if(k==='H'){set(x,13,'G');set(x,14,'g');for(const c of[x+2,x+3])set(c,10,'B');for(const c of[x+5,x+6])set(c,10,'B');ents.push({t:'coin',x:(x+2.5)*TS,y:9*TS,w:16,h:16},{t:'coin',x:(x+5.5)*TS,y:9*TS,w:16,h:16});set(x+n-1,13,'G');set(x+n-1,14,'g');x+=n}
+  else if(k==='U'){const w=2*n+3;ground(x,w);for(let i=0;i<n;i++)for(let r=0;r<=i;r++){set(x+1+i,12-r,'S');set(x+w-2-i,12-r,'S')}ents.push({t:'coin',x:(x+n+1)*TS+10,y:(12-n-1)*TS,w:16,h:16});x+=w}
+  else if(k==='F'){ground(x,7);set(x+3,9,'?');meta[(x+3)+',9']={fact:n};x+=7}
+  else if(k==='Q'||k==='J'){const boss=k==='J';const w=boss?20:15;ground(x,w);cps.push(x+1);const g={id:L.id+(boss?'_J':'_Q')+n,kind:'mc',q:L.qs[n],solved:false,boss,bossDead:!boss,x0:(x+1)*TS,x1:(x+w-1)*TS,col:x+w-2,from:x};gates.push(g);
+   if(boss)enemy(x+6,true);const d0=boss?x+9:x+3;['A','B','C'].forEach((ch,i)=>ents.push({t:'door',x:(d0+i*3)*TS,y:11*TS,w:TS*1.4,h:TS*2,letter:ch,opt:i,gate:g}));for(let r=0;r<13;r++)set(g.col,r,'X');x+=w}
+  else if(k==='T'){ground(x,13);cps.push(x+1);const g={id:L.id+'_T'+n,kind:'tf',q:L.tfs[n],solved:false,bossDead:true,x0:(x+1)*TS,x1:(x+12)*TS,col:x+11,from:x};gates.push(g);set(x+4,9,'V');set(x+7,9,'F');meta[(x+4)+',9']={gate:g,val:true};meta[(x+7)+',9']={gate:g,val:false};g.blocks=[(x+4)+',9',(x+7)+',9'];for(let r=0;r<13;r++)set(g.col,r,'X');x+=13}
+  else if(k==='Z'){ground(x,16);flagX=(x+6)*TS;x+=16}}
+ return {T,ents,meta,cps,gates,W:x,flagX}}
+const SOLID=new Set(['G','g','B','S','X','?','u','V','F','v']);
+function tileAt(c,r){return G.map.T[c+','+r]}
+function solidAt(c,r){return SOLID.has(tileAt(c,r))}
+
+/* ===================== PARTIDA ===================== */
+function startLevel(i){const L=LEVELS[i];audioInit();const map=build(L);
+ G={i,L,map,p:{x:2*TS,y:13*TS-40,w:24,h:40,vx:0,vy:0,onG:false,face:1,coyote:0,jbuf:0,inv:0,anim:0,dead:false},cam:0,hearts:3,cpX:2*TS,coins:0,enemies:0,score:0,facts:{},ans:{},paused:false,particles:[],t:0,won:false,lastGateId:null};
+ show('stage');keys={};card(`<div class="ctag" style="color:${L.col}">MISIÓN ${i+1} DE 4</div><h2>${esc(L.name)}</h2><p>${esc(L.brief)}</p><div class="stat"><div><b>${L.facts.length}</b>bloques ? con datos</div><div><b>${L.qs.length-1}</b>puertas</div><div><b>${L.tfs.length}</b>retos V/F</div><div><b>1</b>jefe: ${esc(L.boss)}</div></div><p class="note">Golpea los bloques <b>?</b> desde abajo para descubrir los datos: los necesitarás para elegir la puerta correcta.</p>`,'¡A jugar!')}
+function card(html,btn,onClose){G.paused=true;$('banner').style.display='none';const c=$('card');c.innerHTML=`<div class="panel">${html}<div class="cont"><span class="hint">Presiona ENTER para continuar</span><button class="btn" id="cardBtn">${esc(btn||'Continuar')} ▶</button></div></div>`;c.style.display='grid';G.cardClose=()=>{c.style.display='none';G.paused=false;G.cardClose=null;keys={};G.jumpQ=G.downQ=false;if(onClose)onClose()};$('cardBtn').onclick=()=>G.cardClose&&G.cardClose();setTimeout(()=>$('cardBtn')&&$('cardBtn').focus(),30)}
+function pauseMenu(){if(!G||G.cardClose)return;card(`<div class="ctag" style="color:var(--gold)">PAUSA</div><h2>${esc(G.L.name)}</h2><div class="stat"><div><b>${G.hearts}</b>vidas</div><div><b>${G.coins}</b>monedas</div><div><b>${Object.keys(G.facts).length}/${G.L.facts.length}</b>datos</div><div><b>${Object.values(G.ans).filter(a=>a.ok).length}/${G.L.qs.length+G.L.tfs.length}</b>correctas</div></div><div class="row"><button class="btn2" onclick="quitLevel()">⌂ Volver al mapa (pierdes el avance de este mundo)</button></div>`,'Seguir jugando')}
+function quitLevel(){G.cardClose=null;$('card').style.display='none';G=null;showMap()}
+let keys={},prevJump=false,prevDown=false,prevEnter=false;
+addEventListener('keydown',e=>{const tg=(e.target.tagName||'').toLowerCase();if(tg==='input'||tg==='textarea'||tg==='select')return;if(!G||$('stage').style.display==='none')return;
+ if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();
+ if(G.cardClose&&(e.code==='Enter'||e.code==='NumpadEnter')){e.preventDefault();G.cardClose();return}
+ if(e.code==='KeyP'||e.code==='Escape'){pauseMenu();return}keys[e.code]=true;if(!e.repeat){if(['Space','ArrowUp','KeyW'].includes(e.code))G.jumpQ=true;if(['ArrowDown','KeyS','KeyE'].includes(e.code))G.downQ=true}});
+addEventListener('keyup',e=>{keys[e.code]=false});addEventListener('blur',()=>{keys={}});
+
+function hurt(fall){const p=G.p;if(!fall&&p.inv>0)return;G.hearts--;sfx.hurt();if(G.hearts<=0){G.hearts=3;G.score=Math.max(0,G.score-50);respawn();card(`<div class="ctag bad">SIN VIDAS</div><h2>Vuelves al último punto de control</h2><p>Recuperas tus tres vidas. Las respuestas y los datos que ya conseguiste se mantienen.</p>`,'Intentar de nuevo');return}
+ if(fall)respawn();else{p.inv=1.4;p.vy=-430;p.vx=-p.face*200}}
+function respawn(){const p=G.p;p.x=G.cpX+6;p.y=13*TS-p.h-2;p.vx=p.vy=0;p.inv=1.2}
+function burst(x,y,col,n){for(let i=0;i<(n||10);i++)G.particles.push({x,y,vx:(Math.random()-.5)*260,vy:-Math.random()*320-60,life:.7,col})}
+function hitBlock(c,r){const k=c+','+r,v=G.map.T[k],m=G.map.meta[k];
+ if(v==='?'){G.map.T[k]='u';G.coins++;G.score+=10;sfx.block();sfx.coin();G.particles.push({x:c*TS+18,y:r*TS-10,vx:0,vy:-260,life:.6,coin:true});const fi=m.fact;G.facts[fi]=true;
+  setTimeout(()=>{if(G)card(`<div class="ctag" style="color:var(--gold)">★ DATO ${fi+1} DE ${G.L.facts.length}</div><p style="font-size:clamp(15px,1.6vw,19px)">${esc(G.L.facts[fi])}</p>`,'¡Entendido!')},180)}
+ else if((v==='V'||v==='F')&&m&&!m.gate.solved){answer(m.gate,m.val);m.gate.blocks.forEach(b=>G.map.T[b]='v')}
+ else sfx.block()}
+function answer(g,choice){g.solved=true;const ok=g.kind==='mc'?choice===g.q.a:choice===g.q.a;G.ans[g.id]={ok,choice,kind:g.kind,q:g.q.q,right:g.kind==='mc'?g.q.o[g.q.a]:(g.q.a?'Verdadero':'Falso'),mine:g.kind==='mc'?g.q.o[choice]:(choice?'Verdadero':'Falso')};
+ for(let r=0;r<13;r++)delete G.map.T[g.col+','+r];G.score+=ok?100:0;if(ok){G.coins+=5;sfx.ok();burst(g.col*TS,8*TS,'#3ddc97',24)}else sfx.bad();setTimeout(sfx.open,350);
+ card(`<div class="ctag ${ok?'ok':'bad'}">${ok?'★ ¡CORRECTO! +100 PUNTOS':'✕ RESPUESTA INCORRECTA'}</div><h2>${esc(g.q.q)}</h2><div class="ans">${ok?'':`<div class="bad">Elegiste: ${esc(G.ans[g.id].mine)}</div>`}<div class="ok">Respuesta correcta: ${esc(G.ans[g.id].right)}</div></div><p>${esc(g.q.ex)}</p>`,'Seguir')}
+function levelComplete(){if(G.won)return;G.won=true;sfx.win();const L=G.L,i=G.i;const prev=P.res[L.id];const r={ans:G.ans,facts:G.facts,coins:G.coins,enemies:G.enemies,score:G.score,done:true};
+ const nOk=Object.values(G.ans).filter(a=>a.ok).length;if(!prev||!prev.done||nOk>=Object.values(prev.ans||{}).filter(a=>a.ok).length)P.res[L.id]=r;P.unlocked=Math.max(P.unlocked,Math.min(4,i+2));save();
+ const last=i===3,m=L.qs.length+L.tfs.length;
+ card(`<div class="ctag ok">★ MISIÓN CUMPLIDA</div><h2>${esc(L.name)}</h2><div class="stat"><div><b>${nOk}/${m}</b>correctas</div><div><b>${Object.keys(G.facts).length}/${L.facts.length}</b>datos</div><div><b>${G.coins}</b>monedas</div><div><b>${G.enemies}</b>enemigos</div></div><p>${last?'¡Completaste los cuatro mundos! Ahora verás tu informe final para descargarlo en PDF.':nOk===m?'¡Perfecto! Se desbloqueó el siguiente mundo.':'Se desbloqueó el siguiente mundo. Puedes repetir este para mejorar tu puntaje.'}</p>`,last?'Ver informe final':'Volver al mapa',()=>{G=null;if(last)showReport();else showMap()})}
+
+/* ===================== FÍSICA ===================== */
+function collideX(o){const r0=Math.floor(o.y/TS),r1=Math.floor((o.y+o.h-1)/TS);if(o.vx>0){const c=Math.floor((o.x+o.w)/TS);for(let r=r0;r<=r1;r++)if(solidAt(c,r)){o.x=c*TS-o.w-.01;return true}}else if(o.vx<0){const c=Math.floor(o.x/TS);for(let r=r0;r<=r1;r++)if(solidAt(c,r)){o.x=(c+1)*TS+.01;return true}}return false}
+function update(dt){const p=G.p;G.t+=dt;
+ const L=keys.ArrowLeft||keys.KeyA,R=keys.ArrowRight||keys.KeyD,J=keys.Space||keys.ArrowUp||keys.KeyW,D=keys.ArrowDown||keys.KeyS||keys.KeyE;
+ const dir=(R?1:0)-(L?1:0);p.vx+=(dir*270-p.vx)*Math.min(1,dt*(dir?11:14));if(dir)p.face=dir;
+ if((J&&!prevJump)||G.jumpQ)p.jbuf=.12;G.jumpQ=false;prevJump=J;
+ if(p.jbuf>0&&p.coyote>0){p.vy=-770;p.coyote=0;p.jbuf=0;p.onG=false;sfx.jump()}
+ if(!J&&p.vy<-300)p.vy=-300;
+ p.vy=Math.min(p.vy+2200*dt,950);p.jbuf-=dt;
+ p.x+=p.vx*dt;if(collideX(p))p.vx=0;p.x=Math.max(0,Math.min(G.map.W*TS-p.w,p.x));
+ p.y+=p.vy*dt;p.onG=false;const c0=Math.floor(p.x/TS),c1=Math.floor((p.x+p.w-1)/TS);
+ if(p.vy>0){const r=Math.floor((p.y+p.h)/TS);for(let c=c0;c<=c1;c++)if(solidAt(c,r)){p.y=r*TS-p.h;p.vy=0;p.onG=true;break}}
+ else if(p.vy<0){const r=Math.floor(p.y/TS);let hit=null,best=99;for(let c=c0;c<=c1;c++)if(solidAt(c,r)){const d=Math.abs((c+.5)*TS-(p.x+p.w/2));if(d<best){best=d;hit=c}}if(hit!==null){p.y=(r+1)*TS;p.vy=0;hitBlock(hit,r)}}
+ if(p.onG)p.coyote=.1;else p.coyote-=dt;
+ if(p.y>VH+80){hurt(true);return}
+ p.inv=Math.max(0,p.inv-dt);p.anim+=Math.abs(p.vx)*dt;
+ for(const cp of G.map.cps)if(p.x>cp*TS&&cp*TS>G.cpX)G.cpX=cp*TS;
+ // enemigos
+ for(const e of G.map.ents){if((e.t==='enemy'||e.t==='boss')&&e.alive){e.hurtT=Math.max(0,(e.hurtT||0)-dt);const fx=e.vx>0?e.x+e.w+2:e.x-2;const fc=Math.floor(fx/TS),fr=Math.floor((e.y+e.h/2)/TS),below=Math.floor((e.y+e.h+4)/TS);
+   if(solidAt(fc,fr)||!solidAt(fc,below))e.vx=-e.vx;else e.x+=e.vx*dt;
+   if(e.t==='boss'){const g=G.map.gates.find(g=>g.boss);if(g){const lo=g.from*TS+TS,hi=(g.from+8)*TS;if(e.x<lo&&e.vx<0||e.x+e.w>hi&&e.vx>0)e.vx=-e.vx}}
+   if(p.x<e.x+e.w&&p.x+p.w>e.x&&p.y<e.y+e.h&&p.y+p.h>e.y){if(p.vy>60&&p.y+p.h-e.y<22){p.vy=-560;p.y=e.y-p.h;sfx.stomp();burst(e.x+e.w/2,e.y,'#ffc93c',12);
+     if(e.t==='boss'){if(e.hurtT<=0){e.hp--;e.hurtT=.5;e.vx*=1.25;if(e.hp<=0){e.alive=false;G.enemies++;G.score+=300;const g=G.map.gates.find(g=>g.boss);if(g)g.bossDead=true;burst(e.x+e.w/2,e.y+20,'#ff5a6a',40);toast('¡Venciste a '+G.L.boss+'! Ahora elige la puerta correcta.')}}}
+     else{e.alive=false;G.enemies++;G.score+=50}}
+    else hurt(false)}}}
+ // monedas
+ for(const o of G.map.ents)if(o.t==='coin'&&!o.got&&p.x<o.x+o.w&&p.x+p.w>o.x&&p.y<o.y+o.h&&p.y+p.h>o.y){o.got=true;G.coins++;G.score+=10;sfx.coin()}
+ // puertas
+ const dn=(D&&!prevDown)||G.downQ;G.downQ=false;prevDown=D;let nearDoor=null;
+ for(const o of G.map.ents)if(o.t==='door'&&!o.gate.solved&&p.x+p.w/2>o.x&&p.x+p.w/2<o.x+o.w&&p.y+p.h>o.y)nearDoor=o;
+ G.nearDoor=nearDoor;if(nearDoor&&dn){if(!nearDoor.gate.bossDead){toast('Primero vence al jefe saltando sobre él tres veces.');sfx.bad()}else answer(nearDoor.gate,nearDoor.opt)}
+ // pregunta visible
+ const g=G.map.gates.find(g=>!g.solved&&p.x+p.w>g.x0&&p.x<g.x1);
+ if(g!==G.curGate){G.curGate=g;renderBanner(g)}
+ if(G.map.flagX&&p.x>=G.map.flagX)levelComplete();
+ // partículas
+ for(const q of G.particles){q.x+=q.vx*dt;q.y+=q.vy*dt;q.vy+=900*dt;q.life-=dt}G.particles=G.particles.filter(q=>q.life>0);
+ G.cam+=(Math.max(0,Math.min(G.map.W*TS-VW,p.x-VW*.38))-G.cam)*Math.min(1,dt*8)}
+function renderBanner(g){const b=$('banner');if(!g){b.style.display='none';return}
+ if(g.kind==='mc')b.innerHTML=`<div class="tag">${g.boss?'★ JEFE: '+esc(G.L.boss).toUpperCase()+' · VÉNCELO SALTANDO 3 VECES Y LUEGO ':'PUERTA DEL CONOCIMIENTO · '}ENTRA POR LA PUERTA CORRECTA CON ↓ O E</div><p class="q">${esc(g.q.q.replace(/^JEFE · /,''))}</p><div class="opts">${g.q.o.map((o,i)=>`<div><b>${'ABC'[i]}</b>${esc(o)}</div>`).join('')}</div>`;
+ else b.innerHTML=`<div class="tag">¿VERDADERO O FALSO? · GOLPEA DESDE ABAJO EL BLOQUE V O EL BLOQUE F</div><p class="q">${esc(g.q.q)}</p>`;
+ b.style.display='block'}
+
+/* ===================== DIBUJO ===================== */
+const cv=$('cv'),cx=cv.getContext('2d');
+function fit(){const s=Math.min(innerWidth*.96/VW,innerHeight*.94/VH);$('stage').style.width=VW*s+'px';$('stage').style.height=VH*s+'px'}
+addEventListener('resize',()=>{if($('stage').style.display!=='none')fit()});
+function rnd(i){const x=Math.sin(i*12.9898)*43758.5453;return x-Math.floor(x)}
+function drawBG(th,cam){const T=THEMES[th];const gr=cx.createLinearGradient(0,0,0,VH);gr.addColorStop(0,T.sky[0]);gr.addColorStop(1,T.sky[1]);cx.fillStyle=gr;cx.fillRect(0,0,VW,VH);
+ if(th==='city'){cx.fillStyle='#fff6d0';cx.beginPath();cx.arc(780,90,38,0,7);cx.fill();for(let i=0;i<40;i++){cx.fillStyle='#ffffff'+(rnd(i)>.5?'aa':'55');cx.fillRect(rnd(i+3)*VW,rnd(i+7)*200,2,2)}
+  for(const [f,base,cl] of [[.15,300,'#25163f'],[.35,350,'#1a1030']]){for(let i=-1;i<14;i++){const w=60+rnd(i*3+f*10)*70,h=90+rnd(i*5+f)*170;const x=i*95-(cam*f)%95;cx.fillStyle=cl;cx.fillRect(x,base+120-h,w,h+200);cx.fillStyle='#ffd86b';for(let wy=base+130-h;wy<base+120;wy+=18)for(let wx=x+8;wx<x+w-8;wx+=14)if(rnd(wx*.37+wy*.11+i)>.6)cx.fillRect(wx,wy,6,8)}}}
+ else if(th==='cyber'){cx.strokeStyle='#3ddc9722';cx.lineWidth=1;for(let i=0;i<30;i++){const x=i*48-(cam*.2)%48;cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,VH);cx.stroke()}for(let y=0;y<VH;y+=48){cx.beginPath();cx.moveTo(0,y);cx.lineTo(VW,y);cx.stroke()}
+  cx.strokeStyle='#3ddc9766';cx.lineWidth=3;for(let i=0;i<9;i++){const y=80+i*42,o=-(cam*.45)%300;cx.beginPath();cx.moveTo(o-300,y);for(let x=o-300;x<VW+300;x+=150){cx.lineTo(x+70,y);cx.lineTo(x+90,y+(i%2?20:-20));cx.lineTo(x+150,y+(i%2?20:-20))}cx.stroke();cx.fillStyle='#3ddc97';for(let x=o-300;x<VW+300;x+=150)cx.fillRect(x+66,y-4,8,8)}
+  cx.fillStyle='#3ddc9733';cx.font='bold 16px monospace';for(let i=0;i<22;i++)cx.fillText(rnd(i)>.5?'1':'0',(rnd(i+1)*VW-cam*.1%VW+VW)%VW,(G.t*60*(.5+rnd(i))+rnd(i+2)*VH)%VH)}
+ else if(th==='estonia'){for(let i=0;i<3;i++){cx.fillStyle=['#3ddc9733','#8f7bff33','#58c4ff33'][i];cx.beginPath();cx.moveTo(0,90+i*30);for(let x=0;x<=VW;x+=40)cx.lineTo(x,90+i*30+Math.sin(x/120+G.t*.6+i)*26);cx.lineTo(VW,0);cx.lineTo(0,0);cx.fill()}
+  cx.fillStyle='#dfefff';cx.beginPath();cx.moveTo(0,380);for(let x=0;x<=VW;x+=60)cx.lineTo(x,330+Math.sin((x+cam*.2)/160)*40);cx.lineTo(VW,VH);cx.lineTo(0,VH);cx.fill();
+  const nodes=[];for(let i=0;i<12;i++)nodes.push([(i*130-cam*.35)%1560+(i*130-cam*.35<0?1560:0)-100,120+rnd(i)*160]);cx.strokeStyle='#ffffff55';cx.lineWidth=2;for(let i=1;i<nodes.length;i++){cx.beginPath();cx.moveTo(nodes[i-1][0],nodes[i-1][1]);cx.lineTo(nodes[i][0],nodes[i][1]);cx.stroke()}for(const n of nodes){cx.fillStyle='#58c4ff';cx.beginPath();cx.arc(n[0],n[1],7,0,7);cx.fill();cx.strokeStyle='#fff';cx.stroke()}}
+ else{cx.fillStyle='#ffe1a8';cx.beginPath();cx.arc(160,120,46,0,7);cx.fill();for(let i=-1;i<8;i++){const x=i*190-(cam*.25)%190;cx.fillStyle='#5a2e63';cx.fillRect(x,250,150,300);cx.beginPath();cx.moveTo(x-10,250);cx.lineTo(x+75,205);cx.lineTo(x+160,250);cx.fill();cx.fillStyle='#7b4a85';for(let k=0;k<5;k++)cx.fillRect(x+12+k*28,265,12,180)}}}
+function drawTile(v,x,y,th){const T=THEMES[th];
+ if(v==='G'){cx.fillStyle=T.body;cx.fillRect(x,y,TS,TS);cx.fillStyle=T.top;cx.fillRect(x,y,TS,9);cx.fillStyle='#00000022';cx.fillRect(x,y+TS-3,TS,3)}
+ else if(v==='g'){cx.fillStyle=T.body;cx.fillRect(x,y,TS,TS);cx.fillStyle='#00000018';cx.fillRect(x+6,y+8,8,6);cx.fillRect(x+20,y+20,10,6)}
+ else if(v==='B'||v==='S'){cx.fillStyle=T.brick;cx.fillRect(x,y,TS,TS);cx.strokeStyle=T.line;cx.lineWidth=2;cx.strokeRect(x+1,y+1,TS-2,TS-2);cx.beginPath();cx.moveTo(x,y+TS/2);cx.lineTo(x+TS,y+TS/2);cx.moveTo(x+TS/2,y);cx.lineTo(x+TS/2,y+TS/2);cx.stroke()}
+ else if(v==='?'){const b=Math.sin(G.t*4)*1.5;cx.fillStyle='#ffc93c';cx.fillRect(x,y+b,TS,TS);cx.fillStyle='#b37e00';cx.fillRect(x,y+TS-5+b,TS,5);cx.fillStyle='#2a1a00';cx.font='bold 24px "Press Start 2P",monospace';cx.textAlign='center';cx.fillText('?',x+TS/2,y+29+b);cx.fillStyle='#fff8';cx.fillRect(x+3,y+3+b,4,4)}
+ else if(v==='u'||v==='v'){cx.fillStyle='#7a5a3a';cx.fillRect(x,y,TS,TS);cx.fillStyle='#5a3f26';cx.fillRect(x+4,y+4,TS-8,TS-8)}
+ else if(v==='V'||v==='F'){const b=Math.sin(G.t*4+(v==='F'?1:0))*1.5;cx.fillStyle=v==='V'?'#3ddc97':'#ff5a6a';cx.fillRect(x,y+b,TS,TS);cx.fillStyle='#0008';cx.fillRect(x,y+TS-5+b,TS,5);cx.fillStyle='#fff';cx.font='bold 22px "Press Start 2P",monospace';cx.textAlign='center';cx.fillText(v,x+TS/2+1,y+28+b)}
+ else if(v==='X'){cx.fillStyle='#ff5a6a55';cx.fillRect(x+8,y,TS-16,TS);cx.fillStyle='#ff5a6a';for(let k=0;k<3;k++)cx.fillRect(x+10+k*6,y,2,TS)}}
+function drawPlayer(p){if(p.inv>0&&Math.floor(G.t*12)%2)return;const x=Math.round(p.x-G.cam),y=Math.round(p.y),f=p.face,W=P.sex==='mujer';const step=p.onG&&Math.abs(p.vx)>20?Math.sin(p.anim/9):0;
+ cx.save();cx.translate(x+p.w/2,y);cx.scale(f,1);
+ cx.fillStyle='#1d2340';cx.fillRect(-9,28,7,12+step*2);cx.fillRect(2,28,7,12-step*2);cx.fillStyle='#000';cx.fillRect(-10,38+step*2,9,3);cx.fillRect(1,38-step*2,9,3);
+ cx.fillStyle=W?'#1d8f73':'#2b4f8a';cx.fillRect(-11,13,22,17);cx.fillStyle='#fff';cx.fillRect(-3,13,6,9);cx.fillStyle='#ffc93c';cx.fillRect(-1,14,3,9);
+ cx.fillStyle=W?'#1d8f73':'#2b4f8a';cx.fillRect(8,15,5,11);cx.fillStyle='#7a4a1c';cx.fillRect(9,24,10,8);cx.fillStyle='#ffc93c';cx.fillRect(12,22,4,2);
+ if(W){cx.fillStyle='#4a2a18';cx.fillRect(-10,2,8,20)}
+ cx.fillStyle='#f0c19a';cx.fillRect(-8,0,16,14);
+ cx.fillStyle=W?'#4a2a18':'#2a1d14';cx.fillRect(-9,-3,18,6);cx.fillRect(-9,0,4,6);if(W){cx.fillRect(-10,-1,5,14)}
+ cx.fillStyle='#000';cx.fillRect(3,5,2,3);cx.fillStyle='#c0392b';cx.fillRect(2,10,4,1);if(W){cx.fillStyle='#000';cx.fillRect(3,4,3,1)}
+ cx.restore();
+ cx.fillStyle='#000a';cx.font='bold 11px Nunito,sans-serif';cx.textAlign='center';const nm=(who()||'').split(' ')[0];cx.fillText(nm,x+p.w/2+1,y-7);cx.fillStyle='#fff';cx.fillText(nm,x+p.w/2,y-8)}
+function drawEnemy(e,th){const x=Math.round(e.x-G.cam),y=Math.round(e.y),w=e.w,h=e.h,t=G.t,leg=Math.sin(t*12+e.x)*3;const big=e.t==='boss';
+ if(big&&e.hurtT>0&&Math.floor(t*20)%2)return;
+ cx.save();
+ if(th==='city'){cx.fillStyle='#e9d8b4';cx.fillRect(x,y+4,w,h-8);cx.fillStyle='#c9b48c';cx.beginPath();cx.moveTo(x,y+4);cx.lineTo(x+w/2,y+h*.45);cx.lineTo(x+w,y+4);cx.fill();cx.fillStyle='#2e7d32';cx.font=`bold ${big?22:12}px Nunito`;cx.textAlign='center';cx.fillText('$',x+w/2,y+h-8)}
+ else if(th==='cyber'){cx.fillStyle='#b4ff3c';cx.beginPath();cx.ellipse(x+w/2,y+h*.55,w/2,h*.45,0,0,7);cx.fill();cx.strokeStyle='#b4ff3c';cx.lineWidth=big?4:2;for(let k=0;k<3;k++){cx.beginPath();cx.moveTo(x+w*.25+k*w*.25,y+h*.8);cx.lineTo(x+w*.2+k*w*.25+leg,y+h);cx.stroke()}cx.beginPath();cx.moveTo(x+w*.35,y+h*.15);cx.lineTo(x+w*.25,y-6);cx.moveTo(x+w*.65,y+h*.15);cx.lineTo(x+w*.75,y-6);cx.stroke()}
+ else if(th==='estonia'){cx.fillStyle='#b06cff';cx.beginPath();cx.arc(x+w/2,y+h*.45,w*.45,Math.PI,0);cx.lineTo(x+w*.95,y+h);for(let k=4;k>=0;k--)cx.lineTo(x+w*k/4,y+h-(k%2?8:0)+leg*.5);cx.fill();cx.fillStyle='#ffffffaa';cx.font=`bold ${big?14:9}px monospace`;cx.textAlign='center';cx.fillText('DNI',x+w/2,y+h*.78)}
+ else{cx.fillStyle='#d9d4c7';cx.beginPath();cx.moveTo(x+4,y+6);cx.lineTo(x+w-2,y+2);cx.lineTo(x+w,y+h-4);cx.lineTo(x+2,y+h);cx.fill();cx.strokeStyle='#8a8170';cx.lineWidth=1.5;for(let k=1;k<4;k++){cx.beginPath();cx.moveTo(x+6,y+h*k/5+6);cx.lineTo(x+w-6,y+h*k/5+4);cx.stroke()}cx.fillStyle='#c0392b';cx.font=`bold ${big?13:8}px Nunito`;cx.textAlign='center';cx.fillText('NULO',x+w/2,y+h-6)}
+ const ex=e.vx<0?-1:1;cx.fillStyle='#fff';cx.fillRect(x+w*.28,y+h*.28,w*.16,h*.18);cx.fillRect(x+w*.56,y+h*.28,w*.16,h*.18);cx.fillStyle='#000';cx.fillRect(x+w*.32+ex*2,y+h*.32,w*.08,h*.1);cx.fillRect(x+w*.6+ex*2,y+h*.32,w*.08,h*.1);
+ cx.fillStyle='#000';cx.fillRect(x+w*.26,y+h*.22,w*.2,3);cx.fillRect(x+w*.54,y+h*.22,w*.2,3);
+ if(big){cx.fillStyle='#000a';cx.fillRect(x-10,y-22,w+20,12);cx.fillStyle='#ff5a6a';cx.fillRect(x-8,y-20,(w+16)*e.hp/3,8);cx.fillStyle='#fff';cx.font='bold 11px Nunito';cx.textAlign='center';cx.fillText(G.L.boss,x+w/2,y-28)}
+ cx.restore()}
+function drawDoor(o){const x=Math.round(o.x-G.cam),y=o.y,w=o.w,h=o.h,near=G.nearDoor===o,locked=!o.gate.bossDead,done=o.gate.solved;
+ cx.fillStyle='#3a2414';cx.fillRect(x-4,y-6,w+8,h+6);cx.fillStyle=done?'#555':near?'#ffd86b':'#a0632e';cx.fillRect(x,y,w,h);cx.fillStyle='#0003';cx.fillRect(x+6,y+8,w-12,h/2-12);cx.fillRect(x+6,y+h/2+4,w-12,h/2-12);
+ cx.fillStyle=done?'#999':'#fff';cx.font='bold 24px "Press Start 2P",monospace';cx.textAlign='center';cx.fillText(o.letter,x+w/2,y+h/2+12);
+ if(locked){cx.strokeStyle='#bbb';cx.lineWidth=4;cx.beginPath();cx.moveTo(x,y+10);cx.lineTo(x+w,y+h-10);cx.moveTo(x+w,y+10);cx.lineTo(x,y+h-10);cx.stroke()}
+ if(near&&!done&&!locked){cx.fillStyle='#000c';cx.fillRect(x-16,y-40,w+32,24);cx.fillStyle='#ffc93c';cx.font='bold 10px "Press Start 2P",monospace';cx.fillText('↓ ENTRAR',x+w/2,y-23)}}
+function drawFlag(){const x=G.map.flagX-G.cam;if(x<-200||x>VW+200)return;cx.fillStyle='#ddd';cx.fillRect(x,13*TS-300,6,300);cx.fillStyle='#ffc93c';cx.beginPath();cx.arc(x+3,13*TS-304,8,0,7);cx.fill();
+ const wv=Math.sin(G.t*5)*6;cx.fillStyle=G.L.col;cx.beginPath();cx.moveTo(x+6,13*TS-290);cx.lineTo(x+86,13*TS-272+wv);cx.lineTo(x+6,13*TS-250);cx.fill();cx.fillStyle='#fff';cx.font='bold 14px "Press Start 2P",monospace';cx.textAlign='left';cx.fillText('✓',x+26,13*TS-264);
+ const bx=x+150;cx.fillStyle='#e9e1d0';cx.fillRect(bx,13*TS-150,220,150);cx.beginPath();cx.moveTo(bx-14,13*TS-150);cx.lineTo(bx+110,13*TS-215);cx.lineTo(bx+234,13*TS-150);cx.fill();cx.fillStyle='#bfb59f';for(let k=0;k<5;k++)cx.fillRect(bx+14+k*42,13*TS-138,16,128);cx.fillStyle='#3a2414';cx.fillRect(bx+90,13*TS-70,40,70);
+ cx.fillStyle='#2a1a00';cx.font='bold 12px "Press Start 2P",monospace';cx.textAlign='center';cx.fillText('META',bx+110,13*TS-160)}
+function drawHUD(){cx.fillStyle='#000a';cx.fillRect(0,0,VW,34);cx.font='11px "Press Start 2P",monospace';cx.textAlign='left';cx.fillStyle=G.L.col;cx.fillText('MUNDO '+(G.i+1),12,22);
+ for(let i=0;i<3;i++){const x=128+i*24;cx.fillStyle=i<G.hearts?'#ff5a6a':'#444';cx.beginPath();cx.moveTo(x+9,26);cx.bezierCurveTo(x-6,14,x+2,4,x+9,12);cx.bezierCurveTo(x+16,4,x+24,14,x+9,26);cx.fill()}
+ cx.fillStyle='#ffc93c';cx.beginPath();cx.arc(222,17,8,0,7);cx.fill();cx.fillStyle='#fff';cx.fillText('× '+G.coins,236,22);
+ cx.fillText('PUNTOS '+G.score,330,22);const nq=G.L.qs.length+G.L.tfs.length,ok=Object.values(G.ans).filter(a=>a.ok).length,ans=Object.keys(G.ans).length;
+ cx.textAlign='right';cx.fillStyle='#58c4ff';cx.fillText(`DATOS ${Object.keys(G.facts).length}/${G.L.facts.length}`,820,22);cx.fillStyle='#3ddc97';cx.fillText(`✓ ${ok}/${nq}`,948,22);
+ cx.fillStyle='#ffffff22';cx.fillRect(0,34,VW,3);cx.fillStyle=G.L.col;cx.fillRect(0,34,VW*Math.min(1,G.p.x/(G.map.flagX||1)),3)}
+function render(){if(!G)return;const th=G.L.theme;drawBG(th,G.cam);const c0=Math.floor(G.cam/TS)-1,c1=c0+Math.ceil(VW/TS)+2;
+ for(let c=c0;c<=c1;c++)for(let r=0;r<15;r++){const v=G.map.T[c+','+r];if(v)drawTile(v,c*TS-G.cam,r*TS,th)}
+ for(const o of G.map.ents){if(o.x<G.cam-120||o.x>G.cam+VW+120)continue;if(o.t==='door')drawDoor(o)}
+ drawFlag();
+ for(const o of G.map.ents){if(o.x<G.cam-120||o.x>G.cam+VW+120)continue;if(o.t==='coin'&&!o.got){const s=Math.abs(Math.sin(G.t*4+o.x));cx.fillStyle='#ffc93c';cx.beginPath();cx.ellipse(o.x-G.cam+8,o.y+8+Math.sin(G.t*3+o.x)*2,8*s+1,9,0,0,7);cx.fill();cx.fillStyle='#b37e00';cx.fillRect(o.x-G.cam+7,o.y+4,2*s,8)}
+  else if((o.t==='enemy'||o.t==='boss')&&o.alive)drawEnemy(o,th)}
+ drawPlayer(G.p);
+ for(const q of G.particles){if(q.coin){cx.fillStyle='#ffc93c';cx.beginPath();cx.arc(q.x-G.cam,q.y,8,0,7);cx.fill()}else{cx.fillStyle=q.col;cx.fillRect(q.x-G.cam,q.y,5,5)}}
+ drawHUD()}
+let last=performance.now();function loop(t){requestAnimationFrame(loop);const dt=Math.min(.033,(t-last)/1000);last=t;if(G&&!G.paused&&$('stage').style.display!=='none')update(dt);if(G)render()}requestAnimationFrame(loop);
+
+/* ===================== INFORME Y PDF ===================== */
+function grade(n){const p=n/QTOTAL;return p>=.9?['SOBRESALIENTE','Dominio sólido del Tema 4.']:p>=.75?['MUY BUENO','Buen manejo; revisa las preguntas marcadas.']:p>=.6?['SUFICIENTE','Repite los mundos con más errores.']:['EN PROCESO','Repite los mundos y lee los datos de los bloques ?.']}
+function allQs(L){const r=lvRes(L);const out=[];L.qs.forEach((q,i)=>{const gid=L.id+(i===3?'_J':'_Q')+i;out.push({q:q.q,a:r.ans[gid],right:q.o[q.a]})});L.tfs.forEach((q,i)=>out.push({q:q.q,a:r.ans[L.id+'_T'+i],right:q.a?'Verdadero':'Falso'}));return out}
+function showReport(){show('repScreen');const n=totalCorrect(),[g,gt]=grade(n);const coins=LEVELS.reduce((a,L)=>a+(lvRes(L).coins||0),0),dn=LEVELS.filter(L=>lvRes(L).done).length;
+ $('rep').innerHTML=`<div class="acts"><button class="btn2" style="color:#18203a;background:#eef0f7" onclick="showMap()">← Volver al mapa</button><button class="btn2" style="color:#18203a;background:#eef0f7" onclick="copyReport()">⧉ Copiar informe</button><button class="btnR" onclick="downloadPDF()">⬇ Descargar informe en PDF</button></div>
+ <div class="eyebrow" style="color:#c0392b">Laboratorio interactivo · Tema 4</div><h1>MISIÓN INTEGRIDAD · INFORME</h1>
+ <p><b>Modalidad:</b> ${P.mode==='group'?'Grupal':'Individual'}<br><b>${P.mode==='group'?'Grupo':'Participante'}:</b> ${esc(who())}<br>${P.mode==='group'?`<b>Integrantes:</b> ${esc(P.members).replace(/\n/g,'; ')}<br>`:''}<b>Fecha:</b> ${new Date().toLocaleDateString('es-EC')}</p>
+ <div class="sealBox"><div class="seal"><span><b>${n}/${QTOTAL}</b>${g}</span></div><div><b>${n} de ${QTOTAL} respuestas correctas · ${dn}/4 mundos completados · ${coins} monedas.</b><br>${gt}<div style="margin-top:10px"><button class="btnR" onclick="downloadPDF()">⬇ Descargar informe en PDF</button></div></div></div>
+ <h3>Cinco ideas para recordar</h3><ol class="ideas">${IDEAS.map(i=>`<li>${esc(i)}</li>`).join('')}</ol>
+ ${LEVELS.map(L=>{const r=lvRes(L);return `<h3>${esc(L.name)} ${r.done?`· ${correctCount(L)}/${L.qs.length+L.tfs.length} correctas`:'· pendiente'}</h3><div class="tw"><table><tr><th style="width:55%">Pregunta</th><th>Tu respuesta</th><th style="width:14%">Resultado</th></tr>${allQs(L).map(x=>`<tr><td>${esc(x.q.replace(/^JEFE · /,'Jefe: '))}</td><td>${x.a?esc(x.a.mine):'—'}${x.a&&!x.a.ok?`<div class="note"><b>Correcta:</b> ${esc(x.right)}</div>`:''}</td><td style="font-weight:800;color:${!x.a?'#8a90a8':x.a.ok?'#1f7a55':'#c0392b'}">${!x.a?'Pendiente':x.a.ok?'✓ Correcta':'✕ Revisar'}</td></tr>`).join('')}</table></div>`}).join('')}
+ <p class="note" style="margin-top:16px">Material con fines pedagógicos, basado en el guion docente del Tema 4 (versión verificada al 20 de noviembre de 2026). Los enemigos, el personaje y los ejemplos hipotéticos son ficticios. Los casos en curso se rigen por la presunción de inocencia.</p>`;$('repScreen').scrollTop=0}
+function reportText(){let t=`MISIÓN INTEGRIDAD · INFORME\n${P.mode==='group'?'Grupo: '+P.group+'\nIntegrantes: '+P.members.replace(/\n/g,'; '):'Participante: '+P.name}\nFecha: ${new Date().toLocaleDateString('es-EC')}\nCorrectas: ${totalCorrect()}/${QTOTAL}\n\n`;LEVELS.forEach(L=>{t+=L.name.toUpperCase()+'\n';allQs(L).forEach((x,i)=>t+=`  ${i+1}. ${x.a?(x.a.ok?'Correcta':'Revisar')+' · '+x.a.mine:'Pendiente'}\n`);t+='\n'});return t}
+function copyReport(){const t=reportText();const fb=()=>{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Informe copiado')}catch(e){toast('No se pudo copiar')}ta.remove()};try{navigator.clipboard.writeText(t).then(()=>toast('Informe copiado al portapapeles'),fb)}catch(e){fb()}}
+const inFrame=(()=>{try{return window.self!==window.top}catch(e){return true}})();
+function pdfSafe(t){return String(t??'').replace(/→/g,'->').replace(/[✓✔★☆]/g,'').replace(/[✕✗]/g,'').replace(/[^\x00-\xFF–—‘’“”•…]/g,'').trim()}
+function downloadPDF(){const J=window.jspdf&&window.jspdf.jsPDF;if(!J)return toast('No se pudo cargar el generador de PDF. Revisa la conexión a internet.');
+ const doc=new J({unit:'mm',format:'a4'}),W=210,M=16,CW=W-2*M;let y=0;const n=totalCorrect(),[g,gt]=grade(n);
+ const ensure=h=>{if(y+h>282){doc.addPage();y=18}};
+ const txt=(t,o={})=>{const sz=o.size||10.5;doc.setFont('helvetica',o.bold?'bold':'normal');doc.setFontSize(sz);doc.setTextColor(...(o.color||[24,32,58]));for(const l of doc.splitTextToSize(pdfSafe(t),o.w||CW)){ensure(sz*.42);doc.text(l,o.x||M,y);y+=sz*.42}y+=o.gap??1.6};
+ doc.setFillColor(11,14,31);doc.rect(0,0,W,32,'F');doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(255,201,60);doc.text('LABORATORIO INTERACTIVO · TEMA 4 · RETOS Y PROPUESTAS',M,11);doc.setFontSize(21);doc.setTextColor(255,255,255);doc.text('Misión Integridad · Informe',M,23);y=42;
+ txt(`Modalidad: ${P.mode==='group'?'Grupal':'Individual'}`,{gap:.4});txt(`${P.mode==='group'?'Grupo':'Participante'}: ${who()}`,{gap:.4});if(P.mode==='group')txt('Integrantes: '+P.members.split(/\n+/).filter(x=>x.trim()).join('; '),{gap:.4});txt('Fecha: '+new Date().toLocaleDateString('es-EC'),{gap:4});
+ ensure(30);doc.setFillColor(238,240,247);doc.roundedRect(M,y,CW,26,3,3,'F');doc.setDrawColor(192,57,43);doc.setLineWidth(.8);doc.circle(M+14,y+13,10.5);doc.setLineWidth(.2);doc.setTextColor(192,57,43);doc.setFont('helvetica','bold');doc.setFontSize(11);doc.text(`${n}/${QTOTAL}`,M+14,y+13,{align:'center'});doc.setFontSize(g.length>10?4.6:6);doc.text(g,M+14,y+17.5,{align:'center'});
+ doc.setTextColor(24,32,58);doc.setFontSize(12);doc.text(pdfSafe(`${n} de ${QTOTAL} respuestas correctas · ${LEVELS.filter(L=>lvRes(L).done).length}/4 mundos`),M+30,y+11);doc.setFont('helvetica','normal');doc.setFontSize(10);doc.text(pdfSafe(gt),M+30,y+17);y+=33;
+ txt('Cinco ideas para recordar',{bold:true,size:13,gap:2});IDEAS.forEach((i,k)=>txt(`${k+1}. ${i}`,{gap:1.8}));y+=2;
+ LEVELS.forEach(L=>{const r=lvRes(L);ensure(16);y+=2;doc.setFillColor(11,14,31);doc.rect(M,y-5,CW,8,'F');doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(255,255,255);doc.text(pdfSafe(`${L.name} · ${r.done?correctCount(L)+'/'+(L.qs.length+L.tfs.length)+' correctas':'pendiente'}`),M+3,y);y+=7;
+  allQs(L).forEach((x,i)=>{txt(`${i+1}. ${x.q.replace(/^JEFE · /,'Jefe: ')}`,{size:9.5,gap:.6,x:M+2,w:CW-2});txt(`Tu respuesta: ${x.a?x.a.mine:'-'}   ·   ${!x.a?'Pendiente':x.a.ok?'Correcta':'Revisar'}`,{size:9,gap:.6,x:M+6,w:CW-6,color:!x.a?[120,128,150]:x.a.ok?[31,122,85]:[192,57,43]});if(x.a&&!x.a.ok)txt('Respuesta correcta: '+x.right,{size:9,gap:.6,x:M+6,w:CW-6,color:[90,98,128]});y+=.8});y+=1.5});
+ y+=3;txt('Material con fines pedagógicos, basado en el guion docente del Tema 4 (versión verificada al 20 de noviembre de 2026). Los enemigos, el personaje y los ejemplos hipotéticos son ficticios.',{size:8.5,color:[90,98,128]});
+ const np=doc.getNumberOfPages();for(let k=1;k<=np;k++){doc.setPage(k);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(120,128,150);doc.text(pdfSafe(`Misión Integridad · ${who()} · página ${k} de ${np}`),W/2,290,{align:'center'})}
+ const fn='MisionIntegridad_Informe_'+(who()||'participante').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9]+/g,'_')+'.pdf';
+ try{doc.save(fn);toast(inFrame?'Si la descarga no empieza, abre el archivo HTML del juego en tu navegador: en esta vista previa las descargas están bloqueadas.':'Listo: se descargó '+fn)}catch(e){toast('No se pudo descargar el PDF en esta vista.')}}
+</script>
