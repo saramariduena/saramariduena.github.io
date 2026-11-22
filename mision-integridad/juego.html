@@ -103,10 +103,13 @@ textarea{min-height:76px;resize:vertical}
     <div id="mobileNote" class="mobileNote hidden"><b>Ábrelo en una computadora.</b> Este juego se controla con el teclado y no funciona en el celular.</div>
    </div>
    <div class="worlds">
-    <div class="wmini"><i style="background:#8f7bff">1</i><div><b>La red de la corrupción</b><span>Klitgaard, captura del Estado, Odebrecht, Sobornos y Metástasis</span></div></div>
-    <div class="wmini"><i style="background:#3ddc97">2</i><div><b>Ciberespacio</b><span>Arts. 229 a 234.1, Ola Bini, evidencia digital y Convenio de Budapest</span></div></div>
-    <div class="wmini"><i style="background:#58c4ff">3</i><div><b>Estonia digital</b><span>X-Road, Data Tracker, KSI, ProZorro, Alice y protección de datos</span></div></div>
-    <div class="wmini"><i style="background:#ff9f43">4</i><div><b>La reforma</b><span>UNCAC, compliance, Sentencia 5-13-IN/19 y Ley de Integridad Pública</span></div></div>
+    <div class="eyebrow" style="color:var(--muted)">Subtema 1 · Retos contemporáneos</div>
+    <div class="wmini"><i style="background:#8f7bff">1</i><div><b>Corrupción sistémica</b><span>Red institucionalizada, Klitgaard, captura del Estado, Sobornos, Odebrecht y Metástasis</span></div></div>
+    <div class="wmini"><i style="background:#3ddc97">2</i><div><b>Cibercrimen y crimen transnacional</b><span>Arts. 229 a 234.1, Ola Bini, evidencia digital, Budapest, paraísos fiscales y RRAG</span></div></div>
+    <div class="eyebrow" style="color:var(--muted)">Subtema 2 · Tecnologías y herramientas digitales</div>
+    <div class="wmini"><i style="background:#c77dff">3</i><div><b>Tecnología e inteligencia artificial</b><span>Análisis predictivo, ALEPH, GEMA, la «caja negra» de los algoritmos, COMPAS, deepfakes y el ejemplo de Estonia</span></div></div>
+    <div class="eyebrow" style="color:var(--muted)">Subtema 3 · Propuestas de reforma</div>
+    <div class="wmini"><i style="background:#ff9f43">4</i><div><b>La reforma</b><span>Diagnóstico, UNCAC, compliance, técnicas especiales, alertadores y Sentencia 5-13-IN/19</span></div></div>
    </div>
   </div>
   <div class="keys">
@@ -150,101 +153,424 @@ textarea{min-height:76px;resize:vertical}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 'use strict';
-const $=id=>document.getElementById(id),KEY='mision_integridad_v1',TS=36,VW=960,VH=540;
+const $=id=>document.getElementById(id),KEY='mision_integridad_v2',TS=36,VW=960,VH=540;
 /* ===================== CONTENIDO ===================== */
 const LEVELS=[
-{id:'L1',name:'Mundo 1 · La red de la corrupción',short:'La red de la corrupción',theme:'city',col:'#8f7bff',foe:'Soborno',boss:'El Gran Cesto Podrido',
- brief:'La corrupción ya no es una manzana podrida: es el cesto entero. Recorre la ciudad, descubre cómo se analiza la corrupción sistémica y atraviesa las puertas del conocimiento. Cuidado con los sobornos que caminan por la calle.',
- facts:[
-  'Transparencia Internacional define la corrupción como el abuso del poder encomendado para beneficio privado. Es más amplia que cualquier tipo penal: por eso la política anticorrupción nunca puede ser solo penal.',
-  'Fórmula de Klitgaard (1988): Corrupción = Monopolio + Discrecionalidad − Rendición de cuentas. Un contrato por emergencia reúne las tres: decide una sola entidad, se omite el concurso y el control llega tarde.',
-  'Captura del Estado (Hellman, Jones y Kaufmann, Banco Mundial, 2000): no es pagar para que se aplique mal una norma, sino para que la norma, la política o la decisión se diseñen a la medida de alguien.',
-  'Índice de Percepción de la Corrupción 2025 (publicado el 10 de febrero de 2026): Ecuador obtuvo 33/100 y quedó en el puesto 116 de 182. Uruguay, 73/100 y puesto 17. Mide percepción de expertos, no casos probados.',
-  'Odebrecht: según los acuerdos con el Departamento de Justicia de EE. UU. (21 de diciembre de 2016), pagó USD 33,5 millones en sobornos en Ecuador entre 2007 y 2016, mediante su División de Operaciones Estructuradas, un verdadero «departamento de sobornos».',
-  'Metástasis: nació de los chats del narcotraficante Leandro Norero. El 25 de noviembre de 2024 un tribunal de la Corte Nacional condenó a 20 de los 21 procesados por delincuencia organizada. Es la captura de la justicia por el crimen organizado.',
-  'Sobornos 2012-2016 empezó con una investigación periodística («Arroz Verde»). El 7 de abril de 2020 la Corte Nacional condenó por cohecho a un expresidente, un exvicepresidente y otros procesados a 8 años; la casación se resolvió el 7 de septiembre de 2020.',
-  'Art. 233 de la Constitución: son imprescriptibles las acciones y penas por peculado, cohecho, concusión y enriquecimiento ilícito. La Sentencia 5-13-IN/19 precisó que esa imprescriptibilidad rige desde 1998.'],
- qs:[
-  {q:'Según la fórmula de Klitgaard, ¿qué combinación hace florecer la corrupción?',o:['Competencia + reglas claras + controles','Monopolio + discrecionalidad − rendición de cuentas','Salarios bajos, y nada más'],a:1,ex:'La corrupción florece donde un funcionario decide solo, con amplio margen y sin que nadie lo controle.'},
-  {q:'Un particular paga para que un reglamento se escriba a su medida. ¿Qué fenómeno es?',o:['Captura del Estado','Corrupción administrativa común','Lobby siempre lícito'],a:0,ex:'En la captura el resultado parece legal porque la norma misma se diseña para favorecer a alguien; por eso es más difícil de tipificar.'},
-  {q:'¿Qué figura permitió juzgar el caso Metástasis como una estructura y no como una suma de cohechos?',o:['Peculado','Tráfico de influencias','Delincuencia organizada'],a:2,ex:'La delincuencia organizada como tipo autónomo captura la estructura: en la corrupción sistémica lo que revela el delito es el patrón, no el acto aislado.'},
-  {q:'JEFE · ¿Qué debate dogmático abrió la condena en el caso Sobornos 2012-2016?',o:['Si cabe el lavado culposo','La autoría mediata por instigación o «influjo psíquico» de quien está en la cúspide','Si la extinción de dominio requiere sentencia'],a:1,ex:'El problema común de los tres casos es cómo alcanzar a quien no ejecuta el acto con sus manos: autoría mediata, dominio de un aparato organizado de poder, responsabilidad del superior.'}],
- tfs:[
-  {q:'El Índice de Percepción de la Corrupción mide cuántos casos de corrupción fueron probados en cada país.',a:false,ex:'Mide la percepción de expertos y empresarios sobre el sector público. Sirve para comparar tendencias, no para afirmar cuánta corrupción hay.'},
-  {q:'Según la Sentencia 5-13-IN/19, la imprescriptibilidad del peculado, el cohecho, la concusión y el enriquecimiento ilícito rige desde la Constitución de 1998.',a:true,ex:'Así lo precisó la Corte Constitucional en julio de 2019.'},
-  {"q": "Odebrecht respondió ante EE. UU. porque allí rigen normas que castigan los sobornos pagados a funcionarios de otros países.", "a": true, "ex": "La FCPA (1977) y la Convención de la OCDE (1997) permiten perseguir el soborno transnacional."}],
- extras:[{"t": "Odebrecht y Braskem aceptaron pagar al menos USD 3.500 millones a EE. UU., Brasil y Suiza (21 de diciembre de 2016). El Departamento de Justicia la llamó la mayor resolución por soborno transnacional de la historia.", "src": "Departamento de Justicia de EE. UU., comunicado del 21 de diciembre de 2016"}, {"t": "Transparencia Internacional nació en 1993 en Berlín y publica el Índice de Percepción de la Corrupción desde 1995. La escala va de 0 (muy corrupto) a 100 (muy limpio).", "src": "Transparencia Internacional"}, {"t": "La Operación Lava Jato empezó en Brasil en marzo de 2014. Su nombre («lavado de autos») viene de una estación de servicio usada para mover dinero; de esa investigación salió el caso Odebrecht.", "src": "Ministerio Público Federal de Brasil"}, {"t": "La Convención de la OCDE contra el soborno de servidores públicos extranjeros (1997) y la ley estadounidense FCPA (1977) permiten castigar sobornos pagados en otros países. Por eso Odebrecht respondió ante EE. UU.", "src": "OCDE; Foreign Corrupt Practices Act"}],
- map:'S10 F0 K7 F1 E10 Q0 G2 S3 F2 A1 P10 Q1 E10 F3 H8 S3 T0 K7 F4 A0 U3 E10 F5 G3 S4 Q2 E9 F7 K6 T1 E10 A2 F6 A3 T2 U2 J3 Z0'},
-{id:'L2',name:'Mundo 2 · Ciberespacio',short:'Ciberespacio',theme:'cyber',col:'#3ddc97',foe:'Malware',boss:'El Troyano Mayor',
- brief:'Entras a los circuitos del cibercrimen. Aquí la prueba es digital: volátil, alterable y muchas veces está en otro país. Esquiva el malware, recoge los datos y demuestra que distingues conservar datos de acceder a su contenido.',
- facts:[
-  'Entre enero de 2022 y mayo de 2025 la Fiscalía registró 20.602 denuncias por ciberdelitos. El 57 % (11.833) fue apropiación fraudulenta por medios electrónicos, que está en el art. 190 COIP, entre los delitos contra la propiedad.',
-  'Los delitos contra la seguridad de los activos de los sistemas de información están en los arts. 229 a 234.1 del COIP: revelación ilegal de base de datos (229), interceptación (230), transferencia electrónica (231), ataque a la integridad (232), información reservada (233), acceso no consentido (234) y falsificación informática (234.1).',
-  'Caso Ola Bini (art. 234): en enero de 2023 fue declarado inocente; el 5 de abril de 2024 la Corte Provincial de Pichincha lo declaró culpable de tentativa de acceso no consentido, con un año de prisión. Pregunta abierta: ¿qué es «acceder»?',
-  'La evidencia digital es volátil, fácilmente alterable y suele estar en otro país. Por eso exige copia forense, función hash para demostrar que el archivo analizado es idéntico al incautado y registro de cada persona que lo manipuló.',
-  'Convenio de Budapest: Ecuador fue invitado el 30 de marzo de 2022, depositó su instrumento de ADHESIÓN el 12 de diciembre de 2024 (Parte número 77) y está en vigor para el país desde el 1 de abril de 2025. La Fiscalía es el punto de contacto 24/7.',
-  'Art. 477.1 COIP (reforma de marzo de 2023): el fiscal puede ordenar, sin autorización judicial, la conservación expedita de datos informáticos por hasta 90 días prorrogables. La Sentencia 28-23-IN/26 la avaló: preservar no es acceder al contenido.',
-  'REBEFICS: el SRI exige a las sociedades reportar su beneficiario final y su composición societaria nivel por nivel, hasta llegar a las personas naturales. Ataca el problema de las empresas de papel en cadena.'],
- qs:[
-  {q:'¿Dónde están los delitos contra la seguridad de los activos de los sistemas de información?',o:['Arts. 232 a 235 del COIP','Art. 190 del COIP','Arts. 229 a 234.1 del COIP'],a:2,ex:'La diapositiva decía 232 a 235; lo correcto es 229 a 234.1. El art. 235 pertenece a otra materia.'},
-  {q:'Sin juez, el fiscal ordena conservar 90 días los datos de tráfico de una línea; después, también sin juez, pide el contenido de los mensajes. ¿Qué es correcto?',o:['La conservación es válida; el acceso al contenido requiere autorización judicial','Ambas son válidas porque el fiscal dirige la investigación','Ninguna es válida: todo lo digital exige juez'],a:0,ex:'Art. 477.1 y Sentencia 28-23-IN/26: preservar no da acceso al contenido. La interceptación y el contenido siguen sujetos a autorización judicial (art. 476).'},
-  {q:'¿Qué permite demostrar que el archivo analizado es idéntico al que se incautó?',o:['Una captura de pantalla','La función hash calculada en la copia forense','La declaración del policía'],a:1,ex:'Si la defensa no puede verificar la integridad de la evidencia, la evidencia no vale. El hash permite compararla bit a bit.'},
-  {q:'JEFE · ¿Qué decidió la Corte Provincial de Pichincha en el caso Ola Bini, en abril de 2024?',o:['Confirmó su inocencia','Lo declaró culpable de tentativa de acceso no consentido, con un año de prisión','Lo condenó por espionaje a diez años'],a:1,ex:'Días después aceptó la suspensión condicional de la pena. El caso llegó a la Corte Constitucional (2470-25-EP, en trámite según las fuentes).'}],
- tfs:[
-  {q:'El ciberdelito más denunciado en Ecuador es el ataque a la integridad de sistemas informáticos.',a:false,ex:'Es la apropiación fraudulenta por medios electrónicos (57 %): delincuencia patrimonial clásica con un medio nuevo.'},
-  {q:'Ecuador ratificó el Convenio de Budapest porque participó en su elaboración.',a:false,ex:'Ecuador se ADHIRIÓ (12 de diciembre de 2024): no participó en la elaboración del convenio, aprobado en 2001.'},
-  {"q": "Si se cambia un solo bit de un archivo, su huella hash cambia apenas un poco.", "a": false, "ex": "Cambia por completo (efecto avalancha). Por eso el hash revela cualquier alteración."}],
- extras:[{"t": "El Convenio de Budapest se abrió a la firma el 23 de noviembre de 2001 y entró en vigor el 1 de julio de 2004. Es el primer tratado internacional sobre delitos cometidos por internet.", "src": "Consejo de Europa"}, {"t": "WannaCry (mayo de 2017): un ransomware infectó más de 200.000 computadoras en al menos 150 países en pocas horas. En el Reino Unido afectó gravemente al servicio público de salud (NHS).", "src": "National Audit Office del Reino Unido (2017); OCCRP"}, {"t": "Panama Papers (abril de 2016): 11,5 millones de documentos del despacho Mossack Fonseca expusieron sociedades offshore. Los Pandora Papers (octubre de 2021) sumaron 11,9 millones de registros de 14 proveedores. De ahí la presión por registrar a los beneficiarios finales.", "src": "Consorcio Internacional de Periodistas de Investigación (ICIJ)"}, {"t": "Efecto avalancha: si cambias un solo bit de un archivo, su huella hash (por ejemplo, SHA-256) cambia por completo. Así se detecta cualquier alteración de la evidencia digital.", "src": "Estándar SHA-2 (NIST)"}],
- map:'S10 F0 K7 F1 E10 Q0 A0 G2 S3 F2 P10 T0 E10 F3 A3 T2 H8 S3 Q2 K7 F4 U3 E10 T1 G3 S4 F5 E9 Q1 A1 K6 F6 A2 E10 U2 J3 Z0'},
-{id:'L3',name:'Mundo 3 · Estonia digital',short:'Estonia digital',theme:'estonia',col:'#58c4ff',foe:'Filtración',boss:'La Gran Filtración',
- brief:'Llegas a Estonia, el país donde el ciudadano puede ver qué funcionario consultó sus datos. Aprende sus tres piezas (X-Road, Data Tracker y KSI), conoce ProZorro, Alice y Uruguay, y no dejes que las filtraciones te alcancen.',
- facts:[
-  'Abril de 2007: tras el traslado del monumento del Soldado de Bronce, Estonia sufrió tres semanas de ciberataques de denegación de servicio contra el parlamento, ministerios, bancos y medios. Desde entonces la integridad de los datos es un principio de diseño.',
-  'X-Road (2001) conecta las bases de datos de las instituciones sin centralizarlas. Cada intercambio queda cifrado, firmado digitalmente y registrado. Conecta sin concentrar.',
-  'Data Tracker (desde marzo de 2017): cualquier persona entra al portal eesti.ee y ve qué institución consultó sus datos, cuándo y con qué finalidad. En sus primeras semanas reveló consultas sin razón legal en varias entidades.',
-  'KSI (con la empresa Guardtime): guarda una huella matemática de cada registro, con tecnología de cadena de bloques, para que ninguna alteración pase desapercibida. Blockchain para la integridad, no para criptomonedas.',
-  'Límites: en diciembre de 2024 Estonia sufrió una filtración que expuso datos de unas 750.000 personas. Ningún sistema es invulnerable.',
-  'ProZorro (Ucrania) abrió la contratación pública a la vigilancia ciudadana: según la OCDE ahorró unos USD 1.900 millones. Alice (Brasil, CGU y TCU) analizó en 2024 más de 118.000 compras públicas y emite alertas que revisa un auditor.',
-  'Uruguay es el referente latinoamericano: líder regional en gobierno digital, 73/100 en el IPC 2025 y una autoridad de datos personales consolidada (AGESIC y URCDP; Convenio 108+ en 2021).',
-  'Art. 2 de la LOPDP: excluye los datos tratados para investigar y enjuiciar infracciones penales. Europa llena ese espacio con la Directiva (UE) 2016/680; Ecuador no tiene una norma equivalente.'],
- qs:[
-  {q:'¿Qué puede hacer un ciudadano estonio con el Data Tracker?',o:['Ver qué institución consultó sus datos, cuándo y para qué','Borrar sus datos de los registros públicos','Votar en línea en las elecciones'],a:0,ex:'La mejor manera de evitar el abuso es que el abusador sepa que quedará registrado y que la víctima puede verlo.'},
-  {q:'¿Para qué usa Estonia la tecnología KSI basada en cadena de bloques?',o:['Para emitir una criptomoneda estatal','Para garantizar que ningún registro se altere sin que se note','Para reemplazar a los jueces'],a:1,ex:'Si un registro está sellado criptográficamente, saber si fue alterado deja de depender de testigos y pasa a ser una verificación matemática.'},
-  {q:'¿Qué enseña la experiencia de Alice en Brasil sobre la inteligencia artificial?',o:['La IA debe decidir automáticamente a quién se sanciona','La IA reemplaza a los auditores','La IA más útil prioriza alertas explicables para que una persona investigue'],a:2,ex:'Escalar no es generar millones de alertas, sino entregar al auditor pocas señales relevantes, explicables y priorizadas.'},
-  {q:'JEFE · ¿Qué frase resume la lección de Estonia?',o:['Interoperabilidad sin trazabilidad es vigilancia; con trazabilidad es control del poder','Más datos centralizados significan menos corrupción','La tecnología hace innecesarias las leyes'],a:0,ex:'Una sola regla haría mucho: todo funcionario que consulte datos debe dejar constancia de quién es y para qué, y el ciudadano debe poder verlo.'}],
- tfs:[
-  {q:'X-Road funciona reuniendo todas las bases de datos del Estado en un solo servidor central.',a:false,ex:'X-Road conecta sin centralizar: cada institución sigue siendo responsable de sus datos.'},
-  {q:'Cuando la Fiscalía cruza bases de datos en una investigación penal, se rige por la LOPDP.',a:false,ex:'El art. 2 de la LOPDP excluye ese tratamiento: se rige por el COIP, aunque sigue sujeto a la Constitución (art. 66.19). Ahí está el vacío normativo.'},
-  {"q": "Estonia fue el primer país en permitir el voto por internet en elecciones vinculantes de alcance nacional.", "a": true, "ex": "Desde las elecciones locales de 2005 y las parlamentarias de 2007."}],
- extras:[{"t": "Estonia fue el primer país en permitir el voto por internet en elecciones vinculantes de alcance nacional: en las elecciones locales de octubre de 2005 y en las parlamentarias de marzo de 2007.", "src": "Consejo de Europa, informes sobre el voto electrónico en Estonia"}, {"t": "Después de los ataques de 2007, la OTAN acreditó en 2008 el Centro de Excelencia de Ciberdefensa Cooperativa, con sede en Tallin. Allí nació el Manual de Tallin sobre el derecho internacional aplicable a las ciberoperaciones.", "src": "CCDCOE (ccdcoe.org)"}, {"t": "X-Road no es solo estonio: Finlandia lo usa en su plataforma Suomi.fi, y en 2017 ambos países crearon el Nordic Institute for Interoperability Solutions (NIIS) para desarrollarlo. Su código es abierto (licencia MIT).", "src": "NIIS; Ministerio de Finanzas de Finlandia"}, {"t": "Uruguay tiene ley de protección de datos desde 2008 (Ley 18.331), y la Unión Europea lo reconoce desde 2012 como país con un nivel adecuado de protección de datos.", "src": "Comisión Europea, Decisión 2012/484/UE"}],
- map:'S10 F0 A1 K7 F1 A2 E10 T0 G2 S3 F2 P10 Q0 E10 F3 H8 S3 Q1 K7 F4 A0 T2 U3 E10 F5 G3 S4 Q2 E9 F6 A3 K6 F7 E10 T1 U2 J3 Z0'},
-{id:'L4',name:'Mundo 4 · La reforma',short:'La reforma',theme:'reform',col:'#ff9f43',foe:'Vicio de forma',boss:'La Ley Mal Tramitada',
- brief:'Último mundo: llegaste a la Asamblea y a la Corte. Antes de reformar hay que saber qué existe y respetar la forma. Salta sobre los vicios de forma y demuestra qué ya está en el derecho ecuatoriano y qué de verdad falta.',
- facts:[
-  'La Convención de las Naciones Unidas contra la Corrupción distingue lo que los Estados DEBEN hacer de lo que deben CONSIDERAR: obliga a establecer la responsabilidad de las personas jurídicas (art. 26) y pide considerar el enriquecimiento ilícito (art. 20) y la protección de denunciantes (art. 33).',
-  'Sentencia 5-13-IN/19 (2 de julio de 2019): la Corte declaró inconstitucional exigir un informe previo de la Contraloría para la acción penal por peculado y enriquecimiento ilícito. La Fiscalía es la titular de la acción penal pública.',
-  'Las personas jurídicas responden penalmente en Ecuador desde el 10 de agosto de 2014 (art. 49 COIP). La reforma del 17 de febrero de 2021 incorporó los programas de cumplimiento como ATENUANTE (art. 45.7.d).',
-  'Derecho comparado: en España (art. 31 bis del Código Penal) un modelo de cumplimiento idóneo puede EXIMIR. En Argentina (Ley 27.401, 2017) el programa de integridad es uno de los requisitos de la exención, junto con la autodenuncia y la devolución del beneficio.',
-  'Enriquecimiento ilícito (art. 279): ¿quién prueba que el incremento no está justificado? Una salida intermedia es contrastar la declaración patrimonial jurada del funcionario con lo que tiene.',
-  'La Ley Orgánica de Integridad Pública (26 de junio de 2025) incluía protección a denunciantes, pero la Sentencia 52-25-IN/25 la declaró inconstitucional en su totalidad, por la forma: unidad de materia, publicidad y deliberación democrática.',
-  'Los jueces especializados en corrupción y crimen organizado ya existen: se posesionaron el 10 de diciembre de 2022 en Quito. El reto no es crearlos, sino dotarlos y evaluarlos.',
-  'Técnicas especiales: la interceptación está en el art. 476 (Sentencia 77-16-IN/22) y las operaciones encubiertas desde el art. 483. La cooperación eficaz fue decisiva en Metástasis: regularla bien evita la impunidad negociada.'],
- qs:[
-  {q:'Una constructora tenía desde 2019 un programa de cumplimiento, pero su gerente pagó sobornos. Según el COIP vigente, ¿qué efecto tiene ese programa?',o:['Ninguno: las personas jurídicas no responden penalmente','Puede atenuar la responsabilidad de la empresa, pero no la excluye','La exime de responsabilidad, como en España'],a:1,ex:'Es la pregunta 2 de Mentimeter: art. 49 (desde 2014) y art. 45.7.d (atenuante desde 2021). Lo discutible es si debería eximir.'},
-  {q:'¿Por qué cayó la Ley Orgánica de Integridad Pública?',o:['Por la forma: violó la unidad de materia, la publicidad y la deliberación democrática','Porque protegía a los denunciantes','Porque nunca se publicó en el Registro Oficial'],a:0,ex:'Sentencia 52-25-IN/25: una reforma con buenos fines puede caer por la forma. Una ley de alertadores debería tramitarse por la vía ordinaria y con objeto propio.'},
-  {q:'¿Qué declaró la Sentencia 5-13-IN/19 sobre el informe previo de la Contraloría?',o:['Que es obligatorio para iniciar cualquier investigación','Que reemplaza la investigación de la Fiscalía','Que es inconstitucional exigirlo para la acción penal por peculado y enriquecimiento ilícito'],a:2,ex:'Fue una de las reformas más importantes de la década y no vino del legislador, sino de la Corte.'},
-  {q:'JEFE · ¿Cuál es la gran lección del mundo de la reforma?',o:['Crear tipos penales nuevos para cada problema','Antes de reformar, conocer lo que ya existe; y las reformas también deben respetar la forma','Invertir la carga de la prueba en todos los delitos'],a:1,ex:'Varias propuestas de las diapositivas ya existen en el derecho ecuatoriano; el problema suele ser su aplicación.'}],
- tfs:[
-  {q:'Ecuador todavía debe introducir la responsabilidad penal de las personas jurídicas, porque no existe.',a:false,ex:'Existe desde el 10 de agosto de 2014 (art. 49 COIP). La diapositiva que propone «introducirla» debe corregirse.'},
-  {q:'La UNCAC obliga a establecer la responsabilidad de las personas jurídicas por delitos de corrupción (art. 26).',a:true,ex:'Puede ser penal, civil o administrativa, con sanciones eficaces, proporcionadas y disuasivas.'},
-  {"q": "El Día Internacional contra la Corrupción se conmemora cada 9 de diciembre.", "a": true, "ex": "Se vincula con la Convención de las Naciones Unidas contra la Corrupción (2003)."}],
- extras:[{"t": "La Convención de las Naciones Unidas contra la Corrupción se adoptó el 31 de octubre de 2003 y entró en vigor el 14 de diciembre de 2005. Por ella, cada 9 de diciembre es el Día Internacional contra la Corrupción.", "src": "Naciones Unidas (UNODC)"}, {"t": "Reino Unido, Bribery Act 2010: creó el delito corporativo de «no prevenir el soborno». La empresa solo se defiende si demuestra que tenía procedimientos adecuados de prevención, un incentivo fuerte al compliance real.", "src": "Bribery Act 2010, sección 7"}, {"t": "ISO 37001 (2016) es la norma internacional de sistemas de gestión antisoborno: las empresas pueden certificar sus programas de cumplimiento, en la línea de la certificación independiente que propone el guion para una futura eximente.", "src": "Organización Internacional de Normalización (ISO)"}, {"t": "Chile fue pionero en la región: su Ley 20.393 (2009) estableció la responsabilidad penal de las personas jurídicas, inicialmente por lavado de activos, financiamiento del terrorismo y cohecho.", "src": "Biblioteca del Congreso Nacional de Chile"}],
- map:'S10 F0 A0 T2 K7 F1 E10 Q2 G2 S3 F2 A3 P10 T0 E10 F3 A1 A2 H8 S3 Q0 K7 F4 U3 E10 F5 G3 S4 Q1 E9 F6 K6 F7 E10 T1 U2 J3 Z0'}];
-const IDEAS=['La corrupción ya no es individual, sino sistémica, y se mezcla con el crimen organizado: Odebrecht, Sobornos y Metástasis se investigan por patrones y estructuras.','El cibercrimen exige herramientas procesales nuevas con garantías: Ecuador es parte del Convenio de Budapest desde 2025 y la conservación expedita de datos sin orden judicial es válida porque no da acceso al contenido.','La tecnología debe vigilar también al Estado: Estonia enseña que la interoperabilidad necesita trazabilidad; ProZorro y Alice, que la inteligencia artificial prioriza, pero no decide.','Antes de reformar, hay que conocer lo que existe: la responsabilidad penal de las personas jurídicas, los jueces anticorrupción, la extinción de dominio sin sentencia y la acción penal sin informe previo de la Contraloría ya están en nuestro derecho.','Las reformas también deben respetar la forma: la Ley de Integridad Pública cayó por completo por vicios de trámite.'];
+{
+"id": "L1",
+"sub": "Subtema 1 · Retos contemporáneos",
+"name": "Mundo 1 · Corrupción sistémica",
+"short": "Corrupción sistémica",
+"theme": "city",
+"col": "#8f7bff",
+"foe": "Soborno",
+"boss": "El Gran Cesto Podrido",
+"brief": "Subtema 1 de la clase. La corrupción ya no es una manzana podrida: es el cesto entero. Recorre la ciudad, descubre cómo opera una red institucionalizada y qué respuesta integral propone la diapositiva. Cuidado con los sobornos que caminan por la calle.",
+"facts": [
+"Transparencia Internacional define la corrupción como el abuso del poder encomendado para beneficio privado. Es más amplia que cualquier tipo penal: por eso la política anticorrupción nunca puede ser solo penal.",
+"La diapositiva describe tres rasgos de la corrupción sistémica: una red institucionalizada (prácticas interconectadas), la penetración estructural (afecta el funcionamiento del Estado) y la captura institucional (decisiones y recursos al servicio de intereses privados).",
+"Fórmula de Klitgaard (1988): Corrupción = Monopolio + Discrecionalidad − Rendición de cuentas. Un contrato por emergencia reúne las tres: decide una sola entidad, se omite el concurso y el control llega tarde.",
+"Captura del Estado (Hellman, Jones y Kaufmann, Banco Mundial, 2000): no es pagar para que se aplique mal una norma, sino para que la norma, la política o la decisión se diseñen a la medida de alguien.",
+"Índice de Percepción de la Corrupción 2025 (publicado el 10 de febrero de 2026): Ecuador obtuvo 33/100 y quedó en el puesto 116 de 182. Uruguay, 73/100 y puesto 17. Mide percepción de expertos, no casos probados.",
+"Odebrecht: según los acuerdos con el Departamento de Justicia de EE. UU. (21 de diciembre de 2016), pagó USD 33,5 millones en sobornos en Ecuador entre 2007 y 2016, mediante su División de Operaciones Estructuradas, un verdadero «departamento de sobornos».",
+"Metástasis: nació de los chats del narcotraficante Leandro Norero. El 25 de noviembre de 2024 un tribunal de la Corte Nacional condenó a 20 de los 21 procesados por delincuencia organizada. Es la captura de la justicia por el crimen organizado.",
+"Sobornos 2012-2016, el caso que cita la diapositiva, empezó con una investigación periodística («Arroz Verde»). El 7 de abril de 2020 la Corte Nacional condenó por cohecho a un expresidente, un exvicepresidente y otros procesados a 8 años. Ojo: la sentencia «012-18-SIN-CC» que cita la lámina no pudo localizarse.",
+"Respuesta integral de la diapositiva: medidas penales proporcionales, control preventivo con alertas tempranas, participación ciudadana y protección al denunciante. Este último frente es hoy el más débil en Ecuador.",
+"Art. 233 de la Constitución: son imprescriptibles las acciones y penas por peculado, cohecho, concusión y enriquecimiento ilícito. La Sentencia 5-13-IN/19 precisó que esa imprescriptibilidad rige desde 1998."
+],
+"qs": [
+{
+"q": "Según la fórmula de Klitgaard, ¿qué combinación hace florecer la corrupción?",
+"o": [
+"Competencia + reglas claras + controles",
+"Monopolio + discrecionalidad − rendición de cuentas",
+"Salarios bajos, y nada más"
+],
+"a": 1,
+"ex": "La corrupción florece donde un funcionario decide solo, con amplio margen y sin que nadie lo controle."
+},
+{
+"q": "Un particular paga para que un reglamento se escriba a su medida. ¿Qué fenómeno es?",
+"o": [
+"Captura del Estado",
+"Corrupción administrativa común",
+"Lobby siempre lícito"
+],
+"a": 0,
+"ex": "En la captura el resultado parece legal porque la norma misma se diseña para favorecer a alguien; por eso es más difícil de tipificar."
+},
+{
+"q": "¿Qué figura permitió juzgar el caso Metástasis como una estructura y no como una suma de cohechos?",
+"o": [
+"Peculado",
+"Tráfico de influencias",
+"Delincuencia organizada"
+],
+"a": 2,
+"ex": "En la corrupción sistémica lo que revela el delito es el patrón, no el acto aislado: por eso se usan figuras que capturan la estructura."
+},
+{
+"q": "JEFE · ¿Qué debate dogmático abrió la condena en el caso Sobornos 2012-2016?",
+"o": [
+"Si cabe el lavado culposo",
+"La autoría mediata por instigación o «influjo psíquico» de quien está en la cúspide",
+"Si la extinción de dominio requiere sentencia"
+],
+"a": 1,
+"ex": "El problema común de los casos de corrupción sistémica es cómo alcanzar a quien no ejecuta el acto con sus manos."
+}
+],
+"tfs": [
+{
+"q": "El Índice de Percepción de la Corrupción mide cuántos casos de corrupción fueron probados en cada país.",
+"a": false,
+"ex": "Mide la percepción de expertos y empresarios sobre el sector público. Sirve para comparar tendencias, no para afirmar cuánta corrupción hay."
+},
+{
+"q": "Según la Sentencia 5-13-IN/19, la imprescriptibilidad del peculado, el cohecho, la concusión y el enriquecimiento ilícito rige desde la Constitución de 1998.",
+"a": true,
+"ex": "Así lo precisó la Corte Constitucional en julio de 2019."
+},
+{
+"q": "Odebrecht respondió ante EE. UU. porque allí rigen normas que castigan los sobornos pagados a funcionarios de otros países.",
+"a": true,
+"ex": "La FCPA (1977) y la Convención de la OCDE (1997) permiten perseguir el soborno transnacional."
+}
+],
+"extras": [
+{
+"t": "Odebrecht y Braskem aceptaron pagar al menos USD 3.500 millones a EE. UU., Brasil y Suiza (21 de diciembre de 2016). El Departamento de Justicia la llamó la mayor resolución por soborno transnacional de la historia.",
+"src": "Departamento de Justicia de EE. UU., comunicado del 21 de diciembre de 2016"
+},
+{
+"t": "Transparencia Internacional nació en 1993 en Berlín y publica el Índice de Percepción de la Corrupción desde 1995. La escala va de 0 (muy corrupto) a 100 (muy limpio).",
+"src": "Transparencia Internacional"
+},
+{
+"t": "La Operación Lava Jato empezó en Brasil en marzo de 2014. Su nombre («lavado de autos») viene de una estación de servicio usada para mover dinero; de esa investigación salió el caso Odebrecht.",
+"src": "Ministerio Público Federal de Brasil"
+},
+{
+"t": "La Convención de la OCDE contra el soborno de servidores públicos extranjeros (1997) y la ley estadounidense FCPA (1977) permiten castigar sobornos pagados en otros países. Por eso Odebrecht respondió ante EE. UU.",
+"src": "OCDE; Foreign Corrupt Practices Act"
+}
+],
+"map": "S10 F0 K7 F1 E10 F2 Q0 G2 S3 F3 A1 P10 Q1 E10 F4 H8 S3 T0 K7 F5 A0 U3 E10 F6 G3 S4 Q2 E9 F9 K6 T1 E10 F8 A2 F7 A3 T2 U2 J3 Z0"
+},
+{
+"id": "L2",
+"sub": "Subtema 1 · Retos contemporáneos",
+"name": "Mundo 2 · Cibercrimen y crimen transnacional",
+"short": "Cibercrimen y crimen transnacional",
+"theme": "cyber",
+"col": "#3ddc97",
+"foe": "Malware",
+"boss": "El Troyano Mayor",
+"brief": "Sigues en el Subtema 1. Entras a los circuitos del cibercrimen y a las rutas del dinero que cruza fronteras. Aquí la prueba es digital: volátil, alterable y muchas veces está en otro país. Esquiva el malware y demuestra que conoces el marco normativo corregido.",
+"facts": [
+"Entre enero de 2022 y mayo de 2025 la Fiscalía registró 20.602 denuncias por ciberdelitos. El 57 % (11.833) fue apropiación fraudulenta por medios electrónicos, que está en el art. 190 COIP, entre los delitos contra la propiedad.",
+"Corrección de la diapositiva: los delitos informáticos no están en los arts. 232 a 235, sino en los arts. 229 a 234.1 del COIP: revelación ilegal de base de datos (229), interceptación (230), transferencia electrónica (231), ataque a la integridad (232), información reservada (233), acceso no consentido (234) y falsificación informática (234.1).",
+"Las limitaciones que señala la diapositiva: falta de actualización normativa, capacidades técnicas insuficientes en el sistema judicial, dificultad para obtener y preservar la evidencia digital y escasa especialización de los operadores de justicia.",
+"Caso Ola Bini (art. 234): en enero de 2023 fue declarado inocente; el 5 de abril de 2024 la Corte Provincial de Pichincha lo declaró culpable de tentativa de acceso no consentido, con un año de prisión. Pregunta abierta: ¿qué es «acceder»?",
+"La evidencia digital es volátil, fácilmente alterable y suele estar en otro país. Por eso exige copia forense, función hash para demostrar que el archivo analizado es idéntico al incautado y registro de cada persona que lo manipuló.",
+"Lo que la diapositiva no dice: Ecuador es parte del Convenio de Budapest. Fue invitado el 30 de marzo de 2022, depositó su instrumento de ADHESIÓN el 12 de diciembre de 2024 (Parte número 77) y está en vigor para el país desde el 1 de abril de 2025.",
+"Art. 477.1 COIP (reforma de marzo de 2023): el fiscal puede ordenar, sin autorización judicial, la conservación expedita de datos informáticos por hasta 90 días prorrogables. La Sentencia 28-23-IN/26 la avaló: preservar no es acceder al contenido.",
+"Dimensión transnacional (diapositiva): sistemas financieros globalizados, paraísos fiscales, lavado transfronterizo y estructuras societarias complejas que ocultan al beneficiario final. En Ecuador, el SRI exige el reporte REBEFICS para identificar la cadena de titularidad hasta las personas naturales.",
+"Marco de cooperación (diapositiva): Convención de Palermo (2000) contra la delincuencia organizada, Convención de las Naciones Unidas contra la Corrupción (2003) y la Red de Recuperación de Activos de GAFILAT (RRAG). El horizonte es el ODS 16: instituciones eficaces, responsables y transparentes."
+],
+"qs": [
+{
+"q": "¿Dónde están los delitos contra la seguridad de los activos de los sistemas de información?",
+"o": [
+"Arts. 232 a 235 del COIP, como dice la diapositiva",
+"Art. 190 del COIP",
+"Arts. 229 a 234.1 del COIP"
+],
+"a": 2,
+"ex": "La diapositiva decía 232 a 235; lo correcto es 229 a 234.1. El art. 235 pertenece a otra materia."
+},
+{
+"q": "Sin juez, el fiscal ordena conservar 90 días los datos de tráfico de una línea; después, también sin juez, pide el contenido de los mensajes. ¿Qué es correcto?",
+"o": [
+"La conservación es válida; el acceso al contenido requiere autorización judicial",
+"Ambas son válidas porque el fiscal dirige la investigación",
+"Ninguna es válida: todo lo digital exige juez"
+],
+"a": 0,
+"ex": "Art. 477.1 y Sentencia 28-23-IN/26: preservar no da acceso al contenido. La interceptación y el contenido siguen sujetos a autorización judicial (art. 476)."
+},
+{
+"q": "¿Qué permite demostrar que el archivo analizado es idéntico al que se incautó?",
+"o": [
+"Una captura de pantalla",
+"La función hash calculada en la copia forense",
+"La declaración del policía"
+],
+"a": 1,
+"ex": "Si la defensa no puede verificar la integridad de la evidencia, la evidencia no vale. El hash permite compararla bit a bit."
+},
+{
+"q": "JEFE · ¿Qué decidió la Corte Provincial de Pichincha en el caso Ola Bini, en abril de 2024?",
+"o": [
+"Confirmó su inocencia",
+"Lo declaró culpable de tentativa de acceso no consentido, con un año de prisión",
+"Lo condenó por espionaje a diez años"
+],
+"a": 1,
+"ex": "Días después aceptó la suspensión condicional de la pena. El caso llegó a la Corte Constitucional (2470-25-EP, en trámite según las fuentes)."
+}
+],
+"tfs": [
+{
+"q": "El ciberdelito más denunciado en Ecuador es el ataque a la integridad de sistemas informáticos.",
+"a": false,
+"ex": "Es la apropiación fraudulenta por medios electrónicos (57 %): delincuencia patrimonial clásica con un medio nuevo."
+},
+{
+"q": "Ecuador ratificó el Convenio de Budapest porque participó en su elaboración.",
+"a": false,
+"ex": "Ecuador se ADHIRIÓ (12 de diciembre de 2024): no participó en la elaboración del convenio, aprobado en 2001."
+},
+{
+"q": "La Red de Recuperación de Activos (RRAG) facilita el intercambio de información entre países para identificar y recuperar bienes de origen ilícito.",
+"a": true,
+"ex": "Así la describe la diapositiva: es la red del GAFILAT para buscar bienes del delito fuera de las fronteras."
+}
+],
+"extras": [
+{
+"t": "El Convenio de Budapest se abrió a la firma el 23 de noviembre de 2001 y entró en vigor el 1 de julio de 2004. Es el primer tratado internacional sobre delitos cometidos por internet.",
+"src": "Consejo de Europa"
+},
+{
+"t": "WannaCry (mayo de 2017): un ransomware infectó más de 200.000 computadoras en al menos 150 países en pocas horas. En el Reino Unido afectó gravemente al servicio público de salud (NHS).",
+"src": "National Audit Office del Reino Unido (2017); OCCRP"
+},
+{
+"t": "Panama Papers (abril de 2016): 11,5 millones de documentos del despacho Mossack Fonseca expusieron sociedades offshore. Los Pandora Papers (octubre de 2021) sumaron 11,9 millones de registros de 14 proveedores. De ahí la presión por registrar a los beneficiarios finales.",
+"src": "Consorcio Internacional de Periodistas de Investigación (ICIJ)"
+},
+{
+"t": "Efecto avalancha: si cambias un solo bit de un archivo, su huella hash (por ejemplo, SHA-256) cambia por completo. Así se detecta cualquier alteración de la evidencia digital.",
+"src": "Estándar SHA-2 (NIST)"
+}
+],
+"map": "S10 F0 K7 F1 E10 Q0 A0 G2 S3 F2 P10 T0 E10 F4 A3 H8 S3 Q2 K7 F5 U3 E10 T1 G3 S4 F6 E9 Q1 A1 K6 F7 A2 E10 F8 T2 F3 U2 J3 Z0"
+},
+{
+"id": "L3",
+"sub": "Subtema 2 · Tecnologías y herramientas digitales",
+"name": "Mundo 3 · Tecnología e inteligencia artificial",
+"short": "Tecnología e inteligencia artificial",
+"theme": "ai",
+"col": "#c77dff",
+"foe": "Algoritmo opaco",
+"boss": "La Caja Negra",
+"brief": "Subtema 2. Entras al laboratorio donde la tecnología y la inteligencia artificial persiguen la corrupción… y donde también pueden equivocarse. ¿Quién vigila al algoritmo? ¿Quién vigila al funcionario que consulta tus datos? Salta sobre los algoritmos opacos y descubre los casos más sorprendentes.",
+"facts": [
+"La diapositiva propone cuatro líneas: digitalización judicial, interoperabilidad, inteligencia artificial y plataformas ciudadanas. El guion las ordena con una pregunta: algunas ayudan al Estado a vigilar a los sospechosos; otras ayudan a los ciudadanos a vigilar al Estado.",
+"Aplicaciones en instituciones ecuatorianas (diapositiva): detección automatizada de inconsistencias tributarias, la plataforma GEMA para la custodia digital de evidencias, auditoría continua de transacciones públicas y monitoreo de transacciones sospechosas para detectar lavado.",
+"ALEPH, desarrollado por la red periodística OCCRP, analiza grandes volúmenes de datos y vincula automáticamente personas, empresas y transacciones en un grafo. Según la diapositiva, la Fiscalía lo usó para mapear testaferros y empresas fantasma en casos como Sobornos 2012-2016.",
+"GEMA (Gestión de Evidencias Materiales) es la versión digital de la cadena de custodia (art. 456 COIP), en cuatro fases: captura, almacenamiento, análisis y presentación. Cada acceso a la evidencia queda registrado.",
+"Desafíos de interoperabilidad (diapositiva): sistemas aislados, resistencia cultural a compartir datos «propios», barreras legales e infraestructura desigual. Esos vacíos crean «puntos ciegos» que las redes de corrupción aprovechan.",
+"Análisis predictivo (diapositiva): detección temprana, análisis de patrones, mapeo de relaciones y proyección de riesgos; es pasar de un modelo reactivo a uno preventivo. Pero, como advierte la OCDE, exige transparencia algorítmica y supervisión.",
+"Tres usos de la IA, tres niveles de riesgo (guion): priorizar auditorías (bajo, si un humano revisa), apoyar la investigación (medio: el algoritmo no puede ser la prueba) y decidir sobre personas (alto). La LOPDP (art. 20) reconoce el derecho a no ser objeto de decisiones basadas únicamente en valoraciones automatizadas.",
+"Alice (Brasil) analizó en 2024 más de 118.000 compras públicas y emite alertas que revisa un auditor: la IA más útil prioriza, no decide. ProZorro (Ucrania) abrió la contratación pública a la vigilancia ciudadana y, según la OCDE, ahorró unos USD 1.900 millones.",
+"Un ejemplo para pensar, Estonia: con su Data Tracker cualquier ciudadano ve qué institución consultó sus datos, cuándo y para qué. La lección: interoperabilidad sin trazabilidad es vigilancia; con trazabilidad, es control del poder.",
+"Plataformas ciudadanas (diapositiva): el portal de compras públicas del SERCOP, la georreferenciación de obras y las aplicaciones de denuncia anónima. Actualización: desde el 7 de febrero de 2023 rige una nueva LOTAIP, con la Defensoría del Pueblo como órgano rector."
+],
+"qs": [
+{
+"q": "Un algoritmo marca como sospechoso a un contratista y nadie puede explicar por qué. ¿Qué valor tiene esa alerta en el proceso penal?",
+"o": [
+"Es prueba suficiente para acusar",
+"Es un indicio de culpabilidad que invierte la carga de la prueba",
+"A lo sumo, una razón para empezar a investigar con métodos que sí puedan explicarse ante un juez"
+],
+"a": 2,
+"ex": "Si un sistema de IA sirve para decidir a quién se investiga, la defensa tiene derecho a saber cómo funciona. Un algoritmo opaco no es prueba ni indicio."
+},
+{
+"q": "¿Cuál de estos usos de la inteligencia artificial tiene MAYOR riesgo para los derechos?",
+"o": [
+"Priorizar auditorías que luego revisa una persona",
+"Analizar redes de empresas y testaferros",
+"Decidir automáticamente a quién se sanciona o se excluye de contratar"
+],
+"a": 2,
+"ex": "Las decisiones automatizadas sobre personas exigen transparencia, posibilidad de impugnar y supervisión humana (LOPDP, art. 20)."
+},
+{
+"q": "ALEPH muestra en un grafo que un funcionario y un contratista comparten domicilio. ¿Qué hace el fiscal?",
+"o": [
+"Presenta el grafo en juicio como prueba de culpabilidad",
+"Usa la conexión como punto de partida y la convierte en prueba con documentos, pericias y testigos",
+"Pide prisión preventiva de inmediato"
+],
+"a": 1,
+"ex": "Un grafo no se presenta como prueba de culpabilidad: se presenta lo que el grafo permitió encontrar."
+},
+{
+"q": "JEFE · ¿Qué enseña el ejemplo de Estonia sobre la interoperabilidad que pide la diapositiva?",
+"o": [
+"Interoperabilidad sin trazabilidad es vigilancia; con trazabilidad es control del poder",
+"Mientras más datos se centralicen, menos corrupción habrá",
+"La tecnología hace innecesarias las leyes de protección de datos"
+],
+"a": 0,
+"ex": "Una sola regla haría mucho: todo funcionario que consulte datos debe dejar constancia de quién es y para qué, y el ciudadano debe poder verlo."
+}
+],
+"tfs": [
+{
+"q": "La LOPDP reconoce el derecho a no ser objeto de decisiones basadas únicamente en valoraciones automatizadas.",
+"a": true,
+"ex": "Es el art. 20 de la LOPDP: un límite directo al uso de la IA para decidir sobre personas."
+},
+{
+"q": "El sistema Alice, en Brasil, decide automáticamente qué empresas quedan excluidas de contratar con el Estado.",
+"a": false,
+"ex": "Alice emite alertas de riesgo y un auditor humano las revisa: prioriza, no decide."
+},
+{
+"q": "En el caso Mata v. Avianca (EE. UU., 2023), unos abogados fueron sancionados por citar sentencias inexistentes inventadas por ChatGPT.",
+"a": true,
+"ex": "Por eso, como enseña el guion con las sentencias de la diapositiva que no existen, verificar la fuente es una destreza indispensable."
+}
+],
+"extras": [
+{
+"t": "La Unión Europea aprobó la primera ley integral de inteligencia artificial del mundo: el Reglamento (UE) 2024/1689, en vigor desde el 1 de agosto de 2024. Clasifica los sistemas por nivel de riesgo y prohíbe prácticas como la puntuación social de las personas.",
+"src": "Diario Oficial de la Unión Europea"
+},
+{
+"t": "COMPAS, un algoritmo usado en EE. UU. para estimar el riesgo de reincidencia, fue analizado por ProPublica en 2016: encontró que marcaba erróneamente como de «alto riesgo» a personas negras con mucha más frecuencia que a blancas. Ese mismo año, en el caso Loomis, la Corte Suprema de Wisconsin admitió su uso, pero con advertencias.",
+"src": "ProPublica (2016); State v. Loomis (2016)"
+},
+{
+"t": "Países Bajos: un sistema de detección de fraude en los subsidios de cuidado infantil señaló injustamente a miles de familias, muchas de origen migrante, y les exigió devolver grandes sumas. El escándalo provocó la renuncia del gobierno en enero de 2021.",
+"src": "Parlamento de los Países Bajos, informe «Ongekend onrecht» (2020)"
+},
+{
+"t": "En el caso Mata v. Avianca (Nueva York, 2023), dos abogados presentaron un escrito con sentencias inventadas por ChatGPT. El juez los sancionó con una multa de USD 5.000. La IA puede «alucinar»: siempre hay que verificar la fuente.",
+"src": "Tribunal de Distrito Sur de Nueva York (junio de 2023)"
+},
+{
+"t": "Fraude con deepfake (Hong Kong, 2024): un empleado de la firma de ingeniería Arup transfirió unos USD 25 millones después de una videollamada en la que todos los demás «participantes», incluido el director financiero, eran imitaciones generadas con IA.",
+"src": "Policía de Hong Kong; Arup (mayo de 2024)"
+}
+],
+"map": "S10 F0 K7 F1 A0 E10 F2 Q2 G2 S3 F3 P10 F4 A4 E10 F5 H8 S3 Q0 K7 A1 F6 U3 E10 T0 A2 Q1 G3 S4 F7 E9 T1 A3 T2 K6 F9 E10 F8 U2 J3 Z0"
+},
+{
+"id": "L4",
+"sub": "Subtema 3 · Propuestas de reforma",
+"name": "Mundo 4 · La reforma",
+"short": "La reforma",
+"theme": "reform",
+"col": "#ff9f43",
+"foe": "Vicio de forma",
+"boss": "La Ley Mal Tramitada",
+"brief": "Subtema 3, el último. Llegaste a la Asamblea y a la Corte. Antes de reformar hay que saber qué existe y respetar la forma. Salta sobre los vicios de forma y descubre qué propuestas de la diapositiva ya están en el derecho ecuatoriano y cuáles de verdad faltan.",
+"facts": [
+"Diagnóstico de la diapositiva: avances en la tipificación, vacíos normativos y dificultades procesales. Ojo: la sentencia «098-21-SEP-CC» que cita la lámina no puede existir con ese número, porque desde 2019 la Corte numera sus sentencias con el número de causa y el año.",
+"Problemas por delito (diapositiva): en el enriquecimiento ilícito, la falta de carga dinámica de la prueba; en la defraudación tributaria, la falta de peritos especializados; en el lavado, la cooperación internacional; en el tráfico de influencias, la imprecisión del tipo.",
+"Enriquecimiento ilícito (art. 279): ¿quién prueba que el incremento no está justificado? Invertir la carga choca con la presunción de inocencia. Una salida intermedia es contrastar la declaración patrimonial jurada del funcionario con lo que tiene.",
+"La Convención de las Naciones Unidas contra la Corrupción distingue lo que los Estados DEBEN hacer de lo que deben CONSIDERAR: obliga a establecer la responsabilidad de las personas jurídicas (art. 26) y pide considerar el enriquecimiento ilícito (art. 20) y la protección de denunciantes (art. 33).",
+"Sentencia 5-13-IN/19 (2 de julio de 2019): la Corte declaró inconstitucional exigir un informe previo de la Contraloría para la acción penal por peculado y enriquecimiento ilícito. Una de las reformas más importantes de la década no vino del legislador, sino de la Corte.",
+"Corrección de la diapositiva: no hay que «introducir» la responsabilidad penal de las personas jurídicas. Existe desde el 10 de agosto de 2014 (art. 49 COIP), y la reforma del 17 de febrero de 2021 incorporó los programas de cumplimiento como ATENUANTE (art. 45.7.d).",
+"Derecho comparado: en España (art. 31 bis del Código Penal) un modelo de cumplimiento idóneo puede EXIMIR. En Argentina (Ley 27.401, 2017, la que cita la diapositiva) el programa de integridad es uno de los requisitos de la exención, junto con la autodenuncia y la devolución del beneficio.",
+"Técnicas especiales: la diapositiva ubica la reforma en el art. 476, que regula la interceptación (Sentencia 77-16-IN/22); las operaciones encubiertas están desde el art. 483. La cooperación eficaz fue decisiva en Metástasis: regularla bien evita la impunidad negociada.",
+"Fortalecimiento institucional (diapositiva): tribunales especializados, formación, interoperabilidad y protocolos. Dato: los jueces especializados en corrupción y crimen organizado ya existen desde el 10 de diciembre de 2022, con sede en Quito.",
+"Alertadores: la diapositiva habla de un «proyecto en debate 2024». La protección a denunciantes se incluyó en la Ley Orgánica de Integridad Pública (26 de junio de 2025), pero la Sentencia 52-25-IN/25 declaró inconstitucional toda la ley, por la forma.",
+"Política nacional de integridad (diapositiva): el enfoque actual es reactivo y descoordinado. Para la crítica a la LOTAIP, recuerden que desde 2023 rige una ley nueva; y la Extinción de Dominio ya fue reformada dos veces en 2024 (Sentencia 8-22-IN/26, no la «13-22-IN/22» de la lámina)."
+],
+"qs": [
+{
+"q": "Una constructora tenía desde 2019 un programa de cumplimiento, pero su gerente pagó sobornos. Según el COIP vigente, ¿qué efecto tiene ese programa?",
+"o": [
+"Ninguno: las personas jurídicas no responden penalmente",
+"Puede atenuar la responsabilidad de la empresa, pero no la excluye",
+"La exime de responsabilidad, como en España"
+],
+"a": 1,
+"ex": "Es la pregunta 2 de Mentimeter: art. 49 (desde 2014) y art. 45.7.d (atenuante desde 2021). Lo discutible es si debería eximir."
+},
+{
+"q": "¿Por qué cayó la Ley Orgánica de Integridad Pública?",
+"o": [
+"Por la forma: violó la unidad de materia, la publicidad y la deliberación democrática",
+"Porque protegía a los denunciantes",
+"Porque nunca se publicó en el Registro Oficial"
+],
+"a": 0,
+"ex": "Sentencia 52-25-IN/25: una reforma con buenos fines puede caer por la forma. Una ley de alertadores debería tramitarse por la vía ordinaria y con objeto propio."
+},
+{
+"q": "¿Qué declaró la Sentencia 5-13-IN/19 sobre el informe previo de la Contraloría?",
+"o": [
+"Que es obligatorio para iniciar cualquier investigación",
+"Que reemplaza la investigación de la Fiscalía",
+"Que es inconstitucional exigirlo para la acción penal por peculado y enriquecimiento ilícito"
+],
+"a": 2,
+"ex": "La Fiscalía es la titular de la acción penal pública y no puede quedar condicionada a un informe administrativo."
+},
+{
+"q": "JEFE · ¿Cuál es la gran lección del mundo de la reforma?",
+"o": [
+"Crear tipos penales nuevos para cada problema",
+"Antes de reformar, conocer lo que ya existe; y las reformas también deben respetar la forma",
+"Invertir la carga de la prueba en todos los delitos"
+],
+"a": 1,
+"ex": "Varias propuestas de la diapositiva ya existen en el derecho ecuatoriano; el problema suele ser su aplicación."
+}
+],
+"tfs": [
+{
+"q": "Ecuador todavía debe introducir la responsabilidad penal de las personas jurídicas, porque no existe.",
+"a": false,
+"ex": "Existe desde el 10 de agosto de 2014 (art. 49 COIP). La diapositiva que propone «introducirla» debe corregirse."
+},
+{
+"q": "La UNCAC obliga a establecer la responsabilidad de las personas jurídicas por delitos de corrupción (art. 26).",
+"a": true,
+"ex": "Puede ser penal, civil o administrativa, con sanciones eficaces, proporcionadas y disuasivas."
+},
+{
+"q": "Los jueces especializados en casos de corrupción y crimen organizado todavía no existen en Ecuador.",
+"a": false,
+"ex": "Se posesionaron el 10 de diciembre de 2022 en Quito. El reto no es crearlos, sino dotarlos y evaluarlos."
+}
+],
+"extras": [
+{
+"t": "La Convención de las Naciones Unidas contra la Corrupción se adoptó el 31 de octubre de 2003 y entró en vigor el 14 de diciembre de 2005. Por ella, cada 9 de diciembre es el Día Internacional contra la Corrupción.",
+"src": "Naciones Unidas (UNODC)"
+},
+{
+"t": "Reino Unido, Bribery Act 2010: creó el delito corporativo de «no prevenir el soborno». La empresa solo se defiende si demuestra que tenía procedimientos adecuados de prevención, un incentivo fuerte al compliance real.",
+"src": "Bribery Act 2010, sección 7"
+},
+{
+"t": "ISO 37001 (2016) es la norma internacional de sistemas de gestión antisoborno: las empresas pueden certificar sus programas de cumplimiento, en la línea de la certificación independiente que propone el guion para una futura eximente.",
+"src": "Organización Internacional de Normalización (ISO)"
+},
+{
+"t": "Chile fue pionero en la región: su Ley 20.393 (2009) estableció la responsabilidad penal de las personas jurídicas, inicialmente por lavado de activos, financiamiento del terrorismo y cohecho.",
+"src": "Biblioteca del Congreso Nacional de Chile"
+}
+],
+"map": "S10 F0 K7 F1 A0 E10 F2 F3 T1 G2 S3 F4 Q2 P10 F5 T0 E10 A3 F6 H8 S3 Q0 K7 A1 A2 U3 E10 F7 G3 S4 F8 T2 E9 F9 Q1 K6 F10 E10 U2 J3 Z0"
+}
+];
+const IDEAS=['La corrupción ya no es individual, sino sistémica, y se mezcla con el crimen organizado: Odebrecht, Sobornos y Metástasis se investigan por patrones y estructuras.','El cibercrimen exige herramientas procesales nuevas con garantías: Ecuador es parte del Convenio de Budapest desde 2025 y la conservación expedita de datos sin orden judicial es válida porque no da acceso al contenido.','La inteligencia artificial ayuda a detectar y prevenir, pero prioriza, no decide: un algoritmo opaco no es prueba, las decisiones automatizadas sobre personas exigen supervisión humana (LOPDP, art. 20) y la interoperabilidad necesita trazabilidad, como muestra el ejemplo de Estonia.','Antes de reformar, hay que conocer lo que existe: la responsabilidad penal de las personas jurídicas, los jueces anticorrupción, la extinción de dominio sin sentencia y la acción penal sin informe previo de la Contraloría ya están en nuestro derecho.','Las reformas también deben respetar la forma: la Ley de Integridad Pública cayó por completo por vicios de trámite.'];
 const THEMES={
  city:{sky:['#0f1033','#3b1d5e'],top:'#f2b134',body:'#3b2f4f',brick:'#7a4a8c',line:'#4c2c5c',acc:'#8f7bff'},
  cyber:{sky:['#020b08','#06261d'],top:'#3ddc97',body:'#0c2b22',brick:'#1d6b53',line:'#0a3c2e',acc:'#3ddc97'},
  estonia:{sky:['#0b1a3a','#1d5c7a'],top:'#f4fbff',body:'#3b6b9c',brick:'#5a8fc4',line:'#2c5580',acc:'#58c4ff'},
+ ai:{sky:['#0d0221','#2a0a4a'],top:'#c77dff',body:'#1d1240',brick:'#4b2a8a',line:'#2a1660',acc:'#c77dff'},
  reform:{sky:['#ff9f6b','#7b3f8c'],top:'#f6e7cf',body:'#a9927a',brick:'#d8c3a5',line:'#8f7a63',acc:'#ff9f43'}};
 
 /* ===================== ESTADO Y GUARDADO ===================== */
@@ -272,11 +598,11 @@ $('resume').onclick=()=>{if(!readStart())return;save();audioInit();showMap()};
 function goStart(){stopMusic();show('startScreen');$('resume').classList.remove('hidden')}
 
 /* ===================== MAPA ===================== */
-const scenes={city:'linear-gradient(180deg,#0f1033,#3b1d5e)',cyber:'repeating-linear-gradient(90deg,#06261d 0 10px,#0a3c2e 10px 12px),#06261d',estonia:'linear-gradient(180deg,#0b1a3a,#1d5c7a 70%,#f4fbff 70%)',reform:'linear-gradient(180deg,#ff9f6b,#7b3f8c)'};
+const scenes={ai:'radial-gradient(circle at 30% 50%,#c77dff55 0 8px,transparent 9px),radial-gradient(circle at 70% 40%,#c77dff55 0 8px,transparent 9px),linear-gradient(180deg,#0d0221,#2a0a4a)',city:'linear-gradient(180deg,#0f1033,#3b1d5e)',cyber:'repeating-linear-gradient(90deg,#06261d 0 10px,#0a3c2e 10px 12px),#06261d',estonia:'linear-gradient(180deg,#0b1a3a,#1d5c7a 70%,#f4fbff 70%)',reform:'linear-gradient(180deg,#ff9f6b,#7b3f8c)'};
 function showMap(){show('mapScreen');$('mapWho').textContent='¡Hola, '+who()+'!';
  const dn=LEVELS.filter(L=>lvRes(L).done).length;$('mapSum').textContent=`Mundos completados: ${dn} de 4 · Respuestas correctas: ${totalCorrect()} de ${QTOTAL}. Elige un mundo desbloqueado para jugar.`;
  $('mapNodes').innerHTML=LEVELS.map((L,i)=>{const r=lvRes(L),open=i<P.unlocked,c=correctCount(L),m=L.qs.length+L.tfs.length;const stars=r.done?('★'.repeat(Math.round(c/m*3))+'☆'.repeat(3-Math.round(c/m*3))):'☆☆☆';
-  return `<button class="node" ${open?'':'disabled'} onclick="startLevel(${i})"><div class="scene" style="background:${scenes[L.theme]}"></div><span class="num" style="color:${L.col}">${i+1}</span><span class="nm">${esc(L.short)}</span><span class="stars">${stars}</span><span class="st">${r.done?`Completado · ${c}/${m} correctas · ${r.coins} monedas`:open?'▶ Listo para jugar':'🔒 Completa el mundo anterior'}</span></button>`}).join('');
+  return `<button class="node" ${open?'':'disabled'} onclick="startLevel(${i})"><div class="scene" style="background:${scenes[L.theme]}"></div><span class="num" style="color:${L.col}">${i+1}</span><span class="note" style="margin:0;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:${L.col}">${esc(L.sub)}</span><span class="nm">${esc(L.short)}</span><span class="stars">${stars}</span><span class="st">${r.done?`Completado · ${c}/${m} correctas · ${r.coins} monedas`:open?'▶ Listo para jugar':'🔒 Completa el mundo anterior'}</span></button>`}).join('');
  $('sndBtn').textContent=sound?'🔊 Efectos: sí':'🔈 Efectos: no';$('musBtn').textContent=music?'🎵 Música: sí':'🎵 Música: no';stopMusic()}
 function openProfile(){$('profileBox').classList.toggle('hidden');$('pfName').value=who();$('pfSex').value=P.sex;$('pfLab').textContent=P.mode==='group'?'Nombre del grupo':'Nombre y apellido'}
 function applyProfile(){const n=$('pfName').value.trim();if(P.mode==='individual'&&n.split(/\s+/).filter(Boolean).length<2)return toast('Escribe nombre y apellido.');if(!n)return toast('Escribe un nombre.');if(P.mode==='group')P.group=n;else P.name=n;P.sex=$('pfSex').value;$('pname').value=P.name;$('gname').value=P.group;$('sex').value=P.sex;save();$('profileBox').classList.add('hidden');showMap();toast('Listo: nombre y personaje actualizados.')}
@@ -291,6 +617,7 @@ const SONGS={
  city:{bpm:126,lw:'square',lv:.022,lead:[69,0,72,74,76,0,74,72,69,0,67,69,72,0,0,0,69,0,72,74,76,79,76,74,72,0,71,72,69,0,0,0],bw:'triangle',bass:[45,45,48,48,43,43,45,40],hat:true},
  cyber:{bpm:148,lw:'square',lv:.018,lead:[64,67,71,76,71,67,64,67,62,66,69,74,69,66,62,66,60,64,67,72,67,64,60,64,59,62,66,71,66,62,59,62],bw:'sawtooth',bass:[40,40,38,38,36,36,35,35],hat:true},
  estonia:{bpm:104,lw:'triangle',lv:.05,lead:[74,0,76,78,81,0,78,76,74,0,0,71,74,0,0,0,73,0,74,76,78,0,76,74,71,0,69,71,74,0,0,0],bw:'triangle',bass:[50,50,47,47,43,43,45,45],hat:false},
+ ai:{bpm:112,lw:'triangle',lv:.05,lead:[72,0,75,79,84,0,79,75,74,0,77,80,86,0,80,77,72,0,75,79,84,87,84,79,80,0,79,0,75,0,0,0],bw:'sawtooth',bass:[36,36,41,41,44,44,43,43],hat:true},
  reform:{bpm:124,lw:'square',lv:.022,lead:[72,72,0,76,79,0,76,72,74,74,0,77,81,0,77,74,76,76,0,79,84,0,79,76,74,0,72,0,72,0,0,0],bw:'triangle',bass:[48,48,53,53,55,55,48,43],hat:true}};
 const mf=m=>440*Math.pow(2,(m-69)/12);let mus={song:null,step:0,next:0,timer:null};
 function playNote(f,t,d,type,vol){try{const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+d+.05)}catch(e){}}
@@ -328,7 +655,7 @@ function solidAt(c,r){return SOLID.has(tileAt(c,r))}
 /* ===================== PARTIDA ===================== */
 function startLevel(i){const L=LEVELS[i];audioInit();const map=build(L);startMusic(L.theme);
  G={i,L,map,p:{x:2*TS,y:13*TS-40,w:24,h:40,vx:0,vy:0,onG:false,face:1,coyote:0,jbuf:0,inv:0,anim:0,dead:false},cam:0,hearts:3,cpX:2*TS,coins:0,enemies:0,score:0,facts:{},extras:{},ans:{},paused:false,particles:[],t:0,won:false,lastGateId:null};
- show('stage');keys={};card(`<div class="ctag" style="color:${L.col}">MISIÓN ${i+1} DE 4</div><h2>${esc(L.name)}</h2><p>${esc(L.brief)}</p><div class="stat"><div><b>${L.facts.length}</b>bloques ? del tema</div><div><b style="color:#ff8fd8">${L.extras.length}</b>bloques ★ extra</div><div><b>${L.qs.length-1+L.tfs.length}</b>retos</div><div><b>1</b>jefe: ${esc(L.boss)}</div></div><p class="note">Golpea desde abajo los bloques <b>?</b> (datos del tema) y los bloques <b style="color:#ff8fd8">★</b> (datos extra verificados para saber más): los necesitarás para elegir la puerta correcta. Música: tecla M.</p>`,'¡A jugar!')}
+ show('stage');keys={};card(`<div class="ctag" style="color:${L.col}">MISIÓN ${i+1} DE 4 · ${esc(L.sub).toUpperCase()}</div><h2>${esc(L.name)}</h2><p>${esc(L.brief)}</p><div class="stat"><div><b>${L.facts.length}</b>bloques ? del tema</div><div><b style="color:#ff8fd8">${L.extras.length}</b>bloques ★ extra</div><div><b>${L.qs.length-1+L.tfs.length}</b>retos</div><div><b>1</b>jefe: ${esc(L.boss)}</div></div><p class="note">Golpea desde abajo los bloques <b>?</b> (datos del tema) y los bloques <b style="color:#ff8fd8">★</b> (datos extra verificados para saber más): los necesitarás para elegir la puerta correcta. Música: tecla M.</p>`,'¡A jugar!')}
 function card(html,btn,onClose){G.paused=true;$('banner').style.display='none';const c=$('card');c.innerHTML=`<div class="panel">${html}<div class="cont"><span class="hint">Presiona ENTER para continuar</span><button class="btn" id="cardBtn">${esc(btn||'Continuar')} ▶</button></div></div>`;c.style.display='grid';G.cardClose=()=>{c.style.display='none';G.paused=false;G.cardClose=null;keys={};G.jumpQ=G.downQ=false;if(onClose)onClose()};$('cardBtn').onclick=()=>G.cardClose&&G.cardClose();setTimeout(()=>$('cardBtn')&&$('cardBtn').focus(),30)}
 function pauseMenu(){if(!G||G.cardClose)return;card(`<div class="ctag" style="color:var(--gold)">PAUSA</div><h2>${esc(G.L.name)}</h2><div class="stat"><div><b>${G.hearts}</b>vidas</div><div><b>${G.coins}</b>monedas</div><div><b>${Object.keys(G.facts).length+Object.keys(G.extras).length}/${G.L.facts.length+G.L.extras.length}</b>datos</div><div><b>${Object.values(G.ans).filter(a=>a.ok).length}/${G.L.qs.length+G.L.tfs.length}</b>correctas</div></div><div class="row"><button class="btn2" onclick="toggleMusic();this.textContent=music?'🎵 Música: sí':'🎵 Música: no'">${music?'🎵 Música: sí':'🎵 Música: no'}</button><button class="btn2" onclick="toggleSound();this.textContent=sound?'🔊 Efectos: sí':'🔈 Efectos: no'">${sound?'🔊 Efectos: sí':'🔈 Efectos: no'}</button><button class="btn2" onclick="quitLevel()">⌂ Volver al mapa (pierdes el avance de este mundo)</button></div>`,'Seguir jugando')}
 function quitLevel(){G.cardClose=null;$('card').style.display='none';G=null;stopMusic();showMap()}
@@ -415,6 +742,11 @@ function drawBG(th,cam){const T=THEMES[th];const gr=cx.createLinearGradient(0,0,
  else if(th==='estonia'){for(let i=0;i<3;i++){cx.fillStyle=['#3ddc9733','#8f7bff33','#58c4ff33'][i];cx.beginPath();cx.moveTo(0,90+i*30);for(let x=0;x<=VW;x+=40)cx.lineTo(x,90+i*30+Math.sin(x/120+G.t*.6+i)*26);cx.lineTo(VW,0);cx.lineTo(0,0);cx.fill()}
   cx.fillStyle='#dfefff';cx.beginPath();cx.moveTo(0,380);for(let x=0;x<=VW;x+=60)cx.lineTo(x,330+Math.sin((x+cam*.2)/160)*40);cx.lineTo(VW,VH);cx.lineTo(0,VH);cx.fill();
   const nodes=[];for(let i=0;i<12;i++)nodes.push([(i*130-cam*.35)%1560+(i*130-cam*.35<0?1560:0)-100,120+rnd(i)*160]);cx.strokeStyle='#ffffff55';cx.lineWidth=2;for(let i=1;i<nodes.length;i++){cx.beginPath();cx.moveTo(nodes[i-1][0],nodes[i-1][1]);cx.lineTo(nodes[i][0],nodes[i][1]);cx.stroke()}for(const n of nodes){cx.fillStyle='#58c4ff';cx.beginPath();cx.arc(n[0],n[1],7,0,7);cx.fill();cx.strokeStyle='#fff';cx.stroke()}}
+ else if(th==='ai'){const N=[];for(let i=0;i<18;i++){const L=i%3,base=(i/3|0)*190;N.push([((base+L*60+80-cam*(.15+L*.1))%1140+1140)%1140-90,90+L*95+rnd(i)*50,L])}
+  for(let a=0;a<N.length;a++)for(let b=a+1;b<N.length;b++){const d=Math.hypot(N[a][0]-N[b][0],N[a][1]-N[b][1]);if(d<230&&N[a][2]!==N[b][2]){const pu=.5+.5*Math.sin(G.t*2+a+b);cx.strokeStyle=`rgba(199,125,255,${.08+.18*pu})`;cx.lineWidth=2;cx.beginPath();cx.moveTo(N[a][0],N[a][1]);cx.lineTo(N[b][0],N[b][1]);cx.stroke();
+   const f=(G.t*.6+a*.13)%1;cx.fillStyle='#ffd6ff';cx.fillRect(N[a][0]+(N[b][0]-N[a][0])*f-2,N[a][1]+(N[b][1]-N[a][1])*f-2,4,4)}}
+  for(const n of N){cx.fillStyle='#2a0a4a';cx.beginPath();cx.arc(n[0],n[1],11,0,7);cx.fill();cx.strokeStyle='#c77dff';cx.lineWidth=2;cx.stroke();cx.fillStyle='#e0aaff';cx.beginPath();cx.arc(n[0],n[1],4,0,7);cx.fill()}
+  cx.fillStyle='#c77dff22';cx.font='bold 13px monospace';const W=['IA','f(x)','0.87','sesgo?','≠','σ','datos'];for(let i=0;i<10;i++)cx.fillText(W[i%W.length],((rnd(i)*VW-cam*.08)%VW+VW)%VW,40+rnd(i+9)*300)}
  else{cx.fillStyle='#ffe1a8';cx.beginPath();cx.arc(160,120,46,0,7);cx.fill();for(let i=-1;i<8;i++){const x=i*190-(cam*.25)%190;cx.fillStyle='#5a2e63';cx.fillRect(x,250,150,300);cx.beginPath();cx.moveTo(x-10,250);cx.lineTo(x+75,205);cx.lineTo(x+160,250);cx.fill();cx.fillStyle='#7b4a85';for(let k=0;k<5;k++)cx.fillRect(x+12+k*28,265,12,180)}}}
 function drawTile(v,x,y,th){const T=THEMES[th];
  if(v==='G'){cx.fillStyle=T.body;cx.fillRect(x,y,TS,TS);cx.fillStyle=T.top;cx.fillRect(x,y,TS,9);cx.fillStyle='#00000022';cx.fillRect(x,y+TS-3,TS,3)}
@@ -442,6 +774,7 @@ function drawEnemy(e,th){const x=Math.round(e.x-G.cam),y=Math.round(e.y),w=e.w,h
  if(th==='city'){cx.fillStyle='#e9d8b4';cx.fillRect(x,y+4,w,h-8);cx.fillStyle='#c9b48c';cx.beginPath();cx.moveTo(x,y+4);cx.lineTo(x+w/2,y+h*.45);cx.lineTo(x+w,y+4);cx.fill();cx.fillStyle='#2e7d32';cx.font=`bold ${big?22:12}px Nunito`;cx.textAlign='center';cx.fillText('$',x+w/2,y+h-8)}
  else if(th==='cyber'){cx.fillStyle='#b4ff3c';cx.beginPath();cx.ellipse(x+w/2,y+h*.55,w/2,h*.45,0,0,7);cx.fill();cx.strokeStyle='#b4ff3c';cx.lineWidth=big?4:2;for(let k=0;k<3;k++){cx.beginPath();cx.moveTo(x+w*.25+k*w*.25,y+h*.8);cx.lineTo(x+w*.2+k*w*.25+leg,y+h);cx.stroke()}cx.beginPath();cx.moveTo(x+w*.35,y+h*.15);cx.lineTo(x+w*.25,y-6);cx.moveTo(x+w*.65,y+h*.15);cx.lineTo(x+w*.75,y-6);cx.stroke()}
  else if(th==='estonia'){cx.fillStyle='#b06cff';cx.beginPath();cx.arc(x+w/2,y+h*.45,w*.45,Math.PI,0);cx.lineTo(x+w*.95,y+h);for(let k=4;k>=0;k--)cx.lineTo(x+w*k/4,y+h-(k%2?8:0)+leg*.5);cx.fill();cx.fillStyle='#ffffffaa';cx.font=`bold ${big?14:9}px monospace`;cx.textAlign='center';cx.fillText('DNI',x+w/2,y+h*.78)}
+ else if(th==='ai'){cx.fillStyle='#14082b';cx.fillRect(x,y+2,w,h-2);cx.strokeStyle='#c77dff';cx.lineWidth=big?3:2;cx.strokeRect(x+1,y+3,w-2,h-4);cx.fillStyle='#c77dff';cx.font=`bold ${big?16:9}px monospace`;cx.textAlign='center';cx.fillText(big?'¿?¿?':'?',x+w/2,y+h-6);cx.fillStyle='#e0aaff';cx.fillRect(x+3,y+h-2+leg*.3,w*.25,2);cx.fillRect(x+w*.7,y+h-2-leg*.3,w*.25,2)}
  else{cx.fillStyle='#d9d4c7';cx.beginPath();cx.moveTo(x+4,y+6);cx.lineTo(x+w-2,y+2);cx.lineTo(x+w,y+h-4);cx.lineTo(x+2,y+h);cx.fill();cx.strokeStyle='#8a8170';cx.lineWidth=1.5;for(let k=1;k<4;k++){cx.beginPath();cx.moveTo(x+6,y+h*k/5+6);cx.lineTo(x+w-6,y+h*k/5+4);cx.stroke()}cx.fillStyle='#c0392b';cx.font=`bold ${big?13:8}px Nunito`;cx.textAlign='center';cx.fillText('NULO',x+w/2,y+h-6)}
  const ex=e.vx<0?-1:1;cx.fillStyle='#fff';cx.fillRect(x+w*.28,y+h*.28,w*.16,h*.18);cx.fillRect(x+w*.56,y+h*.28,w*.16,h*.18);cx.fillStyle='#000';cx.fillRect(x+w*.32+ex*2,y+h*.32,w*.08,h*.1);cx.fillRect(x+w*.6+ex*2,y+h*.32,w*.08,h*.1);
  cx.fillStyle='#000';cx.fillRect(x+w*.26,y+h*.22,w*.2,3);cx.fillRect(x+w*.54,y+h*.22,w*.2,3);
